@@ -1,3 +1,23 @@
-me: Colin Grudizen's Homepage
-markdown: kramdown
+# Dependencies
+markdown:         redcarpet
+highlighter:      pygments
+
+# Permalinks
+permalink:        pretty
+
+# Setup
+title:            'Colin <br> Grudzien'
+tagline:          'A home page'
+description:      'A mathematical scientist.'
+url:              https://cgrudz.github.io/ 
+baseurl:          /
+
+author:
+  name:           'Colin Grudzien'
+  url:            https://github.com/cgrudz
+
+# Gems
+gems: [jekyll-paginate,jekyll-gist,pygments]
+paginate:         5
+paginate_path: "page:num"
 

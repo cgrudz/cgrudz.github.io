@@ -1,0 +1,12 @@
+---
+layout: default
+title: Colin Grudzien's Homepage
+---
+
+<div class="blurb">
+    <h1>Hi there, I'm Colin Grudzien.</h1>
+        <p>I was awarded my PhD in Applied Mathematics from the University of North Carolina at Chapel Hill in
+           May 2016 and I will begin a postdoctoral research appointment at the 
+           <a href="https://nersc.no">Nansen Environmental and Remote </a> starting in August 2016.
+        </p>
+</div><!-- /.blurb -->
