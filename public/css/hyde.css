@@ -130,7 +130,7 @@ a.sidebar-nav-item:focus {
 
 .content {
   padding-top:    4rem;
-  padding-bottom: 4rem;
+  padding-bottom: 178px;
 }
 
 @media (min-width: 48em) {
@@ -148,6 +148,16 @@ a.sidebar-nav-item:focus {
   }
 }
 
+
+/* White box at bottom */
+.white {
+  height:178px;
+  width:181px;
+  position: absolute;
+  right:0;
+  margin:0px;
+  padding:0;
+}
 
 /*
  * Reverse layout

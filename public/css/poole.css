@@ -45,6 +45,7 @@ html,
 body {
   margin: 0;
   padding: 0;
+  height: 100%;
 }
 
 html {
@@ -321,6 +322,23 @@ tbody tr:nth-child(odd) th {
 }
 
 
+/*footer setup to make the white at bottom of screen */
+
+#holder{
+    min-height: 100%;
+    position:relative;
+}
+
+
+footer{
+    height:178px; 
+    width:50%;
+    position: absolute;
+    right: 0;
+    bottom: 0; 
+}
+
+
 /*
  * Posts and pages
  *
@@ -328,11 +346,12 @@ tbody tr:nth-child(odd) th {
  * page is wrapped in `.page` and is only used on the page layout.
  */
 
+/*
 .page,
 .post {
   margin-bottom: 4em;
 }
-
+*/
 /* Blog post or page title */
 .page-title,
 .post-title,
