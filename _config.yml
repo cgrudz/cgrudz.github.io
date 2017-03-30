@@ -22,4 +22,4 @@ paginate:         5
 paginate_path: "page:num"
 
 # exclude stuff
-exclude: [assets/ionicons-2.0.1]
+exclude: [ionicons-2.0.1]
