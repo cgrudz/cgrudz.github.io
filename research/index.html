@@ -76,22 +76,35 @@ title: Research
 <p>
     As part of my graduate research training, I was an intern at Los Alamos National Labs where I performed data analysis and network reduction
     for electric grid transmission networks.  I am broadly interested in the application of data assimilation and machine learning techniques
-    for parameter and state estimation for dynamic electric grid models; the expansion of renewable generation has brought many benefits but
+    for parameter and state estimation for dynamic electric grid models; the expansion of renewable generation has brought many opportunities but
     also uncertainties in electric generation, and data driven prediction techniques offer methodology for optimization and grid security
-    under uncertainty.    
+    under uncertainty.
 </p>
+<h3> Publications </h3>
+<ul>
+	<li><i> Structure- &amp Physics- Preserving Reductions of Power Grid Models</i></li>
+	<ul>
+		<li> Preprint </li>
+	</ul>
+</ul>
+
+<h3> Visualizations </h3>
 <p>
-    I visited Los Alamos National Laboratory in October 2016 to complete our work studying model reduction and visualization. 
-    For a preview of our work, see our visualizations of the data set using 
-    <a href="https://visjs.org/" target="blank"> Vis.js</a>, an open source javascript visualization library.  Links to the visualizations
-    and work summary are below.  Note that the visualizations are interactive and you can zoom, manipulate and change parameter settings---
-    these are also best viewed in Chrome.
+    The following visualizations demonstrate the force directed layout of the fully reduced power grid network model, where nodes represent repelling bodies
+   and edges represent springs.  We randomly initialize the positions for the triangle reduced network and run the positions to a stabilized configuration.  Random initial
+  positions are shown in the first figure and a stabilized result is shown in the second.  Finally, we overlay the degree two reduction (performed before the triangle reductions)
+ on the positions for the stabilized triangle reduction.  Enabling the physics on the third figure demonstrates the declustering of the degree two reduced network from the
+triangle reduced network, as shown in the manuscript. 
 </p>
+
 <ul>
 <li>
-    <a href="/losalamos/full_reduction/full_network_reduction" target="blank">Full Reduction Visualization</a>
+    <a href="/losalamos/triangular_reduction_smallest_network_random_positions/tr_reduction_random_positions.html" target="blank">Triangle reduced network: random positions</a>
 </li>
 <li>
-    <a href="/losalamos/skeleton_reduction/skeleton_visualization" target="blank">Skeleton Network Visualization</a>
+    <a href="/losalamos/triangular_reduction_smallest_network_stabilized_positions/tr_reduction_stable_positions.html" target="blank">Triangle reduced network: stable positions</a>
+</li>
+<li>
+    <a href="/losalamos/degree_two_decluster_triangular_reduction/d2_overlay_decluster.html" target="blank">Degree two reduced network: de-clustering from triangle reduced</a>
 </li>
 </ul>

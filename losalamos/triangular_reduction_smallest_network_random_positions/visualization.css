@@ -6,7 +6,7 @@ table, th, td {
     border: 1px solid black;
     }
 table.vis_key  td{
-    width: 80px;
+    width: 70px;
     text-align: center;
     vertical-align: middle;
     margin: auto;    
@@ -23,8 +23,8 @@ table.vis_key  td{
     border-radius: 100%;
     border: 1px solid inherit;
     display: block;
-    width:70px;
-    height:70px;
+    width:60px;
+    height:60px;
     margin: auto;
     position:relative;
     }
@@ -63,11 +63,11 @@ table.vis_key  td{
     margin: auto;
     }
 #network {
-    font-size: 60px;
+    font-size: 50px;
     }
 #island {
-    font-size: 60px;
+    font-size: 50px;
     }
 #navigate {
-    font-size: 70px;
+    font-size: 50px;
     }

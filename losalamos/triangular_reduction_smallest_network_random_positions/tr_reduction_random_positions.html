@@ -2,63 +2,54 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF8">
-  <title> full_network_reduction_visualization </title>
+  <title> tr_reduction_random_positions </title>
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.7.0/vis.min.js"></script>
   <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.7.0/vis.min.css">
   <link type="text/css" rel="stylesheet" href="visualization.css">  
   <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
-  <script src="full_net_island_reduction_data.js"></script>
+  <script src="1000_kv_deg_8.js"></script>
   
 </head>
 
 <body >
 <div style="font-family: Arial;">
-    <h1 class="centered"> Full Network Reduction Visualization </h1>
+    <h1 class="centered"> Greedy triangular reduction:<br> 
+    no voltage threshold, degree threshold 8, random positions </h1>
     <div style="margin-left:5%; margin-right:5%;">                 
         <h2> Description of Reduction: </h2>
         <p> 
-        This is the visualization of the reduction of the "representative" network of the single
-        large connected component with 53,155 buses down to 6,732 buses.  
-        Full descriptions of the reduction methodology are in the code documentation, but for a synopsis:
-        <ol>
-            <li> 
-            The degree one reduction recursively maps buses of degree one into their connected buses.
-            <li> 
-            The degree two reduction maps a degree two bus into an edge bridging its two neighbors, if this edge
-            does not already exist; the degree one reduction is performed after this step, and then the whole process is
-            iterated until no further reduction is possible.
-            </li>
-            <li>
-            The island reduction begins by removing all "meta-edges" formed in the degree two reduction and isolating the
-            connected components; it is determined empirically that there is one "large" connected component and many 
-            "small" connected components.  The "meta-edges" are returned to the network and each of the "small" determined
-            connected components is reduced to a single bus, forming the island.  The degree one and degree two reductions
-            are thereafter iterated on this reduced network, and we repeat this process until there is a single component 
-            upon removal of the meta-edges.
-            </li>
-        </ol>
+        This is the visualization of the greedy triangular reduction performed to the degree two reduced network.  We plot the
+        smallest network produced in the experiment, under the degree threshold of 8 and without a voltage threshold for the 
+        permissible triangles.  Initial positions in the visualization are randomly laid out.  When the
+        model is enabled, nodes are repelled from each other, but held together by springs (the edges between them).  
+        For a detailed description of the reduction process see our manuscript linked here. 
         </p>
         <h2> Graph Labels: </h2>
         <p>
-            <ul>
-                <li style="text-align:left;">
-                Buses are labelled with their associated bus number in the (arbitrarily numbered) 53,155 bus
+            <ul style="text-align:left;">
+                <li> <b>Coloring:</b> 
+                nodes and edges are given color coding according the the highest voltage node included in this reduction.
+                Edges without reduction share the color coding of their associated nodes.
+                </li>                
+                <li >
+                <b> Numbering:</b> nodes are labelled with their associated node number in the randomly numbered, 53,155 node
                 network.
                 </li>  
                 <li>
-                Generators are labelled with the "* MW" where * is number of megawatts for the generator.
+                <b> Generators:</b> Generators are labelled with the "* MW" where * is number of megawatts for the generator.
                 </li>                
-                <li style="text-align:left;">
-                Trees and islands list the bus number of the terminal node, the number of buses in the
-                reduction "B**", the number of buses that are generators in the reduction "G***"
-                and, if there are generators, the sum of the megawatts over all generators in the node "* MW".
+                <li><b> Super Nodes:</b>
+                Trees and triangles list the node number of the terminal node, the number of nodes in the
+                reduction as "B**" where ** is the number of buses.  The number of buses that are generators in the reduction are listed as "G***"
+                where *** is the number of generators.  If there are generators, the total megawatts of generation over all generators in the node "* MW"
+                where * is the sum of the megawatts for each generator.
                 </li>
-                <li style="text-align:left;">
+                <li><b> Meta-edges:</b>
                 Meta-edges are labelled with E[B**,G*** *MW], with the same convention as above.
                 </li>
-            </ul>
+            </ul>        
         </p>
    </div>
 </div>
@@ -109,16 +100,14 @@
             <td > <h4>Node Symbols: </h4></td>
             <td > <i class="ion-network" id="network" ></i> </td>
             <td colspan="2" > Terminal node collapsed tree </td>             
-            <td > <i class="ion-close-circled" id="island"></i></td>
-            <td colspan="2" > Terminal node collapsed island </td>
+            <td > <font size="70"><i class="ion-android-arrow-dropup-circle" id="tri"></i> </font></td>
+            <td colspan="2" > Terminal node collapsed triangle </td>
         </tr>
         <tr>
             <td > <h4>Edge Symbols:</h4> </td>
             <td > <i class="ion-navigate" id="navigate" > </i> </td>
             <td colspan= "5"> 
-                Edges with an arrow denote edges where a reduction has occurred; these edges 
-                contain strings of buses, and possibly trees or islands that were reduced
-                            to a bus in the string.                                                                   
+                Edges with an arrow denote a meta-edge.                                                                   
             </td>
         </tr>
     </table>    
@@ -208,7 +197,7 @@
     </div>
     <div style="position: relative; clear: both;" class="centered" >
         <h4> 
-        This visualization is performed in <a href="http://visjs.org">Vis.js</a> Copyright (C) 2010-2015 Almende B.V., 
+        This visualization is performed in <a href="http://visjs.org">Vis.js</a> Copyright (C) 2010-2017 Almende B.V., 
         dual licensed under Apache 2.0 and MIT
         </h4>
     </div>
@@ -247,10 +236,11 @@
         }
       },
       physics: {
+        enabled: false,
         forceAtlas2Based: {
-          gravitationalConstant: -500,
+          gravitationalConstant: -3500,
           centralGravity: 0,
-          springLength: 300,
+          springLength: 2000,
           springConstant: 2.0,
           damping: .05
           },
@@ -279,7 +269,7 @@
             }
           },
       groups: {
-          'island1': {
+          'tri1': {
             shape: 'icon',
             icon: {
               face: 'Ionicons',
@@ -288,57 +278,57 @@
               color: '#00FFFF',
               }
             },
-          'island2': {
+          'tri2': {
             shape: 'icon',
             icon: {
               face: 'Ionicons',
-              code: '\uf341',
+              code: '\uf364',
               size: 300,
               color: '#FF00FF',
               }
             },
-          'island3': {
+          'tri3': {
             shape: 'icon',
             icon: {
               face: 'Ionicons',
-              code: '\uf341',
-              size: 250,
+              code: '\uf364',
+              size: 350,
               color: '#000080',
               }
             },
-          'island4': {
+          'tri4': {
             shape: 'icon',
             icon: {
               face: 'Ionicons',
-              code: '\uf341',
+              code: '\uf364',
               size: 350,
               color: '#00B200',
               }
             },
-          'island5': {
+          'tri5': {
             shape: 'icon',
             icon: {
               face: 'Ionicons',
-              code: '\uf341',
+              code: '\uf364',
               size: 400,
               color: '#FF8C00',
               }
             },
-          'island6': {
+          'tri6': {
             shape: 'icon',
             icon: {
               face: 'Ionicons',
-              code: '\uf341',
+              code: '\uf364',
               size: 600,
               color: '#FF0000',
               }
             },
-            'gIsland': {
+            'gtri': {
             shape: 'icon',
             icon: {
               face: 'Ionicons',
-              code: '\uf128',
-              size: 200,
+              code: '\uf364',
+              size: 600,
               color:'#800000'
             }
           },
@@ -365,7 +355,7 @@
             icon: {
               face: 'Ionicons',
               code: '\uf341',
-              size: 250,
+              size: 350,
               color: '#000080',
               }
             },
