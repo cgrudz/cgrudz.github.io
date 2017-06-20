@@ -2,58 +2,53 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF8">
-  <title> full_network_reduction_visualization </title>
+  <title> tr_reduction_stabilized </title>
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.7.0/vis.min.js"></script>
   <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.7.0/vis.min.css">
   <link type="text/css" rel="stylesheet" href="visualization.css">  
-  <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
   <script src="1000_kv_deg_8.js"></script>
-  <!<script src="positions.js"></script>->
+  <script src="positions.js"></script>
   
 </head>
 
 <body >
 <div style="font-family: Arial;">
-    <h1 class="centered"> Full Network Reduction Visualization </h1>
+    <h1 class="centered">  Greedy triangular reduction:<br> 
+    no voltage threshold, degree threshold 8, stabilized positions </h1>
     <div style="margin-left:5%; margin-right:5%;">                 
         <h2> Description of Reduction: </h2>
         <p> 
-        This is the visualization of the reduction of the "representative" network of the single
-        large connected component with 53,155 nodes down to 1108 nodes with 4382 edges.  
-        For a summary of the reduction:
-        <ol>
-            <li> 
-            Degree one nodes are recursively mapped to their connected buses.
-            <li> 
-            Degree two nodes are mapped into an edge bridging its two neighbors, if this edge
-            does not already exist; the degree one reduction is performed after this step, and then the whole process is
-            iterated until no further reduction is possible.
-            </li>
-            <li>
-            In the last step we make a greedy reduction of triangular configurations for nodes which are above a degree threshold.
-            These nodes in the triangle are collapsed to a single node and all of their lines are connected to this single node,
-            without double lines.
-            </li>
-        </ol>
+        This is the visualization of the greedy triangular reduction performed to the degree two reduced network.  We plot the
+        smallest network produced in the experiment, under the degree threshold of 8 and without a voltage threshold for the 
+        permissible triangles.  Initial positions in the visualization are loaded from a the stabilized positions of a long run of the
+        forceAtlas2 model.  When the
+        model is enabled, nodes are repelled from each other, but held together by springs (the edges between them).  
+        For a detailed description of the reduction process see our manuscript linked here.
         </p>
         <h2> Graph Labels: </h2>
         <p>
-            <ul>
-                <li style="text-align:left;">
-                Nodes are labelled with their associated node number in the (arbitrarily numbered) 53,155 node
+           <ul style="text-align:left;">
+                <li> <b>Coloring:</b> 
+                nodes and edges are given color coding according the the highest voltage node included in this reduction.
+                Edges without reduction share the color coding of their associated nodes.
+                </li>                
+                <li >
+                <b> Numbering:</b> nodes are labelled with their associated node number in the randomly numbered, 53,155 node
                 network.
                 </li>  
                 <li>
-                Generators are labelled with the "* MW" where * is number of megawatts for the generator.
+                <b> Generators:</b> Generators are labelled with the "* MW" where * is number of megawatts for the generator.
                 </li>                
-                <li style="text-align:left;">
+                <li><b> Super Nodes:</b>
                 Trees and triangles list the node number of the terminal node, the number of nodes in the
-                reduction "B**", the number of buses that are generators in the reduction "G***"
-                and, if there are generators, the sum of the megawatts over all generators in the node "* MW".
+                reduction as "B**" where ** is the number of buses.  The number of buses that are generators in the reduction are listed as "G***"
+                where *** is the number of generators.  If there are generators, the total megawatts of generation over all generators in the node "* MW"
+                where * is the sum of the megawatts for each generator.
                 </li>
-                <li style="text-align:left;">
+                <li><b> Meta-edges:</b>
                 Meta-edges are labelled with E[B**,G*** *MW], with the same convention as above.
                 </li>
             </ul>
@@ -114,9 +109,7 @@
             <td > <h4>Edge Symbols:</h4> </td>
             <td > <i class="ion-navigate" id="navigate" > </i> </td>
             <td colspan= "5"> 
-                Edges with an arrow denote edges where a reduction has occurred; these edges 
-                contain strings of buses, and possibly trees or islands that were reduced
-                            to a bus in the string.                                                                   
+                Edges with an arrow denote a meta-edge.                                                                  
             </td>
         </tr>
     </table>    
@@ -125,8 +118,7 @@
     <div style="margin-top:10px; margin-right:5%; margin-bottom:50px; margin-left: 5%; float:left; clear: both;">
         <h2> Description of Visualization Model: </h2>
         <p>
-        The x and y coordinates for nodes in the network are distributed initially with a random seed upon each load of
-        the page.  The evolution of the nodes is governed by a repulsion attraction model in which nodes repulse and edges
+        The evolution of the nodes is governed by a repulsion attraction model in which nodes repulse and edges
         attract. Physics model for the visualization is set by default to the 
         <a href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0098679"> ForceAtlas2 Model </a>
         and the solver is based partially on the equations provided in the model and the Barnes-Hut algorithm for n-body

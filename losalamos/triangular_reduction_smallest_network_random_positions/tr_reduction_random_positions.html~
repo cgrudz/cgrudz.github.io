@@ -7,7 +7,7 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.7.0/vis.min.js"></script>
   <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.7.0/vis.min.css">
   <link type="text/css" rel="stylesheet" href="visualization.css">  
-  <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
   <script src="1000_kv_deg_8.js"></script>
   
@@ -107,7 +107,7 @@
             <td > <h4>Edge Symbols:</h4> </td>
             <td > <i class="ion-navigate" id="navigate" > </i> </td>
             <td colspan= "5"> 
-                Edges with an arrow denote meta-edges.                                                                   
+                Edges with an arrow denote a meta-edge.                                                                   
             </td>
         </tr>
     </table>    
