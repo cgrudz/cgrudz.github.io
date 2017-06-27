@@ -3,28 +3,33 @@ layout: page
 title: Research
 ---
 
-<h2> Data Assimilation </h2>
 <p>
     Chaotic dynamics are often described in terms of the “butterfly effect” where a minor change in the initialization of a model, 
     tantamount to the flap of a butterfly wing, produces a radically different outcome over the course of a model run.
-    It is well known in the weather forecasting community that the uncertainty in prediction conforms to the dominant system instabilities, 
-    which are of much lower dimension than that of the full model.  My research interests lie primarily in the intersection of data, 
-    stability and prediction, studying how dynamic instability impacts the evolution of uncertainty for predictive models.
+    My research interests lie primarily in the intersection of data,
+    stability and prediction, to understand how dynamic instability impacts the uncertainty of predictive models.
     My postdoctoral appointment at NERSC is funded by the <a href="https://www.nersc.no/project/redda" target='blank'>
-    Reduced subspace in big data treatment: A new paradigm for efficient geophysical Data Assimilation (REDDA)</a> project, in which 
-    I am studying extensions of previous results, with my collaborators, to imperfect model settings and non-linear systems. 
-    Please see our preprints of our work already submitted below.
+    Reduced subspace in big data treatment: A new paradigm for efficient geophysical Data Assimilation (REDDA)</a> project. 
+    Please see preprints and computational resources available below.
+</p>
+
+<h2> Data Assimilation </h2>
+<p>
+    It is well known in the weather forecasting community dynamic instability is among the primary drivers of forecast uncertainty in chaotic, 
+    physical systems and a wide variety of data assimilation techniques are designed exploit this phenomena.
+    Along with others, my work has have provided formal proofs of the central hypothesis 
+    of the Assimilation in the Unstable Subspace methodology of Anna Trevisan and her collaborators: for filters in perfect, linear models, the distribution
+    of forecast errors asymptotically conforms to the unstable-neutral subspace, i.e., the column span of the error covariance aligns with the span of backward 
+    Lyapunov vectors with non-negative exponents.  In my current research, I am extending this framework and methodology to filter design in the presence of model errors
+    and non-linear error evolution. 
 </p>
 <h3>Publications</h4>
 <ul>
     <li>
-        <i>Rank deficiency of Kalman error covariance matrices in linear time-varying system with deterministic evolution </i>
+        <i>Asymptotic forecast uncertainty and the unstable subspace in the presence of model errors </i>
             <ul>
                 <li>
-                <a href="https://arxiv.org/abs/1503.05029" target="blank">Preprint</a>
-                </li>
-                <li>
-                <a href="http://epubs.siam.org/doi/10.1137/15M1025839" target="blank">SIAM Link</a>
+                Preprint
                 </li>
             </ul>
     </li>
@@ -36,6 +41,17 @@ title: Research
                 </li>
                 <li>
                 <a href="http://epubs.siam.org/doi/abs/10.1137/16M1068712" target="blank">SIAM Link</a>
+                </li>
+            </ul>
+    </li>
+    <li>
+        <i>Rank deficiency of Kalman error covariance matrices in linear time-varying system with deterministic evolution </i>
+            <ul>
+                <li>
+                <a href="https://arxiv.org/abs/1503.05029" target="blank">Preprint</a>
+                </li>
+                <li>
+                <a href="http://epubs.siam.org/doi/10.1137/15M1025839" target="blank">SIAM Link</a>
                 </li>
             </ul>
     </li>
@@ -75,7 +91,7 @@ title: Research
 <h2>Smart Grids</h2>
 <p>
     As part of my graduate research training, I was an intern at Los Alamos National Labs where I performed data analysis and network reduction
-    for electric grid transmission networks.  I am broadly interested in the application of data assimilation and machine learning techniques
+    for electric grid transmission networks.  I am interested in the application of data assimilation and machine learning techniques
     for parameter and state estimation for dynamic electric grid models; the expansion of renewable generation has brought many opportunities but
     also uncertainties in electric generation, and data driven prediction techniques offer methodology for optimization and grid security
     under uncertainty.
