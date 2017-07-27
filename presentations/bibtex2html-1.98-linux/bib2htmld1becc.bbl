@@ -1,0 +1,413 @@
+\begin{thebibliography}{10}
+
+\bibitem{alves2000}
+J.~F Alves, C.~Bonatti, and M.~Viana.
+\newblock Srb measures for partially hyperbolic systems whose central direction
+  is mostly expanding.
+\newblock {\em Inventiones mathematicae}, 140(2):351--398, 2000.
+
+\bibitem{anderson1979}
+B.~D.~O. Anderson and J.~B. Moore.
+\newblock {\em Optimal Filtering}.
+\newblock Prentice-Hall, Inc, Englewood Cliffs, New Jersey, 1979.
+
+\bibitem{asch2016data}
+M.~Asch, M.~Bocquet, and M.~Nodet.
+\newblock {\em Data Assimilation: Methods, Algorithms, and Applications}.
+\newblock SIAM, 2016.
+
+\bibitem{Banister2001}
+R.~Banister.
+\newblock Elementary 4d-var.
+\newblock Technical Report DARC Technical Report No. 2, Data Assimilation
+  Research Centre, University of Reading, UK, 2001.
+
+\bibitem{barreira2002}
+L.~Barreira and Y.B. Pesin.
+\newblock {\em Lyapunov Exponents and Smooth Ergodic Theory}.
+\newblock Student Mathematical Library. American Mathematical Society, 2002.
+
+\bibitem{barreira2013}
+L.~Barreira and Y.B. Pesin.
+\newblock {\em Introduction to Smooth Ergodic Theory}.
+\newblock Graduate Studies in Mathematics. American Mathematical Society, 2013.
+
+\bibitem{benettin1980}
+G.~Benettin, L.~Galgani, A.~Giorgilli, and J.~Strelcyn.
+\newblock Lyapunov characteristic exponents for smooth dynamical systems and
+  for \text{H}amiltonian systems; a method for computing all of them.
+  \text{P}art 1: \text{T}heory.
+\newblock {\em Meccanica}, 15(1):9--20, 1980.
+
+\bibitem{bocquet2016c}
+M.~Bocquet and A.~Carrassi.
+\newblock Ensemble variational filters and smoothers, and the unstable
+  subspace.
+\newblock {\em in preparation}, 2016.
+
+\bibitem{bocquet2017four}
+M.~Bocquet and A.~Carrassi.
+\newblock Four-dimensional ensemble variational data assimilation and the
+  unstable subspace.
+\newblock {\em Tellus A}, 69(1):1304504, 2017.
+
+\bibitem{bocquet2017degenerate}
+M.~Bocquet, K.S. Gurumoorthy, A.~Apte, A.~Carrassi, C.~Grudzien, and C.K.R.T.
+  Jones.
+\newblock Degenerate kalman filter error covariances and their convergence onto
+  the unstable subspace.
+\newblock {\em SIAM/ASA Journal on Uncertainty Quantification}, 5(1):304--333,
+  2017.
+
+\bibitem{bocquet2010}
+M.~Bocquet, C.~A. Pires, and L.~Wu.
+\newblock Beyond {G}aussian statistical modeling in geophysical data
+  assimilation.
+\newblock {\em Mon. Wea. Rev.}, 138:2997--3023, 2010.
+
+\bibitem{bocquet2015}
+M.~Bocquet, P.~N. Raanes, and A.~Hannart.
+\newblock Expanding the validity of the ensemble {K}alman filter without the
+  intrinsic need for inflation.
+\newblock {\em Nonlinear Processes in Geophysics}, 22:645--662, 2015.
+
+\bibitem{bocquet2014}
+M.~Bocquet and P.~Sakov.
+\newblock An iterative ensemble {K}alman smoother.
+\newblock {\em Q. J. R. Meteorol. Soc.}, 140:1521--1535, 2014.
+
+\bibitem{bonatti2006}
+C.~Bonatti, L.J. D{\'\i}az, and M.~Viana.
+\newblock {\em Dynamics Beyond Uniform Hyperbolicity: A Global Geometric and
+  Probabilistic Perspective}.
+\newblock Encyclopaedia of Mathematical Sciences. Springer Berlin Heidelberg,
+  2006.
+
+\bibitem{bonatti2000}
+C.~Bonatti and M.~Viana.
+\newblock Srb measures for partially hyperbolic systems whose central direction
+  is mostly contracting.
+\newblock {\em Israel Journal of Mathematics}, 115(1):157--193, 2000.
+
+\bibitem{bosetti2013}
+H.~Bosetti and H.A. Posch.
+\newblock Orthogonal versus covariant lyapunov vectors for rough hard disc
+  systems.
+\newblock {\em Journal of Physics A: Mathematical and Theoretical},
+  46(25):254011, 2013.
+
+\bibitem{bougerol1993}
+P.~Bougerol.
+\newblock Kalman filtering with random coefficients and contractions.
+\newblock {\em SIAM \text{J}ournal on \text{C}ontrol and \text{O}ptimization},
+  31(4):942--959, 1993.
+
+\bibitem{bougerol1995}
+P.~Bougerol.
+\newblock Almost sure stabilizability and riccati's equation of linear systems
+  with random parameters.
+\newblock {\em SIAM \text{J}ournal on \text{C}ontrol and \text{O}ptimization},
+  33(3):702--717, 1995.
+
+\bibitem{carrassi2008a}
+A.~Carrassi, M.~Ghil, A.~Trevisan, and F.~Uboldi.
+\newblock Data assimilation as a nonlinear dynamical systems problem: Stability
+  and convergence of the prediction-assimilation system.
+\newblock {\em Chaos}, 18:023112, 2008.
+
+\bibitem{carrassi2008b}
+A.~Carrassi, A.~Trevisan, L.~Descamps, O.~Talagrand, and F.~Uboldi.
+\newblock Controlling instabilities along a {3DVar} analysis cycle by
+  assimilating in the unstable subspace: a comparison with the {EnKF}.
+\newblock {\em Nonlinear Processes in Geophysics}, 15:503--521, 2008.
+
+\bibitem{carrassi2007adaptive}
+A.~Carrassi, A.~Trevisan, and F.~Uboldi.
+\newblock Adaptive observations and assimilation in the unstable subspace by
+  breeding on the data-assimilation system.
+\newblock {\em Tellus A}, 59(1):101--113, 2007.
+
+\bibitem{carrassi2009}
+A.~Carrassi, S.~Vannitsem, D.~Zupanski, and M.~Zupanski.
+\newblock The maximum likelihood ensemble filter performances in chaotic
+  systems.
+\newblock {\em Tellus A}, 61:587--600, 2009.
+
+\bibitem{chandrasekar2008}
+J.~Chandrasekar, I.S. Kim, D.S. Bernstein, and A.J. Ridley.
+\newblock Cholesky-based reduced-rank square-root kalman filtering.
+\newblock In {\em American Control Conference, 2008}, pages 3987--3992. IEEE,
+  2008.
+
+\bibitem{cohn1997introduction}
+S.E. Cohn.
+\newblock An introduction to estimation theory.
+\newblock {\em JOURNAL-METEOROLOGICAL SOCIETY OF JAPAN SERIES 2}, 75:147--178,
+  1997.
+
+\bibitem{Delyon2001}
+B.~Delyon.
+\newblock A note on uniform observability.
+\newblock {\em IEEE Transactions on Automatic Control}, 46(8):1326--1327, Aug
+  2001.
+
+\bibitem{ershov1998}
+S.V. Ershov and A.B. Potapov.
+\newblock On the concept of stationary lyapunov basis.
+\newblock {\em Physica D: Nonlinear Phenomena}, 118(3):167--198, 1998.
+
+\bibitem{evensen2003ensemble}
+G.~Evensen.
+\newblock The ensemble kalman filter: Theoretical formulation and practical
+  implementation.
+\newblock {\em Ocean dynamics}, 53(4):343--367, 2003.
+
+\bibitem{evensen2009}
+G.~Evensen.
+\newblock {\em {D}ata {A}ssimilation: {T}he {E}nsemble {K}alman {F}ilter}.
+\newblock Springer-Verlag Berlin Heildelberg, second edition, 2009.
+
+\bibitem{evensen2009data}
+G.~Evensen.
+\newblock {\em Data assimilation: the ensemble Kalman filter}.
+\newblock Springer Science \& Business Media, 2009.
+
+\bibitem{gajic1995}
+Z.~Gaji{\'c} and M.~T.~J. Qureshi.
+\newblock {\em Lyapunov matrix equation in system stability and control}.
+\newblock Academic Press, San Diego, California, 1995.
+
+\bibitem{ginelli2013}
+F.~Ginelli, H.~Chat{\'e}, R.~Livi, and A.~Politi.
+\newblock Covariant {L}yapunov vectors.
+\newblock {\em J. Phys. A: Math. Theor.}, 46:254005, 2013.
+
+\bibitem{gurumoorthy2017}
+K.S. Gurumoorthy, C.~Grudzien, A.~Apte, A.~Carrassi, and C.K.R.T. Jones.
+\newblock Rank deficiency of kalman error covariance matrices in linear
+  time-varying system with deterministic evolution.
+\newblock {\em SIAM Journal on Control and Optimization}, 55(2):741--759, 2017.
+
+\bibitem{hasselblatt2006}
+B.~Hasselblatt and Y.~Pesin.
+\newblock Partially hyperbolic dynamical systems.
+\newblock {\em Handbook of dynamical systems}, 1:1--55, 2006.
+
+\bibitem{Hasselblatt2011}
+B.~Hasselblatt and Y.~Pesin.
+\newblock {P}artial hyperbolicity.
+\newblock {\em Scholarpedia}, 6(10):4845, 2011.
+\newblock revision \#91632.
+
+\bibitem{horn2012}
+R.A. Horn and C.R. Johnson.
+\newblock {\em Matrix analysis}.
+\newblock Cambridge {U}niversity {P}ress, 2012.
+
+\bibitem{jazwinski1970}
+A.~H. Jazwinski.
+\newblock {\em Stochastic Processes and Filtering Theory}.
+\newblock Academic Press, New-York, 1970.
+
+\bibitem{kalman1960}
+R.~E. Kalman.
+\newblock A new approach to linear filtering and prediction problems.
+\newblock {\em Journal of Fluids Engineering}, 82:35--45, 1960.
+
+\bibitem{kalnay2003atmospheric}
+E.~Kalnay.
+\newblock {\em Atmospheric modeling, data assimilation and predictability}.
+\newblock Cambridge {U}niversity {P}ress, 2003.
+
+\bibitem{kumar86}
+P.~R. Kumar and P.~Varaiya.
+\newblock {\em Stochastic systems: {E}stimation, identification and adaptive
+  control}.
+\newblock Prentice Hall, New Jersey, 1986.
+
+\bibitem{Kuptsov2012}
+P.V. Kuptsov and U.~Parlitz.
+\newblock Theory and computation of covariant lyapunov vectors.
+\newblock {\em Journal of Nonlinear Science}, 22(5):727--762, 2012.
+
+\bibitem{legras1996}
+B.~Legras and R.~Vautard.
+\newblock A guide to lyapunov vectors.
+\newblock In {\em ECMWF Workshop on Predictability}, pages 135--146, Reading,
+  United-Kingdom, 1996. ECMWF.
+
+\bibitem{lorenz96}
+E.~N. Lorenz.
+\newblock Predictability: A problem partly solved.
+\newblock In {\em Proc. Seminar on predictability}, volume~1, 1996.
+
+\bibitem{lorenz1998}
+E.~N. Lorenz and K.~A. Emanuel.
+\newblock Optimal sites for supplementary weather observations: simulation with
+  a small model.
+\newblock {\em J. Atmos. Sci.}, 55:399--414, 1998.
+
+\bibitem{nerger2005comparison}
+L.~Nerger, W.~Hiller, and J.~Schr{\"o}ter.
+\newblock A comparison of error subspace kalman filters.
+\newblock {\em Tellus A}, 57(5):715--735, 2005.
+
+\bibitem{ng2011}
+G.-H.~C. Ng, D.~McLaughlin, D.~Entekhabi, and A.~Ahanin.
+\newblock The role of model dynamics in ensemble {K}alman filter performance
+  for chaotic systems.
+\newblock {\em Tellus A}, 63:958--977, 2011.
+
+\bibitem{ng2011role}
+G.H.C. Ng, D.~McLaughlin, D.~Entekhabi, and A.~Ahanin.
+\newblock The role of model dynamics in ensemble kalman filter performance for
+  chaotic systems.
+\newblock {\em Tellus A}, 63(5):958--977, 2011.
+
+\bibitem{ni2016}
+B.~Ni and Q.~Zhang.
+\newblock Stability of the kalman filter for continuous time output error
+  systems.
+\newblock {\em Systems \& Control Letters}, 94:172--180, 2016.
+
+\bibitem{palatella2013a}
+L.~Palatella, A.~Carrassi, and A.~Trevisan.
+\newblock Lyapunov vectors and assimilation in the unstable subspace: theory
+  and applications.
+\newblock {\em J. Phys. A: Math. Theor.}, 46:254020, 2013.
+
+\bibitem{palatella2015}
+L.~Palatella and A.~Trevisan.
+\newblock Interaction of {L}yapunov vectors in the formulation of the nonlinear
+  extension of the {K}alman filter.
+\newblock {\em Phys. Rev. E}, 91:042905, 2015.
+
+\bibitem{palatella2013b}
+L.~Palatella, A.~Trevisan, and S.~Rambaldi.
+\newblock Nonlinear stability of traffic models and the use of {L}yapunov
+  vectors for estimating the traffic state.
+\newblock {\em Phys. Rev. E}, 88:022901, 2013.
+
+\bibitem{parker1989}
+T.~S. Parker and L.~O. Chua.
+\newblock {\em Practical numerical algorithms for chaotic systems}.
+\newblock Springer-Verlag New York, 1989.
+
+\bibitem{Pengov2001}
+M.~Pengov, E.~Richard, and J.~Vivalda.
+\newblock On the boundedness of the solutions of the continuous riccati
+  equation.
+\newblock {\em Journal of Inequalities and Applications}, 6(6):641--649, 2001.
+
+\bibitem{pham1998}
+D.T. Pham, J.~Verron, and M.C. Roubaud.
+\newblock A singular evolutive extended kalman filter for data assimilation in
+  oceanography.
+\newblock {\em Journal of Marine {S}ystems}, 16(3):323--340, 1998.
+
+\bibitem{Rebeschini2013}
+P.~Rebeschini and R.~van Handel.
+\newblock Can local particle filters beat the curse of dimensionality?
+\newblock {\em arXiv preprint arXiv:1301.6585}, 0:0--0, 2013.
+
+\bibitem{sakov2011}
+P.~Sakov and L.~Bertino.
+\newblock Relation between two common localisation methods for the {E}n{KF}.
+\newblock {\em Comput. Geosci.}, 15:225--237, 2011.
+
+\bibitem{shimada1979}
+I.~Shimada and T.~Nagashima.
+\newblock A numerical approach to ergodic problem of dissipative dynamical
+  systems.
+\newblock {\em Progress of Theoretical Physics}, 61(6):1605--1616, 1979.
+
+\bibitem{simon2006}
+D.~Simon.
+\newblock {\em Optimal state estimation: {K}alman, {H} infinity, and nonlinear
+  approaches}.
+\newblock John Wiley {\&} Sons, Inc., 2006.
+
+\bibitem{thornton1976numerical}
+C.L. Thornton and G.J. Bierman.
+\newblock A numerical comparison of discrete kalman filtering algorithms: An
+  orbit determination case study.
+\newblock 1976.
+
+\bibitem{tippett2003}
+M.K. Tippett, J.L. Anderson, C.H. Bishop, T.M. Hamill, and J.S. Whitaker.
+\newblock Ensemble square root filters.
+\newblock {\em Monthly Weather Review}, 131(7):1485--1490, 2003.
+
+\bibitem{toth1997ensemble}
+Z.~Toth and E.~Kalnay.
+\newblock Ensemble forecasting at {NCEP} and the breeding method.
+\newblock {\em Monthly Weather Review}, 125(12):3297--3319, 1997.
+
+\bibitem{trevisan2010}
+A.~Trevisan, M.~D'Isidoro, and O.~Talagrand.
+\newblock Four-dimensional variational assimilation in the unstable subspace
+  and the optimal subspace dimension.
+\newblock {\em Q. J. R. Meteorol. Soc.}, 136:487--496, 2010.
+
+\bibitem{trevisan2011kalman}
+A.~Trevisan and L.~Palatella.
+\newblock On the kalman filter error covariance collapse into the unstable
+  subspace.
+\newblock {\em Nonlinear Processes in Geophysics}, 18(2):243--250, 2011.
+
+\bibitem{trevisan1998}
+A.~Trevisan and F.~Pancotti.
+\newblock Periodic orbits, {L}yapunov vectors, and singular vectors in the
+  {L}orenz system.
+\newblock {\em J. Atmos. Sci.}, 55(3):390--398, 1998.
+
+\bibitem{trevisan2004assimilation}
+A.~Trevisan and F.~Uboldi.
+\newblock Assimilation of standard and targeted observations within the
+  unstable subspace of the observation--analysis--forecast cycle system.
+\newblock {\em Journal of the Atmospheric Sciences}, 61(1):103--113, 2004.
+
+\bibitem{trevisan2004}
+A.~Trevisan and F.~Uboldi.
+\newblock Assimilation of standard and targeted observations within the
+  unstable subspace of the observation-analysis-forecast cycle.
+\newblock {\em J. Atmos. Sci.}, 61:103--113, 2004.
+
+\bibitem{uboldi2006}
+F.~Uboldi and A.~Trevisan.
+\newblock Detecting unstable structures and controlling error growth by
+  assimilation of standard and adaptive observations in a primitive equation
+  ocean model.
+\newblock {\em Nonlinear Processes in Geophysics}, 16:67--81, 2006.
+
+\bibitem{van2012particle}
+P.J. Van~Leeuwen.
+\newblock Particle filters for the geosciences.
+\newblock {\em Advanced Data Assimilation for Geosciences: Lecture Notes of the
+  Les Houches School of Physics: Special Issue}, page 291.
+
+\bibitem{vannitsem2016}
+S.~Vannitsem and V.~Lucarini.
+\newblock Statistical and dynamical properties of covariant lyapunov vectors in
+  a coupled atmosphere-ocean model—multiscale effects, geometric degeneracy,
+  and error dynamics.
+\newblock {\em Journal of Physics A: Mathematical and Theoretical},
+  49(22):224001, 2016.
+
+\bibitem{wojtowski2007}
+M.~P. Wojtowski.
+\newblock Geometry of {K}alman fiters.
+\newblock {\em J.~Geom.~and Symmetry in Physics}, 9:83--95, 2007.
+
+\bibitem{wolfe2007}
+C.~L. Wolfe and R.~M. Samelson.
+\newblock An efficient method for recovering lyapunov vectors from singular
+  vectors.
+\newblock {\em Tellus A}, 59:355--366, 2007.
+
+\bibitem{zhang1999}
+F.~Zhang.
+\newblock {\em Matrix theory: basic results and techniques}.
+\newblock Springer-Verlag New-York Inc., 1999.
+
+\end{thebibliography}
