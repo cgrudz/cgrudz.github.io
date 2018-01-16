@@ -17,7 +17,7 @@ author:
   url:            https://github.com/cgrudz
 
 # Gems
-gems: [jekyll-paginate,jekyll-gist,pygments]
+plugins: [jekyll-paginate,jekyll-gist,pygments]
 paginate:         5
 paginate_path: "page:num"
 
