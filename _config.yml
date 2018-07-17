@@ -10,7 +10,7 @@ title:            'Colin Grudzien'
 tagline:          'A home page'
 #description:      '&nbsp;&ensp;&emsp;&emsp;&emsp;Amid high minds<br>and low lives.&emsp;&ensp;&nbsp;'
 url:              https://cgrudz.github.io/ 
-baseurl:          /
+baseurl:           
 
 author:
   name:           'Colin Grudzien'
