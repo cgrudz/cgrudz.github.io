@@ -2,145 +2,175 @@
 layout: page
 title: Research
 ---
+<h3><a href='https://orcid.org/0000-0002-3084-3178' target='blank'>ORCHID Profile</a></h3>
 <p>
     In physical applications, dynamical models and observational data play dual roles, each representing sources of incomplete and inaccurate information.  
     In data rich problems, first-principle physical laws constrain the degrees of freedom of massive data sets, utilizing our prior insights to complex processes.  
     Respectively, in data sparse problems, dynamical models fill spatial and temporal gaps in observational networks.
     My research interest lie in the intesection of data and models, utilizing the dynamical and statistical properties of physical systems for prediction and uncertainty quantification. 
-    My postdoctoral appointment at NERSC is funded by the <a href="https://www.nersc.no/project/redda" target='blank'>
-    Reduced subspace in big data treatment: A new paradigm for efficient geophysical Data Assimilation (REDDA)</a> project. 
 </p>
 <p>
-    Please see preprints and computational resources available below.
+    My appointment at NERSC is funded by the <a href="https://www.nersc.no/project/redda" target='blank'>
+    Reduced subspace in big data treatment: A new paradigm for efficient geophysical Data Assimilation (REDDA)</a> project.  
+    Please find my computational resources and pre-prints linked below by subject area.
 </p>
-<h3><a href='https://orcid.org/0000-0002-3084-3178' target='blank'>ORCHID</a></h3>
-
-
-<h2> Data Assimilation </h2>
-<p>
-    It is well known in the weather forecasting community dynamic instability is among the primary drivers of forecast uncertainty in chaotic, 
-    physical systems and a wide variety of data assimilation techniques are designed exploit this phenomena.
-    Along with others, my work has have provided formal proofs of the central hypothesis 
-    of the Assimilation in the Unstable Subspace methodology of Anna Trevisan and her collaborators: for filters in perfect, linear models, the distribution
-    of forecast errors asymptotically conforms to the unstable-neutral subspace, i.e., the column span of the error covariance aligns with the span of backward 
-    Lyapunov vectors with non-negative exponents.  In my current research, I am extending this framework and methodology to filter design in the presence of model errors
-    and non-linear error evolution. 
-</p>
-<h3>Publications</h4>
-<ul>
-    <li>
-    <i>Chaotic dynamics and the role of covariance inflation for reduced rank Kalman filters with model error </i>
-            <ul>
-                <li>
-		<a href="https://www.nonlin-processes-geophys-discuss.net/npg-2018-4/" target="blank">Preprint</a> 
-		</li>
-            </ul>
-    </li>
-    <li>
-    <i>Asymptotic forecast uncertainty and the unstable subspace in the presence of additive model errors </i>
-            <ul>
-                <li>
-		<a href="https://arxiv.org/abs/1707.08334" target="blank"> Preprint </a>
-		</li>
-            </ul>
-    </li>
-    <li>
-        <i>Degenerate Kalman filter error covariances and their convergence onto the unstable subspace </i>
-            <ul>
-                <li>
-                <a href="https://arxiv.org/abs/1604.02578" target="blank">Preprint</a> 
-                </li>
-                <li>
-                <a href="http://epubs.siam.org/doi/abs/10.1137/16M1068712" target="blank">SIAM Link</a>
-                </li>
-            </ul>
-    </li>
-    <li>
-        <i>Rank deficiency of Kalman error covariance matrices in linear time-varying system with deterministic evolution </i>
-            <ul>
-                <li>
-                <a href="https://arxiv.org/abs/1503.05029" target="blank">Preprint</a>
-                </li>
-                <li>
-                <a href="http://epubs.siam.org/doi/10.1137/15M1025839" target="blank">SIAM Link</a>
-                </li>
-            </ul>
-    </li>
-</ul>
-<h2>Smart Grids</h2>
-<p>
-    As part of my graduate research training, I was an intern at Los Alamos National Labs where I performed data analysis and network reduction
-    for electric grid transmission networks.  I am interested in the application of data assimilation and machine learning techniques
-    for parameter and state estimation for dynamic electric grid models; the expansion of renewable generation has brought many opportunities but
-    also uncertainties in electric generation, and data driven prediction techniques offer methodology for optimization and grid security
-    under uncertainty.
-</p>
-<h3> Publications </h3>
-<ul>
-	<li><i> Structure- &amp Physics- Preserving Reductions of Power Grid Models</i></li>
-	<ul>
-	    <li>    
-		<a href="https://arxiv.org/abs/1707.03672" target="blank">Preprint</a>
-	    </li>
-	</ul>
-</ul>
-
-<h3> Computational resources  </h3>
-<p>
-Example code for the algorithms developed in our project and toy data can be found in my github
-<a href='https://github.com/cgrudz/electric_grid_model_reduction', target="blank"><b> Electric Grid Code Repository </b></a>. 
-Visualizations are linked below. 
-</p>
-
-
-<h4> Visualizations </h4>
-<p>
-    The following visualizations demonstrate the force directed layout of the fully reduced power grid network model, where nodes represent repelling bodies
-   and edges represent springs.  We randomly initialize the positions for the triangle reduced network and run the positions to a stabilized configuration.  Random initial
-  positions are shown in the first figure and a stabilized result is shown in the second.  Finally, we overlay the degree two reduction (performed before the triangle reductions)
- on the positions for the stabilized triangle reduction.  Enabling the physics on the third figure demonstrates the declustering of the degree two reduced network from the
-triangle reduced network, as shown in the manuscript.  These visualizations are best viewed in Chrome. 
-</p>
-
-<ul>
-<li>
-    <a href="/losalamos/triangular_reduction_smallest_network_random_positions/tr_reduction_random_positions.html" target="blank">Triangle reduced network: random positions</a>
-</li>
-<li>
-    <a href="/losalamos/triangular_reduction_smallest_network_stabilized_positions/tr_reduction_stable_positions.html" target="blank">Triangle reduced network: stable positions</a>
-</li>
-<li>
-    <a href="/losalamos/degree_two_decluster_triangular_reduction/d2_overlay_decluster.html" target="blank">Degree two reduced network: de-clustering from triangle reduced</a>
-</li>
-</ul>
-<h2>Stability Analysis</h2>
-<p> 
-    While PDEs are not generally analytically solvable, coherent states such as waves and solitons can provide useful qualitative
-    information about the system of equations.  Stable states in particular attract other model solutions in their asymptotic state,
-    and provide model solutions that are robust in realistic, noisy settings.  Determining the stability of coherent states is often
-    performed with Evans function analysis, and in addition my work on data assimilation, my graduate thesis proved a novel 
-    formualtion of the Evans function for reaction diffusion equations.  
-</p>
-<h3>Publications</h4>
-<ul>
-    <li>
-        <i>Geometric phase in the Hopf bundle and the stability of non-linear waves</i>
-            <ul>
-                <li>
-                <a href="https://arxiv.org/abs/1402.3333" target="blank">Preprint</a>
-                </li>
-                <li>
-                <a href="http://www.sciencedirect.com/science/article/pii/S0167278916301579?np=y" target="blank">Science Direct</a>
-                </li>
-            </ul>
-    <li>
-        <i>The Instability of the Hocking-Stewartson Pulse and its Geometric Phase in the Hopf Bundle</i>
+<h2>Ongoing and past projects:</h2>
+<button class="accordion"><h2>Data assimilation</h2></button>
+    <div class="accordian_panel">
+    <p>
+        It is well known in the weather forecasting community dynamic instability is among the primary drivers of forecast uncertainty in chaotic, 
+        physical systems and a wide variety of data assimilation techniques are designed exploit this phenomena.
+        Along with others, my work has have provided formal proofs of the central hypothesis 
+        of the Assimilation in the Unstable Subspace methodology of Anna Trevisan and her collaborators: for filters in perfect, linear models, the distribution
+        of forecast errors asymptotically conforms to the unstable-neutral subspace, i.e., the column span of the error covariance aligns with the span of backward 
+        Lyapunov vectors with non-negative exponents.  In my current research, I am extending this framework and methodology to filter design in the presence of model errors
+        and non-linear error evolution. 
+    </p>
+    <button class="accordion"><h3>Publications</h3></button>
+        <div class="accordian_panel">
         <ul>
-            <li>         
-            <a href="https://arxiv.org/abs/1504.07896" target="blank">Preprint</a>
+            <li>
+            <i>Chaotic dynamics and the role of covariance inflation for reduced rank Kalman filters with model error </i>
+                <ul>
+                    <li>
+	                <a href="https://www.nonlin-processes-geophys-discuss.net/npg-2018-4/" target="blank">Preprint</a> 
+	    	    </li>
+                </ul>
             </li>
             <li>
-            <a href="http://www.sciencedirect.com/science/article/pii/S0377042716301066?np=y" target="blank">Science Direct</a>
+            <i>Asymptotic forecast uncertainty and the unstable subspace in the presence of additive model errors </i>
+                <ul>
+                    <li>
+  		    <a href="https://arxiv.org/abs/1707.08334" target="blank"> Preprint </a>
+		    </li>    
+		</ul>
+	    </li>
+	    <li>
+	    <i>Degenerate Kalman filter error covariances and their convergence onto the unstable subspace </i>
+	        <ul>
+		    <li>
+		    <a href="https://arxiv.org/abs/1604.02578" target="blank">Preprint</a> 
+		    </li>
+	            <li>
+                    <a href="http://epubs.siam.org/doi/abs/10.1137/16M1068712" target="blank">SIAM Link</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+            <i>Rank deficiency of Kalman error covariance matrices in linear time-varying system with deterministic evolution </i>
+                <ul>
+                    <li>
+                    <a href="https://arxiv.org/abs/1503.05029" target="blank">Preprint</a>
+                    </li>
+                    <li>
+                    <a href="http://epubs.siam.org/doi/10.1137/15M1025839" target="blank">SIAM Link</a>
+                    </li>
+                </ul>
             </li>
         </ul>
-</ul>
+	</div>
+    </div>
+<button class="accordion"><h2>Smart grids</h2></button>
+    <div class="accordian_panel">
+    <p>
+	The expansion of renewable generation has brought many opportunities but
+        also uncertainties in electricy generation.  Simultaneously, the expansion of new grid management technologies and the internet of things have offered new possibilities for data driven 
+	prediction and optimization for grid security under uncertainty.  
+	Purely statistical machine learning techniques are particularly useful in prediction where data is abundant and models of the process are inferior to observations.  
+	However, neither is the case for the electric grid where Phasor Measurement Units (PMUs) offer spatially sparse measurements and electric transmission is guided by physical power flow laws.  
+	For these reasons, the rigorous incorporation of nonlinear, time varying process models is strong advantage of data assimilation methodology for the problems of state estimation 
+	and fault detection in the electric grid.   
+        I was a graduate research assistant at Los Alamos National Labs where I performed data analysis and network reduction
+        for electric grid transmission networks.  Our ongoing collaboration is now focused on the application of data assimilation and machine learning techniques
+        for parameter and state estimation for dynamic electric grid models.
+    </p>
+    <button class="accordion"><h3>Publications</h3></button>
+        <div class="accordian_panel">
+        <ul>
+        <li><i> Structure- &amp Physics- Preserving Reductions of Power Grid Models</i></li>
+            <ul>
+                <li>    
+                <a href="https://arxiv.org/abs/1707.03672" target="blank">Preprint</a>
+                </li>
+            </ul>
+        </ul>
+        </div>
+    <button class="accordion"><h3>Computational resources</h3></button>
+        <div class="accordian_panel">
+        <p>
+        Example code for the algorithms developed in our project and toy data can be found in my github
+        <a href='https://github.com/cgrudz/electric_grid_model_reduction', target="blank"><b> Electric Grid Code Repository </b></a>. 
+        Visualizations are linked below. 
+        </p>
+        <h4> Visualizations </h4>
+        <p>
+            The following visualizations demonstrate the force directed layout of the fully reduced power grid network model, where nodes represent repelling bodies
+            and edges represent springs.  We randomly initialize the positions for the triangle reduced network and run the positions to a stabilized configuration.  Random initial
+            positions are shown in the first figure and a stabilized result is shown in the second.  Finally, we overlay the degree two reduction (performed before the triangle reductions)
+            on the positions for the stabilized triangle reduction.  Enabling the physics on the third figure demonstrates the declustering of the degree two reduced network from the
+            triangle reduced network, as shown in the manuscript.  These visualizations are best viewed in Chrome. 
+        </p>
+        <ul>
+            <li>
+            <a href="/losalamos/triangular_reduction_smallest_network_random_positions/tr_reduction_random_positions.html" target="blank">Triangle reduced network: random positions</a>
+            </li>
+            <li>
+            <a href="/losalamos/triangular_reduction_smallest_network_stabilized_positions/tr_reduction_stable_positions.html" target="blank">Triangle reduced network: stable positions</a>
+            </li>
+            <li>
+            <a href="/losalamos/degree_two_decluster_triangular_reduction/d2_overlay_decluster.html" target="blank">Degree two reduced network: de-clustering from triangle reduced</a>
+            </li>
+        </ul>
+        </div>
+    </div>
+<button class="accordion"><h2>Nonlinear Waves</h2></button>
+    <div class="accordian_panel">
+    <p> 
+        While PDEs are not generally analytically solvable, coherent states such as waves and solitons can provide useful qualitative
+        information about the system of equations.  Stable states in particular attract other model solutions in their asymptotic state,
+        and provide model solutions that are robust in realistic, noisy settings.  Determining the stability of coherent states is often
+        performed with Evans function analysis, and in addition my work on data assimilation, my graduate thesis proved a novel 
+        formualtion of the Evans function for reaction diffusion equations.  
+    </p>
+    <button class="accordion"><h3>Publications</h3></button>
+    <div class="accordian_panel">
+    <ul>
+        <li>
+            <i>Geometric phase in the Hopf bundle and the stability of non-linear waves</i>
+                <ul>
+                    <li>
+                    <a href="https://arxiv.org/abs/1402.3333" target="blank">Preprint</a>
+                    </li>
+                    <li>
+                    <a href="http://www.sciencedirect.com/science/article/pii/S0167278916301579?np=y" target="blank">Science Direct</a>
+                    </li>
+                </ul>
+        <li>
+            <i>The Instability of the Hocking-Stewartson Pulse and its Geometric Phase in the Hopf Bundle</i>
+            <ul>
+                <li>         
+                <a href="https://arxiv.org/abs/1504.07896" target="blank">Preprint</a>
+                </li>
+                <li>
+                <a href="http://www.sciencedirect.com/science/article/pii/S0377042716301066?np=y" target="blank">Science Direct</a>
+                </li>
+            </ul>
+     </ul>
+    </div>
+    </div>
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+            panel.style.display = "none";
+        } else {
+            panel.style.display = "block";
+        }
+    });
+}
+</script>
