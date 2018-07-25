@@ -5,40 +5,75 @@ title: Professional activities
 <p>
     I am passionate about global math and science literacy, and promoting meaningful discussions on climate, energy and sustainability. 
 </p>
-<h2>Societies</h2>
-<p>
-    I am a member of the Society of Industrial and Applied Mathematicians and the European Geosciences Union.
-</p>
-<div style="width:60%; margin-bottom: 10px; marign-right: 50px">
-<a href="https://www.siam.org" target='blank'>
-    <div style="width:200px;float:left;padding-right:20px">
-    <img style="width: 100%;" src="/assets/siam.png" />
+<button class="accordion"><h2>Workshops and meetings</h2></button>
+    <div class="accordian_panel">
+        <ul>
+            <li>
+		I will be a lecturer in the 2019 Summer <a href="https://www.lms.ac.uk/events/lms-cmi-research-schools#2019" target="blank">
+	        LMS-CMI Research School</a> on the Mathematics of Planet Earth theme (approved, official announcement pending).
+	    </li>
+	    <li>
+		    I will be a lecturer in the <a href="https://www.cimpa.info/en/about_us/mission_and_activities" target="blank">CIMPA</a> 2020 Mathematics of Climate Science summer 
+		    school at the <a href="https://www.aims.ac.rw/" target="blank">African Institute of Mathematical Science (AIMS)</a> in Kigali, Rwanda (scientific
+		    program approved, pending budgetary approval).
+            </li>
+	</ul>
     </div>
-</a>
-<a href="https://www.egu.eu" target='blank'>
-    <div style="width:200px;float:left">
-    <img style="width: 100%;" src="/assets/egu.svg" />
+<button class="accordion"><h2>Societies</h2></button>
+    <div class="accordian_panel">
+    <p>
+        I am a member of the Society of Industrial and Applied Mathematicians and the European Geosciences Union.
+    </p>
+    <div style="width:80%; margin-bottom: 10px; marign-right: 50px">
+    <a href="https://www.siam.org" target='blank'>
+        <div style="width:200px;float:left;padding-right:20px">
+        <img style="width: 100%;" src="/assets/siam.png" />
+        </div>
+    </a>
+    <a href="https://www.egu.eu" target='blank'>
+        <div style="width:200px;float:left">
+        <img style="width: 100%;" src="/assets/egu.svg" />
+        </div>
+    </a>
     </div>
-</a>
-</div>
-<div style="clear:left">
-<h2>Service</h2>
-<p>
-I actively perform peer review.  My Publons profile is linked <a href='https://publons.com/author/1401684/colin-james-grudzien#profile' target='blank'>here</a>.
-</p>
-<p>
-I was formerly a cyber-infrastructure volunteer for the Math and Climate Research Network.
-</p>
-<div style="width=60%; margin-bottom:10px;">
-<a href="https://mcrn.hubzero.org/" target="blank">
-    <div style="width:250px;">
-    <img style="width:100%;" src="/assets/mcrn-logo.png">
     </div>
-</a>
-</div>
-<p>
-   The MCRN Hub infrastructure is free for educators and researchers in mathematics and climate to use for online collaboration, hosting, and
-   presenting results.
-   For an introduction to the MCRN Hub, see my <a href="https://mcrn.hubzero.org/resources/606" target="blank" >video tutorials</a>.
-</p>
-</div>
+<button class="accordion"><h2>Service</h2></button>
+    <div class="accordian_panel">
+    <p>
+    I actively perform peer review.  My Publons profile is linked <a href='https://publons.com/author/1401684/colin-james-grudzien#profile' target='blank'>here</a>.
+    </p>
+    <p>
+    I was formerly a cyber-infrastructure volunteer for the Math and Climate Research Network.
+    </p>
+    <div style="width=60%; margin-bottom:10px;">
+    <a href="https://mcrn.hubzero.org/" target="blank">
+        <div style="width:250px;">
+        <img style="width:100%;" src="/assets/mcrn-logo.png">
+        </div>
+    </a>
+    </div>
+    <p>
+       The MCRN Hub infrastructure is free for educators and researchers in mathematics and climate to use for online collaboration, hosting, and
+       presenting results.
+       For an introduction to the MCRN Hub, see my <a href="https://mcrn.hubzero.org/resources/606" target="blank" >video tutorials</a>.
+    </p>
+    </div>
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+            panel.style.display = "none";
+        } else {
+            panel.style.display = "block";
+        }
+    });
+}
+</script>
+
+
