@@ -16,13 +16,18 @@ title: Research
 <button class="accordion"><h2>Data assimilation</h2></button>
     <div class="accordian_panel">
     <p>
-        It is well known in the weather forecasting community dynamic instability is among the primary drivers of forecast uncertainty in chaotic, 
-        physical systems and a wide variety of data assimilation techniques are designed exploit this phenomena.
-        Along with others, my work has have provided formal proofs of the central hypothesis 
-        of the Assimilation in the Unstable Subspace methodology of Anna Trevisan and her collaborators: for filters in perfect, linear models, the distribution
-        of forecast errors asymptotically conforms to the unstable-neutral subspace, i.e., the column span of the error covariance aligns with the span of backward 
-        Lyapunov vectors with non-negative exponents.  In my current research, I am extending this framework and methodology to filter design in the presence of model errors
-        and non-linear error evolution. 
+        Data assimilation broadly refers to the techniques used to combine model and observational information to produce an optimal estimate of a PDF or a test statistic.
+        These techniques include methods from Bayesian inference, dynamical systems, numerical analysis and optimal control.
+        In phsyical applications such as weather prediction, the butterfly effect renders the forecasting problem inherently volatile; however, chaotic dynamics also put strong 
+        constraints on the evolution of errors. It is well understood in the weather prediction community that the growth of forecast uncertainty is confined to a much lower 
+        dimensional subspace corresponding to the directions of rapidly growing perturbations --- this is characterized by the unstable-neutral manifold of the state being tracked,
+        with dimension equal to the number of non-negative Lyapunov exponents, leading to dimensional reduction of the uncertainty quantification problem. 
+    </p>
+    <p>
+	With my collaborators, I am studying the mathematical foundations of ensemble based forecasting 
+        and stochastic filtering in the context of smooth and random dynamical systems.  We have produced refined necessary and sufficient conditions for filter convergence and stability,
+	rigorously establishing dimensional reduction methodology and a novel theoretical framework for the ensemble Kalman filter in geophysical applications.  Our ongoing research seeks
+	to provide new insights into filter design and uncertainty quantification for physical systems.
     </p>
     <button class="accordion"><h3>Publications</h3></button>
         <div class="accordian_panel">
