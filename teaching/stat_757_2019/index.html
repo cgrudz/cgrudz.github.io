@@ -1,0 +1,348 @@
+---
+layout: page
+title: STAT 757 &#8212 Spring 2019 
+---
+
+<h2>Applied regression analysis</h2>
+<img style="width:100%", src="./Arctic_Sea_Ice.png"/>
+<div style="font-size:18px; width:80%; margin-left:10%; margin-right:10%; margin-top:10px; margin-bottom-10px">
+<p>
+    Time series of the difference in Arctic sea ice extent in March (the month of ice-extent maximum) and September 
+    (the month of ice-extent minimum) from the mean values for the time period 1979-2007. Based on a least squares 
+    linear regression, the rate of decrease for the March ice extents was 2.8% per decade and and September was 11.3% per decade.<br>
+    <b>Courtesy of NOAA - J. Richter-Menge, S. Nghiem, D. Perovich, I. Rigor [Public domain], 
+        <a href="https://commons.wikimedia.org/wiki/File:Arctic_Sea_Ice_Extent,_March_%26_September,_1979-2007.png">via Wikimedia Commons</a></b>
+</p>
+</div>
+
+
+<h2>Introduction</h2>
+<p>
+This is the course web page for Applied Regression Analysis STAT 757 – Section 1001.  Please see the menus below for class resources, the up-to-date class schedule,
+assignments and solutions to homework and quizes.
+</p>
+<div style="font-size:30px"> <p>Please find the <a href="./syllabus_757_2019.pdf" target='blank'><b>syllabus here</b></a>.</p></div>
+<div style="font-size:30px"> <p>Grades are posted through <a href='https://wcl.unr.edu' target='blank'><b>Web Campus</b></a>.</p></div>
+<button class="accordion"><h2>Class resources</h2></button>
+    <div class="accordian_panel">
+    <button class="accordion"><h2>Textbook</h2></button>
+        <div class="accordian_panel">
+        <ul>
+            <li><em><a href='https://www.crcpress.com/Linear-Models-with-R/Faraway/p/book/9781439887332' target='blank'>
+                    Faraway, Julian J. Linear models with R, Second Edition. Chapman and Hall/CRC, 2016.</a></em></li>
+            <li><a href='http://www.maths.bath.ac.uk/~jjf23/LMR/' target='blank'>Book web page</a></li>
+            <li><a href='https://newonlinecourses.science.psu.edu/statprogram/reviews' target='blank'>Review of statistical concepts, calculus and matrices</a></li>
+        </ul> 
+        </div>
+    <button class="accordion"><h2>Programming resources</h2></button>
+        <div class="accordian_panel">
+        <ul>
+            <li>R is required for the class.  Students can get an installation file from <a href='https://www.r-project.org/' target='blank'>the R project (free and open source software)</a>.</li>
+            <li>Students are recommended to use the environment <a href='https://www.rstudio.com/' target='blank'>R-Studio (free integrated development environment)</a>.</li>
+            <li>Free scientific programming lessons are available through
+                <a href='https://software-carpentry.org/lessons/index.html' target='blank'>Software Carpentry (nonprofit teaching programming for researchers)</a>.</li>
+            <li>Paul Hurtado's tutorials and R resources are linked <a href='http://www.pauljhurtado.com/R/' target='blank'>here</a></li>
+            <li>Advanced students interested in the theory of programming are recommended <a href='https://eloquentjavascript.net/' target='blank'>Eloquent Javascript (free, creative commons)</a>.</li>
+        </ul> 
+        </div>
+    </div>        
+<button class="accordion"><h2>Schedule, assignments and solutions</h2></button>
+    <div class="accordian_panel" style='width:700px'>
+        <p>
+            The up-to-date schedule is in the table below.  Assignments will be linked in the schedule one week before they are due.  Solutions will
+            be linked in the schedule after class on the due date.  Supplementary materials for the lectures will be linked as appropriate.
+        </p>
+        <table>
+        <tr>
+            <td> <b>Week </b></td> <td> <b>Topic</b> </td> <td><b>Homework</b></td> <td><b>Quizzes</b></td>
+        </tr>
+        <tr>
+            <td> 01/23 - 01/25 </td> 
+            <td> Introduction to programming with R 
+                <ul>
+                    <li> <a href='https://swcarpentry.github.io/r-novice-inflammation/' target='blank'>Software Carpentry &#8212 Programming with R</a></li>
+                </ul>
+            </td> 
+            <td> Assignment 1
+                <ul> 
+                    <li>Due 02/01</li> 
+                    <li>Solutions</li>
+                </ul> 
+            </td> 
+            <td>  No quiz </td>
+        </tr>
+        <tr>
+            <td> 01/28 - 02/01 </td> 
+            <td> Introduction to programming with R 
+                <ul>
+                    <li> <a href='https://swcarpentry.github.io/r-novice-inflammation/' target='blank'>Software Carpentry &#8212 Programming with R</a></li>
+                </ul>
+            <td> Assignment 2 
+                <ul> 
+                    <li> Due 02/08</li> 
+                    <li>Solutions</li>
+                </ul> 
+            </td>     
+            <td>  Quiz 1 
+                <ul>
+                    <li> Date - 01/28 </li>
+                    <li> Solutions </li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td> 02/04 - 02/08 </td> 
+            <td> Estimation and simple linear regression
+                <ul>
+                    <li> Supplementary materials</li>
+                </ul>
+            <td> Assignment 3 
+                <ul> 
+                    <li> Due 02/15</li> 
+                    <li>Solutions</li>
+                </ul> 
+            </td>     
+            <td>  Quiz 2
+                <ul>
+                    <li> Date - 02/04 </li>
+                    <li> Solutions </li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td> 02/11 - 02/15 </td> 
+            <td> Simple linear regression continued 
+                <ul>
+                    <li> Supplementary materials</li>
+                </ul>
+            <td> Assignment 4 
+                <ul> 
+                    <li> Due 02/22</li> 
+                    <li>Solutions</li>
+                </ul> 
+            </td>     
+            <td>  Quiz 3
+                <ul>
+                    <li> Date - 02/11 </li>
+                    <li> Solutions </li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td> 02/18 - 02/22 </td> 
+            <td> Inference and prediction
+                <ul>
+                    <li> Supplementary materials</li>
+                </ul>
+            <td> Assignment 5 
+                <ul> 
+                    <li> Due 03/01</li> 
+                    <li>Solutions</li>
+                </ul> 
+            </td>     
+            <td>  Quiz 4
+                <ul>
+                    <li> Date - 02/18 </li>
+                    <li> Solutions </li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td> 02/25 - 03/01 </td> 
+            <td> Prediction and explanation
+                <ul>
+                    <li> Supplementary materials</li>
+                </ul>
+            <td> Assignment 6 
+                <ul> 
+                    <li> Due 03/08</li> 
+                    <li>Solutions</li>
+                </ul> 
+            </td>     
+            <td>  Quiz 5
+                <ul>
+                    <li> Date - 02/25 </li>
+                    <li> Solutions </li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td> 03/04 - 03/08 </td> 
+            <td> Diagonostics
+                <ul>
+                    <li> Supplementary materials</li>
+                </ul>
+            <td> Assignment 7 
+                <ul> 
+                    <li> Due 03/15</li> 
+                    <li>Solutions</li>
+                </ul> 
+            </td>     
+            <td>  Quiz 6
+                <ul>
+                    <li> Date - 03/04 </li>
+                    <li> Solutions </li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td> 03/11 - 03/15 </td> 
+            <td> Problems with predictors and error
+                <ul>
+                    <li> Supplementary materials</li>
+                </ul>
+            <td> Midterm 
+                <ul> 
+                    <li> Due 03/29</li> 
+                    <li>Solutions</li>
+                </ul> 
+            </td>     
+            <td>  Quiz 7
+                <ul>
+                    <li> Date - 03/11 </li>
+                    <li> Solutions </li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td> 03/18 - 03/22 </td> 
+            <td> Spring break
+            <td> No new assignments 
+            </td>     
+            <td> No quiz 
+            </td>
+        </tr>
+        <tr>
+            <td> 03/25 - 03/29 </td> 
+            <td> Problems with predictors and error continued
+                <ul>
+                    <li> Supplementary materials</li>
+                </ul>
+            <td> Assignment 9 
+                <ul> 
+                    <li> Due 04/05</li> 
+                    <li>Solutions</li>
+                </ul> 
+            </td>     
+            <td> No quiz, midterm due 03/29
+            </td>
+        </tr>
+        <tr>
+            <td> 04/01 - 04/05 </td> 
+            <td> Transformation 
+                <ul>
+                    <li> Supplementary materials</li>
+                </ul>
+            <td> Assignment 10
+                <ul> 
+                    <li> Due 04/12</li> 
+                    <li>Solutions</li>
+                </ul> 
+            </td>     
+            <td>  Quiz 8
+                <ul>
+                    <li> Date - 04/01 </li>
+                    <li> Solutions </li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td> 04/08 - 04/12 </td> 
+            <td> Model and variable selection
+                <ul>
+                    <li> Supplementary materials</li>
+                </ul>
+            <td> Assignment 11
+                <ul> 
+                    <li> Due 04/19</li> 
+                    <li>Solutions</li>
+                </ul> 
+            </td>     
+            <td>  Quiz 9
+                <ul>
+                    <li> Date - 04/08 </li>
+                    <li> Solutions </li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td> 04/15 - 04/19 </td> 
+            <td> Model and variable selection continued
+                <ul>
+                    <li> Supplementary materials</li>
+                </ul>
+            <td> Assignment 12
+                <ul> 
+                    <li> Due 04/26</li> 
+                    <li>Solutions</li>
+                </ul> 
+            </td>     
+            <td>  Quiz 10
+                <ul>
+                    <li> Date - 04/15 </li>
+                    <li> Solutions </li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td> 04/22 - 04/26 </td> 
+            <td> Working through a complete example
+                <ul>
+                    <li> Supplementary materials</li>
+                </ul>
+            <td> Final project 
+                <ul>
+                    <li> Project description and grading rubric</li>
+                    <li> Due 05/10</li> 
+                </ul> 
+            </td>     
+            <td>  Quiz 11
+                <ul>
+                    <li> Date - 04/22 </li>
+                    <li> Solutions </li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td> 04/29 - 05/03 </td> 
+            <td> Categorial predictors and logistic regression
+                <ul>
+                    <li> Supplementary materials</li>
+                </ul>
+            <td> No new assignments 
+            </td>     
+            <td> No quiz 
+            </td>
+        </tr>
+        <tr>
+            <td> 05/06 - 05/10 </td> 
+            <td> Categorial predictors and logistic regression
+                <ul>
+                    <li> Supplementary materials</li>
+                </ul>
+            <td> No new assignments 
+            </td>     
+            <td>Final project due 05/10
+            </td>
+        </tr>
+    </table>
+    </div>
+
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+            panel.style.display = "none";
+        } else {
+            panel.style.display = "block";
+        }
+    });
+}
+</script>
+
