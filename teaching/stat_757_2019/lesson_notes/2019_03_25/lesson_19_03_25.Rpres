@@ -371,7 +371,7 @@ for some constant $C$.
 * In this case, if such a transformation did exist, this suggests a functional form such as,
 
   $$\begin{align}
-  h(y) = \int \frac{dy}{\sqrt{var(y)}} = \int\frac{dy}{\sqrt{sd(y)}}
+  h(y) = \int \frac{dy}{\sqrt{var(y)}} = \int\frac{dy}{sd(y)}
   \end{align}$$
 
 though noting that the above doesn't have a real meaning.
