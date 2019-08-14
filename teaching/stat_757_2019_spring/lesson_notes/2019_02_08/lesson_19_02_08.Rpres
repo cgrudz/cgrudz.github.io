@@ -1,0 +1,174 @@
+========================================================
+author: 
+date: 
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+========================================================
+
+<h2>...instead we will look at some real examples in R</h2>
+
+* We begin by using the library "faraway" that comes with the R scripts and data used in the book.
+
+```{r}
+library(faraway)
+```
+
+* We can load the variables into our workspace with the function "data" as follows:
+
+```{r}
+data(gala, package="faraway")
+```
+
+========================================================
+
+* We should always turn over the data with different tools to find out what we are actually working with
+
+```{r}
+str(gala)
+```
+
+========================================================
+
+* In this case, there are 30 islands in the Galápagos with 7 variables -- each observation corresponds to a particular island:
+
+```{r}
+row.names(gala)
+```
+
+========================================================
+We can see some basic summary statistics with "summary"
+```{r}
+summary(gala)
+```
+
+========================================================
+
+
+* We can also see the first few rows with the "head" function:
+
+```{r}
+head(gala)
+```
+
+========================================================
+
+* Faraway makes a few changes in his example, throwing out the second column from consideration.
+* <h2>Q: How do we remove the second column from the dataframe?</h2>
+* <h2>A:</h2>
+```{r}
+head(gala[,-2])
+```
+* Species -- number of species found on the island
+* Area -- the area of the island in km^2
+* Elevation -- the highest elevation of the island
+* Nearest -- the distance from the nearest island
+* Scruz --- the distance from Santa Cruz island
+* Adjacent -- the area of the adjacent island
+
+========================================================
+
+* Faraway has also made our lives simple by pre-cleaning the data for us.
+
+* We will create a linear model now from scratch with the funciton "lm()"
+
+```{r}
+lmod <- lm(Species ~ Area + Elevation + Nearest + Scruz + Adjacent,data=gala)
+```
+
+* It was actually as simple as the above in this case...
+
+* Notice the code syntax:
+  - The first argument is the "Species", indicating that we have the number of species as our response variable $\mathbf{Y}$
+  - The ~ here separates the response variables from the explanatory variables.
+  - Finally, the keyword argument "data" indicates to the function to draw these variables all from the variable "gala"
+
+========================================================
+  
+* What does our linear model look like?
+
+```{r}
+summary(lmod)
+```
+
+========================================================
+
+* For instance, we can obtain quantities of interest from the "lmod"
+```{r}
+names(lmod)
+beta_hat <- lmod$coefficients
+print(beta_hat)
+```
+
+========================================================
+* However, linear models can be far from perfect
+
+```{r}
+predicted_Y <- lmod$fitted.values
+print(predicted_Y)
+```
+
+* Here the predicted values can be un-physical, such as negative numbers of species.
+
+========================================================
+
+* We will compute the uncertainty of the estimate int the following 
+
+* Following our equation 
+
+* $$\Large{ RSS = \hat{\epsilon}^T \hat{\epsilon} = \sigma^2(n-p)}$$
+
+```{r}
+RSS <- deviance(lmod)
+n_minus_p <- df.residual(lmod)
+sigma <- sqrt(RSS / n_minus_p)
+print(sigma)
+```
+
+* Or directly from the summary
+```{r}
+lmod_sum <- summary(lmod)
+sigma <- lmod_sum$sigma
+print(sigma)
+```
+
+* The variance of $\epsilon$ is 
+$$\Large{var(\epsilon) = \sigma}$$
+
+========================================================
+
+* The covariance of our parameters are given as
+
+* $$\Large{cov(\hat{\beta}) = (X^T X)^{-1}}\sigma^2 $$
+
+* The component variances can be computed manually as the diagonal elements of this matrix:
+```{r}
+xtxi <- lmod_sum$cov.unscaled
+sqrt(diag(xtxi))*60.975
+```
+
+* Here we extract only the variances, not the covariances of the different parameter values.
+* Note that the variance of the intercept is quite large.
+* This can also be extracted directly from the summary variable again:
+```{r}
+lmod_sum$coef[,2]
+```
+
+========================================================
+<h2> Exercise </h2>
+
+* For the rest of class, we will work with our neighbors to compute a linear model on a different set of data.
+ - You should import the data set on Brittish teenage gambling as follows:
+
+```{r}
+data("teengamb", package = "faraway")
+
+str(teengamb)
+```
+ 
+ - Then, fit a regression model with the expenditure on gambling as the response and the sex, status, income and verbal score as predictors.
+ - Compute $\hat{\beta}, \hat{\epsilon}, \sigma$, and the variances of $\hat{\beta}$
+
+

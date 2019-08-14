@@ -1,0 +1,274 @@
+---
+layout: page
+title: STAT 757 &#8212 Fall 2019 
+---
+
+<h2>Applied regression analysis</h2>
+<img style="width:100%", src="./Arctic_Sea_Ice.png"/>
+<div style="font-size:18px; width:80%; margin-left:10%; margin-right:10%; margin-top:10px; margin-bottom-10px">
+<p>
+    Time series of the difference in Arctic sea ice extent in March (the month of ice-extent maximum) and September 
+    (the month of ice-extent minimum) from the mean values for the time period 1979-2007. Based on a least squares 
+    linear regression, the rate of decrease for the March ice extents was 2.8% per decade and and September was 11.3% per decade.<br>
+    <b>Courtesy of NOAA - J. Richter-Menge, S. Nghiem, D. Perovich, I. Rigor [Public domain], 
+        <a href="https://commons.wikimedia.org/wiki/File:Arctic_Sea_Ice_Extent,_March_%26_September,_1979-2007.png">via Wikimedia Commons</a></b>
+</p>
+</div>
+
+
+<h2>Introduction</h2>
+<p>
+This is the course web page for Applied Regression Analysis STAT 757 FALL 2019 – Section 1001.  Please see the menus below for class resources, the up-to-date class schedule,
+assignments and solutions to homework and quizes.
+</p>
+<div style="font-size:30px"> <p>Please find the syllabus here<!--<a href="./syllabus_757_2019.pdf" target='blank'><b>syllabus here</b></a>.--></p></div>
+<div style="font-size:30px"> <p>Grades are posted through <a href='https://wcl.unr.edu' target='blank'><b>Web Campus</b></a>.</p></div>
+<button class="accordion"><h2>Class resources</h2></button>
+    <div class="accordian_panel">
+    <button class="accordion"><h2>Recommended books</h2></button>
+        <div class="accordian_panel">
+        <ul>
+            <li><em><a href='https://www.crcpress.com/Linear-Models-with-R/Faraway/p/book/9781439887332' target='blank'>
+                    Faraway, J. Linear models with R, Second Edition. Chapman and Hall/CRC, 2016.</a></em></li>
+            <ul>
+                <li><a href='https://cran.r-project.org/doc/contrib/Faraway-PRA.pdf' target='blank'>Free pre-print version from CRAN</a></li>
+                <li><a href='http://www.maths.bath.ac.uk/~jjf23/LMR/' target='blank'>Book web page</a></li>
+            </ul>
+            <li><em>Kutner, M. et al. Applied Linear Statistical Models 5th Edition / Applied Linear Regression Models 4th Edition</em></li>
+            <li><a href='https://newonlinecourses.science.psu.edu/statprogram/reviews' target='blank'>Review of statistical concepts, calculus and matrices</a></li>
+        </ul> 
+        </div>
+    <button class="accordion"><h2>Programming resources</h2></button>
+        <div class="accordian_panel">
+        <ul>
+            <li>R is required for the class.  Students can get an installation file from <a href='https://www.r-project.org/' target='blank'>the R project (free and open source software)</a>.</li>
+            <li>Students are recommended to use the environment <a href='https://www.rstudio.com/' target='blank'>R-Studio (free integrated development environment)</a>.</li>
+            <li>Students are also recommended to install <a href='https://www.latex-project.org/' target='blank'>LaTeX (free typesetting language)</a>.  This is required to compile R Markdown,
+            and is the standard for writing mathematical and statistical reports and publications.</li>
+            <li>Free scientific programming lessons are available through
+                <a href='https://software-carpentry.org/lessons/index.html' target='blank'>Software Carpentry (nonprofit teaching programming for researchers)</a>.</li>
+            <li>Paul Hurtado's tutorials and R resources are linked <a href='http://www.pauljhurtado.com/R/' target='blank'>here</a></li>
+            <li>Advanced students interested in the theory of programming are recommended <a href='https://eloquentjavascript.net/' target='blank'>Eloquent Javascript (free, creative commons)</a>.</li>
+        </ul> 
+        </div>
+    </div>        
+<button class="accordion"><h2>Schedule, assignments and solutions</h2></button>
+    <div class="accordian_panel" style='width:800px'>
+        <p>
+            The up-to-date schedule is in the table below.  Assignments will be linked in the schedule one week before they are due.  Solutions will
+            be linked in the schedule after class on the due date.  Supplementary materials for the lectures will be linked as appropriate.
+        </p>
+        <table>
+        <tr>
+            <td> <b>Week </b></td> <td> <b>Topic</b> </td> <td><b>Homework</b></td> <td><b>Midterms and Final</b></td>
+        </tr>
+        <tr>
+            <td> 08/27 - 09/29 </td> 
+            <td> <a href='https://swcarpentry.github.io/r-novice-gapminder/' target='blank'>Introduction to scripting in R</a><br>
+                Supplementary Materials:
+                <ul>
+                    <li> <a href='https://swcarpentry.github.io/r-novice-gapminder/01-rstudio-intro/index.html' target='blank'>Introduction to R and R Studio</a></li>
+                    <li> <a href='https://swcarpentry.github.io/r-novice-gapminder/04-data-structures-part1/index.html' target='blank'>Data structures</a></li>
+                    <li> <a href='https://swcarpentry.github.io/r-novice-gapminder/05-data-structures-part2/index.html' target='blank'>Exploring data frames</a></li>
+                    <li> <a href='https://swcarpentry.github.io/r-novice-gapminder/08-plot-ggplot2/index.html' target='blank'>Creating publication-quality graphics with ggplot2</a></li>
+                </ul>
+            </td> 
+            <td><nobr> Homework 1</nobr>
+                <ul> 
+                    <li>Due 09/05</li> 
+                </ul> 
+            </td> 
+            <td>   </td>
+        </tr>
+        <tr>
+            <td> 09/03 - 09/05 </td> 
+            <td> Simple linear regression 
+                <ul>
+                </ul>
+                <td> Homework 2
+                <ul> 
+                    <li>Due 09/12</li> 
+                </ul> 
+            </td>     
+            <td>  
+            </td>
+        </tr>
+        <tr>
+            <td> 09/10 - 09/12 </td> 
+            <td> Multiple regression
+                <td> Homework 3
+                <ul> 
+                    <li> Due 09/19</li> 
+                </ul> 
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td> 09/17 - 09/19 </td> 
+            <td> Multple regression continued 
+                <td> Study guide for Midterm 1 
+            </td>     
+            <td> 
+            </td>
+        </tr>
+        <tr>
+            <td> 09/24 - 09/26</td> 
+            <td> Analysis of variance 
+                <td> Homework 4
+                    <ul>
+                        <li>Due 10/03</li>
+                    </ul>
+                </td>     
+                <td><b> Midterm 1</b> <br>In class - 09/26
+            </td>
+        </tr>
+        <tr>
+            <td> 10/01 - 10/03 </td> 
+            <td> Inference  
+                <td> Homework 5
+                    <ul>
+                        <li>Due 10/10</li>
+                    </ul>
+            </td>     
+            <td>  
+            </td>
+        </tr>
+        <tr>
+            <td> 10/08 - 10/10 </td> 
+            <td> Inference and prediction
+                <td> Homework 6
+                    <ul>
+                        <li>Due 10/17</li>
+                    </ul>
+            </td>     
+            <td>  
+            </td>
+        </tr>
+        <tr>
+            <td> 10/15 - 10/17 </td> 
+            <td>Prediction and explanation
+            <td></td> 
+            <td><b>Midterm 2</b> <br>take-home
+                <ul> 
+                    <li> Due 10/31</li> 
+                    <li><!--<a href="./assignments/midterm/midterm.pdf" target="blank">Description</a>-->Description</li>
+                    <li><a href="./assignments/midterm/Research_project_written_rubric.pdf" target="blank">Style guide for proposal</a></li>
+                    <li><!--<a href="https://docs.google.com/spreadsheets/d/199phJ5jn8Dvb-WHT7vuoJwITicDaXNml56hq3mNyVXg/edit?usp=sharing" target="blank">Data sign-up sheet</a>-->Data sign-up sheet</li>
+                    <li>Suggested sources of public data</li>
+                    <ul>
+                        <li><a href="https://archive.ics.uci.edu/ml/index.php" target="blank">UCI Machine Learning repository</a></li>
+                        <li><a href="https://github.com/awesomedata/awesome-public-datasets/blob/master/README.rst" target="blank">Awesome public data</a></li>
+                        <li><a href="https://www.data.gov/" target="blank">Data dot Gov</a></li>
+                    </ul>
+                </ul> 
+            </td>     
+        </tr>
+        <tr>
+            <td> 10/22 - 10/24 </td> 
+            <td> Diagnostics
+            <td>  
+            </td>     
+            <td>  
+            </td>
+        </tr>
+        <tr>
+            <td> 10/29 - 10/31 </td> 
+            <td> Diagnostics 
+            <td> Homework 8 
+                <ul> 
+                    <li> Due 10/07</li>
+                </ul>
+            </td>     
+            <td> 
+            </td>
+        </tr>
+        <tr>
+            <td> 11/05 - 11/07 </td> 
+            <td> Problems with error 
+                <td>Homework 9
+                    <ul>
+                        <li> Due 11/14</li>
+                    </ul>
+            </td>     
+            <td> 
+            </td>
+        </tr>
+        <tr>
+            <td> 11/12 - 11/14 </td> 
+            <td> Transformation and model selection 
+                <td> <nobr>Homework 10</nobr>
+                    <ul>
+                        <li>Due 11/21</li>
+                    </ul>
+            </td>     
+            <td> 
+            </td>
+        </tr>
+        <tr>
+            <td> 11/19 - 11/21 </td> 
+            <td> Model selection 
+                <td></td>
+                <td> <b>Final project:</b> <br>
+                <!--This will be weighted so that 20% of the course grade will be the final report and 5% will be the final presentation.-->
+                <ul>
+                    <li> Final report<li>
+                    <ul>
+                        <li><!--<a href="./assignments/final/final.pdf" target="blank">Project description</a>--> Project description</li>
+                       <li><a href="./assignments/midterm/Research_project_written_rubric.pdf" target="blank">Style guide for final report</a></li>
+                    </ul>
+                    <li> Presentation description</li>
+                    <ul>
+                        <li><!--<a href="./assignments/final/final_presentation.pdf" target="blank">Presentation description</a>--> Presentation description</li>
+                       <li><a href="./assignments/final/Final_project_presentation_rubric.pdf" target="blank">Style guide for final presentation</a></li>
+                    </ul>
+                    <li> Due at time of final, time and date TBD</li> 
+                </ul> 
+            </td>
+        </tr>
+        <tr>
+            <td> 11/26 - 11/28 (No class Thursday - Thanksgiving Break) </td> 
+            <td> Logistic regression
+            <td>  
+            </td>     
+            <td> 
+            </td>
+        </tr>
+        <tr>
+            <td> 12/03 - 12/05 </td> 
+            <td> Working through a complete example 
+            <td>  
+            </td>     
+            <td> 
+            </td>
+        </tr>
+        <tr>
+            <td> 12/10 - 12/12 </td> 
+            <td> Models with categorical predictors 
+            <td>  
+            </td>     
+            <td>Final project due at time of final, time and date TBD <br>
+                Final presentations during final period, time and date TBD
+            </td>
+        </tr>
+    </table>
+    </div>
+
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+            panel.style.display = "none";
+        } else {
+            panel.style.display = "block";
+        }
+    });
+}
+</script>
+

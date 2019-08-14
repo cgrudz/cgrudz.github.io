@@ -1,0 +1,194 @@
+---
+title: "Assignment 8 Solutions"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+  html_notebook: default
+---
+
+```{r}
+library(faraway)
+```
+
+<b> Problem 1.1 </b>
+
+
+We load the "sat" dataset and fit a regression for the total score in terms of expend, ratio, salary and takers, and plot the model for a quick general diagnostic:
+
+```{r}
+lm_sat <- lm(total ~ expend + ratio + salary + takers, data=sat)
+sumary(lm_sat)
+plot(lm_sat)
+```
+
+<b>(a)</b> <br>
+
+To check the variance assumptions of the errors, we consider the residuals versus fitted plot and the standardized versus fitted plots above.  Particularly, in the residuals versus fitted plot, we see that there is a potential issue of non-constant variance, particularly due to non-linear structure, and/ or a potential separation of the poplution into two distinct groups: (i) states with high average scores; and (ii) states with low average scores.
+
+However, the plot of standardized residuals versus fitted values doesn't seem to suggest a great difference of the scale of variance of the error for either group.  We can test this formally with the F-test for variance:
+
+```{r}
+var.test(residuals(lm_sat)[fitted.values(lm_sat) > 950], residuals(lm_sat)[fitted.values(lm_sat)<950])
+```
+
+in which we find that we cannot reject the null that the two populations, (i) high scores and (ii) low scores, have the same variance.
+
+<b> (b)</b><br>
+
+With the Q-Q plot, we can make a quick inspection to see that there doesn't appear to be strong non-Gaussianity in the residuals.  This can be verified with the Shapiro-Wilk test as:
+```{r}
+shapiro.test(residuals(lm_sat))
+```
+where we fail to reject the null (of Gaussianity).
+
+<b>(c)</b> <br>
+
+As a rough diagnostic, we can consider the "rule" that any point with more leverage than twice the "naive-average", $\frac{2p}{n}$, should be flagged:
+
+```{r}
+hatv <- hatvalues(lm_sat)
+hatv[hatv > (2 * sum(hatv) / length(lm_sat$fitted.values))]
+```
+
+we likewise see this graphically where California and Utah are the states with the most extreme leverage, while New Jersey and Connecticut are less suspicous, though still flagged by our rough measure.
+
+```{r}
+states <- row.names(sat)
+halfnorm(hatv,labs=states,ylab="Leverages")
+abline(h = (2 * sum(hatv) / length(lm_sat$fitted.values)))
+```
+
+<b>(d)</b><br>
+
+The most effective way to check for multiple outliers simultaneously is to use the Bonferroni corrected measure of the studentized residuals.
+
+To begin with, we copmute the studentized residuals (which are distributed according to a t-distribution in the parameter $n-p-1$)
+
+```{r}
+stud <- rstudent(lm_sat)
+```
+
+and subsequently, we will evaluate the critical value for the t-distribution according to a two-sided t-test with a Bonferroni corrected $\alpha$ significance level.
+
+
+Note that from the model summary, the degrees of freedom $(n-p)$ is equal to 45, so that the t-distribution has the paramter of $44$ degrees of freedom.  There are $50$ observations, so that we normalize $\alpha=5\%$ by $\frac{\alpha}{2*50}$ for the Bonferroni corrected 2 sided t-test,
+```{r}
+alpha_crit <- qt(0.05/100, 44)
+abs(stud) > abs(alpha_crit)
+```
+
+Here, none of the states appear to be outliers.
+
+<b>(e)</b><br>
+
+We recall that influential observations are those that have (usually) both a large residual and large leverage.  This can be seen in the plot of the leverage versus standardized residuals, where we single out Utah as being a state close to a contour line for Cook's distance (indicating significantly larger influence than the other points).  Likewise, this is seen for the plot of Cook's distance versus the half-normal quantiles below:
+
+```{r}
+cook <- cooks.distance(lm_sat)
+halfnorm(cook,3,labs=states,ylab="Cook’s distances")
+```
+
+<b>(f)</b>
+
+To formally check the structure of the model between each of our explanatory variables and the response, we should consider partial residual plots for each of the predictors:
+
+```{r}
+termplot(lm_sat, partial.resid=TRUE, terms=1)
+termplot(lm_sat, partial.resid=TRUE, terms=2)
+termplot(lm_sat, partial.resid=TRUE, terms=3)
+termplot(lm_sat, partial.resid=TRUE, terms=4)
+```
+
+Though nothing is out of the ordinary in these plots, we note that from the residual versus fitted plot in the beginning there may be slight nonlinear structure, and possibly two distinct groups, though not with significantly different variance.
+
+
+
+<b> Problem 1.2 </b>
+
+
+We load the "teengamb" dataset and fit a regression for the total gambling in terms of sex, status, income and verbal, and plot the model for a quick general diagnostic:
+
+```{r}
+lm_tg <- lm(gamble ~ sex + status + income + verbal, data=teengamb)
+sumary(lm_tg)
+plot(lm_tg)
+```
+
+<b>(a)</b> <br>
+
+We notice immediately from the plot of the residuals versus the fitted values that there is an increasing variance of the error with larger values for the response -- this is also demonstrated in the standardized residuals versus fitted values where the scale changes over the size of the response.  Likewise, there appears to be nonlinear structure in the residuals.
+
+
+<b>(b)</b>
+
+From a glance at the Q-Q plot, there appears to be issues with heavy tails in this data, and we confirm this with the Shapiro-Wilks test:
+
+```{r}
+shapiro.test(residuals(lm_tg))
+```
+
+where we reject the null (Gaussianity) at $5\%$ significance.
+
+
+
+<b>(c)</b> <br>
+
+As a rough diagnostic, we can consider the "rule" that any point with more leverage than twice the "naive-average", $\frac{2p}{n}$, should be flagged:
+
+```{r}
+hatv <- hatvalues(lm_tg)
+hatv[hatv > (2 * sum(hatv) / length(lm_tg$fitted.values))]
+```
+
+we likewise see this graphically where cases 42 and 35 are the most most extreme in leverage, while 31 and 33 are both worth mentioning.  Specifically, these are rather high relative to the other non-flagged observations.
+
+```{r}
+indi <- row.names(teengamb)
+halfnorm(hatv,labs=indi,ylab="Leverages")
+abline(h = (2 * sum(hatv) / length(lm_tg$fitted.values)))
+```
+
+<b>(d)</b><br>
+
+The most effective way to check for multiple outliers simultaneously is to use the Bonferroni corrected measure of the studentized residuals.
+
+To begin with, we copmute the studentized residuals (which are distributed according to a t-distribution in the parameter $n-p-1$)
+
+```{r}
+stud <- rstudent(lm_tg)
+```
+
+and subsequently, we will evaluate the critical value for the t-distribution according to a two-sided t-test with a Bonferroni corrected $\alpha$ significance level.
+
+
+Note that from the model summary, the degrees of freedom $(n-p)$ is equal to 42, so that the t-distribution has the paramter of $41$ degrees of freedom.  There are $47$ observations, so that we normalize $\alpha=5\%$ by $\frac{\alpha}{2*47}$ for the Bonferroni corrected 2 sided t-test,
+```{r}
+alpha_crit <- qt(0.05/94, 41)
+stud[abs(stud) > abs(alpha_crit)]
+```
+
+Here, case 24 is denoted an outlier with Bonferroni corrected $5\%$ significance.
+
+<b>(e)</b><br>
+
+We recall that influential observations are those that have (usually) both a large residual and large leverage.  This can be seen in the plot of the leverage versus standardized residuals, where we single out individual 24 as being an observation above a contour line for Cook's distance (indicating significantly larger influence than the other points).  Likewise, this is seen for the plot of Cook's distance versus the half-normal quantiles below:
+
+```{r}
+cook <- cooks.distance(lm_tg)
+halfnorm(cook,3,labs=indi,ylab="Cook’s distances")
+```
+
+<b>(f)</b>
+
+To formally check the structure of the model between each of our explanatory variables and the response, we should consider partial residual plots for each of the predictors:
+
+```{r}
+termplot(lm_tg, partial.resid=TRUE, terms=2)
+termplot(lm_tg, partial.resid=TRUE, terms=3)
+termplot(lm_tg, partial.resid=TRUE, terms=4)
+```
+
+It is worth noticing that in the above, the relationship between income and the partial residual is basically linear but the variance of the error increases with income.
+
+On the other hand, the realtionship between verbal and the partial for residual is somewhat nonlinear.

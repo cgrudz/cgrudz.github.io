@@ -1,0 +1,306 @@
+========================================================
+author: 
+date: 
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+  
+========================================================
+
+
+<h2> Heirarchical models</h2>
+
+* Models such as polynomial models have a natural heirarchy in the terms used for the explanatory variables.
+
+* We have considered increasing the flexibility of a model by including quadratic terms, e.g.,
+
+  $$\begin{align}
+  y = \beta_0 + \beta_1 x + \beta_2 x^2 + \epsilon
+  \end{align}$$
+  
+* We should be careful when interpreting this kind of model to remove higher order terms first, or introduce them last, if we are selecting a polynomial model.
+
+* If we find in a model summary that the linear term is not statistically significant compared to the $x^2$ term, and we decide to remove it, the underlying type of the model will not be invariant under changes of scale.
+
+* Particularly, if we consider the quadratic model,
+
+  $$\begin{align}
+  y = \beta_0 + \beta_2 z^2 + \epsilon,
+  \end{align}$$
+
+  where $z = x + a$,
+  
+* then under the shift of the variable by $a$, the linear terms will re-appear:
+
+  $$\begin{align}
+  y = \beta_0 + \beta_2 a^2 + 2 \beta_2 a x + \beta_2 x^2 + \epsilon
+  \end{align}$$
+  
+* The dependence of the form of the model on a linear change of scale weakens the interpretability of the model overall -- generally for this type of fitting, forward or backward selection would be superior.
+
+========================================================
+
+<h1>A review of model selection</h1>
+
+* One systematic way of approaching model selection is to set a variable for the response and many possible variables for the predictors.
+
+* With some pre-defined $\alpha_\mathrm{crit}$ critical value in mind for a level of signficance, we will make a model summary and use the t-test for the exclude one out hypothesis test.
+
+* In particular, we will choose the variable for which the p-value is the largest (and larger than $\alpha_\mathrm{crit}$), and remove this variable <em>alone</em>.
+
+* The removal of this variable will then necessarily change the significance of the other variables, so we must re-fit the model with the one variable removed and re-compute the p-values.
+
+* Subsequently, we will iterate on the above, removing the next variable that has a p-value greater than $\alpha_\mathrm{crit}$.
+
+* Typically in this case $\alpha_\mathrm{crit}$ might be set higher than $5\%$ in practice, to acheive some balance between the complexity reduction and the model fit.
+
+  * We may indeed even consider setting this as high as $\alpha_\mathrm{crit} =10\%$ for creating a predictive model.
+
+* Here, the p-value $\alpha_\mathrm{crit}$ is commonly called the p-to-remove value.
+
+========================================================
+
+<h2> Forward selection/ step-wise selection</h2>
+
+* Forward selection simply reverses the last process of variable selection, where we will start with no variables in the model whatsoever.
+
+* We will add a variable one at a time, testing the significance of this variable in a single predictor model.
+
+  * after evaluating the p-value of each of the proposed variables, we choose the variable with the smallest p-value below $\alpha_\mathrm{crit}$ to include in the model, and <em>only this variable</em>
+  
+* Subsequently, we iterate on this process, including another variable to the model until there are no more that, when added, fall below the value of $\alpha_\mathrm{crit}$.
+
+* If we decide to change our mind on a variable somewhere through either forward or backward regression, this is referred to as step-wise regression, and there are several ways to go through a forward/ backward process.
+
+========================================================
+
+* Selecting models one at a time through a step-wise reduction or increase in complexity formalizes what we often do in practice.
+
+* However, this is extremely "hacky" and has fundamental issues in its approach:
+
+  <ol>
+    <li> Doing this totally "by hand", we will typically miss an "optimum" that we might find by a more rigorous method.</li>
+    <li> The final p-values can't be treated very literally, due to so much multiple testing.  Particularly, we will inflate the significance as we move along through selection</li>
+    <li> Variables that are dropped by this selection process can't be said not to have an important effect, and we need to be careful to specify what was actually excluded in the end.</li>
+    <li> Step-wise approaches may be over-agressive in the removal of variables for prediction purposes -- even if a parameter isn't strictly significant, there is a balance to be held with predictions and our ability to make some kind of useful prediction</li>
+  </ol>
+  
+* Genearlly, (as in the final) we should try to make a more systematic selection based upon a criterion based on the purpose of the model.
+
+========================================================
+
+<h2> Criterion methods</h2>
+
+<h3> Kullback-Leibler Divergence</h3>
+
+*  Suppose we had some idea of what the correct form of the model for the relationship should be in terms of some function $f$.
+
+* Let us have a family of possible models that would look like $f$ up to some choice of parameter $\theta$.
+
+* We will measure the Kullback-Leibler divergence of $f$ and $g_\theta$ as,
+
+  $$\begin{align}
+  I(f,g) \triangleq \int f(x) \log\left(\frac{f(x)}{g(x\vert \theta)}\right) \mathrm{d}x
+  \end{align}$$
+  
+* This measures a kind of relative entropy of $f$ with respect to $g_\theta$, and in particular, the ammount of information lost between using the "true" form of the model $f$ and our choice of model $g_\theta$ (for some choice of $\theta$).
+
+* We are thus interested in as a general criterion of minimizing the information lost from the true model with respect to our choice of a particular approximate form.
+
+  * The quantitity itself is positive for all choices of $g_\theta \neq f$ and zero when $g_\theta = f$.
+
+* The main issue about the above is that we don't actually know $f$, and that this cannot be computed as it is written...
+
+========================================================
+
+* On the other hand, we can use a typical trick and use a maximum-likelihood estimate for $\theta$, denoted $\hat{\theta}$, to obtain a form for the equation as, 
+
+  $$\begin{align}
+  \hat{I}(f,g) = \int f(x) \log\left(f(x)\right)\mathrm{d}x - \int f(x) \log \left(g\left(x\vert \hat{\theta}\right) \right)\mathrm{d}x
+  \end{align}$$
+  
+  with respect to the "somewhat-optimal" choice of $\hat{\theta}$.
+
+
+  * Notice, while $f$ is an unkown model, we integrate out the values of $f$ over all possible values it attains, so the left term becomes a constant that we don't have to worry about in the selection of a model.
+  
+* Through long derivations we can show, moreover, that
+
+  $$\begin{align}
+  \mathbb{E}\left[\hat{I}\left(f,g\right)\right] \approx \log\left(L\left(\hat{\theta}\right)\right) + p + \text{ "some constant"},
+  \end{align}$$
+  
+  where: 
+  <ol>
+    <li> the expectation can be understood as taking place over all possible random outcomes of the observations, etc;</li>
+    <li> $p$ is the number of parameters in the model;</li>
+    <li> $\log\left(L\left(\hat{\theta}\right)\right)$ is the log-likelihood of the best-choice of parameters for this model;
+    <li> the constant is dependent on the unkown, true model, but doesn't affect our optimization procedure.</li>
+  </ol>
+  
+========================================================
+
+* Due to historical conventions, we define an AIC (Akaike Information Criterion) multiplying by 2 to get
+
+  $$\begin{align}
+  AIC =  -2\log\left(L\left(\hat{\theta}\right) \right)+ 2p
+  \end{align}$$
+  
+* For linear regression models, the computation of $-2\log\left(L\left(\hat{\theta}\right)\right)$ boils down to a computational form of the maximium log-likelihood,
+
+  $$\begin{align}
+  -2L\left(\hat{\theta}\right) = n \log\left(\frac{RSS}{n}\right) + \text{ "some other constant"},
+  \end{align}$$
+  
+  where:
+  
+  <ol>
+    <li> the constants are the same for the same dataset; and</li>
+    <li> the constants are the same for the same unkown, true model.</li>
+  </ol>
+
+* Therefore, when comparing models over the same dataset, we are safe to use this as a criterion for a "best" model.
+
+  * For other types of comparision, we need to be more careful, see the book for references.
+
+* The goal then, with this criterion, is to minimize the AIC with respect to two competing factors:
+  <ol>
+   <li> Improve the fit, reducing the RSS, possibly by including more explanatory variables that add new information (not heavily correlated or collinear);</li>
+   <li> but not overfit, being penalized in terms of the number of parameters $p$.</li>
+  </ol>
+
+========================================================
+
+<h3> Bayes Information Criterion</h3>
+
+* There are many possible criterion we can consider, of similar flavor to the above, for the model selection.
+
+* The most well-known competitor is the Bayes Information Criterion (BIC) given of the form,
+
+  $$\begin{align}
+  \mathrm{BIC} \triangleq 2n \log\left(\frac{RSS}{n}\right) + p \log(n),
+  \end{align}$$
+  
+  where again:
+  
+  <ol>
+    <li>we try to minimize the RSS; and</li>
+    <li>try not to overparameterize with the penalty for too many parameters $p$.</li>
+  </ol>
+  
+* The BIC is extremely similar, but it has a stronger penalty term and favors simpler models overall.
+
+* Very loosely speaking, we might favor the AIC for predictive models (to get more accurate predictions at the cost of complexity) or the BIC for explanatory models (to get simplicity for explanation purposes at the cost of accuracy).
+
+  * However, either can be used for either purpose.
+  
+========================================================
+
+<h3> Adjusted $R^2_a$</h3>
+
+* We remember that the definition for $R^2$ with intercept is given as,
+
+  $$\begin{align}
+  1 - \frac{RSS}{TSS}
+  \end{align}$$
+
+  where the $TSS$ is the residual sum of squares for the null model, using only the mean of the data for prediction.
+  
+* If we try to optimize $R^2$ alone, this can lead to overparameterization -- specifically, $R^2$ will only increase with additional parameters.
+
+* However, we can include a penalty like before for the number of parameters in the model:
+
+  $$\begin{align}
+  R^2_a &\triangleq \frac{RSS/ \left(n-p\right))}{TSS/\left(n-1\right)} \\
+  &  = 1 - \frac{\hat{\sigma}^2_\text{model}}{\hat{\sigma}^2_\text{null model}}
+  \end{align}$$
+  
+* Thus, this accounts for the the fit of the model, but penalized for overfiting and compensating only when the new parameter adds meaningful information.
+
+========================================================
+
+<h3> Mallows $C_p$</h3>
+
+* As an alternative criterion, we can consider "how well does the model predict?" in the mean square sense.
+
+* Specifically, suppose we compare the predicted value from our model $\hat{\mathbf{Y}}_i$ with the expected value of the response given the explanatory variables $\mathbb{E}\left[\mathbf{Y}_i \vert \mathbf{X}_i\right]$;
+
+* then, we can theoreticaly compute the mean square difference of these quantities over all possible random outcomes (normalized by the variance) as,
+
+  $$\begin{align}
+  \frac{1}{\sigma^2}\sum_{i}^n \mathbb{E}\left[\hat{\mathbf{Y}} - \mathbb{E}\left[\mathbf{Y}_i \vert \mathbf{X}_i\right]\right]^2
+  \end{align}$$
+
+* While we cannot compute this in reality, this can be estimated with a sample-based statistic,
+
+  $$\begin{align}
+  C_p = \frac{RSS_p}{\hat{\sigma}^2} + 2p - n
+  \end{align}$$
+  
+* Again, we see the competing terms between the $RSS$ and the number of parameters, favoring a compromise between the two.
+
+========================================================
+
+<h3> Practical computation for large models</h3>
+
+* We note that combinatorially, if we have $q$ potential explanatory variables that we might try to choose whether or not to put into a model, there will be to choices per variable:
+  <ol>
+  <li>yes we include this;</li>
+  <li>no we don't include this.</li>
+  </ol>
+* Each choice is independent from each other choice, so that the total number of combinations we can consider is $2^q$.
+
+* Suppose there are 20 possible variables we might consider -- this corresponds to:
+
+```{r}
+as.integer(2)^20
+```
+ 
+ * That is, we will have over one million  models to compare... 
+ 
+* Exhaustive search is strictly infeasible even for a (relatively) small number of possible explanatory variables.
+
+  * In practice, this will depend on computational power limitations, but typically we must compromise.  
+  
+  * Try using exhaustive search based on your hardware, and if there is no reasonable time to convergence, quit it.
+
+========================================================
+
+* An alternative is to use an incremental approach, mixing the ad-hoc method we considered at the beginning, with a specific criterion for the best choice of model.
+
+* Particularly we can compute, e.g., the AIC for all one parameter models;
+
+* then we can compute the AIC for all two parameter models with the first chosen variable imposed on the model with two parameters.
+
+* This may not produce an optimal model in the same sense as exhaustive search, but is a cheaper alternative that neglects the problems with many multiple hypothesis tests.
+
+* This is done explicitly in R with the "step" function.
+
+* Likewise, this can be done by a method of reduction starting with a large model.
+  
+  * by default, the step function will use this method, though by choosing parameters, it can be performed by forward, backward or both-ways selection.
+  
+========================================================
+
+<h2> A summary of model selection</h2>
+
+* Some general (and non-exhaustive) considerations for model selection are the following:
+
+  <ol>
+    <li> All of these techniques are sensitive to outliers, and we should look for potential problems with highly influential observations.</li>
+    <li> All these techniques are alos sensitive to changes of scale, and the models may need to be re-evaluated after changes of scale and/or removal of outliers of high leverage (which are themselves sensitive to changes of scale).</li>
+    <li> Hypothesis testing methods, while simple to implement, greatly suffer when we perform many hypothesis tests.</li>  
+    <li>It is generally preferrable to use a criterion approach (or multiple criterion approaches) as a first look and use hypothesis testing to distinguish between nested models of similar performance with ANOVA (when appropriate).</li>
+    <li> Approaching the selection problem as above makes the p-values of parameters more useful for interpretation and explanation of the response with the parameters.</li>
+    <li>If multiple models are being evaluated, with very similar AIC, $R^2_a$ and $C_p$, consider:
+    <ol>
+    <li> Do the models have similar qualitative implications for explanation and prediction?</li>
+    <li> What are the relative costs and difficulty of measuring the explanatory variables?</li>
+    <li> Which model has better performing diagnostic analysis?</li>
+    </ol>
+    </li>
+    <li> If two models have very similar performance by the above, but very different qualitative implications, then it indicates that the data can't well (or definitively) explain the response.</li>
+  </ol>
+
+* Next time: shrinkage methods and PCA

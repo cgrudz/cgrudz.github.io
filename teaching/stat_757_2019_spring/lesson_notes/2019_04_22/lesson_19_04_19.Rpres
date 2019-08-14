@@ -1,0 +1,523 @@
+========================================================
+author: 
+date: 
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+  
+========================================================
+
+<h1> Shrinkage methods</h1>
+
+<h2> Visualizing the SVD </h2>
+
+<div style="float:left; width:40%">
+<img src="svd.png" style="width:100%">
+Courtesy of Georg-Johann <a href="https://creativecommons.org/licenses/by-sa/3.0" target="blank">CC BY-SA 3.0</a>
+</div>
+
+<div style="float:left ; width:60%">
+<ul>
+  <li> Qualitatively, we can always view an orthogonal matrix as a rotation of the standard Euclidean frame;</li>
+  <li> likewise, we can always view a diagonal matrix as a dilation of the points along the specified frame, stretching the unit circle into an ellipsoid.</li>
+  <li> Therefore, for a matrix transformation $\mathbf{M}$, we can view its SVD 
+  $$\begin{align}
+  \mathbf{M} = \mathbf{U}\boldsymbol{\Sigma}\mathbf{V}^\mathrm{T}
+  \end{align}$$ 
+  as a composition of:
+  <ol>
+    <li> a rotation into a new frame; </li>
+    <li> a stretch or contraction of all points along the directions in this frame;</li>
+    <li> a final rotation back into the Euclidean coordinates, but where the shape may no longer align with this frame.</li>
+  </ol>
+<li> What does this have to do with our data? 
+</ul>
+</div>
+
+========================================================
+<h2> Principal components of data</h2>
+
+* We recall our data matrix $\mathbf{X}$ and suppose we want to standardize the data into a matrix of variance normalized anomalies $\mathbf{A}$.
+
+* Note that $\mathbf{A}^\mathrm{T} \mathbf{A} = \mathbf{C}$ is the correlation matrix of the samples in $\mathbf{X}$.
+
+* We might suppose then we would want to find the principal axes of the correlation matrix to extract the frame in which we see it as an ellipsoid with major and minor directions.
+
+* Suppose we compute the SVD of $\mathbf{A}$ for this purpose, i.e.,
+
+  $$\begin{align}
+  \mathbf{A} = \mathbf{U} \boldsymbol{\Sigma} \mathbf{V}^\mathrm{T}
+  \end{align}$$
+
+* Whereby, 
+
+  $$\begin{align}
+  \mathbf{C} = \mathbf{V} \boldsymbol{\Sigma}\boldsymbol{\Sigma}^\mathrm{T} \mathbf{V}^\mathrm{T}
+  \end{align}$$
+
+* If we assume that the singular values are ordered (as usual) descendingly in size, the first vector $\mathbf{V}_1$ is the direction in which there is <b>the most variance in the data</b>.
+
+* The next vector $\mathbf{V}_2$ is the direction that is orthogonal (perpendicular) to the first, and has the next most variance.
+
+* The third and thereafter follow these properties such that all vectors are orthogonal and contain (descendingly) the most variance of the data.
+
+========================================================
+
+<h2> Principal components of data continued...</h2>
+  
+* Specifically, we can consider right multiplying the anomalies $\mathbf{A}$ by $\mathbf{V}$ to change the frame of reference before examining $\mathbf{A}$.
+  
+  $$\begin{align}
+   \mathbf{A}\mathbf{V} = \mathbf{U} \boldsymbol{\Sigma}
+  \end{align}$$
+
+
+* Performing the above, it is easy to see
+
+  $$\begin{align}
+   \mathbf{A}\mathbf{v}_i = \eta_i\mathbf{u}_i
+  \end{align}$$
+  
+  where we will denote (atypically) the $i$-th singular value as $\eta_i$ (so not to confuse with the standard deviations, also typically denoted with the $\sigma_i$).
+  
+  * The vector $\mathbf{z}_i \triangleq \eta_i \mathbf{u}_i$ is defined as the <b>$i$-th principal component</b>.
+
+* Whereas the correlation matrix can be large and difficult to compute, the singular value decomposition can be computed in relatively simple numerical procedures and stopped at a threshold for "how-much-variation" do we need to capture.
+
+* This makes a dramatic "compression" of large data sets, in which the vast majority of the variance may be captured in a single or a few principal components.
+
+* The cost, however, is that these will be linear combinations of the other variables -- we can't generally preserve the units of measurments when making this transformation.
+
+========================================================
+
+<h2> Principal component regression</h2>
+
+* We haven't yet linked the principal components of the explanatory variables to the response in any way;
+
+  * this is, in part, because SVD/PCA are widely used techniques that aren't just for regression, but also happen to be useful for this too.
+  
+* We might consider using, rather than the usual explanatory variables, some number of the principal components $\mathbf{z}_i$, i.e., with the variables transformed by the rotation.
+
+* This is known as principal component regression (PCR) and has some advantages and disadvantages:
+
+  <ul>
+    <li> As an advantage, we can "compress" the important information into a much smaller set of variables as a combination of many different explanatory variables.  This often leads to better predictive performance, because some of the noise in the many correlated variables is filtered out.</li>
+    <li> As a disadvantage, we may not reduce the total number of measurements actually necessary to perform the regression -- depending on the situation, this may not really make a practical reduction.</li>
+    <li> As a neutral point, sometimes we can and sometimes we cannot interpret the physicallity of the combined variables... It really depends on the variables we combine.</li>
+  </ul>
+  
+* To get around some of the (potential) disadvantages, we can also use PCA as a kind of model selection in the original variables.
+
+* We will discuss both approaches.
+
+========================================================
+
+* We recall our standardized principal components of the fat data:
+
+```{r}
+library("faraway")
+cfat <- fat[,9:18]
+prfatc <- prcomp(cfat, scale=TRUE)
+summary(prfatc)
+```
+
+* In this case, almost $80\%$ of the variance is explained in the first two components.
+
+========================================================
+
+* Examining these components for their individual values, we can see that in this case there is some reasonable interpretation for the components:
+
+```{r}
+round(prfatc$rot[,1],2)
+round(prfatc$rot[,2],2)
+```
+
+* The first direction is somewhat representative of (most) individuals who vary approximately proportionately in their circumfrencial measurements.
+
+* The second (perpendicular) direction is somewhat representative of those individuals who vary oppositely in their core measurements versus extremal measurements.
+
+========================================================
+
+* If we regress with respect to these two components, we obtain a reasonable fit to the data and actually have (in this case) a reasonable interpretation of the effects of the parameters.
+
+```{r}
+lmodpcr <- lm(fat$brozek ~ prfatc$x[,1:2])
+sumary(lmodpcr)
+```
+
+* Body fat appears to increase proportionately when all circumfrential measurements go up, but seems to decline dramatically when an individual has larger circumfrential measurements in their extremeties relative to their core measurements;
+
+  * this potentially can correspond to individuals who carry more arm/ leg muscle mass in the standardized variables, relative to the circumfrence of the trunk.
+  
+  * However if the variables included, e.g., age, then we wouldn't necessarily have a good indication of the meaning of the variable, when e.g. arm circumfrence and age vary together as a variable simultaneously.
+
+* In this case, we don't have so much the interpretability issue, but we are still stuck measuring all the 10 variables from the PCA analysis.
+
+========================================================
+
+* One way around this is to use only a few variables that are highly representative of the leading principal components:
+
+```{r}
+round(prfatc$rot[,1],2)
+round(prfatc$rot[,2],2)
+```
+
+* In this case, we might instead take a core measurement representing the first component, while taking the difference of the core and extremal measurments as the second.
+
+========================================================
+
+* Formally doing this in R, we use the scale function and the "I" function to set the two variables in a specific, funcitonal form for the model:
+
+```{r}
+lmodr <- lm(fat$brozek ~ scale(abdom) + I(scale(ankle)-scale(abdom)), data=cfat)
+sumary(lmodr)
+```
+
+========================================================
+
+* comparing with the model using all variables, this performs extremely well in fitting the data:
+
+```{r}
+lmoda <- lm(fat$brozek ~ ., data=cfat)
+sumary(lmoda)
+```
+
+* But using the two principal components didn't fit the data nearly as well...
+
+* One issue overall is in deciding how many prinicpal components are needed 
+
+  * deciding on the percent of variance in the components alone isn't necessarily the best criterion for building a predictive model.
+
+* Particularl for predictive models, we must also distinguish "fitting the data well" and the "predictive power".
+
+* If we fit the data well, does it mean that we can produce viable predictions?
+
+========================================================
+
+<h2>Validation</h2>
+
+* Suppose we are in a scenario in which we have fit a model, and we recieve new observations of the same response and explanatory variable.
+
+* It is reasonable to ask, "if the new observations are statistically indistinguishable from the training data, how well does our model perform in predicting the new observations (on average)?"
+
+* Particularly, this is commonly measured in terms of the root mean square error (RMSE).
+
+* Lets suppose that we have a model already fit that will take a new vector of explanatory variables $\mathbf{x}_i$, and produce a predicted value $\hat{\mathbf{y}}_i$.
+
+* Suppose, there are $n$ <b>new observations</b> that we wish to benchmark the model against, then the RMSE is computed as,
+
+  $$\begin{align}
+  RMSE\left(\{\mathbf{y}_i\}_{i=1}^n \right) = \sqrt{ \frac{\sum_{i=1}^n \left(\hat{\mathbf{y}}_i - \mathbf{y}_i\right)^2}{n}}
+  \end{align}$$
+
+  * this measures how much error there is in our predictions on average over the new samples.
+  
+* Typically, $R^2$ and the standard error (and other measures like $R^2_a$) are overly optimistic in how well we will produce future observations.
+
+* The RMSE of the model, when measured over independent samples drawn from the same population, will give a better sense of the "true" predictive power of the model.
+
+========================================================
+
+<h2>Validation continued...</h2>
+
+* We often don't have the option of reproducing a statistically indistinguishable sample from the same population to test the model after the fact. 
+
+* Therefore, the simplest option is to randomly split the data into two equal parts for: (i) model fitting and (ii) model validation.
+
+  *  In this case, we can get a more sensible measure of the predictive power of the model, by computing the RMSE on new observations.
+  
+* The main issue of the above is that we often don't have enough data for both training and validation.
+
+  * Strictly speaking, the validation dataset should remain independent of the model fitting so that we don't try to optimize (over-fit) our model on this data set.
+  
+  * Likewise, the validation data set would have to be large enough such that it is representative of the entire population to make the benchmark accurate.
+
+* Typically, this ideal validation as above isn't possible due to limits on our data, and we instead use "cross-validation" to benchmark the predictive performance.
+
+* We will return to this issue later...
+
+========================================================
+
+<h2> A complete example of PCR</h2>
+
+
+* A near-infrared spectrometer working in the wavelength range of 850 to 1050 nm was used to collect data on samples of finely chopped meat. 
+
+* 215 samples were measured, where for each sample, the fat content was measured along with a 100-channel spectrum of absorbances. 
+
+* Determining the fat content via analytical chemistry is time consuming, and we would like to build a model to predict the fat content of new samples using the 100 absorbances which can
+be measured more easily. 
+
+* We load this from the "meatspec" dataset of Faraway:
+
+```{r}
+trainmeat <- meatspec[1:172,]
+testmeat <- meatspec[173:215,]
+modlm <- lm(fat ~ ., trainmeat)
+```
+
+* Here, we fit the model over a pre-specified set of training data, and separate out a set of validation data.
+
+========================================================
+
+* In the model summary, we can see that the $R^2$ and adjusted $R^2_a$ are extremely good:
+
+```{r}
+summary(modlm)$r.squared
+summary(modlm)$adj.r.squared
+```
+
+* The question then is if this measure of fit to the data will actually translate into a good predictive model.
+
+```{r}
+rmse <- function(x,y) sqrt(mean((x-y)^2))
+```
+
+* We define the RMSE function as above, and compute the difference of the fitted values for the training data
+
+```{r}
+rmse(fitted(modlm), trainmeat$fat)
+```
+
+* which is also extremely good, but compared to the training data...
+
+```{r}
+rmse(predict(modlm,testmeat), testmeat$fat)
+```
+
+========================================================
+
+* ... the average predictive error (RMSE) on the validation data is around five times greater...
+
+  * This is not an uncommon issue either, and is somewhat unavoidable -- at its heart, this has to do with the tradeoff of the bias versus varaince of the model.
+  
+* It is likely that the current model (with 100 explanatory variables) is over parameterized, and therefore tries to fit the known data too well.
+
+  * Therefore, we should reduce the number of parameters in a sensible way -- here we try the step-wise AIC.
+  
+* The output is too long to fit on the slide, but is shown here for reference:
+  
+```{r}
+modsteplm <- step(modlm)
+```
+
+========================================================
+
+* In this case, the step-wise AIC selected model removes 28 parameters from the model
+
+```{r}
+rmse(modsteplm$fit, trainmeat$fat)
+```
+
+* There is a slight increase (loss of fit) in the RMSE with respect to the training data.  
+
+* However, there is a significant improvement in the predictive RMSE:
+
+```{r}
+rmse(predict(modsteplm,testmeat), testmeat$fat)
+```
+
+* For comparison, based on the RMSE, we will look at how a PCR performs with respect to making new predictions...
+
+========================================================
+
+*  We take first the PCA and the summary and note that effectively $99.9\%$ of the variance lies in the first three principal components (out of 100):
+
+
+
+```{r}
+meatpca <- prcomp(trainmeat[,-101], scale=TRUE)
+summary(meatpca)
+```
+
+
+========================================================
+
+* We plot the PCA direction components to try to interpret how much of each explanatory variable (light frequency) contributes to each principal component direction:
+
+```{r fig.width=24, fig.height=6}
+par(mai=c(1.5,1.5,.5,.5), mgp=c(3,0,0))
+matplot(1:100, meatpca$rot[,1:3], type="l", xlab="Frequency", ylab="", col=1,  cex=3, cex.lab=3, cex.axis=1.5)
+```
+
+* This plot shows that:
+  
+  <ol>
+    <li> The first principal component is nearly constant in the contribution of each frequency to this direction.</li>
+    <li> The second principal component represents (orthogonally) the difference (oppositely signed) low and high frequencies.</li>
+    <li> The third component is harder to interpret and carries and, respectively, each subsequent term contains much more subtle information.</li>
+  </ol>
+  
+========================================================
+
+* We will try PCR based upon some number of principal components, for now, just as an example.
+
+  * Here, we will us the "pls" library which has the "pcr" function, automating the principal component regression.
+
+*  Here, the "ncomp" gives an upper limit to the number of principal components used in the model:
+
+```{r}
+library("pls")
+pcrmod <- pcr(fat ~ ., data=trainmeat, ncomp=50, scale=TRUE)
+```
+
+* In the predict function below, we set the number of principal components actually used in prediciton with the "ncomp" argument once again:
+
+```{r}
+rmse(predict(pcrmod, ncomp=3), trainmeat$fat)
+rmse(predict(pcrmod, testmeat, ncomp=3), testmeat$fat)
+```
+
+* Even though the first three principal components contained the vast majority of the variance, the performance isn't all that great (but good relative to a 3 predictor model).
+
+  * This illustrates exactly how the PCA doesn't know the response variable...
+
+========================================================
+
+* If we consider including a higher number of principal components:
+
+```{r}
+rmse(predict(pcrmod, ncomp=10), trainmeat$fat)
+rmse(predict(pcrmod, testmeat, ncomp=10), testmeat$fat)
+```
+  
+* we see a vast reduction of both the prediction error on the training and validation data.
+ 
+* However, if we include, e.g., 50 principal components we see once again the issue of over-fitting the data, and the predictive performance on new data degrading. 
+ 
+```{r}
+rmse(predict(pcrmod, ncomp=50), trainmeat$fat)
+rmse(predict(pcrmod, testmeat, ncomp=50), testmeat$fat)
+```
+
+* This shows that generally when using PCR, we must make a systematic selection of the number of components in the model (not purely based on the amount of variance in each component).
+
+========================================================
+
+* Particulalry, if we plot the predictive RMSE on the validation data versus the number of principal components used in the regression, we find a slighly convex shape with a global minimum.
+  
+  * Here, the "RMSEP" function takes the model as an argument and computes the RMSE versus the increasing number of components: 
+
+```{r fig.width=24, fig.height=4}
+par(mai=c(1.5,1.5,.5,.5), mgp=c(3,0,0))
+pcrmse <- RMSEP(pcrmod, newdata=testmeat)
+plot(pcrmse,main="", col=1,  cex=3, cex.lab=3, cex.axis=1.5)
+which.min(pcrmse$val)
+pcrmse$val[32]
+```
+
+========================================================
+
+<h2> Cross validation</h2>
+
+* Using the PCR as before showed a dramatic improvement in the predictive power with the validation data versus the fit to the training data. 
+  
+* However, if we optimize the model based on the prediction power for the validation set, we will over-fit our model to this particular validation set.
+
+* We want to find an independent validation that accounts for the variation over the full population, and that keeps our model selection independent of a particular sampling.
+
+* The compromise is to perform an estimate of performance and optimize the model based on averages over multiple "cuts" or "folds" of the data.
+
+========================================================
+
+<h2> Cross validation continued...</h2>
+
+<div style="float:left; width:50%">
+<img src="cross-validation.png" style="width:100%">
+Courtesy of <a href="https://tomaszkacmajor.pl/index.php/2016/05/01/svm-model-selection2" target="blank">Tomasz Kacmajor</a>
+</div>
+<div style="float:left; width:50%">
+<ul>
+  <li> Suppose we split the data into $k$ different groups -- in the picture to the left, the $k=5$ corresponds to the blue blocks.</li>
+  <li> Suppose for each $i=1,\cdots,k$, we train the model on the white data in "fold" $i$, that is, we exclude the blue block.</li>
+  <li> Then, for each $i=1,\cdots, k$ we validate the $i$-th fold on the $i$-th blue block.</li>
+  <li> Averaging the RMSE over all the $k$ folds, we get an estimate for the overall performance of the predictive power of the model on new data.</li> 
+  <li>Using this criterion, we can thus select a "optimal" number of principal components, such that 
+  <ol>
+    <li> takes into account the variance of the entire population; and </li>
+    <li> doesn't sacrifice a large portion of the data that we would like to train on.</li>
+  </ol>
+</ul>
+</div>
+
+<div style="float:left; width:100%">
+<ul><br>
+  <li> The benefit is that we obtain an estimate of "best performance" that is based upon training and testing on all parts of the data.</li>
+  <li> The issue is mostly in terms of choosing the "right" size of $k$ for a good estimate.</li>
+</ul>
+</div>
+
+
+========================================================
+
+* Here we set the method at cross validation in the pcr function, but only use the training data.
+
+  * This is to compare how well the estimated prediction RMSE is versus the true value on the validation set earlier used.
+  
+* The folds of the data are selected randomly, so we first seed the random number generator:
+
+```{r}
+set.seed(123)
+pcrmod <- pcr(fat ~ ., data=trainmeat, validation="CV", ncomp=50, scale=TRUE)
+pcrCV <- RMSEP(pcrmod, estimate="CV")
+```
+
+* Then, we plot the cross-validated RMSE versus the number of principal components:
+
+```{r fig.width=24, fig.height=4}
+par(mai=c(1.5,1.5,.5,.5), mgp=c(3,0,0))
+plot(pcrCV,main="", col=1,  cex=3, cex.lab=3, cex.axis=1.5)
+```
+
+
+========================================================
+
+* Checking the lowest cross-validated RMSE, we find that it is with 18 components:
+
+```{r}
+which.min(pcrCV$val)
+min(pcrCV$val)
+```
+
+* The above is the estimated predictive power on a new data set.  We compare this with the actual one on the separate data (not used in cross validation):
+
+```{r}
+ypred <- predict(pcrmod, testmeat, ncomp=18)
+rmse(ypred, testmeat$fat)
+```
+
+* The estimate is good, and the model's performance is actually close to the level of prediction performance that we acheived when we optimized the number of components over the validation data set.
+
+* By optimizing the number of principal components independently of an particular sample of the population, we have done better to prepare the model for the variation in the total population.
+
+* Over different samples, we would expect that <b>on average</b> the prediction RMSE would be like our estimated cross validation RMSE.
+
+========================================================
+
+<h2> Summary of main ideas</h2>
+
+* Principal components give a change of variables for the data that "compresses" the data into directions of maximal variance (in an orthogonal frame).
+
+* This can represent most of the information of explanatory variables in a much smaller package --- this is especially when the explanatory variables are highly correlated.
+
+* However, PCA knows nothing about the response variable itself.
+
+* We decided to optimize the number of principal components based on the task of prediction.
+
+* In order to do so, we also needed to define "what makes a good prediction?"
+
+========================================================
+
+
+* Most of our measures of fit to the response data don't actually accurately measure the prediction performance.
+
+* We demonstrated the issues of over-fitting the training data, and failing to generalize to the entire population.
+
+* To avoid this, we used cross validation to optimize the model selection over a measure that takes into account the variability of the entire population.
+
+* We (as a proof of concept) showed how our estimate compared with the actual RMSE over a separate data set, independent and statistically indistinguishable from our training data.
+
+* In this case, we made large improvements in predictive power versuse the information criterion approach and other methods.
+    
+* This still has disavantages in terms of the possible un-interpretability of the model, and it still used all measurements.
