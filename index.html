@@ -3,29 +3,21 @@ layout: default
 title: Welcome 
 ---
 <div style="float:left; margin-right:20px;">
-	        <img style="max-height:450px" src="/assets/profile_small.jpg">
+	        <img style="max-height:450px; border:1px" src="/assets/profile_small.jpg" alt="Picture of Colin Grudzien">
 </div>
 
-<!--
-<div align='left'>
-	<img src="/assets/ESedit.jpg">
-</div>
--->
 <h1>
     Welcome
 </h1>
 <p>
-    This is the home for my professional and creative interests.  
-    Please see the links to the left for details about my research and other activities.  See news and announcements below.
-</p>
-<p>
-    I am now an Assistant Professor of Statistics at the <a href='https://www.unr.edu/math/' target='blank'>University of Nevada, Reno</a>.
+    I am Assistant Professor of Statistics at the <a href='https://www.unr.edu/math/' target='blank'>University of Nevada, Reno</a>.
     My research is focused on applications of Bayesian learning methodology in physical applications, including the geosciences and the electric grid.
-    I will be taking PhD and Masters students, so please contact me if you are interested in my past or current projects!
+    This is the home for my professional and creative interests.  
+    Please see the links in the menu details about my research and other activities.  See news and announcements below.
 </p>
-
-
 <br>
+<div style="float:left">
+<h2>News and announcements</h2>
 <div class="posts">
   {% for post in paginator.posts %}
   <div class="post">
@@ -45,19 +37,20 @@ title: Welcome
 {% if paginator.total_pages > 1 %}
 <div class="pagination">
   {% if paginator.previous_page %}
-    <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}"class="pagination-item newer">Newer</a>
+    <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}"class="pagination-item newer">Newer announcements</a>
   {% else %}
-    <span class="pagination-item newer">Newer</span>
+    <span class="pagination-item newer">Newer announcements</span>
   {% endif %}
 
   {% if paginator.next_page %}
-    <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}" class="pagination-item older">Older</a>
+    <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}" class="pagination-item older">Older announcements</a>
   {% else %}
-    <span class="pagination-item older">Older</span>
+    <span class="pagination-item older">Older announcements</span>
   {% endif %}
 </div>
 {% endif %}
 
+</div>
 <!--
 <div class="pagination">
   {% if paginator.next_page %}
