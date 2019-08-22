@@ -60,7 +60,7 @@ html {
 }
 
 body {
-  color: #586e75;
+  color: #4d6066;
   background-color: 	#fdf6e3;
   -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
@@ -373,7 +373,7 @@ tbody tr:nth-child(even) th {
   display: block;
   margin-top: -.5rem;
   margin-bottom: 1rem;
-  color: #9a9a9a;
+  color: #586e75;
 }
 
 /* Related posts */

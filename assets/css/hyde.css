@@ -89,7 +89,6 @@ html {
   font-size: 3.25rem;
   text-align:right;
 }
-
 /* Sidebar nav */
 .sidebar-nav {
   margin-bottom: 1rem;
@@ -245,7 +244,7 @@ a.sidebar-nav-item:focus {
 }
 .theme-base-0d .content a,
 .theme-base-0d .related-posts li a:hover {
-  color: #268bd2;
+  color: #2072ac;
 }
 
 /* Magenta */
