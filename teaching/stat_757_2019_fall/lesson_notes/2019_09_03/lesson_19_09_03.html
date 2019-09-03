@@ -778,7 +778,7 @@ hljs.initHighlightingOnLoad();
   });
 </script>
 
-<script type="text/javascript"  src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML'>
+<script type="text/javascript" src="../mathjax-26/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
   
@@ -1119,14 +1119,14 @@ Y_i = \beta_0 + \beta_1 X_i + \epsilon_i
 <p class="fragment">\[ 
   F_X(x) \triangleq P(X \leq x)
    \]</p></li>
-<li class="fragment"><p class="fragment">We suppose that \( F_X \) defines a probability distribution \( p(X) \).  We denote the <b>expectation of \( X \)</b> </p>
+<li class="fragment"><p class="fragment">We suppose that \( F_X \) defines a probability distribution \( p(x) \).  We denote the <b>expectation of \( X \)</b> </p>
 
 <p class="fragment">\[ \begin{align}
-  \mathbb{E}\left[ X\right] = \int_\mathbb{R} p(X) \mathrm{d}X
+  \mathbb{E}\left[ X\right] = \int_\mathbb{R} xp(x) \mathrm{d}x
   \end{align} \]</p>
 
 <ul>
-<li class="fragment">Note, \( \mathrm{d}X \) describes the &ldquo;size&rdquo; of a group of values that \( X \) might attain; </li>
+<li class="fragment">Note, \( \mathrm{d}x \) describes the &ldquo;size&rdquo; of a group of values that \( X \) might attain; </li>
 <li class="fragment">the density \( p(x) \) describes the probability of any particular group of events in the integral;</li>
 <li class="fragment">therefore, the expectation describes the &ldquo;center of mass&rdquo; for the probability of \( X \), i.e., the mean of \( X \),</li>
 </ul>
@@ -1294,7 +1294,7 @@ Y_i = \beta_0 + \beta_1 X_i + \epsilon_i
   <ol>
     <li class="fragment">\( Y_i = \beta_0 + \beta_1 X_i^2 + \epsilon_i \);</li>
     <li class="fragment">\( Y_i = \beta_0 + \beta_1 \sqrt{X_i} + \epsilon_i \);</li>
-    <li class="fragment">\( Y_i = \beta_0 X_i^{\beta_1} + \epsilon_i \);</li>
+    <li class="fragment">\( Y_i = \beta_0 X_i^{\beta_1} * \epsilon_i \);</li>
     <li class="fragment">\( Y_i = \beta_0 + \beta_1 X_i^{\beta_2} + \epsilon_i \).</li>
   </ol>
   <li class="fragment">Explain why or why not.</li>
@@ -1319,11 +1319,11 @@ Y_i = \beta_0 + \beta_1 X_i + \epsilon_i
     <ul>
       <li class="fragment"> This is a linear model in \( \sqrt{X} \) as the parameters have entered linearly &ndash; the square-root can be re-written just as a change of scale.</li>
     </ul>
-    <li class="fragment">\( Y_i = \beta_0 X_i^{\beta_1} + \epsilon_i \).</li>
+    <li class="fragment">\( Y_i = \beta_0 X_i^{\beta_1} * \epsilon_i \).</li>
     <ul>
       <li class="fragment"> This is not a linear model, but it can be transformed into a model linear in the parameters:
       \[ \log(Y_i) = \log(\beta_0) + \beta_1 \log(X_i) + \log(\epsilon_i). \]
-      We can thus regress on \( \log(Y) \) in terms of \( \log(X) \) to perform our usual analysis.
+      We can thus regress on \( \log(Y) \) in terms of \( \log(X) \) to perform our usual analysis.  Note, however, in this case we would need to assume that \( \epsilon_i \) is distributed only on the positive real line.
       </li>
     </ul>
     <li class="fragment">\( Y_i = \beta_0 + \beta_1 X_i^{\beta_2} + \epsilon_i \);</li>
@@ -1628,120 +1628,6 @@ i.e., the variance of \( Y_i \) is given identically by \( \sigma^2 \), the vari
   <li class="fragment"> The issues involved in the development of an appropriate regression model can be more easily explained with the understanding of what is a &ldquo;good&rdquo; regression model and how it is used.</li>
 </ul>
 </div>
-
-</div>
-
-</section>
-<section data-transition="linear" data-transition-speed="default">
-
-<div class="slideContent noTitle" >
-<h2 class="fragment">Estimating the regression function</h2>
- 
-
-<ul>
-<li class="fragment"><p>Generically, we will suppose that we have a set of data with a response variable \( Y \) and an explanatory variable \( X \).</p></li>
-<li class="fragment"><p class="fragment">We will suppose that we have a total of \( n \) pairs of data, which we call <b>observations, trials or cases</b>.</p>
-
-<ul>
-<li class="fragment">Each observation will be of the form \( \left(Y_i, X_i\right) \), for \( i = 1,\cdots ,n \).</li>
-</ul></li>
-<li class="fragment"><p class="fragment">We will assume that it is reasonable to model the response as,</p>
-
-<p class="fragment">\[ Y_i = \beta_0 + \beta_1 X_i + \epsilon_i \]</p>
-
-<p class="fragment">in the form of simple regression discussed before.</p></li>
-<li class="fragment"><p class="fragment">The values of \( \beta_1,\beta_2 \) will be assumed to be constants that are unknown, but constant, while \( \epsilon \) is a random variable with mean zero and variance \( \sigma^2 \).</p></li>
-</ul>
-
-</div>
-
-</section>
-<section data-transition="linear" data-transition-speed="default">
-
-<div class="slideContent noTitle" >
-<h3 class="fragment">Method of least squares</h3>
-
-<div style="float:left; width:30%">
-<img style="width:100%", src="data:image/png;base64,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" alt="Image of the upper region enclosed by a convex function."/><p style="text-align:center"> Courtesy of: Oleg Alexandrov. Public domain, via <a href="https://commons.wikimedia.org/wiki/File:Convex_supergraph.svg" target="blank">Wikimedia Commons</a>.</p>
-</div>
-
-<div style="float:left; width:70%">
- 
-<ul> 
-  <li class="fragment">Supposing that the relationship in simple linear regression is valid, we can create an objective function which measures:</li>
-    <ol>
-      <li class="fragment">the deviation of the \( i \)-th observation from the mean
-      \[ \left(Y_i - \beta_0 - \beta_1 X_i\right) \]
-      </li>
-      <li class="fragment">with the arguments \( \beta_0,\beta_1 \) as unkown variables.</li>
-    </ol>
-  <li class="fragment">Throughout mathematics, the notion of convexity is a powerful tool, often used in optimization.</li>
-  <li class="fragment">Particularly, a function is convex if and only if the region above its graph is a convex set.</li>
-  <ul>
-    <li class="fragment">The convexity of the &ldquo;epigraph&rdquo; set means that the function attains a <b>global</b> minimum over its entire domain</li>
-  </ul>
-  </ul>
-</div>
-
-<div style="float:left; width:100%">
-<ul>
-  <li class="fragment">One prototypical convex function is a parabola, e.g., \( f(x) = x^2 \); therefore, we will consider an objective function of the form:
-  \[ J(\beta_0,\beta_1) = \sum_{i=1}^n \left(Y_i - \beta_0 - \beta_1 X_i\right)^2 \]</li>
-<li class="fragment"> The minimum of this objective function is the one that, with respect to any choice of \( \beta_0,\beta_1 \), minimizes the <b>total deviation</b> of all observations from the predicted mean response</li>
-</ul>
-</div>
-
-</div>
-
-</section>
-<section data-transition="linear" data-transition-speed="default">
-
-<div class="slideContent noTitle" >
-<h3 class="fragment">Method of least squares &ndash; continued</h3>
-
-<ul>
-<li class="fragment"><p>The process of minimizing the objective function \( J(\beta_0,\beta_1) \) is known as the &ldquo;method of least squares&rdquo;.</p>
-
-<ul>
-<li class="fragment">The parameters that minimize the objective function will be denoted \( \hat{\beta}_0, \hat{\beta}_1 \) as our estimated values.</li>
-</ul></li>
-<li class="fragment"><p class="fragment"><b>Note:</b> these need not be equal to the true parameters \( \beta_0,\beta_1 \);</p>
-
-<ul>
-<li class="fragment">indeed, while we assume that \( \beta_0,\beta_1 \) are unknown, but fixed, values, the estimated  \( \hat{\beta}_0, \hat{\beta}_1 \) will depend on a particular random outcome.</li>
-<li class="fragment">Particularly, \( \hat{\beta}_0, \hat{\beta}_1 \) depend on the observed realizations of the variation \( \epsilon_i \) for each observation.</li>
-</ul></li>
-<li class="fragment"><p class="fragment">While the choice of parameters by the method of least squares,  \( \hat{\beta}_0, \hat{\beta}_1 \), should seem plausible, we have not given any guarantee yet of why they might be &ldquo;optimal&rdquo; in any sense.</p>
-
-<ul>
-<li class="fragment">The reason to consider this choice special is the result of the &ldquo;Gauss-Markov&rdquo; theorem, which we discuss in further detail in the case of multiple regression.</li>
-<li class="fragment">For the moment, we will only introduce the main statement of the theorem and explain its relevance.</li>
-</ul></li>
-</ul>
-
-</div>
-
-</section>
-<section data-transition="linear" data-transition-speed="default">
-<h3>  </h3>
-<div class="slideContent" >
-<h3 class="fragment">Gauss Markov Theorem</h3>
-
-<ul>
-  <li class="fragment">The statement of the Gauss-Markov theorem can be phrased loosely as follows:</li>
-  <ul>
-      <li class="fragment">Under the assumptions of the regression model,
-      \[  Y_i = \beta_0 + \beta_1 X_i + \epsilon_i \]
-      where:</li>
-      <ol>
-        <li class="fragment">\( \epsilon_i \) has mean zero for each \( i \);</li>
-        <li class="fragment">\( \epsilon_i \) has variance \( \sigma^2 \) for each \( i \);</li>
-      </ol>
-      <li class="fragment">the parameters \( \hat{\beta}_0,\hat{\beta}_1 \) estimated by least squares are <b>unbiased</b> estimates of the true parameters \( \beta_0,\beta_1 \); and</li>
-      <li class="fragment"> \( \hat{\beta}_0,\hat{\beta}_1 \) are the <b>minimum varaince</b> estimate among all estimators of the true relationship described by \( \beta_0,\beta_1 \).
-    </ul>
-    <li class="fragment"> In the following, we will discuss the meaning of this statement.</li>
-</ul>
 
 </div>
 

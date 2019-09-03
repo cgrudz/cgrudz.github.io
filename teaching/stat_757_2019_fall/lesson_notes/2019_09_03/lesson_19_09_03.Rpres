@@ -262,13 +262,13 @@ Y_i = \beta_0 + \beta_1 X_i + \epsilon_i
   F_X(x) \triangleq P(X \leq x)
   $$
 
-* We suppose that $F_X$ defines a probability distribution $p(X)$.  We denote the <b>expectation of $X$</b> 
+* We suppose that $F_X$ defines a probability distribution $p(x)$.  We denote the <b>expectation of $X$</b> 
   
   $$\begin{align}
-  \mathbb{E}\left[ X\right] = \int_\mathbb{R} p(X) \mathrm{d}X
+  \mathbb{E}\left[ X\right] = \int_\mathbb{R} xp(x) \mathrm{d}x
   \end{align}$$
 
-  * Note, $\mathrm{d}X$ describes the "size" of a group of values that $X$ might attain; 
+  * Note, $\mathrm{d}x$ describes the "size" of a group of values that $X$ might attain; 
   
   * the density $p(x)$ describes the probability of any particular group of events in the integral;
   
@@ -408,7 +408,7 @@ Y_i = \beta_0 + \beta_1 X_i + \epsilon_i
   <ol>
     <li>$Y_i = \beta_0 + \beta_1 X_i^2 + \epsilon_i$;</li>
     <li>$Y_i = \beta_0 + \beta_1 \sqrt{X_i} + \epsilon_i$;</li>
-    <li>$Y_i = \beta_0 X_i^{\beta_1} + \epsilon_i$;</li>
+    <li>$Y_i = \beta_0 X_i^{\beta_1} * \epsilon_i$;</li>
     <li>$Y_i = \beta_0 + \beta_1 X_i^{\beta_2} + \epsilon_i$.</li>
   </ol>
   <li>Explain why or why not.</li>
@@ -429,11 +429,11 @@ Y_i = \beta_0 + \beta_1 X_i + \epsilon_i
     <ul>
       <li> This is a linear model in $\sqrt{X}$ as the parameters have entered linearly -- the square-root can be re-written just as a change of scale.</li>
     </ul>
-    <li>$Y_i = \beta_0 X_i^{\beta_1} + \epsilon_i$.</li>
+    <li>$Y_i = \beta_0 X_i^{\beta_1} * \epsilon_i$.</li>
     <ul>
       <li> This is not a linear model, but it can be transformed into a model linear in the parameters:
       $$\log(Y_i) = \log(\beta_0) + \beta_1 \log(X_i) + \log(\epsilon_i).$$
-      We can thus regress on $\log(Y)$ in terms of $\log(X)$ to perform our usual analysis.
+      We can thus regress on $\log(Y)$ in terms of $\log(X)$ to perform our usual analysis.  Note, however, in this case we would need to assume that $\epsilon_i$ is distributed only on the positive real line.
       </li>
     </ul>
     <li>$Y_i = \beta_0 + \beta_1 X_i^{\beta_2} + \epsilon_i$;</li>
@@ -683,92 +683,3 @@ Y_i = \beta_0 + \beta_1 X_i + \epsilon_i
 </ul>
 </div>
 
-========================================================
-
-<h2>Estimating the regression function</h2>
- 
-* Generically, we will suppose that we have a set of data with a response variable $Y$ and an explanatory variable $X$.
-
-* We will suppose that we have a total of $n$ pairs of data, which we call <b>observations, trials or cases</b>.
-  
-  * Each observation will be of the form $\left(Y_i, X_i\right)$, for $i = 1,\cdots ,n$.
-  
-* We will assume that it is reasonable to model the response as,
-
-  $$Y_i = \beta_0 + \beta_1 X_i + \epsilon_i$$
-
-  in the form of simple regression discussed before.
-  
-* The values of $\beta_1,\beta_2$ will be assumed to be constants that are unknown, but constant, while $\epsilon$ is a random variable with mean zero and variance $\sigma^2$.
-
-========================================================
-
-<h3>Method of least squares</h3>
-
-<div style="float:left; width:30%">
-<img style="width:100%", src="convex_super_graph.png" alt="Image of the upper region enclosed by a convex function."/><p style="text-align:center"> Courtesy of: Oleg Alexandrov. Public domain, via <a href="https://commons.wikimedia.org/wiki/File:Convex_supergraph.svg" target="blank">Wikimedia Commons</a>.</p>
-</div>
-<div style="float:left; width:70%">
- 
-<ul> 
-  <li>Supposing that the relationship in simple linear regression is valid, we can create an objective function which measures:</li>
-    <ol>
-      <li>the deviation of the $i$-th observation from the mean
-      $$\left(Y_i - \beta_0 - \beta_1 X_i\right)$$
-      </li>
-      <li>with the arguments $\beta_0,\beta_1$ as unkown variables.</li>
-    </ol>
-  <li>Throughout mathematics, the notion of convexity is a powerful tool, often used in optimization.</li>
-  <li>Particularly, a function is convex if and only if the region above its graph is a convex set.</li>
-  <ul>
-    <li>The convexity of the "epigraph" set means that the function attains a <b>global</b> minimum over its entire domain</li>
-  </ul>
-  </ul>
-</div>
-<div style="float:left; width:100%">
-<ul>
-  <li>One prototypical convex function is a parabola, e.g., $f(x) = x^2$; therefore, we will consider an objective function of the form:
-  $$J(\beta_0,\beta_1) = \sum_{i=1}^n \left(Y_i - \beta_0 - \beta_1 X_i\right)^2$$</li>
-<li> The minimum of this objective function is the one that, with respect to any choice of $\beta_0,\beta_1$, minimizes the <b>total deviation</b> of all observations from the predicted mean response</li>
-</ul>
-</div>
-
-========================================================
-
-<h3>Method of least squares -- continued</h3>
-
-* The process of minimizing the objective function $J(\beta_0,\beta_1)$ is known as the "method of least squares".
-
-  * The parameters that minimize the objective function will be denoted $\hat{\beta}_0, \hat{\beta}_1$ as our estimated values.
-  
-* <b>Note:</b> these need not be equal to the true parameters $\beta_0,\beta_1$;
-
- * indeed, while we assume that $\beta_0,\beta_1$ are unknown, but fixed, values, the estimated  $\hat{\beta}_0, \hat{\beta}_1$ will depend on a particular random outcome.
- 
- * Particularly, $\hat{\beta}_0, \hat{\beta}_1$ depend on the observed realizations of the variation $\epsilon_i$ for each observation.
- 
-* While the choice of parameters by the method of least squares,  $\hat{\beta}_0, \hat{\beta}_1$, should seem plausible, we have not given any guarantee yet of why they might be "optimal" in any sense.
-
-  * The reason to consider this choice special is the result of the "Gauss-Markov" theorem, which we discuss in further detail in the case of multiple regression.
-  
-  * For the moment, we will only introduce the main statement of the theorem and explain its relevance.
-  
-========================================================
-
-<h3>Gauss Markov Theorem</h3>
-
-<ul>
-  <li>The statement of the Gauss-Markov theorem can be phrased loosely as follows:</li>
-  <ul>
-      <li>Under the assumptions of the regression model,
-      $$ Y_i = \beta_0 + \beta_1 X_i + \epsilon_i$$
-      where:</li>
-      <ol>
-        <li>$\epsilon_i$ has mean zero for each $i$;</li>
-        <li>$\epsilon_i$ has variance $\sigma^2$ for each $i$;</li>
-      </ol>
-      <li>the parameters $\hat{\beta}_0,\hat{\beta}_1$ estimated by least squares are <b>unbiased</b> estimates of the true parameters $\beta_0,\beta_1$; and</li>
-      <li> $\hat{\beta}_0,\hat{\beta}_1$ are the <b>minimum varaince</b> estimate among all estimators of the true relationship described by $\beta_0,\beta_1$.
-    </ul>
-    <li> In the following, we will discuss the meaning of this statement.</li>
-</ul>
