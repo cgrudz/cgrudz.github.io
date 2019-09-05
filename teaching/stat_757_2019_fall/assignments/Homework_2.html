@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Homework_2</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <style type="text/css">
+  
+  /*
+   * Copyright 2013 Christophe-Marie Duquesne <chmd@chmd.fr>
+   *
+   * CSS for making a resume with pandoc. Inspired by moderncv.
+   *
+   * This CSS document is delivered to you under the CC BY-SA 3.0 License.
+   * https://creativecommons.org/licenses/by-sa/3.0/deed.en_US
+   */
+  
+  /* Whole document */
+  body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      max-width: 800px;
+      margin: auto;
+      background: #FFFFFF;
+      padding: 10px 10px 10px 10px;
+  }
+  
+  /* Title of the resume */
+  h1 {
+      font-size: 50px;
+      color: #000000;
+      text-align:center;
+      margin-bottom:15px;
+  }
+  /*h1:hover {
+      background-color: #757575;
+      color: #FFFFFF;
+      text-shadow: 1px 1px 1px #333;
+  }
+  */
+  /* Titles of categories */
+  h2 {
+      /* This is called "sectioncolor" in the ConTeXt stylesheet. */
+      color: #000000;
+  }
+  /* There is a bar just before each category 
+  h2:before {
+      content: "";
+      display: inline-block;
+      margin-right:1%;
+      width: 16%;
+      height: 10px;
+      /* This is called "rulecolor" in the ConTeXt stylesheet. */
+      background-color: #9CB770;
+  }*/
+  /*h2:hover {
+      background-color: #397249;
+      color: #FFFFFF;
+      text-shadow: 1px 1px 1px #333;
+  }
+  */
+  /* Definitions */
+  dt {
+      float: left;
+      clear: left;
+      width: 17%;
+      /*font-weight: bold;*/
+  }
+  dd {
+      margin-left: 17%;
+  }
+  p {
+      margin-top:0;
+      margin-bottom:7px;
+  }
+  
+  /* Blockquotes */
+  blockquote {
+      text-align: left; 
+  }
+  
+  /* Links */
+  a {
+      text-decoration: none;
+      color: #397249;
+  }
+  a:hover, a:active {
+      background-color: #397249;
+      color: #FFFFFF;
+      text-decoration: none;
+      text-shadow: 1px 1px 1px #333;
+  }
+  
+  /* Horizontal separators */
+  hr {
+      color: #A6A6A6;
+  }
+  
+  table {
+      width: 100%;
+  }
+  
+  .answer_div {
+      width:100%;
+      height:2in;
+      float:left;
+  }
+  
+  </style>
+</head>
+<body>
+<h1 id="homework-2">Homework 2</h1>
+<h2 id="stat-757-section-1001">STAT 757 – Section 1001</h2>
+<h3 id="instructor-colin-grudzien">Instructor: Colin Grudzien</h3>
+<h3 id="due-09132019">Due: 09/13/2019</h3>
+<h2 id="instructions">Instructions</h2>
+<blockquote>
+You may work with others on these problems but you must turn in your own work.<br />
+You may type your solutions in any way you like (LaTeX, Markdown, Office, etc…) as long as you present your work clearly and in an organized way.<br> <strong>Whenever plotting:</strong>
+<ul>
+<li>
+Include a copy of a short R script corresponding to your plot.
+</li>
+<li>
+Your plot must be clearly labeled in all axes, legends, and the plot must include a clear title.
+</li>
+<li>
+The plot must be sensible and easy to read.
+</li>
+</ul>
+</blockquote>
+<h2 id="problems">Problems</h2>
+<h3 id="problem-1">Problem 1:</h3>
+<h4 id="prove-each-of-the-following-statements">Prove each of the following statements:</h4>
+<ol>
+<li>
+The sum of the residuals, weighted by the corresponding predictor variable, is zero, <span class="math display">\[\sum_{i=1}^n X_i \hat{\epsilon}_i = 0\]</span>
+</li>
+<li>
+The sum of the residuals, weighted by the corresponding fitted value, is zero, <span class="math display">\[\sum_{i=1}^n \hat{Y}_i \hat{\epsilon}_i = 0\]</span>
+</li>
+<li>
+The estimated regression function always passes through the point defined by the means (or the center of mass), <span class="math inline">\(\left(\overline{X},\overline{Y}\right)\)</span>.
+</li>
+</ol>
+<h4 id="hint-use-the-normal-equations-and-the-point-estimates-of-hatbeta_0hatbeta_1-discussed-in-lecture.">Hint: use the normal equations and the point estimates of <span class="math inline">\(\hat{\beta}_0,\hat{\beta}_1\)</span> discussed in lecture.</h4>
+<h3 id="problem-2">Problem 2:</h3>
+<h4 id="install-the-library-faraway-in-the-r-environment.-then-proceed-to-analyze-the-following-data-sets-in-this-library">Install the library “Faraway” in the R environment. Then proceed to analyze the following data sets in this library:</h4>
+<ol>
+<li>
+The dataset “teengamb” concerns a study of teenage gambling in Britain. Make a numerical and graphical summary of the data, commenting on any features that you find interesting. Limit the output you present to a quantity that a busy reader would find sufficient to get a basic understanding of the data.
+</li>
+<li>
+The dataset “uswages” is drawn as a sample from the Current Population Survey in 1988. Make a numerical and graphical summary of the data as in the previous question.
+</li>
+</ol>
+</body>
+</html>
