@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Lesson Notes 09/05/2019</title>
+  <title>Lesson 09/05/2019</title>
     
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -976,6 +976,7 @@ hljs.initHighlightingOnLoad();
       <ol>
         <li class="fragment">\( \epsilon_i \) has mean zero for each \( i \);</li>
         <li class="fragment">\( \epsilon_i \) has variance \( \sigma^2 \) for each \( i \);</li>
+        <li class="fragment">\( \epsilon_i \) and \( \epsilon_j \) are uncorrelated for every pair \( i\neq j \);</li>
       </ol>
       <li class="fragment">the parameters \( \hat{\beta}_0,\hat{\beta}_1 \) estimated by least squares are <b>unbiased</b> estimates of the true parameters \( \beta_0,\beta_1 \); and</li>
       <li class="fragment"> \( \hat{\beta}_0,\hat{\beta}_1 \) are the <b>minimum varaince</b> estimate among all linear, unbiased estimators of the true relationship described by \( \beta_0,\beta_1 \).
@@ -1103,7 +1104,7 @@ Robust estimates are typically not linear in \( y \). </li>
   <li class="fragment">The above equations are called the &ldquo;normal&rdquo; equations.</li> 
   <li class="fragment"> Solving for these simultaneously in the values \( \hat{\beta}_0,\hat{\beta}_1 \) we recover point estimates for \( \beta_0,\beta_1 \) as,
   \[ \begin{align}
-  \hat{\beta}_1 &= \frac{\sum_{i=1}^n\left(X_i - \overline{X}_i \right)\left(Y_i - \overline{Y}_i\right)}{\sum_{i=1}^n\left(X_i - \overline{X}_i \right)}\\
+  \hat{\beta}_1 &= \frac{\sum_{i=1}^n\left(X_i - \overline{X} \right)\left(Y_i - \overline{Y}\right)}{\sum_{i=1}^n\left(X_i - \overline{X} \right)}\\
   \hat{\beta}_0 &= \frac{1}{n} \left(\sum_{i=1}^n Y_i - \hat{\beta}_1 X_i \right) \\
   \end{align} \]
   where \( \overline{Y},\overline{X} \) are the means of the observed response and explanatory variables respectively.</li>
@@ -1331,7 +1332,7 @@ so that the last statement proves the second equation.</li></p>
 <ul>
   <li class="fragment"> Solving for the normal equations simultaneously in the values \( \hat{\beta}_0,\hat{\beta}_1 \) we recover point estimates for \( \beta_0,\beta_1 \) as,
   \[ \begin{align}
-  \hat{\beta}_1 &= \frac{\sum_{i=1}^n\left(X_i - \overline{X}_i \right)\left(Y_i - \overline{Y}_i\right)}{\sum_{i=1}^n\left(X_i - \overline{X}_i \right)}\\
+  \hat{\beta}_1 &= \frac{\sum_{i=1}^n\left(X_i - \overline{X} \right)\left(Y_i - \overline{Y}\right)}{\sum_{i=1}^n\left(X_i - \overline{X} \right)}\\
   \hat{\beta}_0 &= \frac{1}{n} \left(\sum_{i=1}^n Y_i - \hat{\beta}_1 X_i \right) \\
   \end{align} \]
   where \( \overline{Y},\overline{X} \) are the means of the observed response and explanatory variables respectively.</li>
@@ -1388,7 +1389,7 @@ so that the last statement proves the second equation.</li></p>
       <li class="fragment">in this case, because we have used up one degree of freedom in the data set by estimating the mean, we need to account for this in the normalization.</li>
     </ul>
     <li class="fragment">Due to this reason, our <b>unbiased</b> estimate of the sample variance is given by,
-    \[ s^2 \triangleq \frac{1}{n-1}\sum_{i=1}^n \left(Y_i - \overline{Y}_i\right)^2. \]
+    \[ s^2 \triangleq \frac{1}{n-1}\sum_{i=1}^n \left(Y_i - \overline{Y}\right)^2. \]
     </li>
 </ul>
 
@@ -1424,7 +1425,7 @@ so that the last statement proves the second equation.</li></p>
 
 <ul>
   <li class="fragment">Let us denote the sum of square residuals as,
-  \[ \begin{align}RSS &= \sum_{i=1}^n \left(Y_i - \overline{Y}_i\right)^2\\
+  \[ \begin{align}RSS &= \sum_{i=1}^n \left(Y_i - \hat{Y}\right)^2\\
   & = \sum_{i=1}^n \hat{\epsilon}_i^2
   .\end{align} \]</li>
   <li class="fragment">Then, the general form for the sample-based estimate of \( \mathrm{var}(\epsilon)=\sigma^2 \) is given as,
