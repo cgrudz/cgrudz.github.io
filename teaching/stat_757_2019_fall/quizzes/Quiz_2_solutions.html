@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Quiz_1</title>
+  <title>Quiz_2_solutons</title>
   <style type="text/css">
       code{white-space: pre-wrap;}
       span.smallcaps{font-variant: small-caps;}
@@ -163,12 +163,14 @@
   } 
   }
   
-  
+  div.solutions * {
+      color:#000099;
+  }
   
   </style>
 </head>
 <body>
-<h1 id="quiz-1">Quiz 1</h1>
+<h1 id="quiz-2">Quiz 2</h1>
 <h2 id="instructions">Instructions</h2>
 <blockquote>
 <p>Write your name at the top right. You are to work on this quiz alone without any help from any other resource <b>except for a single <span class="math inline">\(8.5 \times 11\)</span> inch page of handwritten notes</b>.<br />
@@ -176,24 +178,39 @@ This quiz will be ungraded but must be handed in for attendance.</p>
 </blockquote>
 <h2 id="problems">Problems:</h2>
 <h3 id="problem-1">Problem 1:</h3>
-Assume that the following relationship is valid: <span class="math display">\[
-Y_i = \beta_0 + \beta_1 X_i + \epsilon_i
-\]</span> where <span class="math inline">\(\mathbb{E}\left[\epsilon_i\right] = 0\)</span> and <span class="math inline">\(\mathbb{E}\left[\epsilon_i^2\right] = \sigma^2\)</span>. Use the definition of the variance of a random variable to derive the variance of <span class="math inline">\(Y_i\)</span>.
-<div class="answer_div">
+When asked to state the simple linear regression model, a student wrote it as follows: <span class="math display">\[\mathbb{E}\left[Y_i\right] = \beta_0 + \beta_1 X_i + \epsilon_i\]</span> Do you agree? Explain.
+<div class="solutions">
+<h4 id="solution">Solution:</h4>
+<p>Note, there is a major issue in the above where the expectation of <span class="math inline">\(Y_i\)</span> should be equal to, <span class="math display">\[\mathbb{E}\left[Y_i\right] = \beta_0 + \beta_1 X_i.\]</span></p>
+<p>There are several reasonable responses to this question, including that <span class="math display">\[Y_i = \beta_0 + \beta_1X_i + \epsilon_i\]</span> can be considered our model for simple linear regression, as it is our hypothesis for the form of the signal, with variation, in the data.</p>
+<p>Alternatively, we could also say that the form of the regression function is given by, <span class="math display">\[\hat{Y} = \hat{\beta}_0 + \hat{\beta}_1 X\]</span> with respect to the parameters estimated by least squares.</p>
+</div>
+<div class="pagebreak">
 
 </div>
 <h3 id="problem-2">Problem 2:</h3>
-Which of the following equations linear in the parameters <span class="math inline">\(\beta_j\)</span>, or can be transformed into such an equation? Explain.
-<ol>
-<li>
-<span class="math inline">\(Y_i = \beta_0 + \beta_1 X_i^\frac{3}{2} +\epsilon_i\)</span>;
-</li>
-<li>
-<span class="math inline">\(Y_i = \beta_0 + \beta_1 * \beta_2 * \beta_3 X_i + \epsilon_i\)</span>;
-</li>
-<li>
-<span class="math inline">\(Y_i = \beta_0 X_i^{\beta_1} \epsilon_i\)</span>.
-</li>
-</ol>
+What is the <b>BLUE</b>? Explain in what sense this is an “optimal” regression solution, and under what conditions these properties hold true.
+<div class="solutions">
+<h4 id="solution-1">Solution:</h4>
+<p>The BLUE stands for the “Best Linear Unbiased Estimate” or “Best Linear Unbiased Estimator” either is fine. This is an optimal solution in the sense that the least squares estimates <span class="math inline">\(\hat{\beta}_0\)</span> and <span class="math inline">\(\hat{\beta}_1\)</span> have the minimum variance among all linear, unbiased estimators.</p>
+<p>This holds in the case that the error <span class="math inline">\(\epsilon_i\)</span> is mean zero, constant variance <span class="math inline">\(\sigma^2\)</span> for all <span class="math inline">\(i\)</span>, and for each <span class="math inline">\(i \neq j\)</span>, <span class="math inline">\(\mathbb{E}\left[\epsilon_i \epsilon_j\right] = 0\)</span>.</p>
+</div>
+<div class="pagebreak">
+
+</div>
+<h3 id="problem-3">Problem 3:</h3>
+<p>Use the definition of the <b>unbiased, sample-based variance estimate</b> to recover the regression estimate for <span class="math inline">\(\sigma^2\)</span>. Recall, the denominator must divide by the degrees of freedom remaining after the estimation of the mean.</p>
+<div class="solutions">
+<h4 id="solution-2">Solution:</h4>
+<p>Recall, our estimate for the mean response at case <span class="math inline">\(i\)</span> is given by the fitted value, <span class="math display">\[\hat{Y}_i = \hat{\beta}_0 + \hat{\beta}_1 X_i,\]</span> which depends on estimating the two parameters <span class="math inline">\(\hat{\beta}_0,\hat{\beta}_1\)</span>, using two degrees of freedom.</p>
+<p>The unbiased, sample-based estimate of the variance is given by the sum of square deviations of the samples from the estimated mean, normalized by the number of left-over degrees of freedom, i.e, <span class="math display">\[\begin{align}
+\hat{\sigma} &amp;= \frac{\sum_{i=1}^n \left(\hat{Y}_i - Y_i \right)^2}{n - p} 
+\end{align}\]</span></p>
+<p>where <span class="math inline">\(p\)</span> is the number of parameters, in this case <span class="math inline">\(p=2\)</span>. By definition we recover furthermore, <span class="math display">\[\begin{align}
+\hat{\sigma} &amp;= \frac{\sum_{i=1}^n \left(\hat{Y}_i - Y_i \right)^2}{n - p}\\
+&amp; = \frac{\sum_{i=1}^n \hat{\epsilon}^2}{n-p} \\
+&amp;= \frac{RSS}{n-p} 
+\end{align}\]</span></p>
+</div>
 </body>
 </html>
