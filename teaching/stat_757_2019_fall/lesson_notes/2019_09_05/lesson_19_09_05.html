@@ -1104,7 +1104,7 @@ Robust estimates are typically not linear in \( y \). </li>
   <li class="fragment">The above equations are called the &ldquo;normal&rdquo; equations.</li> 
   <li class="fragment"> Solving for these simultaneously in the values \( \hat{\beta}_0,\hat{\beta}_1 \) we recover point estimates for \( \beta_0,\beta_1 \) as,
   \[ \begin{align}
-  \hat{\beta}_1 &= \frac{\sum_{i=1}^n\left(X_i - \overline{X} \right)\left(Y_i - \overline{Y}\right)}{\sum_{i=1}^n\left(X_i - \overline{X} \right)}\\
+  \hat{\beta}_1 &= \frac{\sum_{i=1}^n\left(X_i - \overline{X} \right)\left(Y_i - \overline{Y}\right)}{\sum_{i=1}^n\left(X_i - \overline{X} \right)^2}\\
   \hat{\beta}_0 &= \frac{1}{n} \left(\sum_{i=1}^n Y_i - \hat{\beta}_1 X_i \right) \\
   \end{align} \]
   where \( \overline{Y},\overline{X} \) are the means of the observed response and explanatory variables respectively.</li>
@@ -1332,7 +1332,7 @@ so that the last statement proves the second equation.</li></p>
 <ul>
   <li class="fragment"> Solving for the normal equations simultaneously in the values \( \hat{\beta}_0,\hat{\beta}_1 \) we recover point estimates for \( \beta_0,\beta_1 \) as,
   \[ \begin{align}
-  \hat{\beta}_1 &= \frac{\sum_{i=1}^n\left(X_i - \overline{X} \right)\left(Y_i - \overline{Y}\right)}{\sum_{i=1}^n\left(X_i - \overline{X} \right)}\\
+  \hat{\beta}_1 &= \frac{\sum_{i=1}^n\left(X_i - \overline{X} \right)\left(Y_i - \overline{Y}\right)}{\sum_{i=1}^n\left(X_i - \overline{X} \right)^2}\\
   \hat{\beta}_0 &= \frac{1}{n} \left(\sum_{i=1}^n Y_i - \hat{\beta}_1 X_i \right) \\
   \end{align} \]
   where \( \overline{Y},\overline{X} \) are the means of the observed response and explanatory variables respectively.</li>

@@ -1034,7 +1034,7 @@ hljs.initHighlightingOnLoad();
     \[ Y_i \sim N\left(\beta_0 +\beta_1 X_i, \sigma^2\right) \]</li>
     <li class="fragment">\( \hat{\beta}_0, \hat{\beta}_1 \) &ndash; indeed, recall the definitions of the point estimators,
     \[ \begin{align}
-  \hat{\beta}_1 &= \frac{\sum_{i=1}^n\left(X_i - \overline{X} \right)\left(Y_i - \overline{Y}\right)}{\sum_{i=1}^n\left(X_i - \overline{X} \right)}\\
+  \hat{\beta}_1 &= \frac{\sum_{i=1}^n\left(X_i - \overline{X} \right)\left(Y_i - \overline{Y}\right)}{\sum_{i=1}^n\left(X_i - \overline{X} \right)^2}\\
   \hat{\beta}_0 &= \frac{1}{n} \sum_{i=1}^n\left( Y_i - \hat{\beta}_1 X_i \right). \\
   \end{align} \]
   If the \( X_i \) values are deterministic constants, then \( \hat{\beta}_1 \), and thus \( \hat{\beta}_0 \), are linear combinations of Gaussian random variables.</li>
