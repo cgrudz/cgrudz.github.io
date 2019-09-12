@@ -1,0 +1,775 @@
+========================================================
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<div style="background-color: white; padding:40px">
+<h1 style='color:black'> Simple linear regression -- part 4</h1>
+<h2 style='color:black'> 09/12/2019</h2>
+<h2 style='color:black'>Instructions:</h2>
+<p style='color:black'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+</div>
+
+========================================================
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+
+  * Review of Gaussian error models and maximum likelihood
+  * Gaussian correlation models
+  * Analysis of variance approach to regression
+  * Decomposing the variation
+  * Degrees of Freedom
+  * Mean squares and the ANOVA table
+
+========================================================
+
+<h2>Reveiew -- regression Assumptions</h2>
+
+<ul>
+  <li>Recall our regression equation,
+  $$\begin{align}
+  Y_i = \beta_0 + \beta_1 X_i + \epsilon_i.
+  \end{align}$$
+  </li>
+  <li> This represents our hypothesis for the form of the signal in the data, i.e., the way we believe the response varies systematically (but with variation) when compared with the explanatory variable.</li>
+  <li> We suppose that the observed cases $Y_i$ are random outcomes which depend on the realizations of the random variable $\epsilon_i$.</li>
+  <li>For every case $Y_i$, we suppose that there is an associated probability distribution from which these outcomes are drawn, with variance $\sigma^2$ and a mean parametrized by
+  $$\mathbb{E}\left[Y\right] = \beta_0 + \beta_1 X$$</li>
+  <li> This model posits the existence of fixed, but unkown parameters $\beta_0,\beta_1$ that describe the mean response above, which we call the regression function.</li>
+  <li> We assume futhermore that each case is uncorrelated, i.e.,
+  $$\mathbb{E}\left[\epsilon_i \epsilon_j\right] = 0 $$
+  for each $i\neq j$.</li>
+  <li>It is under the above conditions that the Gauss-Markov theorem gives a plausible way to estimate the true parameters $\beta_0,\beta_1$ with some guarantees of "how good" the estimates are.</li>
+</ul>
+
+
+========================================================
+
+<h3>Review of ideas -- BLUE</h3>
+
+<ul>
+  <li>In particular, the Gauss-Markov theorem tells us that the estimate for the true parameters $\beta_0,\beta_1$, given by the least squares estimate $\hat{\beta}_0,\hat{\beta}_1$ are the BLUE:</li>
+  <ul>
+    <li><b>B</b>est</li>
+    <li><b>L</b>inear</li>
+    <li><b>U</b>nbiased</li>
+    <li><b>E</b>stimate</li>  
+  </ul>
+  <li>We denote these parameter, estimated by least squares, $\hat{\beta}_0,\hat{\beta}_1$.</li>
+  <li>These parameters are the minimum variance estimate of the true relationship $\beta_0,\beta_1$, among all linear, unbiased estimators.</li>
+  <li> This is to say, suppose we have any other linear, unbiased estimator $\tilde{\beta}_0,\tilde{\beta}_1$,
+  $$\mathbb{E}\left[\tilde{\beta}_j\right] = \beta_j;$$</li>
+  <li>then,
+  $$\mathrm{var}\left(\hat{\beta}_j\right) \leq \mathrm{var}\left(\tilde{\beta}_j\right).$$
+</ul>
+
+========================================================
+
+<h3>Review of ideas -- Gaussian error models</h3>
+
+
+<ul>
+  <li>Regardless of the actual distribution of the error/ variation $\epsilon_i$, the Gauss-Markov theorem holds and the solution by least squares is the BLUE.</li>
+  <li>However, to create confidence intervals and  perform uncertainty quantification, we will need to assume some additional structure.</li>
+  <li> It is often assumed that the error distribution for $\epsilon_i$ is Gaussian for several reasons: </li>
+  <ol>
+    <li>Gaussian errors simplify the regression analysis significantly; </li>
+    <li>likewise, Gaussian distributions are quite common in real applications;</li>
+    <li>even when errors are not strictly Gaussian, a Gaussian distribution is often a "good" approximation.</li>
+  </ol>
+  <li> The notion of a Gaussian distribution being a "good" approximation is formalized with the Central Limit Theorem.</li>
+</ul>
+
+========================================================
+
+
+<h3>Review of ideas -- Gaussian error models</h3>
+
+<ul>
+  <li>The Gaussian assumption is introduced on top of our existing assumptions as follows:</li>
+  <ol>
+    <li>We suppose that we have a signal in the data, linear in the parameters $\beta_0,\beta_1$,
+    $$Y_i = \beta_0 + \beta_1 X_i + \epsilon_i$$</li>
+    <li>$X_i$ is a known constant, while $\beta_0,\beta_1$ are unkown but fixed values for all $i$.</li>
+    <li>$\epsilon_i$ are drawn independently and identically distributed (iid) as,
+    $$\epsilon_i \sim N\left(0, \sigma^2\right)$$
+    for each $i$.</li>
+  </ol>
+<li>Independence of the $\epsilon_i$ implies that the cases are once again uncorrelated.</li>
+<li>Additionally, as we have assumed the form of the distribution as Gaussian, and the form of the first two moments, we have entirely parametrized the distribution of the variation.</li>
+<li>We said it was an addendum to the Gauss-Markov theorem that in the conditions above, the estimate by least squares is addtionally the maximum likelihood estimator.</li>
+</ul>
+
+========================================================
+
+
+<h2>Review -- likelihood functions</h2>
+
+<ul>
+  <li>Consider a probability distribution, denoted $P_\theta(y)$, which depends on the value of the parameter $\theta$.</li> 
+  <ul>
+    <li>Suppose we are investigating some random variable $Y$, for which there is some "true" parameter $\theta_0$, such that 
+    $$Y\sim P_{\theta_0}.$$</li>
+  </ul>
+  <li>We assume that even though $\theta_0$ is not known, <b>we can evaluate</b>
+ $$\begin{align}
+ P_\theta(y) = P_\theta(Y=y)
+ \end{align}$$
+ for any choice of $\theta$ and some observed piece of data $y$.
+ </li>
+ <li>Then, the likelihood of $\theta$ based on an observed $y$ is defined
+ $$\begin{align}
+ \mathcal{L}(\theta \vert y) = P_\theta(y) = P_\theta(Y=y)
+ \end{align}$$
+ where we evaluate the probability of $Y$ attaining an observed piece of data $y$ given a <b>choice</b> of $\theta$.</li>
+ <li> The "likelihood" is thus a measure of how well does our choice of parameter make the distribution describe the observed data.</li>
+ <li>Maximum likelihood estimation is thus the process of finding a $\hat{\theta}$ which maximizes the likelihood, 
+ <ul>
+  <li>i.e., $\hat{\theta}$ which maximizes the probability of the observed data $y$ given the proability distribution $P_\theta$.</li>
+ </ul>
+</ul>
+
+========================================================
+
+
+<h3>Review -- estimation of the regression function by maximum likelihood</h3>
+
+<ul>
+    <li>To put regression in the framework of a likelihood function, we suppose that $\overline{\beta}_0,\overline{\beta}_1,\overline{\sigma}$ are free parameters, such that
+    $$\begin{align}\mathcal{L}\left(\overline{\beta}_0,\overline{\beta}_1,\overline{\sigma}\vert Y_i\right)& = P_{\overline{\beta}_0,\overline{\beta}_1,\overline{\sigma}}\left(Y_i\right) \\
+    &=\frac{1}{\sqrt{2\pi}\overline{\sigma}}\mathrm{exp}\left\{-\frac{1}{2}\left(\frac{Y_i - \overline{\beta}_0 - \overline{\beta}_1 X_i}{\sigma}\right)^2\right\}
+    \end{align}$$</li>
+    <li>Then, the likelihood over the set of the $n$ observations is given simply as the product of the individual likelihoods:
+    $$\mathcal{L}\left(\overline{\beta}_0,\overline{\beta}_1,\overline{\sigma}\vert Y_{i=1,\cdots,n}\right)
+    =\prod_{i=1}^n\frac{1}{\sqrt{2\pi}\overline{\sigma}}\mathrm{exp}\left\{-\frac{1}{2}\left(\frac{Y_i - \overline{\beta}_0 - \overline{\beta}_1 X_i}{\sigma}\right)^2\right\}$$
+    </li>
+    <li> By maximizing the above product over all the observed data, with respect to the choice of the free parameters $\overline{\beta}_0,\overline{\beta}_1,\overline{\sigma}$, we obtain the maximium likelihood estimate.</li>
+    <li>Using the monotonicity of $\log$, we reduce our analysis of the likilhood function to something more simple, the "log-likelihood",
+  $$\log(\mathcal{L}) = constant - n\log{\overline{\sigma}} - \frac{1}{2\overline{\sigma}^2}\sum_{i=1}^n \left(Y_i - \overline{\beta}_0 - \overline{\beta}_1 X_i \right)^2;$$</li>
+  <li>finding the maximum value of the above equation is equivalent to finding the maximum of the likelihood, due to the monotonicity.</li>
+  <li>Note, we write a number of values as "constant", because for purposes of optimization in the free parameters $\overline{\beta}_0,\overline{\beta}_1,\overline{\sigma}$, these make no difference in the outcome.</li>
+</ul>
+
+========================================================
+
+
+<h2>Gaussian correlation models</h2>
+
+<ul>
+  <li>So far, we have taken the relatively simple formulation of the regression problem in which the explanatory variable $X$ is assumed to be a controllable constant value.</li>
+  <ul>
+    <li>In this context, the variation that we refer to in $\epsilon_i$ is prototypically defined in terms of repeated sampling of replicated cases.</li>
+    <li> Particularly, we are considering scenarios in which we can hold the value of $X_i$ constant, and take multiple independent samples of the associated value of the response $Y_i$.</li>
+  </ul>
+  <li>However, there are situations in which we want to consider <b>both</b> the response $Y$ and the predictor $X$ to be random variables.</li>
+  <ul>
+    <li>For example, an analyst may may be interested in two variables "height of person" and "weight of person" in a study of a sample of persons, with each variable being taken as random.</li>
+    <li> The analyst might wish to study the relation between the two variables or might be interested in
+    <ul>
+      <li> making inferences about weight of a person on the basis of the person's height;</li>
+      <li> making inferences about height on the basis of weight;</li>
+      <li> or in both.</li>
+    </ul>
+  </ul>
+  <li> In this context, we can treat our regression as a <b>correlation model</b>.</li>
+  <li> In the case of a joint Gaussian distribution for $Y$ and $X$, our techniques in regression remain essentially the same, but the framework our our analysis and the meaning of parameters will change.</li> 
+  <li> We will discuss this change of framework in the remaining lecture.</li>
+</ul>
+
+========================================================
+
+
+<h3>Bivariate Gaussian distribution</h3>
+
+
+ <div style="float:left; width:30%">
+<img style="width:100%", src="bivariate_gaussian.png"/>
+<p style="text-align:center"> Courtesy of: Kutner, M. et al. Applied Linear Statistical Models 5th Edition</p>
+</div>
+<div style="float:left; width:70%">
+<ul>
+  <li>To begin, we will recall the basis of the Gaussian correlation model --- the multivariate Gaussian distribution.</li>
+  <li>Reframing slightly, we suppose that $Y_1$ and $Y_2 = X$ are jointly distributed with respect to a Gaussian distribution as on the left.</li>
+  <ul>
+    <li>In this case, we will re-write $X$ as above, as its meaning is symmetric with the response.</li> 
+  </ul>
+  <li> The bivariate Gaussian has the functional form of the below, where</li> 
+  <ol>
+    <li>$\mu_i,\sigma_i$ are the mean and standard deviation of $Y_i$ respectively;</li>
+    <li>$\rho_{12} \triangleq \frac{\sigma_{12}}{\sigma_1 \sigma_2}$ is the <b>coefficient of correlation</b> between $Y_1,Y_2$;</li>
+    <li>in the figure on the left, we identify $f(Y_1,Y_2)$ as $p_{Y_1,Y_2}(y_1,y_2)$.</li>
+  </ol>
+</ul>
+
+</div>
+<div style="float:left; width:100%">
+$$\begin{align}
+  p_{Y_1,Y_2}(y_1,y_2) = \frac{1}{2 \pi \sigma_1 \sigma_2 \sqrt{1 - \rho_{12}^2}}\mathrm{exp}\left\{\frac{1}{2\left(1 -  \rho_{12}^2\right)} \left[\left(\frac{y_1 - \mu_1}{\sigma_1}\right)^2 + \left(\frac{y_2 - \mu_2}{\sigma_2}\right)^2 - 2\rho_{12}\left( \frac{y_1 - \mu_1}{\sigma_1}\right)\left( \frac{y_2 - \mu_2}{\sigma_2}\right)\right] \right\}
+\end{align}$$
+</div>
+
+
+========================================================
+
+<h3>Marginal Distributions</h3>
+
+<div style="float:left; width:40%">
+<img style="width:100%", src="gaussian_marginal.png"/>
+<p style="text-align:center"> Courtesy of: Bscan Creative Commons, via <a href="https://commons.wikimedia.org/wiki/File:MultivariateNormal.png" target="blank">Wikimedia Commons</a></p>
+</div>
+<div style="float:left; width:60%">
+<ul>
+  <li>An important feature of jointly Gaussian random varaibles is that their marginal and conditional distributions are also Gaussian.</li>
+  <li> We recall, given a joint distribution $p_{X,Y}(x,y)$, we define the marginal distribution of $X$ as,
+  $$\begin{align}
+  p_X(x)\triangleq \int_y p_{X,Y}(x,y) \mathrm{d}y = \int_y p_{X\vert Y}(x\vert y)p_Y(y)\mathrm{d}y= \mathbb{E}_Y \left[p_{X\vert Y}(x\vert y)\right],
+  \end{align}$$
+  where each equality on the right is an equivalent form.</li>
+  <ul>  
+    <li> Intuitively, the marginal probability of $X$ is computed by examining the conditional probability of $X$ given a particular value of $Y$, and then averaging this conditional probability over the distribution of all values of $Y$.</li>
+    <li> What is left is the "intrinsic" probability of $X$ when we have averaged out the effects of $Y$, which $X$ implicitly depends on.</li>
+  </ul>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>  
+  <li>In the figure above, we see the joint, sample-density of a bivariate Gaussian and the respective sample-based marginal densities for $X$ and $Y$ in blue and red respectively.</li>
+  <li>In particular, it can be shown as with the example from the last slide, $Y_i$ has a marginal density given as,
+  $$p_{Y_i}(y_i) =\frac{1}{\sqrt{2\pi}\sigma_i} e^{-\frac{1}{2} \left(\frac{y_i - \mu_i}{\sigma_i}\right)^2}.$$ 
+  </li>
+  <li><b>Note:</b> when two variables are individually Gaussian, it is not gauranteed that their joint distribution is Gaussian.</li>
+</ul>
+</div>
+
+========================================================
+
+
+<h3>Conditional Gaussian Inferences</h3>
+
+<ul>
+  <li>The conditional distribution is defined,
+  $$p_{Y_1\vert Y_2}(y_1\vert y_2) \triangleq \frac{p_{Y_1,Y_2}(y_1,y_2)}{p_{Y_2}(y_2)},$$
+  where</li>
+  <ul>
+    <li>$p_{Y_1,Y_2}(y_1,y_2)$ is once again the joint Gaussian distribution; and</li>
+    <li>$p_{Y_2}(y_2)$ is the marginal distribution for $y_2$.</li>
+  </ul>
+ <li><b>Exercise (2 minutes):</b> use the above definition above, and the definition of the marginal distribution,
+ $$p_{Y_1}(y_1)\triangleq \int_{y_2} p_{Y_1,Y_2}(y_1,y_2) \mathrm{d}y_2$$
+ in order to show that 
+ $$p_{Y_1}(y_1) = \int_{y_2} p_{Y_1\vert Y_2}(y_1\vert y_2)p_{Y_2}(y_2)\mathrm{d}y_2.$$</li>
+ <li><b>Solution:</b> Note that by definition,
+ $$p_{Y_1\vert Y_2}(y_1\vert y_2) p_{Y_2}(y_2) = p_{Y_1,Y_2}(y_1,y_2),$$
+ such that the identity is recovered by substitution.</li>
+</ul>
+
+========================================================
+
+
+<h3>Conditional Gaussian Inferences -- continued</h3>
+
+<ul>
+  <li>Given two jointly Gaussian random variables, we can analytically compute the conditional distribution as
+  $$p_{Y_1 \vert Y_2}(y_1 \vert y_2) = \frac{1}{\sqrt{2\pi}\sigma_{1 \vert 2} }\mathrm{exp}\left\{-\frac{1}{2}\left( \frac{y_1 - \alpha_{1\vert 2} - \beta_{12} y_2}{\sigma_{1\vert 2}} \right)^2\right\},$$
+  where:</li>
+  <ol>
+    <li>$\alpha_{1 \vert 2} \triangleq  \mu_1 - \mu_2 \rho_{12}\frac{\sigma_1}{\sigma_2}$ </li>
+    <li>$\beta_{12} \triangleq \rho_{12}\frac{\sigma_1}{\sigma_2}$</li>
+    <li>$\sigma_{1 \vert 2}^2 \triangleq \sigma^2_1 \left(1 - \rho_{12}^2\right)$
+  </ol>
+  <li>Therefore, the conditional Gaussian has mean parameterized by,
+  $$\mathbb{E}\left[Y_1 \vert Y_2\right] = \alpha_{1\vert 2} + \beta_{12} y_2,$$
+  and standard deviation $\sigma_{1\vert 2}$.
+  <li><b>Q:</b> if the true means $\mu_1,\mu_2$, the true variances $\sigma_1^2,\sigma_2^2$ and correlation $\rho_{12}$ are unknown, how does this resemble our earlier discussion of maximum likelihood estimation? </li>
+  <li> Recall, the form of the likelihood function (for free parameters $\overline{\beta}_1 \overline{\beta}_2, \overline{\sigma}$) 
+  $$\begin{align}\mathcal{L}\left(\overline{\beta}_0,\overline{\beta}_1,\overline{\sigma}\vert Y_i\right)& =\frac{1}{\sqrt{2\pi}\overline{\sigma}}\mathrm{exp}\left\{-\frac{1}{2}\left(\frac{Y_i - \overline{\beta}_0 - \overline{\beta}_1 X_i}{\sigma}\right)^2\right\},
+    \end{align}$$
+  such that we can interpret the parameters of the correlation model in the same sense as the Gaussian error regression parameters.</li> 
+  </li>
+</ul>
+
+========================================================
+
+
+<h3>Characteristics of conditional distributions</h3>
+
+<div style="float:left; width:30%">
+<img style="width:100%", src="gaussian_cross_section.png"/>
+<p style="text-align:center"> Courtesy of: Kutner, M. et al. Applied Linear Statistical Models 5th Edition</p>
+</div>
+<div style="float:left; width:70%">
+<ul>
+  <li>We will discuss several important properties of the conditional distribution:</li>
+    <ol>
+      <li>The conditional probability distribution of $Y_1$ for any given value of $Y_2$ is also Gaussian.</li>
+        <ul>
+          <li>Indeed, we can visualize this in the two dimensional case where the cross section represents the conditional Gaussian for $Y_1$ a fixed value of $Y_2$; </li>
+          <li> up to renormalization of the section to integrate to 1, this is the form of the conditional.</li>
+        </ul>
+        <li>The mean of the conditional distribution is given identically by the regression function in the parameters $\alpha_{1\vert 2}, \beta_{12}$.</li>
+        <li>All conditional variances have the same variance, as given by,
+        $$\sigma_{1 \vert 2}^2 \triangleq \sigma^2_1 \left(1 - \rho_{12}^2\right)$$</li>
+    </ol>
+</ul>
+</div>
+
+
+========================================================
+
+
+<h3>When can a Gaussian correlation model be used?</h3>
+<ul>
+  <li>In general, we can apply the Gaussian correlation model in wider scenarios than jointly Gaussian distribute variables.</li>
+  <li>Indeed, if we suppose that,</li>
+  <ol>
+    <li> the conditional distribution of $Y_i$ conditioned on $X_i$ is Gaussian, with conditional mean
+    $$\mathbb{E}\left[ Y_i \vert X_i \right] = \beta_0 + \beta_1 X_i,$$
+    and variance $\sigma^2$;</li>
+    <li>the conditional variables $Y_i\vert X_i$ and $Y_j \vert X_j$ are independent for each $i\neq j$;</li>
+    <li>the $X_i$ are independent random variables whos distributions don't depend on $\sigma^2,\beta_0,\beta_1$;</li>
+  </ol>
+  <li> then the Gaussian correlation model still holds, and the regression for the conditional distributions can be performed as usual.</li>
+</ul>
+
+========================================================
+
+
+<h2>Review of ideas</h2>
+
+
+* The Gauss-Markov theorem makes no assumption a priori about the distribution of the errors $\epsilon_i$.
+
+* Regardless of the distribution, the parameters estimated by least squares $\hat{\beta}_1,\hat{\beta}_1$ are the BLUE.
+
+* However, it is a common assumption in practice that these are distributed iid according to the Gaussian $N(0, \sigma^2)$.
+
+* This assumption is justified in that Gaussian distributions are common in practice,
+
+  * and furthermore, in cases of large sample sizes Gaussian errors are a good approximation.
+  
+* In this case, due to the shape of the Gaussian, the mean equals the mode and the minimum variance estimate is also the maximum likelihood estimate.
+
+========================================================
+
+
+<h3>Review of ideas</h3>
+
+<ul>
+ <li>Computing the maximum likelihood estimate consists of maximizing a log-likelihood function, which is a product of the probability densities evaluated at:</li>
+  <ol>
+    <li> each data point;</li>
+    <li> depending on the choice of unkown parameters.</li>
+  </ol>
+ <li> Taking a derivative in the unkown parameters, we find a similar maximization problem to the objective function for the minimum variance BLUE.</li>
+ <li> When we assume the explanatory variable $X$ is also a Gaussian distributed random variable, we also have a natural interpretation of the regression as a correlation model.</li>
+ <li> The regression function has the same properties as before, but is interpreted as the conditional mean given the realization of the random predictor.</li>
+ <li> This framework isn't limited to Gaussians, but the conditional distributions must be Gaussian for all choices of the predictor.</li>
+</ul>
+
+
+========================================================
+
+<h2>Analysis of variance approach</h2>
+
+<ul>
+ <li>We have seen one approach now for regression analysis which will be the basic framework in which we consider these linear models.</li>
+ <li>However, there are additional ways to approach the regression model, among which is known as Analys of Variance or ANOVA.</li>
+ <li>This approach, which we will introduce in the following, seeks to partition the variation in the signal into different components for creating hypothesis tests.</li>
+ <li>We will introduce the main concepts here, which will underpin a number of the techniques which we will introduce in full generality in multiple regression.</li>
+</ul>
+
+========================================================
+<h3>Total sum of squares </h3>
+
+<ul>
+  <li>We note, there are several forms of variation in our regression analysis.</li>
+  <li>Among these is the variation of the response variable around its empirical mean,
+  $$ Y_i - \overline{Y}$$</li>
+  <li>Analogously to how we earlier defined the RSS in terms of the squared-deviations of $Y_i$ from the regression-estimated mean response,
+  $$RSS = \sum_{i=1}^n \hat{\epsilon}_i^2;$$</li>
+  <li>we will define the <b>Total Sum of Squares (TSS)</b> in terms of the squared-deviations of $Y_i$ from the sample-based mean of the response:
+  $$TSS\triangleq \sum_{i=1}^n \left( Y_i - \overline{Y}\right)^2.$$</li>
+  </li>
+  <li><b>Q:</b> if all observations of the response variable have the same value, then what value does the TSS is attain?</li>
+  <li><b>A:</b> the TSS must equal zero, as $Y_i = \overline{Y}$ for all $i$.</li>
+  <li>In this regard, the greater the overall variation in the response variable across all cases, then the greater is the TSS.</li>
+  <li>The TSS represents the variation around a null model, in which we would consider the variation present in the response to be random variation around its mean, irrespective of the explantory variable $X$.</li>
+  <li>In general, the RSS does not equal the TSS for the reason described above --- in particular, if there is a signal in the data, we expect there to be less variation in the RSS than in the TSS.</li> 
+</ul>
+
+========================================================
+<h3>Residual sum of squares </h3>
+
+<ul>
+  <li> While we can consider the TSS a measure of the total variation around the null model of random variation around the mean, we can also consider how much of this variation is "explained".</li>
+  <li> Particularly, consider the quantity, the <b>Explained Sum of Squares (ESS)</b>
+  $$ESS = \sum_{i=1}^n\left(\hat{Y}_i - \overline{Y}\right)^2;$$
+  <li>This represents how much variation in the signal is explained by our regression model;</li>
+  <ul>  
+    <li>if our regression model is the null model, i.e., the $i$-th fitted value is just the mean of the observed responses, $\hat{Y}_i =\overline{Y}$, then $ESS=0$.</li> 
+  </ul>
+  <li> Therefore, as we will show in the following, we can generally consider a larger $ESS$ corresponding to a regression model with better performance.</li>
+</ul>
+
+========================================================
+<h3>Partitioning the errors </h3>
+
+<ul>
+  <li>To demonstrate the meaning of the ESS corresponding to a better performance, we consider the following partition of the variation in the response,
+  $$\underbrace{Y_i - \overline{Y}}_{TSS} = \underbrace{\hat{Y}_i - \overline{Y}}_{ESS} +\underbrace{ Y_i - \hat{Y}_i}_{RSS},$$
+  where we say each term loosely corresponds to the TSS, ESS, or RSS as above.</li>
+  <li>This corresponds in a loose sense to decomposing the total deviation of the response around the mean into:</li>
+  <ol>
+    <li>the deviation of the fitted values around the mean (ESS), plus</li>
+    <li>the deviation of the observed values from the fitted values (RSS)</li>
+  </ol>
+  <li><b>Q:</b> how do we obtain the equality of the right-hand-side with the left-hand-side above?</li>
+  <li><b>A:</b> we can always add zero to any equation to acheive equality, i.e.,
+  $$Y_i - \overline{Y} = Y_i - \overline{Y} + \left(\hat{Y}_i - \hat{Y}_i \right).$$
+  <li> Re-arranging terms recovers the decomposition as above.</li>
+</ul>
+
+========================================================
+<h3>Partitioning the errors -- continued </h3>
+
+<ul>
+  <li>While we have motivated the decomposition of the TSS, we haven't actually shown the decomposition.</li>
+  <li> Specifically, we need to demonstrate that,
+  $$\sum_{i=1}^n \left(Y_i - \overline{Y}\right)^2 = \sum_{i=1}^n \left(\hat{Y}_i - \overline{Y}\right)^2 + \sum_{i=1}^n \left(Y_i - \hat{Y}_i \right)^2,$$
+  which is non-trivial, and is a consequence of the choice of the estimation by least squares.</li>
+  <li> We will begin by adding zero and expanding terms,
+  $$\begin{align}
+  TSS&= \sum_{i=1}^n \left[Y_i  - \overline{Y}\right]^2 \\
+  & = \sum_{i=1}^n \left[ \left(\hat{Y}_i - \overline{Y}\right) + \left(Y_i - \hat{Y}_i \right)\right]^2\\
+  &= \sum_{i=1}^n \left[ \left(\hat{Y}_i - \overline{Y}\right)^2 + \left(Y_i - \hat{Y}_i \right)^2 + 2 \left(\hat{Y}_i - \overline{Y}\right)\left(Y_i - \hat{Y}_i \right)\right]\\
+  &= ESS + RSS + 2\sum_{i=1}^n  \left(\hat{Y}_i - \overline{Y}\right)\left(Y_i - \hat{Y}_i \right).
+  \end{align}$$
+  <li>Therefore, we need to demonstrate that the sum of cross terms vanishes to prove the partition.</li>
+</ul>
+
+========================================================
+<h3>Partitioning the errors -- continued </h3>
+<ul>
+  <li>It will be sufficient to show that
+  $$\sum_{i=1}^n  \left(\hat{Y}_i - \overline{Y}\right)\left(Y_i - \hat{Y}_i \right) =0$$
+  </li>
+  <li>Recall the following two properties, which we discussed in earlier exercises:
+    <ol>
+      <li>The sum  of the residuals is equal to zero $\sum_{i=1}^n \hat{\epsilon}_i = 0$; and</li>
+      <li>The sum  of the residuals, weighted by the corresponding fitted value, is equal to zero $\sum_{i=1}^n \hat{Y}_i \hat{\epsilon}_i=0$.
+    </ol>
+    <li><b>Exercise (4 minutes):</b> with a partner, use the above two properies to prove that the sum of the cross terms at the top is equal to zero.</li>
+</ul>
+
+========================================================
+<h3>Partitioning the errors -- continued </h3>
+
+
+<ul>
+  <li><b>Solution:</b> we note that by definition, we recover
+  $$\begin{align}
+  \sum_{i=1}^n  \left(\hat{Y}_i - \overline{Y}\right)\left(Y_i - \hat{Y}_i \right)& = \sum_{i=1}^n  \left(\hat{Y}_i - \overline{Y}\right)\hat{\epsilon}_i.
+  \end{align}$$</li>
+  <li>If we distribute the terms in the product, we can thus recover two sums of the form,
+  $$\begin{align}
+  \sum_{i=1}^n  \left(\hat{Y}_i - \overline{Y}\right)\left(Y_i - \hat{Y}_i \right)& = \sum_{i=1}^n \hat{Y}_i \hat{\epsilon}_i - \overline{Y}\sum_{i=1}^n \hat{\epsilon}_i;
+  \end{align}$$ </li>
+  <li> Therefore, the two earlier proven properties of the residuals proves that the sum of cross terms vanishes.</li>
+  <li>Particularly, we now have proven that,
+  $$TSS = ESS + RSS.$$</li>
+  <li> In this way, we see the tradeoff between the two terms in the $TSS$, particularly,
+    <ol>
+      <li>When the $RSS$ is large, this says:
+      <ul>
+        <li>the squared-distance between the fitted and the observed values, $RSS= \sum_{i=1}^n\hat{\epsilon}_i^2$, is large;</li>
+        <li>particularly, the $ESS$ (explained variation) is small and the fit is close to the null model.</li>
+      </ul>
+      <li>When the $ESS$ is large, this says:</li>
+      <ul>
+        <li> the squared-distance between the fitted and the empirical mean, $ESS=\sum_{i=1}^n \left(\hat{Y}_i - \overline{Y}\right)^2$, is large;</li>
+        <li> particularly, the $RSS$ is small, implying a close fit between the predicted and the observed values.</li>
+      </ul>
+    </ol>
+</ul>
+
+========================================================
+<h2>Goodness of fit</h2>
+
+<ul>
+  <li>With the last discussion as a motivation, we can introduce our first metric for the "goodness of fit" of a regression model.</li>
+  <li>A common choice to examine how well the regression model actually fits the data is called the "coefficient of determination" or "the percentage of variance explained".</li>
+  <li>For short, we define,
+  $$R^2 = 1 - \frac{\sum_{i=1}^n \left( Y_i - \hat{Y}_i\right)^2}{\sum_{i=1}^n \left(Y_i - \overline{Y}\right)^2} = 1 - \frac{RSS}{TSS}$$</li>
+  <li><b>Exercise (2 minutes):</b> recalling the realtionship $TSS = ESS + RSS$, discuss with a partner what is the possible range of $R^2$ and what the maximal and minimal value correspond to.</li>
+  <li><b>Solution:</b> if $RSS=TSS$, then we have a value of $R^2=0$, corresponding to a null model, i.e., simply random variation about the sample-based mean.</li>
+  <li>The smallest value $RSS$ can attain is $0$, in which case $R^2=1$, corresponding to the case where all fitted values equal the observed value.</li>
+  <li> Generally, we consider a model with $R^2$ close to one a "good" fit, and $R^2$ close to zero a bad fit.</li>
+  <ul>
+    <li><b>Note:</b> this metric has a number of flaws, which we will discuss further in the course.</li>
+    <li>However, this metric is commonly used enough and is of great enough historical importance that we should understand it.</li>
+  </ul>
+</ul>
+
+========================================================
+
+<h3> A visual representation </h2>
+
+
+<div style="float:left; width:60%">
+<img style="width:100%", src="./estimation.png" alt="Visualization of the total variation of data points which is greater than the variation of the data points around the regression function."/>
+<p style="text-align:center">Courtesy of: Faraway, J. Linear Models with R. 2nd Edition</p>
+</div>
+
+<div style="float:left; width:40%">
+<ul>
+  <li> In the case of simple linear regression, we can visualize the meaning of $R^2$ directly in terms of the variation of the observations around the regression function.</li>
+  <ul>
+    <li> The solid arrow represents the variance of the data about the data mean.</li>
+    <li> The dashed arrow represents the variance of the data about the least squares prediction.</li>
+    <li> $R^2$ is defined by one minus the ratio of these two variances.</li>
+  </ul>
+</ul>
+</div>
+
+
+========================================================
+
+<h3> Computing $R^2$ in the R language</h3>
+
+<ul>
+  <li>Our definition for $R^2$ is the same one used in the language R, so we emphasize this.</li>
+  <ul>
+    <li> However, this definition assumes that there is an intercept term for the model.</li>
+  </ul>
+  <li> If there is <b>no intercept term</b>, i.e., $\beta_0 = 0$, then $R^2$ is equal to the correlation of the fitted values with the observed values, squared:
+  $$\begin{align}
+  R^2 & = cor^2 \left(\hat{Y}, Y\right)
+  \end{align}$$
+  </li>
+  <li>The value of $R^2$ should be computed from this definition if the model is fitted without intercept.</li>
+  <li>If we don't take care to do it this way, the coefficient of determination will be misleadingly high.</li>
+  <li><b>Note:</b> for this reason, we must take care about using the model summary command in the R language, when we have a model without intercept.</li>
+  <li>We will return to this point in the coming weeks.</li>
+</ul>
+
+========================================================
+<h3> What are "good" values of $R^2$?</h3>
+
+<ul>
+  <li>There is no unversal "good" value for $R^2$ to attain in practice.</li>
+  <li> For physics and engineering applications, data will be produced in tightly controlled experiments.</li>
+  <ul>
+    <li>Measurement noise will typically be low, and there are strong correlation and causality relationships in these settings.</li>
+    <li> In that case, we expect $R^2$ to be close to one in order to say the fitted values model the observations well.</li>
+  </ul>  
+  <li> In the social sciences, there is much more variability, typically causal relationships are not well understood and correlations are weaker.</li>
+  <ul>
+    <li> In this case, we will typically expect a "good fit" to have a much lower $R^2$ score.</li>
+  </ul>
+</ul>
+
+========================================================
+<h3> Simulated examples of $R^2\approx.65$</h3>
+
+<div style="float:left; width:50%">
+<img style="width:100%", src="./R_2.png" alt="Figure of different arrangements of data points, all with $R^2$ approximately .65.  Descriptions are in the text"/>
+</div>
+<div style="float:right; width:50%">
+<ul>
+  <li>On the left, we see how different configurations of data can all result in the same $R^2$ score.</li>
+  <ul>
+    <li> <b>Upper left:</b> the plot is well-behaved for R2 -- there is a clear trend with some variation.</li>
+    <li> <b> Upper right: </b> the residual variation is smaller than the first plot but the variation in the observations is also smaller, so the $R^2$ score is about the same.</li>
+    <li> <b> Lower left: </b> the fit looks strong except for a couple of outliers, which lower the overall score. </li>
+    <li> <b> Lower right: </b> the relationship is quadratic, leading to some irregularity in the fit with a straight line.</li>
+  </ul>
+</ul>
+</div>
+
+
+========================================================
+<h2>Breakdown of degrees of freedom</h2>
+
+<ul>
+  <li>We have used the notion of the "degrees of freedom" loosely up to this point, and we want to formalize this analysis.</li>
+  <li>The degrees of freedom refer to the number of values that are free to vary (the number of free parameters or independent variables) in the computation of some statistic.</li>
+  <li>In particular, this can be considered geometrically for a set of of $n$ observations of the response, $\left\{Y_i\right\}_{i=1}^n$;</li>
+  <ul>
+    <li>If we identify the $n$ observations as an $n$-dimensional vector
+    $$\mathbf{Y} = \begin{pmatrix} Y_1,& \cdots, &Y_n\end{pmatrix}^\mathrm{T} ,$$
+    we say that as a random vector, it can attain a value in any subspace  of the $n$-dimensional space $\mathbb{R}^n$.</li>
+    <li>Suppose we have the sample-based mean defined as before as $\overline{Y} = \frac{1}{n}\sum_{i=1}^n Y_i$.</li>
+    <li>Then, we can re-write the random vector $\mathbf{Y}$  in terms of two objects, one which lives in $1$-dimensional space and one  which lives in $n-1$-dimensional space:
+    $$\mathbf{Y} = \overline{Y} \begin{pmatrix}1 & \cdots & 1\end{pmatrix}^\mathrm{T} + \begin{pmatrix} Y_1 - \overline{Y} & \cdots & Y_n - \overline{Y}\end{pmatrix}^\mathrm{T}$$
+    <li>The first quantity on the right-hand-side is constrained to live in the $1$-dimensional subspace that is spanned by the vector $\begin{pmatrix}1 & \cdots & 1\end{pmatrix}^\mathrm{T}$; here the only "free" parameter is the value of $\overline{Y}$.</li>
+  </ul>
+</ul>
+
+
+
+========================================================
+<h3>Breakdown of degrees of freedom -- continued</h3>
+
+<ul>
+  <li> Continuing our ananlysis:
+ $$\mathbf{Y} = \overline{Y} \begin{pmatrix}1 & \cdots & 1\end{pmatrix}^\mathrm{T} + \begin{pmatrix} Y_1 - \overline{Y} & \cdots & Y_n - \overline{Y}\end{pmatrix}^\mathrm{T}$$</li>
+  <ul>
+    <li>The second quantity on the right-hand-side may appear have $n$-dimensions of possible values, but there is a constraint implied by the used degree of freedom:
+    $$\sum_{i=1}^n \left(Y_i - \overline{Y}\right) =0,$$
+    such that there are only $n-1$ degrees of freedom left over.</li>
+    <li> Particularly, the second quantity (sometimes referred to as the anomalies) live in a $n-1$-dimensional subspace of the full $\mathbb{R}^n$ space.</li>
+    </ul>
+    <li>Therefore, when we compute the unbiased sample-based variance, the normalization by $n-1$ makes sense by the fact that the quantity
+    $$\sum_{i=1}^n \left(Y_i - \overline{Y}\right)^2,$$
+    has only $n-1$ degrees of freedom, or values that are not yet determined.</li>
+  <li>This is analogous to the earlier lecture when we discussed the over constrained/ under constrained/ unique solution to finding a  line through data points in the plane.</li>
+</ul>
+
+========================================================
+<h3>Breakdown of degrees of freedom -- continued</h3>
+
+
+<ul>
+  <li>In the case of estimating the regression function, we see similarly,
+  $$\hat{Y} = \hat{\beta}_0 + \hat{\beta}_1 X$$
+  we estimate two parameters as linear combinations of the observed cases $(X_i,Y_i)$.</li>
+  <li>We consider the $Y_i$ to be the free values here, while the two normal equations provide two constraints to the estimated regression function.</li>
+  <li> Correspondingly, as we introduce more parameters $p$ in the model, we will use more degrees of freedom, solving a system of equations for $p$ parameters;</li>
+  <li> equivalently, we will put more constraints on the system until it becomes uniquely (or eventually over-) constrained, with $n-p$ degrees of freedom available to determine the regression function.</li>
+  <ul>
+    <li>If $n-p=0$ this is a completely constrained system, with a unique value for the regression fuction --- this is actually a serious issue of overfitting, which we will return to later.</li>
+    <li>If $n-p<0$, we have an overconstrained or "super-saturated" model for which different techniques entirely are needed for the analysis.</li>
+  </ul>
+</ul>
+
+========================================================
+<h3>Degrees of freedom of TSS and RSS</h3>
+
+<ul>
+  <li>By the earlier discussion, we say that the TSS,
+  $$TSS = \sum_{i=1}^n \left(Y_i - \overline{Y}\right)^2$$
+  has $n-1$ degrees of freedom.</li>
+  <ul>
+    <li>This corresponds to the fact that there are $n$ values that the observations can attain, with one constraint from the sample-based mean.</li>
+  </ul>
+  <li>Similarly, we find that the RSS,
+  $$\begin{align}
+  RSS &= \sum_{i=1}^n \left( Y_i - \hat{Y}_i \right)^2\\
+  &= \sum_{i=1}^n \left( Y_i - \hat{\beta}_0 - \hat{\beta}_1X_i \right)^2
+  \end{align}$$
+  has $n-p$ degrees of freedom $(p=2)$, because there are $p$ constraints on this relationship given any $n$ possible values that $Y_i$ attain.</li>
+</ul>
+
+========================================================
+<h3>Degrees of freedom of ESS</h3>
+
+<ul>
+  <li>Let us derive the number of degrees of freedom of the explained sum of squares,
+  $$ESS = \sum_{i=1}^n \left(\hat{Y}_i - \overline{Y}\right)^2$$
+  </li>
+  <li><b>Exercise (2 minutes):</b> we will use the property that the mean of the fitted values is equal to the mean of the observed values, i.e.,
+  $$\frac{1}{n}\sum_{i=1}^n \hat{Y}_i = \overline{Y};$$
+  using any of the properties we have proven already about the regression function, show why this is.</li>
+  <li><b>Solution:</b> one useful property we have shown with the normal equations is that the sum of the residuals is zero, i.e.,
+  $$\sum_{i=1}^n \hat{\epsilon}_i = 0.$$
+  </li>
+  <li> Therefore, we can consider that
+  $$\overline{Y} =\frac{1}{n} \sum_{i=1}^n Y_i =  \frac{1}{n}\sum_{i=1}^n\left( \hat{Y}_i + \hat{\epsilon}_i\right) = \frac{1}{n}\sum_{i=1}^n \hat{Y}_i$$
+</ul>
+
+========================================================
+<h3>Degrees of freedom of ESS -- continued</h3>
+
+<ul>
+  <li>Recalling the form for the explained sum of squares,
+  $$\begin{align}
+  ESS &= \sum_{i=1}^n \left(\hat{Y}_i - \overline{Y}\right)^2 \\
+  &=\sum_{i=1}^n \left[\hat{\beta}_0 + \hat{\beta}_1X_i - \left(\frac{1}{n}\sum_{i=1}^n \hat{Y}_i \right) \right]^2 
+  \end{align}$$
+  where the above used the relationship we just proved.</li>
+  </li>
+  <li><b>Q:</b> in what way can we simplify the above expression?</li>
+  <li><b>A:</b> one way is to substitute the definition of the fitted value $\hat{Y}_i$ once again and cancel terms,
+  $$\begin{align}
+  ESS &=\sum_{i=1}^n \left\{ \hat{\beta}_0 + \hat{\beta}_1X_i - \left[\frac{1}{n}\sum_{i=1}^n  \left(\hat{\beta}_0 + \hat{\beta}_1 X_i \right)\right] \right\}^2 \\
+  &=\sum_{i=1}^n \left\{ \hat{\beta}_0 + \hat{\beta}_1X_i - \hat{\beta}_0 - \hat{\beta}_1 \overline{X}  \right\}^2\\
+  &= \hat{\beta}_1 \sum_{i=1}^n \left(X_i - \overline{X}\right)^2
+  \end{align}$$</li>
+</ul>
+
+========================================================
+<h3>Degrees of freedom decomposition</h3>
+
+<ul>
+  <li>From the last derivation, we have that
+  $$\begin{align}
+  ESS &= \hat{\beta}_1 \sum_{i=1}^n \left(X_i - \overline{X}\right)^2
+  \end{align}$$</li>
+  <li>Although the the $ESS$ is computed from $n$ deviations, they are all derived from the same regression line.</li>
+  <li>If we suppose the regression line is the free value in this case, it has two degrees of freedom described by its slope $\hat{\beta}_1$ and its intercept $\hat{\beta}_0$.</li>
+  <li>However, as we saw earlier, we cancel the terms with the intercept such that $\hat{\beta}_1$ is the only degree of freedom (free parameter) in the $ESS$.</li>
+  <li>Therefore, we say that the $ESS$ has one degree of freedom.</li>
+  <li>An important consequence of this for the analysis of variance approach is that the degrees of freedom, like the total variation, are <b>additive</b>:,
+  $$\underbrace{TSS}_{n-1} = \underbrace{ESS}_{p - 1} + \underbrace{RSS}_{n-p},$$
+  where $p=2$ in simple regression.</li>
+  <li> The above concept and the geometry likewise generalize to multiple regression, which we will come to shortly.</li>
+</ul>
+
+========================================================
+<h3>Mean Squares</h3>
+
+<ul>
+  <li>A sum of squares, such as, the $TSS$, $ESS$ or $RSS$ when divided by its associated degrees of freedom is referred to as a mean square.</li>
+  <li>Therefore, we will identify the following quantities:</li>
+  <ol>
+    <li>the regression mean square -- $\frac{ESS}{p-1}$;</li>
+    <li>the residual mean square error -- $\frac{RSS}{n-p}$;</li>
+  </ol>
+  <li><b>Q:</b> we have mentioned once before that one of the above is an unbiased estimator --- can you recall what is the value of,
+  $$\mathbb{E}\left[\frac{RSS}{n-p}\right]?$$</li>
+  <li><b>A:</b> the residual mean square error, denoted $\hat{\sigma}^2$ is an unbaised estimator for $\sigma^2$; therefore,
+  $$\mathbb{E}\left[\frac{RSS}{n-p}\right] = \sigma^2$$</li>
+</ul>
+
+========================================================
+<h3>Mean Squares</h3>
+
+<ul>
+  <li>It can be shown that similarly, the regression mean square has an expectation,
+  $$\mathbb{E}\left[\frac{ESS}{1} \right]= \sigma^2 + \beta_1^2 \sum_{i=1}^n \left(X_i - \overline{X}\right)^2$$
+  </li>
+  <ul>
+    <li> Note, however, while the residual mean square error takes the form for higher dimensions, the above regression mean square does not.</li>
+  </ul>
+  <li><b>Q:</b> suppose $\beta_1\neq 0$, which is larger, the expected regression mean square or the expected residual mean square error?</li>
+  <li><b>A:</b> provided all cases don't correspond to the same value $X_i$, the sum of squares $\sum_{i=1}^n\left(X_i - \overline{X}\right)^2$ is positive.</li>
+  <li>Therefore, comparing the two values of the regression mean square and the residual mean square error provides some means to determine "how likely is it that $\beta_1=0$?"</li>
+  <li>This type of comparison will underpin our hypothesis tests, which we will introduce shortly in multiple regression.</li>
+</ul>
+
+========================================================
+<h3>The ANOVA table</h3>
+
+<ul>
+  <li> Collecting all the information we have developed so far in the analysis of variance framework, we arrive at the ANOVA table.</li>
+  <ul>
+    <li>A sample ANOVA table:
+    <table>
+      <tr><th>Source</th> <th>Degrees of freedom</th> <th>Sum of squares</th> <th>Mean square</th> <th> F-statistic</th></tr>
+      <tr><td>Regression</td> <td>$p-1$</td> <td>$ESS$</td> <td>$\frac{ESS}{p-1}$</td> <td>$F$</td></tr>
+      <tr><td>Residual</td> <td>$n-p$</td> <td>$RSS$</td> <td>$\frac{ESS}{n-p}$</td> <td></td></tr>
+      <tr><td>Total</td> <td>$n-1$</td> <td>$TSS$</td> <td>$\frac{TSS}{1}$</td><td></td></tr>
+    </table>
+    </li>
+  </ul>
+  <li>The R language will provide an ANOVA table that arranges the information we have discussed, similarly to the above.</li>
+  <ul>
+    <li>The piece of data we haven't discussed so far is the one we have been alluding to --- the value of the F-statistic for hypothesis testing.</li>
+  </ul>
+  <li>It is not strictly necessary to compute all the elements of the table --- as the originator of the table, Fisher said in 1931, it is "nothing but a convenient way of arranging the arithmetic."</li>
+  <li>When we introduce multiple regression, we will return to this table to interpret our results in terms of hypothesis testing versus the null model.</li>
+  <li> In the next lecture, we will begin our investigation of multiple regression.</li>
+</ul>
