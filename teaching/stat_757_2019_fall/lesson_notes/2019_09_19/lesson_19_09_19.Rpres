@@ -46,6 +46,7 @@ height: 1080
 
 ========================================================
 <h3>A review of random vectors</h3>
+
 <ul>
   <li>We will consider again the vector of all observed cases,
   $$\mathbf{Y} = \begin{pmatrix} Y_1 , & \cdots, & Y_n \end{pmatrix}^\mathrm{T}.$$</li>
