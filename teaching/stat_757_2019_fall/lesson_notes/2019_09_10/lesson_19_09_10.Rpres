@@ -1,15 +1,28 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+Simple linear regression -- part 3
 ========================================================
+date: 09/10/2019
 autosize: true
 incremental: true
 width: 1920
 height: 1080
 
-<div style="background-color: white; padding:40px">
-<h1 style='color:black'> Simple linear regression -- part 3</h1>
-<h2 style='color:black'> 09/10/2019</h2>
-<h2 style='color:black'>Instructions:</h2>
-<p style='color:black'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
-</div>
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+
 
 ========================================================
 
@@ -273,7 +286,7 @@ height: 1080
 <h3>Estimation of parameters by maximum likelihood -- an example</h3>
 
  <div style="float:left; width:50%">
-<img style="width:100%", src="likelihood_1.png"/>
+<img style="width:100%", src="likelihood_1.png" alt="Image of Gaussian distribution with mean 230, standard deviation 10, and samples at Y_1 = 250, Y_2=265, Y_3=259"  />
 <p style="text-align:center"> Courtesy of: Kutner, M. et al. Applied Linear Statistical Models 5th Edition</p>
 </div>
 <div style="float:left; width:50%">
@@ -297,7 +310,7 @@ height: 1080
 <h3>Estimation of parameters by maximum likelihood -- an example continued</h3>
 
  <div style="float:left; width:50%">
-<img style="width:100%", src="likelihood_2.png"/>
+<img style="width:100%", src="likelihood_2.png" alt="Image of Gaussian distribution with mean 259, standard deviation 10, and samples at Y_1 = 250, Y_2=265, Y_3=259" />
 <p style="text-align:center"> Courtesy of: Kutner, M. et al. Applied Linear Statistical Models 5th Edition</p>
 </div>
 <div style="float:left; width:50%">
@@ -414,7 +427,7 @@ height: 1080
 
 
  <div style="float:left; width:30%">
-<img style="width:100%", src="bivariate_gaussian.png"/>
+<img style="width:100%", src="bivariate_gaussian.png" alt="Image of bivariate Gaussian in the real 2-D plane, with vertical direction corresponding to the density value at each point"/>
 <p style="text-align:center"> Courtesy of: Kutner, M. et al. Applied Linear Statistical Models 5th Edition</p>
 </div>
 <div style="float:left; width:70%">

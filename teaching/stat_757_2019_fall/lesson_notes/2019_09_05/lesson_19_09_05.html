@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Lesson 09/05/2019</title>
+  <title>Simple linear regression -- part 2</title>
     
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -783,7 +783,7 @@ hljs.initHighlightingOnLoad();
 
   
 
-
+<style>.section .reveal .state-background {   background: #ffffff;}.section .reveal h1,.section .reveal h2,.section .reveal p {   color: black;   margin-top: 50px;   text-align: center;}</style>
 
 
 
@@ -794,14 +794,12 @@ hljs.initHighlightingOnLoad();
   <div class="slides">
 
 <section data-state="section" data-transition="linear" data-transition-speed="default">
+<h1>Simple linear regression -- part 2</h1><p>09&#x2F;05&#x2F;2019</p>
 
-<div class="slideContent noTitle" >
-<div style="background-color: white; padding:40px">
-<h1 style='color:black'> Simple linear regression &ndash; part 2</h1>
-<h2 style='color:black'> 09/05/2019</h2>
-<h2 style='color:black'>Instructions:</h2>
-<p style='color:black'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
-</div>
+<div class="slideContent" >
+<h2 style="text-align:left"> Instructions:</h2>
+
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
 
 </div>
 
@@ -964,6 +962,7 @@ hljs.initHighlightingOnLoad();
 
 </section>
 <section data-transition="linear" data-transition-speed="default">
+<h3>  </h3>
 <div class="slideContent" >
 <h3 class="fragment">Gauss-Markov Theorem</h3>
 
@@ -1104,8 +1103,8 @@ Robust estimates are typically not linear in \( y \). </li>
   <li class="fragment">The above equations are called the &ldquo;normal&rdquo; equations.</li> 
   <li class="fragment"> Solving for these simultaneously in the values \( \hat{\beta}_0,\hat{\beta}_1 \) we recover point estimates for \( \beta_0,\beta_1 \) as,
   \[ \begin{align}
-  \hat{\beta}_1 &= \frac{\sum_{i=1}^n\left(X_i - \overline{X} \right)\left(Y_i - \overline{Y}\right)}{\sum_{i=1}^n\left(X_i - \overline{X} \right)^2}\\
-  \hat{\beta}_0 &= \frac{1}{n} \left(\sum_{i=1}^n Y_i - \hat{\beta}_1 X_i \right) \\
+  \hat{\beta}_1 &= \frac{\sum_{i=1}^n\left(X_i - \overline{X} \right)\left(Y_i - \overline{Y}\right)}{\sum_{i=1}^n\left(X_i - \overline{X} \right)}\\
+  \hat{\beta}_0 &= \frac{1}{n} \left(\sum_{i=1}^n Y_i - \hat{\beta}_1 X_i \right)^2 \\
   \end{align} \]
   where \( \overline{Y},\overline{X} \) are the means of the observed response and explanatory variables respectively.</li>
 </ul>
@@ -1203,6 +1202,7 @@ Robust estimates are typically not linear in \( y \). </li>
 
 </section>
 <section data-transition="linear" data-transition-speed="default">
+<h3>  </h3>
 <div class="slideContent" >
 <h3 class="fragment">Properties of the estimated regression function</h3>
 
@@ -1397,6 +1397,7 @@ so that the last statement proves the second equation.</li></p>
 
 </section>
 <section data-transition="linear" data-transition-speed="default">
+<h3>  </h3>
 <div class="slideContent" >
 <h3 class="fragment">Estimating the regression variance</h3>
 
