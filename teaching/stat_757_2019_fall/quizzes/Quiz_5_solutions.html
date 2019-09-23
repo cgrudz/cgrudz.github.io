@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Quiz_5</title>
+  <title>Quiz_5_solutions</title>
   <style type="text/css">
       code{white-space: pre-wrap;}
       span.smallcaps{font-variant: small-caps;}
@@ -179,13 +179,26 @@ This quiz will be ungraded but must be handed in for attendance.</p>
 <h2 id="problems">Problems:</h2>
 <h3 id="problem-1">Problem 1:</h3>
 <p>Let the matrix <span class="math inline">\(\mathbf{X} \in \mathbb{R}^{n\times p}\)</span>, for <span class="math inline">\(p &lt; n\)</span>. We assume that the columns of <span class="math inline">\(\mathbf{X}\)</span> are linearly independent such that <span class="math inline">\(\left(\mathbf{X}^\mathrm{T}\mathbf{X}\right)^{-1}\)</span> exists. Define <span class="math inline">\(\mathbf{H} \triangleq \mathbf{X} \left(\mathbf{X}^\mathrm{T}\mathbf{X}\right)^{-1} \mathbf{X}^\mathrm{T}\)</span>. Prove that <span class="math inline">\(\mathbf{H}^2 = \mathbf{H}\)</span>.</p>
-<div class="answer_div">
-
+<div class="solutions">
+<h4 id="solution">Solution:</h4>
+<p>Note that by matrix multiplication associativity, we can write the product, <span class="math display">\[\begin{align}
+\mathbf{H}^2 &amp; = \mathbf{X} \left(\mathbf{X}^\mathrm{T}\mathbf{X}\right)^{-1} \mathbf{X}^\mathrm{T} \mathbf{X} \left(\mathbf{X}^\mathrm{T}\mathbf{X}\right)^{-1} \mathbf{X}^\mathrm{T} \\
+&amp; =\mathbf{X} \left(\mathbf{X}^\mathrm{T}\mathbf{X}\right)^{-1}\left( \mathbf{X}^\mathrm{T} \mathbf{X}\right) \left(\mathbf{X}^\mathrm{T}\mathbf{X}\right)^{-1} \mathbf{X}^\mathrm{T} \\
+&amp;= \mathbf{X} \left(\mathbf{X}^\mathrm{T}\mathbf{X}\right)^{-1} \mathbf{X}^\mathrm{T}
+\end{align}\]</span> by cancellation of the inner terms.</p>
 </div>
 <div class="pagebreak">
 
 </div>
 <h3 id="problem-2">Problem 2:</h3>
 <p>Use problem 1 to show that, <span class="math display">\[\left(\mathbf{I} - \mathbf{H}\right)^2 = \left(\mathbf{I} - \mathbf{H}\right)\]</span></p>
+<div class="solutions">
+<h4 id="solution-1">Solution:</h4>
+Using the last problem, we can say, <span class="math display">\[\begin{align}
+\left(\mathbf{I} - \mathbf{H}\right)^2 &amp; = \mathbf{I}^2 - \mathbf{H} - \mathbf{H} + \mathbf{H}^2 \\
+&amp;= \mathbf{I} - \mathbf{H} - \mathbf{H} + \mathbf{H} \\
+&amp;= \mathbf{I} - \mathbf{H}.
+\end{align}\]</span>
+</div>
 </body>
 </html>
