@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>Homework 5</title>
+
+<style type="text/css">
+  
+  /* Whole document - standard notebook size and margins */
+  body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      max-width: 8.5in;
+      margin: auto;
+      background: #FFFFFF;
+      padding: 1in 1in 1in 1in;
+  }
+  
+</style>
+
+
+
+
+
+<link href="data:text/css;charset=utf-8,%3Cstyle%20type%3D%22text%2Fcss%22%3E%0A%0A%0Abody%20%7B%0Afont%2Dfamily%3A%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Amax%2Dwidth%3A%208%2E5in%3B%0Amargin%3A%20auto%3B%0Abackground%3A%20%23FFFFFF%3B%0Apadding%3A%201in%201in%201in%201in%3B%0A%7D%0A%0Ah1%20%7B%0Afont%2Dsize%3A%2050px%3B%0Acolor%3A%20%23000000%3B%0Atext%2Dalign%3Acenter%3B%0Amargin%2Dbottom%3A15px%3B%0A%7D%0Ah1%2Bp%20%7B%0A%0Acolor%3A%20%23000000%3B%0Afont%2Dsize%3A%2020px%3B%0Aline%2Dheight%3A%202em%3B%0Amargin%2Dtop%3A%200%2E5em%3B%0Amargin%2Dbottom%3A%200em%20%21important%3B%0Atext%2Dalign%3A%20center%3B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0A%0Ah2%20%7B%0Acolor%3A%20%23000000%3B%0A%7D%0A%0Adt%20%7B%0Afloat%3A%20left%3B%0Aclear%3A%20left%3B%0Awidth%3A%2017%25%3B%0A%0A%7D%0Add%20%7B%0Amargin%2Dleft%3A%2017%25%3B%0A%7D%0Ap%20%7B%0Amargin%2Dtop%3A0%3B%0Amargin%2Dbottom%3A7px%3B%0A%7D%0A%0Ablockquote%20%7B%0Atext%2Dalign%3A%20left%3B%20%7D%0A%0Aa%20%7B%0Atext%2Ddecoration%3A%20none%3B%0Acolor%3A%20%232980d6%3B%0A%7D%0Aa%3Ahover%2C%20a%3Aactive%20%7B%0Abackground%2Dcolor%3A%20%232980d6%3B%0Acolor%3A%20%23FFFFFF%3B%0Atext%2Ddecoration%3A%20none%3B%0Atext%2Dshadow%3A%201px%201px%201px%20%23333%3B%0A%7D%0A%0Ahr%20%7B%0Acolor%3A%20%23A6A6A6%3B%0A%7D%0Atable%20%7B%0Awidth%3A%20100%25%3B%0Aborder%2Dcollapse%3Acollapse%3B%0Aborder%2Dspacing%3A0%3B%0Adisplay%3Atable%0A%7D%0Atable%2EminimalistBlack%20%7B%0Aborder%3A%203px%20solid%20%23000000%3B%0Awidth%3A%20100%25%3B%0Atext%2Dalign%3A%20left%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%2EminimalistBlack%20td%2C%20table%2EminimalistBlack%20th%20%7B%0Apadding%3A%205px%204px%3B%0A%7D%0Atable%2EminimalistBlack%20tbody%20td%20%7B%0Afont%2Dsize%3A%2015px%3B%0A%7D%0Atable%2EminimalistBlack%20thead%20%7B%0Abackground%3A%20%23CFCFCF%3B%0Abackground%3A%20%2Dmoz%2Dlinear%2Dgradient%28top%2C%20%23dbdbdb%200%25%2C%20%23d3d3d3%2066%25%2C%20%23CFCFCF%20100%25%29%3B%0Abackground%3A%20%2Dwebkit%2Dlinear%2Dgradient%28top%2C%20%23dbdbdb%200%25%2C%20%23d3d3d3%2066%25%2C%20%23CFCFCF%20100%25%29%3B%0Abackground%3A%20linear%2Dgradient%28to%20bottom%2C%20%23dbdbdb%200%25%2C%20%23d3d3d3%2066%25%2C%20%23CFCFCF%20100%25%29%3B%0Aborder%2Dbottom%3A%203px%20solid%20%23000000%3B%0A%7D%0Atable%2EminimalistBlack%20thead%20th%20%7B%0Afont%2Dsize%3A%2015px%3B%0Afont%2Dweight%3A%20bold%3B%0Acolor%3A%20%23000000%3B%0Atext%2Dalign%3A%20left%3B%0A%7D%0Atable%2EminimalistBlack%20tfoot%20%7B%0Afont%2Dsize%3A%2014px%3B%0Afont%2Dweight%3A%20bold%3B%0Acolor%3A%20%23000000%3B%0Aborder%2Dtop%3A%203px%20solid%20%23000000%3B%0A%7D%0Atable%2EminimalistBlack%20tfoot%20td%20%7B%0Afont%2Dsize%3A%2014px%3B%0A%7D%0A%0A%2Eanswer%5Fdiv%20%7B%0Awidth%3A100%25%3B%0Aheight%3A2in%3B%0Afloat%3Aleft%3B%0A%7D%0A%2Elong%5Fanswer%5Fdiv%7B%0Awidth%3A100%25%3B%0Aheight%3A3in%3B%0Afloat%3Aleft%3B%0A%7D%0A%0A%40media%20print%20%7B%0A%2Epagebreak%20%7B%20page%2Dbreak%2Dbefore%3A%20always%3B%20padding%2Dtop%3A1in%3B%0A%7D%20%7D%0Adiv%2Esolutions%20%2A%20%7B%0Acolor%3A%23000099%3B%0A%7D%0A%3C%2Fstyle%3E%0A" rel="stylesheet" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Homework 5</h1>
+
+
+
+<p>STAT 757 – Section 1001 <br> Instructor: Colin Grudzien</p>
+<div id="due-10102019" class="section level2">
+<h2>Due: 10/10/2019</h2>
+</div>
+<div id="instructions" class="section level2">
+<h2>Instructions</h2>
+<blockquote>
+You may work with others on these problems but you must turn in your own work.<br />
+You may type your solutions in any way you like (LaTeX, Markdown, Office, etc…) as long as you present your work clearly and in an organized way.<br> <strong>Whenever plotting:</strong>
+<ul>
+<li>
+Include a copy of a short R script corresponding to your plot.
+</li>
+<li>
+Your plot must be clearly labeled in all axes, legends, and the plot must include a clear title.
+</li>
+<li>
+The plot must be sensible and easy to read.
+</li>
+</ul>
+</blockquote>
+</div>
+<div id="problems" class="section level2">
+<h2>Problems</h2>
+<div id="load-the-library-faraway-in-the-r-environment.-then-proceed-to-analyze-the-following-data-sets-in-this-library" class="section level3">
+<h3>Load the library “Faraway” in the R environment. Then proceed to analyze the following data sets in this library:</h3>
+</div>
+<div id="problem-1" class="section level3">
+<h3>Problem 1:</h3>
+<p>For the <code>prostate</code> data, fit a model with <code>lpsa</code> as the response and the other variables as predictors.</p>
+<ol style="list-style-type: decimal">
+<li>Suppose a new patient with the following values arrives:</li>
+</ol>
+<pre><code>lcavol lweight age lbph svi lcp
+1.44692 3.62301 65.00000 0.30010 0.00000 -0.79851
+gleason pgg45
+7.00000 15.00000</code></pre>
+<p>Predict the <code>lpsa</code> for this patient along with an appropriate 95% confidence interval (CI).</p>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Repeat the last question for a patient with the same values except that he is <code>age</code> 20. Explain why the CI is wider.</p></li>
+<li><p>For the model of the previous question, remove all the predictors that are not significant at the 5% level. Now recompute the predictions of the previous question. Are the CIs wider or narrower? Which predictions would you prefer? Explain.</p></li>
+</ol>
+</div>
+<div id="problem-2" class="section level3">
+<h3>Problem 2:</h3>
+<p>Using the <code>teengamb</code> data, fit a model with <code>gamble</code> as the response and the other variables as predictors.</p>
+<ol style="list-style-type: decimal">
+<li><p>Predict the amount that a male with average (given these data) <code>status</code>, <code>income</code> and <code>verbal</code> score would gamble along with an appropriate 95% CI.</p></li>
+<li><p>Repeat the prediction for a male with maximal values (for this data) of <code>status</code>, <code>income</code> and <code>verbal</code> score. Which CI is wider and why is this result expected?</p></li>
+<li><p>Fit a model with <code>sqrt(gamble)</code> as the response but with the same predictors. Now predict the response and give a 95% prediction interval for the individual in part 2.1. Take care to give your answer in the original units of the response.</p></li>
+<li><p>Repeat the prediction for the model in 2.3 for a female with <code>status=20</code>, <code>income=1</code>, <code>verbal = 10</code>. Comment on the credibility of the result.</p></li>
+</ol>
+</div>
+<div id="problem-3" class="section level3">
+<h3>Problem 3:</h3>
+<p>The dataset <code>mdeaths</code> reports the number of deaths from lung diseases for men in the UK from 1974 to 1979.</p>
+<ol style="list-style-type: decimal">
+<li><p>Make an appropriate plot of the data. At what time of year are deaths most likely to occur?</p></li>
+<li><p>Fit an autoregressive model of the same form used for the <code>airline</code> data. Are all the predictors statistically significant?</p></li>
+<li><p>Use the model to predict the number of deaths in January 1980 along with a 95% prediction interval.</p></li>
+<li><p>Use your answer from the previous question to compute a prediction and inter- val for February 1980.</p></li>
+<li><p>Compute the fitted values. Plot these against the observed values. Note that you will need to select the appropriate observed values. Do you think the accuracy of predictions will be the same for all months of the year?</p></li>
+</ol>
+</div>
+<div id="problem-4" class="section level3">
+<h3>Problem 4:</h3>
+<p>For the <code>fat</code> data, a smaller model using only <code>age</code>, <code>weight</code>, <code>height</code> and <code>abdom</code> was proposed on the grounds that these predictors are either known by the individual or easily measured.</p>
+<ol style="list-style-type: decimal">
+<li><p>Compare this model to the full thirteen-predictor model used in our lecture. Is it justifiable to use the smaller model?</p></li>
+<li><p>Compute a 95% prediction interval for median predictor values and compare to the results to the interval for the full model. Do the intervals differ by a practically important amount?</p></li>
+<li><p>For the smaller model, examine all the observations from case numbers 25 to 50. Which two observations seem particularly anomalous?</p></li>
+<li><p>Recompute the 95% prediction interval for median predictor values after these two anomalous cases have been excluded from the data. Did this make much difference to the outcome?</p></li>
+</ol>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
