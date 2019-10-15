@@ -27,9 +27,9 @@ height: 1080
 <h2>Outline</h2>
 
 * The following topics will be covered in this lecture:
-  * Review of predictions
-  * Confidence intervals for future observations and the mean response
-  * Autoregression
+  * Discussion of causality
+  * The notion of statistical explanation
+  *
 
 
 
@@ -217,11 +217,10 @@ sumary(lmodu)
   * the base percentage of votes is represented by $\beta_0 \approx 35\%$;
 
   * when the voting system is by hand counting, $T_i = 1$ and the effect of a hand counting <em>in this model</em> is to add approximately $4\%$ to the vote total.
-  
+
+
 ========================================================
 <h3> A concrete example -- continued</h3>
-
-* Here, we will re-code the ```votesys``` predictor as the ```trt```, treatment variable.
 
 ```{r}
 sumary(lmodu)
