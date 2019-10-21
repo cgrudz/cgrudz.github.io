@@ -13,7 +13,7 @@
 
 Diagnostics part 1
 ========================================================
-date: 10/08/2019
+date: 10/17/2019
 autosize: true
 incremental: true
 width: 1920
@@ -285,7 +285,7 @@ $$\begin{align}
 ### Visual diagnostics
 
 <div style="float:left; width:40%">
-<img style="width:100%", src="nonlinear.png"/>
+<img style="width:100%", src="nonlinear.png" alt="Image of residuals versus fitted values with nonlinear behavior in the residuals over cases."/>
 <p style="text-align:center">Courtesy of: Faraway, J. Linear Models with R. 2nd Edition</p>
 </div>
 
@@ -339,7 +339,7 @@ abline(h=0)
 ### Half normal distributions
 
 <div style="float:left; width:60%">
-<img style="width:100%", src="Half_normal_pdf.png"/>
+<img style="width:100%", src="Half_normal_pdf.png" alt="Image of the half-normal distribution."/>
 Courtesy of Nagelum <a href="https://creativecommons.org/licenses/by-sa/4.0" target="blank">CC BY-SA 4.0</a> via Wikimedia Commons 
 </div>
 
@@ -486,7 +486,7 @@ S_z^2 \triangleq \frac{1}{m-1}\sum_{i=1}^m \left(z_i - \overline{z}\right)^2
 
 
  <div style="float:left; width:50%">
-<img style="width:100%", src="F-distribution_pdf.png"/>
+<img style="width:100%", src="F-distribution_pdf.png" alt="Image of the F distribution."/>
 <p style="text-align:center">
 Courtesy of IkamusumeFan <a href="https://creativecommons.org/licenses/by-sa/4.0" target="blank">CC BY-SA 4.0</a></p></div>
 <div style="float:right; width:50%">
@@ -512,7 +512,7 @@ Courtesy of IkamusumeFan <a href="https://creativecommons.org/licenses/by-sa/4.0
 
 <h2> Returning to the regression analysis...</h2>
 <div style="float:left; width:40%">
-<img style="width:100%", src="residual_comparison.png"/>
+<img style="width:100%", src="residual_comparison.png" alt="Image of two groups of residuals with different variance in their distributions."/>
 <p style="text-align:center">Courtesy of: Faraway, J. Linear Models with R. 2nd Edition</p>
 </div>
 <div style="float:left; width:60%">
@@ -545,184 +545,3 @@ var.test(residuals(lmod_savings)[savings$pop15>35], residuals(lmod_savings)[savi
   
   * Secondly, the $95\%$ confidence interval <b>for the ratio of variances</b> excludes one, such that with $95\%$ confidence we exclude the possibility  that their variances are equal.
   
-========================================================
-
-<h2> Changes of scale for variables</h2>
-
-* Often, when non-constant variances are detected, we may consider a change of scale as a remedial measure.
-
-* We will return to a more general formulation later, but for now, we will motivate why we often consider log or square root scale.
-
-* If we detect non-constant variance in the residuals with respect to the fitted values, we may consider a tranformation of the response variable $Y$ by a (nonlinear) function $h()$ for which
-$$
-var\left( h(Y)\right) = \sigma_0^2
-$$
-for some value of $\sigma_0$.
-
-* With this motivation, we suppose that such a transformation does exist and has a Taylor series defined around the mean of the response:
-  
-  $$\begin{align}
-  h(Y) &= h\left(\mathbb{E}(Y)\right) + \left(Y- \mathbb{E}(Y)\right) h'(\mathbb{E}(Y)) + \mathcal{O}\left(\delta_Y^2\right)
-\end{align}$$
-
-* We will suppose that all terms that are of order 2 or above in the expansion of the anomalies, 
-  
-  $$\begin{align}
-  \delta_Y & \triangleq Y - \mathbb{E}(Y)
-\end{align}$$
-can be neglected.
-
-========================================================
-### Change of scale for variables -- heuristic
-
-* Supposing as on the last slide, we can neglect the higher order terms, we approximate,
-
-  $$\begin{align}
-\mathbb{E}\left[ h(Y)\right]& \approx \mathbb{E}\left[h\left(\mathbb{E}(Y)\right) + \left(Y- \mathbb{E}(Y)\right) h'(\mathbb{E}(Y)) \right]\\
-& \approx h\left(\mathbb{E}(Y)\right)
-\end{align}$$
-
-as long as the deviations from the mean are not too large, and/or the function $h$ is not extremely nonlinear.
-
-* With the above approximation, we can compute,
-
-  $$\begin{align}
-  var(h(y)) & \approx \mathbb{E}\left[\left(\left(Y- \mathbb{E}(Y)\right) h'(\mathbb{E}(Y))\right) \left(\left(Y- \mathbb{E}(Y)\right) h'(\mathbb{E}(Y))\right) \right]\\
-  & \approx \left(h'(\mathbb{E}(Y))\right)^2 var(Y)
-\end{align}$$
-
-* Thus, up to our approximations, this suggest the following relationship:
-
-  * suppose that
-    $$\begin{align}
-    h'\left(\mathbb{E}(Y)\right) \propto \left(var(Y)\right)^{-1/2}  & \Leftrightarrow  & h'\left(\mathbb{E}(Y)\right) =  \left(var(Y)\right)^{-1/2} C
-    \end{align}$$
-for some constant $C$.
-  
-  * If the above relationship holds, then we find  by our approximation that
-  $$\begin{align}
-  var(h(Y)) & \approx C
-  \end{align}$$
-  
-========================================================
-### Change of scale for variables -- heuristic
-
-* Let's suppose that all the above holds and $h'\left(\mathbb{E}(Y)\right) \propto \left(var(Y)\right)^{-1/2}$.
-
-* In this case, if such a transformation did exist, this suggests a functional form such as,
-
-  $$\begin{align}
-  h(y) = \int \frac{dy}{\sqrt{var(y)}} = \int\frac{dy}{sd(y)}
-  \end{align}$$
-
-though noting that the above doesn't have a real meaning.
-
-*  However, using the intuition derived this way, we can consider the following derived "rules-of-thumb",
-
- * suppose that $var(Y) = var(\boldsymbol{\epsilon}) \propto \left(\mathbb{E}(Y)\right)^2$, then
-   $$\begin{align}
-   h(y) \approx \int \frac{dy}{y}  \approx log(y);
-   \end{align}$$
-
- * suppose that $var(Y) = var(\boldsymbol{\epsilon}) \propto \mathbb{E}(Y)$, then
-  $$\begin{align}
-   h(y) \approx \int \frac{dy}{y^\frac{1}{2}}  \approx y^{1/2}.
-   \end{align}$$
-
-* Note: neither of the above transformations make sense when $Y$ has non-positive values, due to invertibility issues.
-
-========================================================
-### Change of scale for variables -- heuristic
-
-* As with many of these techniques, there isn't generally an exact way to derive such a transformation of scale, and our derivations ealier were very loose approximations.
-
-* Generally, we must perform the residual versus fitted plots to:
-
-  1. look for non-constant variance;
-  2. nonlinear behaviors;
-  3. possible suggestions for nonlinear changes of scale, based on the standard deviation as above.
-  
-* When trying a change of scale, we should repeat the above steps to determine if the change of scale has had a remedial effect, or if we should try to use a different change of scale again.
-
-========================================================
-### Change of scale example
-
-* As a concrete example of the change of scale of the response, let's look at the Galapagos data once again.
-
-```{r fig.width=24, fig.height=8}
-lm_gala <- lm(Species ~ Area + Elevation + Scruz + Nearest + Adjacent, gala)
-par(mai=c(1.5,1.5,.5,.5), mgp=c(3,0,0))
-plot(fitted(lm_gala),residuals(lm_gala),xlab="Fitted",ylab="Residuals", cex=3, cex.lab=3, cex.axis=1.5)
-abline(h=0)
-```
-
-* We see a nonlinear relationship suggested by the residual versus fitted plot.
-
-========================================================
-### Change of scale example
-
-<div style="float:left; width:50%">
-<img style="width:100%", src="poisson.png"/>
-Courtesy of Skbkekas <a href="https://creativecommons.org/licenses/by/3.0" target="blank">CC BY 3.0</a> via Wikimedia Commons 
-</div>
-
-<div style="float:left; width:50%">
-<ul>
-  <li> Consider the particular response variable, "number of plant species". </li>
-  <li> We note that the Poisson distribution is a distribution that is typically used to model queues and counting, and may be appropriate for this response.</li>
-  <li> A special feature of this particular distribution is that the mean is actually equal to the variance. </li>
-  <li> Given the previous derivations, this suggests that we might re-scale the response by a square root transformation.</li>
-</ul>
-</div>
-
-
-========================================================
-### Change of scale example
-
-
-* We re-fit the model with the square root of the number of species as the response variable instead:
-```{r}
-lm_sqrt_sp <- lm(sqrt(Species) ~ Area + Elevation + Scruz + Nearest + Adjacent, gala)
-```
-
-* and we furthermore plot the residuals versus fitted values
-```{r fig.width=24, fig.height=8}
-par(mai=c(1.5,1.5,.5,.5), mgp=c(3,0,0))
-plot(fitted(lm_sqrt_sp),residuals(lm_sqrt_sp),xlab="Fitted",ylab="Residuals", cex=3, cex.lab=3, cex.axis=1.5)
-abline(h=0)
-```
-
-* In this case, the nonliear structure is basically eliminated, and the variance is basically constant.
-
-========================================================
-### Change of scale example
-
-* We verify the previous visual inspection once again with the quantitative inspection via a linear model:
-
-```{r}
-summary(lmod <- lm(lm_sqrt_sp$residuals ~ lm_sqrt_sp$fitted.values))
-```
-
-* with a p-value for the F-test at 1, we must almost surely accept the null hypothesis that there is no linear relationship between the residual and the fitted values.
-
-========================================================
-## A summary of ideas so far
-
-* Though non-constant variances doesn't <b>bias</b> the least squares estimate of the parameters $\hat{\boldsymbol{\beta}}$, it does bias the estimates of standard errors.
-
-* In particular, our confidence intervals and uncertainty quantification can become unreliable.
-
-* We can't observe the true error $\boldsymbol{\epsilon}$ direcly, so we must use the residuals $\hat{\boldsymbol{\epsilon}}$ as a kind of proxy measurement.
-
-  * Even when the errors $\epsilon$ are uncorrelated and of constant variance, the same does not hold generally for the residuals.
-  
-* Nonetheless, plotting residuals versus fitted values and versus predictors reveals structures in the errors.
-
-* To ameliorate issues of non-constant variance, one common technique is to use a change of scale for the either:
-
- 1. the response variable; or
- 2. one or more of the predictors.
- 
-* We have some "rules-of-thumb" on how to make a change of scale, which we will develop more formally later in the course.
-
-* Whenever we try a change of scale, we should repeat the diagnostics to see if this had the intended effect, or if other changes may be neccessary.
