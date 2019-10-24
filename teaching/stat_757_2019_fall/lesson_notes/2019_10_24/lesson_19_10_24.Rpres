@@ -337,7 +337,7 @@ hist(fat$weight, xlab = "Weight in lbs", main="",  cex=3, cex.lab=3, cex.axis=1.
 * Therefore, consider the derivative of the $i$-th fitted value $\hat{\mathbf{Y}}_i$ with respect to the $j$-th observation of the response,
 
   $$\begin{align}
-  \partial_{\mathbf{Y}_j} \mathbf{Y}_i &= \partial_{\mathbf{Y}_j} \left(\mathbf{H} \mathbf{Y}\right) \\
+  \partial_{\mathbf{Y}_j} \hat{\mathbf{Y}}_i &= \partial_{\mathbf{Y}_j} \left(\mathbf{H} \mathbf{Y}\right) \\
   & =\mathbf{H}_{ij}.
   \end{align}$$
   
@@ -402,7 +402,7 @@ hist(fat$weight, xlab = "Weight in lbs", main="",  cex=3, cex.lab=3, cex.axis=1.
   <li>centering the usual distance at the mean, via the difference,
   
   $$\begin{align}
-  \mathbf{x} - \hat{\mathbf{x}};
+  \mathbf{x} - \overline{\mathbf{x}};
   \end{align}$$
   
   (i.e., the size of the anomaly) and</li>
@@ -636,7 +636,7 @@ abline(0,1)
 * Such that the <b>studentized residual</b> is defined,
 
   $$\begin{align}
-  t_i \triangleq \frac{Y_i - \hat{Y}_i}{\hat{\sigma}_{(i)}^2 \left( 1 + X_i^\mathrm{T}\left(\mathbf{X}_{(i)}^\mathrm{T} \mathbf{X}_{(i)} \right)^{-1} X_i\right)}
+  t_i \triangleq \frac{Y_i - \hat{Y}_i}{\hat{\sigma}_{(i)} \left( 1 + X_i^\mathrm{T}\left(\mathbf{X}_{(i)}^\mathrm{T} \mathbf{X}_{(i)} \right)^{-1} X_i\right)^\frac{1}{2}}
   \end{align}$$
   
 * Provided the usual assumptions hold, <b>and that the observation is not to be considered an outlier</b> we find that $t_i \sim t_{n-p-1}$.
@@ -677,192 +677,4 @@ abline(0,1)
   * This will not be alleviated, either, due to only formally testing one or two large cases --- selecting the cases based on their magnitude implicitly tests the other cases, with respect to which we make the initial comparison.
   
   * In order to alleviate this, we can adjust the $\alpha$-significance level in order to take into account the total number of tests.
-
-========================================================
-
-<h3>Bonferroni correction</h3>
-
-* Suppose we want to test for an outlier at $\alpha$ significance.
-
-* The probability of accepting the null hypothesis in all cases is given by the complimentary probabililty,
-
-  $$\begin{align}
-  P\left(\text{all tests accept}\right) &= 1 - P\left(\text{at least one test rejects}\right) \\
-  & \geq 1 - \sum_{i=1}^n P\left(\text{test $i$ rejects}\right)\\
-  &=1 - n\alpha
-  \end{align}$$
-
-* To compensate the test for an <em>overall</em> $\alpha$ test for all of the observations, we can select a corresponding <em>individual</em> significance level of $\alpha / n$.
-
-* This adjustment is known as the Bonferroni correction (and is also used in other contexts).
-
-* The drawback of this adjusted significance level is that for large $n$, this can become an extremely conservative measurement of possible outliers.
-
-========================================================
-
-<h3> An example</h3>
-
-* We will compute the studentized residuals, as discussed earlier, for the savings data:
-
-```{r}
-stud <- rstudent(lmod)
-```
-
-* and select the largest among them:
-
-```{r}
-stud[which.max(abs(stud))]
-```
-
-* To evaluate the p-value and signficance of the largest studentized residual, we compute the Bonferroni corrected critical value.
-
-  *  That is, we will compute the quantile (the mapping of the inverse CDF) of $\frac{\alpha}{2n}$ to determine the critical value for the two-sided t-test:
-
-```{r}
-qt(.05/(50*2),44)
-```
-
-* In particular, this shows that the range of values with Bonferroni corrected significance <em>greater than</em> $\alpha=5\%$ is the range $(-3.525801,3.525801)$.
-
-* The studentized residual for Zambia lies within this range, and we therefore fail to reject the null.
-
-========================================================
-
-<h2>A (non-exhaustive) summary of considerations for outliers</h2>
-
-* When searching for outliers:
-
-  <ol>
-    <li> An outlier in one model may not be an outlier in another when the variables have
-been changed or transformed.</li>
-    <li> The error distribution may not be normal and so larger residuals may be expected.</li>
-    <li>Two or more outliers next to each other can hide each other.</li>
-    <li> Individual outliers are usually much less of a problem in larger datasets --- typically outliers in this case can come in clusters with specific structure.  These can be somewhat more difficult to detect without more sophisticated tools. </li>
-  </ol>
-  
-* When correcting for outliers:
-
-  <ol>
-    <li> Check for corrupted data or entry errors if this is possible.</li>
-    <li> Examine the physicality of the outlier.</li>  
-    <li> Searching for an outlier, in some contexts like looking for tax-fraud, is the entire purpose of the analysis.  Contextualize the outlier and the meaning in the broader dataset.</li>
-    <li> Don't exclude outliers automatically, and consider the implications on the change of the model when they are included or excluded.</li>
-    <li> <b>Always report the existence of outliers</b>, especially when they are not included in your final model. Dishonest exclusion of outliers is a serious research malpractice. </li>
-  </ol>
-
-========================================================
-
-
-<h2>Influential observations</h2>
-
-* Broadly speaking, influential observations are those that would dramatically change the fit of our model if it is included or excluded.
-
-* Influential observations may or may not be outliers or have large leverage, but typically one of the two applies.
-
-* Rather than look at $n$ separate models, we will compress this investigation of the impact of leaving out an observation into a simpler diagonostic, <b>Cook's distance</b>.
-
-* We define $\hat{\boldsymbol{\beta}}_{(i)}$ and $\hat{\mathbf{Y}}_{(i)}$ to be the least-squares estimated values for the parameters $\boldsymbol{\beta}$ and the vector of fitted values for the observations <b>when the $i$-th observation is exclued</b>.
-
-* Then, with the above definition, we define Cook's distance for observation $i$ as,
-
-  $$\begin{align}
-  D_i &\triangleq \frac{\left(\hat{\mathbf{Y}} - \hat{\mathbf{Y}}_{(i)} \right)^\mathrm{T}\left(\hat{\mathbf{Y}} - \hat{\mathbf{Y}}_{(i)} \right)}{p \hat{\sigma}^2} \\
-  &= \frac{1}{p}r^2_i \frac{h_i}{1 -h_i}
-  \end{align}$$
-  
-  * The term $r_i$ is again the normalized residual effect;
-  
-  * while the term $\frac{h_i}{1-h_i}$ accounts for the relative leverage of the point;
-  
-  * together, the two give a weighted measure of <b>influence</b>.
-
-========================================================
-
-<h3> An example of examining for influence </h3>
-
-* Considering once again the savings data, we plot the $n$ Cook's distances in a Q-Q plot for the half-normal distribution: 
- 
-```{r fig.width=24, fig.height=8}
-lmod <- lm(sr ~ pop15+pop75+dpi+ddpi,savings)
-cook <- cooks.distance(lmod)
-par(mai=c(1.5,1.5,.5,.5), mgp=c(3,0,0))
-halfnorm(cook,3,labs=countries,ylab="Cook’s distances",  cex=3, cex.lab=3, cex.axis=1.5)
-```
-
-* Lybia is an extreme value in this plot, so we will evaluate the fit of the two models with and without this observation.
-
-========================================================
-
-### Testing for influence
-
-* Comparing the respective model summaries: 
-
-```{r}
-lmodi <- lm(sr ~ pop15+pop75+dpi+ddpi,savings,subset=(cook < max(cook)))
-sumary(lmodi)
-```
-
-```{r}
-sumary(lmod)
-```
-
-* Here we note that the value of the estimated parameter "ddpi" changes on the order of $50\%$ of the earlier value.
-
-========================================================
-
-### Testing for influence
-
-* Perfoming this analysis one at a time (or strictly numerically) would be difficult. 
-
-* We can do this over all observations with a "leave-one-out", observation deletion diagnositc function "dfbeta":
-
-```{r fig.width=24, fig.height=7}
-par(mai=c(1.5,1.5,.5,.5), mgp=c(3,0,0))
-plot(dfbeta(lmod)[,2],ylab="Change in pop15 coef", cex=3, cex.lab=3, cex.axis=1.5)
-abline(h=0)
-```
-
-* Here, one particular observation leads to an extreme change in the value for the parameter for pop15 (Japan).
-
-* <b>Note:</b> this type of plot should be evaluated for each of the parameters (when possible) to search for influential observations.
-
-========================================================
-
-### Testing for influence
-
-* Refitting the model without the observation of Japan, 
-
-```{r}
-lmodj <- lm(sr ~ pop15+pop75+dpi+ddpi,savings,subset=(countries != "Japan"))
-sumary(lmodj)
-```
-
-* we find that this indeed has a large influence on the model:
-<ol>
-  <li> Firstly, the $R^2$ score drops significantly (from 0.34) without Japan as an observation.</li>
-  <li> Likewise, the parameter for "ddpi" is no longer significant at $5\%$.</li>
-</ol>
-
-
-========================================================
-<h2>A summary (plot)</h2>
-
-<div style="float:left; width:50%">
-<img src="plot_lmod.png", style="width:100%" alt="Image of the plot function output for an R linear model.">
-<p style="text-align:center">Courtesy of: Faraway, J. Linear Models with R. 2nd Edition</p>
-</div>
-
-<div style="float:left; width:40%">
-<ul>
-  <li> Much of the diagnostic analysis that we have belabored can actually be performed in a single command.</li>  
-  <li> Using the "plot" function with the linear model as an argument, we produce the figure to the left:</li>
-  <ol>
-  <li> <b>Top left:</b> we plot the residual versus fitted values to test for variance and/or nonlinear structure in the error. A polynomial fit is line shows the trend.</li>
-  <li><b>Top right:</b> we plot the Q-Q plot of the <em>standardized residuals</em> versus the standard normal distribution to evaluate for Gaussianity.</li>
-  <li><b>Bottom left</b> we plot $\sqrt{\vert\hat{\boldsymbol{\epsilon}}\vert}$ versus the fitted values. A polynomial fit line shows the trend.</li>
-  <li><b>Bottom right:</b> we plot the standardized residuals versus the value of the associated leverage; Cook's distance is a function of both, so contour plots are included in dotted lines.  Points that lie beyond the contours can be considered highly influential.
-  </ol>
-</ul>
-</div>
-
 
