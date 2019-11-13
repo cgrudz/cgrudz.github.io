@@ -566,17 +566,18 @@ Berlin Heidelberg, page 359. 2013.
   <li><b>Horizontal axis:</b> variance of the error in the observations given to the ensemble Kalman filter.</li>
   <li><b>$N=10^2$ samples</b></li>
   <li><b>State dimension $n=10$</b>;</li>
-  <li><b>Guarantees convergence</b> of <span style="color:#d95f02; font-weight:bold">filtering statistics</span> without inflation / localization.</li>
+  <li><b>Fully observed</b></li>
   </ul>
 </div>
 <div style="float:left; width:100%;">
 <ul>
+  <li><b>Convergence</b> of <span style="color:#d95f02; font-weight:bold">filtering statistics</span> <b>without inflation / localization</b>.</li>
   <li><b>RMSE</b> and <b>spread</b> are computed as the <b>asymptotic average over $2.5\times 10^{4}$ <span style="color:#d95f02">analysis cycles</span></b>.</li>
   <li><span style="color:#d95f02; font-weight:bold">Analysis RMSE</span> is <b>comparable</b> to the <span style="color:#d95f02; font-weight:bold">analysis spread</span>;</li>
   <ul>
     <li><b>lower</b> than the standard deviation of <b>the error in the observations</b>.</li>
   </ul>
-  <li>Indicates <span style="color:#d95f02; font-weight:bold">stable filter statistics</span>.</li>
+
   <li><b>Comparision:</b></li>
   <ul>
     <li><b>Vary the <span style="color:#1b9e77">ensemble integration</span></b> between <b>Runge-Kutta</b> and <b>Euler-Maruyama</b>, with a <b>step size between $\Delta\in\left\{10^{-3},10^{-2}\right\}$</b>.</li>
