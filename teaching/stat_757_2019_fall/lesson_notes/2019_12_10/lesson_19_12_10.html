@@ -1446,7 +1446,7 @@ where the variance taken above is the sample variance over the parameters, deriv
 <pre class="fragment"><code class="r">betas &lt;- NULL
 ses &lt;- NULL
 for(i in 1:chimp$m){
-  lmod &lt;- lm ( involact ~ race + fire + theft +age , chimp $ imputations [[ i ]])
+  lmod &lt;- lm ( involact ~ race + fire + theft +age + income, chimp $ imputations [[ i ]])
   betas &lt;- rbind ( betas , coef ( lmod ))
   ses &lt;- rbind (ses , coef ( summary ( lmod )) [ ,2])
 }
@@ -1454,12 +1454,23 @@ for(i in 1:chimp$m){
 </code></pre>
 
 <pre class="fragment"><code>$q.mi
-     (Intercept)        race       fire       theft         age
-[1,]  -0.2378402 0.007730138 0.03546648 -0.00873242 0.007218719
+     (Intercept)        race       fire        theft         age
+[1,]  -0.5473218 0.008593021 0.03781006 -0.009668361 0.008096676
+         income
+[1,] 0.02122764
 
 $se.mi
-     (Intercept)        race        fire       theft         age
-[1,]    0.161498 0.002026873 0.008519401 0.004555294 0.002531306
+     (Intercept)        race        fire       theft        age     income
+[1,]   0.6312709 0.002778617 0.009915244 0.005814835 0.00332381 0.04360902
+</code></pre>
+
+<pre class="fragment"><code class="r">modfull$coef
+</code></pre>
+
+<pre class="fragment"><code> (Intercept)         race         fire        theft          age 
+-0.608978989  0.009132510  0.038816556 -0.010297613  0.008270715 
+      income 
+ 0.024500055 
 </code></pre>
 
 </div>
@@ -1474,16 +1485,98 @@ $se.mi
 <li class="fragment">The t-stastistics can be computed similarly,</li>
 </ul>
 
-<pre class="fragment"><code class="r">cr$q.mi/cr$se.mi
+<pre class="fragment"><code class="r">t_stats &lt;- cr$q.mi/cr$se.mi
+t_stats
 </code></pre>
 
-<pre class="fragment"><code>     (Intercept)     race     fire     theft      age
-[1,]   -1.472713 3.813825 4.163025 -1.916983 2.851776
+<pre class="fragment"><code>     (Intercept)     race     fire     theft      age    income
+[1,]  -0.8670158 3.092553 3.813326 -1.662706 2.435962 0.4867718
+</code></pre>
+
+<ul>
+<li class="fragment">We compute the \( \alpha = 5\% \) critical value,</li>
+</ul>
+
+<pre class="fragment"><code class="r">crit &lt;- qt(.025, 47 - 6)
+crit
+</code></pre>
+
+<pre class="fragment"><code>[1] -2.019541
+</code></pre>
+
+<ul>
+<li class="fragment">and compare,</li>
+</ul>
+
+<pre class="fragment"><code class="r">abs(t_stats) &gt; abs(crit)
+</code></pre>
+
+<pre class="fragment"><code>     (Intercept) race fire theft  age income
+[1,]       FALSE TRUE TRUE FALSE TRUE  FALSE
 </code></pre>
 
 <ul>
 <li class="fragment"><p>Here the results are fairly similar, though in this case theft is no longer a significant parameter.</p></li>
 <li class="fragment"><p class="fragment">Many more techniques exist studying missing data, and this is just an introduction on how to approach this with additional references in Faraway.</p></li>
+</ul>
+
+</div>
+
+</section>
+<section data-transition="linear" data-transition-speed="default">
+
+<div class="slideContent noTitle" >
+<h2 class="fragment">Summary of missing data</h2>
+
+<ul>
+<li class="fragment"><p>In almost any situation, we have missing cases in our data</p>
+
+<ul>
+<li class="fragment">we rely on the assumption that the cases which we have in our data is essentially representative of the larger population.</li>
+</ul></li>
+<li class="fragment"><p class="fragment">In real observational data, furthermore, we will often have missing values in cases.</p>
+
+<ul>
+<li class="fragment">In the case the values are missing completely at random, this doesn&#39;t essentially bias the analysis.</li>
+<li class="fragment">However, it is typical that the missing values will vary systematically with the <b>known explanatory values</b>.</li>
+<li class="fragment">We have tools to adjust for this in our regression by including, e.g. the missingness as a factor in the regression.</li>
+</ul></li>
+<li class="fragment"><p class="fragment">The strategies for handling missing values usually depend on how much data is missing.</p>
+
+<ul>
+<li class="fragment">If the proportion of cases with missing values is small, we can usually delete the cases with missing values or perform mean imputation without a bias introduced.</li>
+<li class="fragment">If this proportion is larger, deletion will degrade the estimation of the signal due to the loss of information.</li>
+<li class="fragment">Imputation of the mean will bias the regression, and reduce the estimated variance in the signal.</li>
+<li class="fragment">With a larger proportion of values missing, it is thus usually preferable to regress on the missing values for predictors in terms of the other predictors.</li>
+<li class="fragment">Resampling values around the mean function of the regression can then introduce the variance lost by a single imputation by the estimated mean value.</li>
+</ul></li>
+</ul>
+
+</div>
+
+</section>
+<section data-transition="linear" data-transition-speed="default">
+
+<div class="slideContent noTitle" >
+<h2 class="fragment">Summary of course work</h2>
+
+<ul>
+<li class="fragment"><p>We have now been through a complete example that utilizes the major themes in this course.</p></li>
+<li class="fragment"><p class="fragment">Specifically, we have analyzed how to perform a multiple regression, with attention to:</p>
+
+<ul>
+<li class="fragment">the adherence of the model to the assumptions of the Gauss-Markov theorem;</li>
+<li class="fragment">the remediation of the model (if possible) when these assumptions do not hold well;</li>
+<li class="fragment">the uncertainty of parameters in the model, from the frequentist perspective;</li>
+<li class="fragment">the explanatory and predictive power of the model, and the reliability of the model for these purposes;</li>
+<li class="fragment">and how we can make conclusions based on the model, qualified by the uncertainty in our analysis.</li>
+</ul></li>
+<li class="fragment"><p class="fragment">In addition, we have introduced a number of special topics in regression analysis, e.g., Generalized least squares, missing values, PCA, advanced model selection techniques, etc&hellip;</p>
+
+<ul>
+<li class="fragment">However, the possible techniques one can use in regression is vast;</li>
+<li class="fragment">therefore, the main goal of this course is that everyone is comfortable with the fundamentals (both theoretically and practically) and is therefore equipped to study additional advanced methods as needed.</li>
+</ul></li>
 </ul>
 
 </div>
