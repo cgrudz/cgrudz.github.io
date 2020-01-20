@@ -9,7 +9,7 @@ title: Research
 </ul>
 <h2>Short research description</h2>
 <p>
-In physical applications, dynamical models and observational data play dual roles in uncertainty quantification, prediction and learning, each representing sources of incomplete and inaccurate information. In data rich problems, first-principle physical laws constrain the degrees of freedom of massive data sets, utilizing our prior insights to complex processes. Respectively, in data sparse problems, dynamical models fill spatial and temporal gaps in observational networks.  However, many physical systems exhibit chaos and observations are thus required to update predictions where there is sensitivity to initial conditions and uncertainty in model parameters. Data assimilation broadly refers to the techniques used to combine the information from models and observations to produce an optimal estimate of a probability density or a test statistic. These techniques include methods from Bayesian inference, dynamical systems, numerical analysis and optimal control, among others.  My research interests lie in this intersection, using dynamical and statistical tools to develop theory for, and study applications of, statistical learning algorithms in physical systems.  My application interests include climate, geophysics and the electric grid.
+In physical applications, dynamical models and observational data play dual roles in uncertainty quantification, prediction and learning, each representing sources of incomplete and inaccurate information. In data rich problems, first-principle physical laws constrain the degrees of freedom of massive data sets, utilizing our prior insights to complex processes. Respectively, in data sparse problems, dynamical models fill spatial and temporal gaps in observational networks.  However, many physical systems exhibit chaos and observations are thus required to update predictions where there is sensitivity to initial conditions and uncertainty in model parameters. Data assimilation broadly refers to the techniques used to combine the information from models and observations to produce an optimal estimate of a probability density or a statistic. These techniques include methods from Bayesian inference, dynamical systems, numerical analysis and optimal control, among others.  My research interests lie in this intersection, using dynamical and statistical tools to develop theory for, and study applications of, statistical learning algorithms in physical systems.  My application interests include climate, geophysics and the electric grid.
 </p>
 <p>
     Please find my computational resources and pre-prints linked below by subject area.
@@ -18,7 +18,7 @@ In physical applications, dynamical models and observational data play dual role
 <button class="accordion"><h3>Data assimilation</h3></button>
     <div class="accordian_panel">
     <p>
-        Data assimilation broadly refers to the techniques used to combine model and observational information to produce an optimal estimate of a PDF or a test statistic.
+        Data assimilation broadly refers to the techniques used to combine model and observational information to produce an optimal estimate of a PDF or a statistic.
         These techniques include methods from Bayesian inference, dynamical systems, numerical analysis and optimal control.
         In phsyical applications such as weather prediction, the butterfly effect renders the forecasting problem inherently volatile; however, chaotic dynamics also put strong 
         constraints on the evolution of errors. It is well understood in the weather prediction community that the growth of forecast uncertainty is confined to a much lower 
@@ -35,15 +35,26 @@ In physical applications, dynamical models and observational data play dual role
         <div class="accordian_panel">
         <ul>
             <li>
+            <i>On the numerical integration of the Lorenz-96 model, with scalar additive noise, for benchmark twin experiments </i>
+                <ul>
+                    <li>
+											<a href="https://www.geosci-model-dev-discuss.net/gmd-2019-258/" target="blank">In discussion - Geophyscientific Model Development</a> 
+										</li>
+										<li>
+											<a href="https://github.com/cgrudz/lorenz_96_sde/" target="blank">Supplementary Materials - Order 2.0 Taylor Scheme and Other Research Code</a>
+										</li>
+								</ul>
+            </li>
+            <li>
             <i>Chaotic dynamics and the role of covariance inflation for reduced rank Kalman filters with model error </i>
                 <ul>
                     <li>
-	                <a href="https://www.nonlin-processes-geophys.net/25/633/2018/" target="blank">Open Access - Nonlinear Processes in Geophysics</a> 
-	    	    </li>
-		    <li>
-			<a href="https://github.com/cgrudz/role_of_covariance_inflation_supplementary_materials" target="blank">Supplementary Materials - KF-AUSE Code</a>
-		    </li>
-                </ul>
+											<a href="https://www.nonlin-processes-geophys.net/25/633/2018/" target="blank">Open Access - Nonlinear Processes in Geophysics</a> 
+										</li>
+										<li>
+											<a href="https://github.com/cgrudz/role_of_covariance_inflation_supplementary_materials" target="blank">Supplementary Materials - KF-AUSE Code</a>
+										</li>
+								</ul>
             </li>
             <li>
             <i>Asymptotic forecast uncertainty and the unstable subspace in the presence of additive model errors </i>

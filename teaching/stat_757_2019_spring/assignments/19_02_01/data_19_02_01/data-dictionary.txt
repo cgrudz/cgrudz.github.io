@@ -1,9 +1,0 @@
-trip_id - Unique integer identifying the individual trip.
-driver - Identifies who is driving the vehicle during the trip.
-lon - Longitude of vehicle in decimal degrees; negative values are west of prime meridian.
-lat - Latitude of vehicle in decimal degrees; positive values are in the northern hemisphere.
-date - Date and time in Pacific Daylight Time.
-speed - Vehicle speed in miles per hour.
-direction - Direction of the vehicle in a 0-360 degree format. 0=North, 180=South, etc.
-odometer - Distance (in meters) of the virtual odometer since unit was programmed.
-event - Binary {Y, N} indicator. Y = acceleration threshold was exceeded, N = acceleration threshold was not exceeded.
