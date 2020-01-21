@@ -1,0 +1,273 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+Statistics -- The Science of Data
+========================================================
+date: 01/21/2020
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+========================================================
+## Getting to know the class
+
+* For the next 2 minutes, interview someone sitting near you in class.
+
+* We will have small discussions throughout the course and you should get to know your neighbors.
+
+* You should be able to answer what their major of study is and how many years they have studied in the following <a href="https://www.mentimeter.com/s/a4767488dd3c1005fdb7ed638c3f5147/33490cfafe49" target="blank">poll</a>.
+
+
+
+========================================================
+
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+
+  * What is the subject of "statistics" and why do we study it?
+  * What do we mean by "critical thinking" in statistics?
+  * What is key vocabulary in statistics?
+  * What is the process of a statistical investigation?
+
+========================================================
+
+
+## Introduction
+
+<ul>
+   <li>Broadly, statistics consists of methods for:</li>
+   <ol>
+      <li> collecting;</li>
+      <li> summarizing;</li>
+      <li> analyzing; and </li>
+      <li> interpreting data.</li>
+   </ol>
+   <li> We are in a period of history where statistical methods are a diving force in society.</li>
+   <ul>
+      <li> When we use internet devices, data is constantly collected in some form and is used to make business decisions.</li>
+      <ul>
+         <li> Advertisements are often targeted to our interests based upon the data that is collected.</li>
+      </ul>
+      <li> Polls and surveys are frequently used to understand and predict public opinions.</li>
+      <ul>
+         <li>  We frequently hear about public opinion polls in regards to upcoming elections for local and national offices.</li>
+      </ul>
+      <li> As voters, we are presented with statistical data to inform our decisions on government policies, including economic forecasts and projections based on different choices.</li>
+      <ul>
+         <li> We often must decide if a public project will have benefits that outweight the costs in, e.g., tax revenue.</li>
+      </ul>
+   </ul>
+   <li> Critical statistical thinking has become a basic literacy in how we interact with information in society.</li>
+</ul>   
+
+
+========================================================
+
+### An example
+
+<div style="float:left; width:50%">
+<img src="virus.png" style="width:100%" alt="Histogram of voluntary computer virus poll.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:50%">
+<ul>
+   <li> In the figure, America OnLine users were asked to respond to the question "Have you ever been hit by a computer virus?"</li>
+   <li> At a glance, it appears that about two to three times as many peopel have had a computer virus at some point versus those who haven't.</li>
+   <li> However, this poll and the description of the data has several major flaws:</li>
+   <ol>
+      <li> The data <strong>vertical axis doesn't start at zero</strong>, which makes the ratio look much greater than it actually is.</li>
+      <li> The poll <strong>collected voluntary responses</strong>. Typically, people respond to voluntary polls only they have very strong feelings about the topic already.</li> 
+      <li> If we want to conclude a statement about <strong>all computer users, this sample population may not be representative</strong>... Who actually uses America OnLine anymore?</li>
+   </ol>
+</ul>
+</div>
+<div style="width:100%; float:left;">
+<ul>
+   <li> Understanding data collection, data interpretation, data presentation and how this impacts decisions based on the above is what we we call "critical statistical thinking".</li>
+   <li> It is one of the primary goals that everyone can use critical statistical thinking at the end of this course.</li>
+</ul>
+</div>
+
+========================================================
+
+## Statistical Vocabulary
+
+* <b>Discuss:</b> can you describe what the word <b style="color:#7570b3">data</b> might mean in statistics?  Please provide an example of <b style="color:#7570b3"">data</b>.
+
+  * <b style="color:#7570b3"">Data</b> -- data are <b style="color:#7570b3">collections of observations</b>, such as experimental measurements, survey responses, etc...
+  
+  * One example is the <b style="color:#7570b3"">collection of all responses</b> to an opinion poll to UNR students.
+  
+  * Another example is the <b style="color:#7570b3"">collection of all measurements</b> of temperature from a weather balloon given at one second intervals.
+
+* <b>Discuss:</b> can you describe what the word <b style="color:#1b9e77">population</b> might mean in statistics?  Please provide an example of a <b style="color:#1b9e77">population</b>.
+
+  * <b style="color:#1b9e77">Population</b> -- the <b style="color:#1b9e77">complete collection of all measurements (or possible-to-measure data points)</b> being considered.
+  
+  * In the example of the opinion poll, the population is <b style="color:#1b9e77">every UNR student</b>, regardless of if they answered or not.
+  
+  * In the example of the weather balloon, the population is the temperature of the <b style="color:#1b9e77">entire atmosphere, at all times</b> even if we only measure certain locations at discrete times.
+
+* <b>Discuss:</b> can you describe what the word <b style="color:#d95f02">sample</b> might mean in statistics?  Please provide an example of a <b style="color:#d95f02">sample</b>.
+
+  * <b style="color:#d95f02">Sample</b> -- a sample is a <b style="color:#d95f02">subcollection</b> of members selected from a <b style="color:#1b9e77">population</b>.
+  
+  * In the example of the opinion poll, the <b style="color:#d95f02">sample</b> is the <b style="color:#d95f02">collection of UNR students who actually responded</b>.
+  
+  * In the example of the weather balloon, the <b style="color:#d95f02">sample</b> is the collection of <b style="color:#d95f02">temperature measurements at locations and times we have recorded</b>.
+
+========================================================
+
+## The process of statistical thinking
+
+<ul>
+   <li>Statistical thinking or a statistical inquiry has a natural progression.</li>
+   <ul>
+      <li>Statistics always relies on some kind of data, which must be collected somehow.</li>
+      <li>Polls must be administered, weather balloons need to be released, etc...</li>
+   </ul>
+   <li>The steps of statistical thinking can be loosely summarized as:</li>
+   <ol>
+      <li> <b> Prepare</b>;</li>
+      <li> <b> Analyze</b>; and</li>
+      <li> <b> Conclude</b>.</li>
+   </ol>
+   <li> Each of these steps includes several elements which we will discuss in the following.</li>
+</ul> 
+
+
+========================================================
+
+### Prepare
+
+<ul>
+<li> In preparing a statistical study, we should consider the following:</li>
+<ol>
+  <li>Context</li>
+  <ul>
+   <li> What does the data mean?</li>
+   <li> What was the purpose of the study / data collection?</li>
+   <li> Is this data appropriate for our question of interest?</li>
+  </ul>
+  <li> Source of the data</li>
+  <ul>
+   <li>Is the data from a source with a special interest? 
+   <li> Would there be pressure to obtain results that are favorable to the source?</li>
+   <li> E.g., health studies from the tobacco industry that denied the link between smoking and lung cancer.</li>
+  </ul>
+  <li>Sampling Method</li>
+  <ul>
+   <li> Was the data collected in a way that was unbiased?</li>
+   <li> Are there reasons why the <b style="color:#d95f02">sample</b> wouldn't reflect the <b style="color:#1b9e77">population</b>?</li>
+   <li> For example, are the answers all voluntary?</li>
+   <li> Do all participants self-select or are the participants selected methodically?</li>
+   <li> Are there reasons why certain segments of the population wouldn't respond to the poll?</li>
+   <li>In an experiment, was the measurement instrument used appropriate in this context?</li>
+   <li>Is there missing data or are there errors in the data?</li>
+  </ul>
+<ol>
+
+========================================================
+
+### Analyze
+
+<ul>
+   <li> After prepaing the data, we use mathematical techniques to analyze the data.</ li>
+   <li> Luckily, in these times computing power is cheap and very little of the analysis is done by hand.</li>
+   <li> In homework assignments, we will use StatCrunch to:</li>
+   <ol>
+      <li> Graph the data.</li>
+      <li> Explore the data</li>
+      <ul>
+         <li>Look at the "shape" of the data, e.g., outliers, many observations of the same value or few very extreme values.</li>
+      </ul>
+      <li> Apply mathematical methods to better understand or summarize the data quantitatively.</li>
+      </ul>
+   </ol>
+</ul>
+
+========================================================
+
+### Conclude
+
+<div style=float:left; width:100%">
+<ul>
+   <li> Finally, the goal of a statistical analysis is to reach some kind of conclusion.</li>
+   <li> <b>Honest conclusions</b> in statistics are <b>uncertain</b> and they should be treated carefully.</li>
+   <li> We will always have incomplete, and often somewhat innacurate, <b style="color:#d95f02">samples</b> of the <b style="color:#1b9e77">population</b> of interest.</li>
+   <li> Usually, the uncertainty of a conclusion is quantified by the <b>statistical significance</b>.</li>
+   <li> This <b>loosely</b> measures how surprising it would be to make the same conclusion if all the results were made up randomly.</li>
+   <ul>
+      <li> For example, if after taking a certain fertility drug in a clinical trial, 98 out of 100 children born to the parents taking the drug were girls, we would call the result <b>statistically significant</b> because this was very unlikely to happen just by chance.</li>
+      <li>If the trial resulted in 52 girls, this could very easily happen by chance and we <b>wouldn't call the result statistically significant</b>.
+   </ul>
+   <li> However, even when we are very confident about the conclusions, these conclusions must be qualified carefully by the uncertainty in the analysis.</li>
+   <li> Likewise, we should consider both our confidence in the results (statistical significance) and the <b>practical significance</b>.</li>
+   <ul>
+      <li>E.g., in a test of the Atkins weight loss program, 40 subjects using that program had
+a mean weight loss of 4.6 pounds after one year.<sup>1</sup></li>
+      <li> Using statistical methodology, we can say with relatively strong statistical certainty that the diet is effective in reducing the average weight of participants.</li>
+      <li> However, the actual average weight loss is practically insignificant at only 4.6 pounds, and in this sense we should be careful in calling the diet "effective" because it has low <b>practical significance</b>.</li>
+   </ul>
+</ul>
+<div>
+<div style="float:left; width:100%; font-size=12">
+1. based on data from “Comparison of the Atkins, Ornish, Weight Watchers, and Zone Diets for Weight Loss and Heart Disease Risk Reduction,” by Dansinger et al., Journal of the Ameri-
+can Medical Association, Vol. 293, No. 1
+</div>
+
+========================================================
+
+### Potential pitfalls in data analysis
+
+* There are a number of common errors in the process of data analysis, and can dramatically affect the conclusions of a statistical inquiry.
+
+* A non-exhaustive list includes:
+
+ * <b>Relying on reported results</b> -- it is usually prerable to make direct measurements than to let participants in a study report their own measurements.
+ 
+ * For example, if we ask participants in a study what their weight is, they are likely to report their desired weight and not actual weight.
+ 
+ * <b>Small number of samples</b> -- if we have too few <b style="color:#d95f02">samples</b>  of a population, it may be grossly missrepresentative of the <b style="color:#1b9e77">population</b>.
+ 
+ * <b>Loaded questions</b> -- different phrasings of a survey question can dramatically change the responses of those surveyed.  When a survey question is written to ellicit a certain response, we call this a loaded question.
+ 
+ * <b>Poorly ordered questions</b> --  sometimes the order of questions can lead to a reaction from those responding, intentional or not.  If the order of questions isn't chosen carefully, this can affect the results.
+ 
+ * <b>Not considering non-responses</b> -- it is possible that those who don't respond to polls do so for specific reasons and not by random chance.  The non-responses as a class of data can have an important impact on our analysis of the <b style="color:#1b9e77">population</b>. 
+ 
+ * We will discuss these topics again in the next lecture...
+ 
+========================================================
+
+### Potential pitfalls in making conclusions
+
+<div style="float:left; width:100%">
+<img src="chart.png" style="width:100%" alt="Graph of the correlation between the number of letters in the winning word of the Scripps Spelling Bee and the number of deaths by spider bites each year..">
+<p style="text-align:center">
+Courtesy of Tyler Vigen, <a href="http://tylervigen.com/spurious-correlations"><em>Spurious Correlations</em></a>
+</p>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>We must also be careful about the conclusions we make from the analysis.</li>
+  <li>For example, we must always remember that <strong>correlation</strong> is not the same thing as <strong>causation</strong>.   
+</ul>
