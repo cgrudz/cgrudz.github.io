@@ -34,7 +34,6 @@ height: 1080
   * Methods of sampling
   * Types of observational studies
   * Types of experimental design
-  * Characteristics of data
 
 ========================================================
 
@@ -567,70 +566,3 @@ Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
 
 * A nonrandom sampling error is the result of using a sampling method that is not
 random, such as using a <b>convenience sample or a voluntary response sample</b>.
-
-========================================================
-
-## Characteristics of data
-
-
-<div style="float:left; width:40%">
-<img src="Standard_deviation_diagram.png" style="width:100%"  alt="Diagram of the percent of outcomes contained within each standard deviation of the mean
-for a standard normal distribution.">
-<p style="text-align:center">
-Courtesy of M. W. Toews <a href="https://creativecommons.org/licenses/by/2.5" target="blank">CC</a> via  
-        <a href="https://commons.wikimedia.org/wiki/File:Standard_deviation_diagram.svg"> Wikimedia Commons</a>. 
-</p>
-</div>
-<div style="float:left; width:60%">
-<ul>
-  <li>We often use visual tools to understand samples and to simplify their analysis</li>
-  <li>We try to characterize data by a number of the features that it exhibits -- thes are some of the ways</li>
-  <ol>
-    <li> <b>Center:</b> A representative value that indicates where the middle of the data set
-is located.</li>
-    <li> <b>Variation:</b> A measure of the amount that the data values vary.</li>
-    <li> <b>Distribution:</b> The nature or shape of the spread of the data over the range of values (such as bell-shaped). </li>
-    <li> <b>Outliers:</b> Sample values that lie very far away from the vast majority of the
-other sample values.</li>
-    <li> <b>Time:</b> Any change in the characteristics of the data over time.</li>
-  </ol>
-</ul>
-</div>
-<div style="float:left;width:100%">
-<ul>  
-  <li> Understanding each of these features in data is essential to distinguishing different types of behaviors, and when different kinds of analysis are appropriate or not.</li>
-  <li>For example, the average is sensitive to outliers (extremely large or small values) which can move the average away from most of the data.</li>
-  <li> If we only consider the mean without looking at other features, we will get an incomplete or misleading story from the data.</li>
-  <li> Our next topic will be how to use visual tools to understand and analyze the data.</li>
-</ul>
-</div>
-
-========================================================
-
-## Frequency distributions
-
-
-<div style="float:left; width:40%">
-<img src="histogram.png" style="width:100%"  alt="Histogram of years of study for our section of STAT 152.">
-<p style="text-align:center">
-From our first poll. 
-</p>
-</div>
-<div style="float:left; width:60%">
-<ul>
-  <li> <b>Frequency distribution (or frequency table)</b> shows how data
-are partitioned among several categories (or classes).</li>
-  <li>We list the categories along with the number (frequency) of data values in each of them.</li>
-  <li>From our first class, we partitioned the data into different classes: whether somone is studying in their first, second, third or fourth + year at UNR.</li>
-  <li>Each respondent indicated one of the choices, and we see the <b>frequency of the response</b> in each of the bars.</li> 
-</ul>
-</div>
-<div style="float:left; width:100%">
-<ul>
-  <li>One key concept with fequency distributions is the <b>partition</b> of the data.</li>
-  <li>It is important that all the <b>classes</b> of the data are disjoint, and exhaustive -- i.e., all sample data belongs to one and only one class.</li>
-  <li><b>Q:</b> what is incorrect about the histogram above?</li>
-  <li><b>A:</b>The classes weren't defined in a disjoint way.</li> 
-</ul>
-</div>
-
