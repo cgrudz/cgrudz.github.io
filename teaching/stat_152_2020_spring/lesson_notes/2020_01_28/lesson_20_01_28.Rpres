@@ -1,0 +1,636 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+Introduction to statistical concepts part III
+========================================================
+date: 01/28/2020
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+
+========================================================
+
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+
+  * Observational studies versus experiments
+  * Methods of sampling
+  * Types of observational studies
+  * Types of experimental design
+  * Characteristics of data
+
+========================================================
+
+## Methods of sampling
+
+* We have begun to consider the differences between a <b style="color:#d95f02">sample</b> and <b style="color:#1b9e77">population</b>.   
+
+* The motivation of sampling is to represent the <b style="color:#1b9e77">population</b> with a  smaller collection of data points, the <b style="color:#d95f02">sample</b>.
+
+* However, if the data is not collected in methodological way, it the <b style="color:#d95f02">sample</b> may grossly mis-represent the <b style="color:#1b9e77">population</b>.
+
+  * Loosely speaking, this is what is meant by <strong>bias</strong> in a sample.
+  
+* We will now consider in detail how we can methodically choose samples, to reduce the effects of bias.
+
+
+========================================================
+
+### <b style="color:#d24693">Observational studies</b> versus <b style="color:#80c936">experiments</b>
+
+* We typically have data that can be categorized into on of the two following types of data:
+
+  * <b style="color:#d24693">Observational studies</b> -- in an observational study, we observe and measure specific characteristics, but we <b style="color:#d24693">don’t attempt to modify the subjects being studied</b>.
+
+
+  * <b style="color:#80c936">Experiments</b> -- in an experiment, we <b style="color:#80c936">apply some treatment</b> and then proceed to observe its effects on the subjects. (Subjects in experiments are called experimental units.)
+
+* The differences between the two types of data can be easily seen considering a <b style="color:#80c936">clinical trial</b>.
+
+  * Suppose we want to determine the effectiveness of a hair growth drug in a <b style="color:#80c936">clinical trial</b>.
+  
+  * One group will be given a <b style="color:#80c936">treatment</b> of the new drug. 
+  
+  * A <b style="color:#80c936">control group will be given a placebo</b>, as a <b style="color:#80c936">control</b>.
+  
+  * <b>We will try to measure the effect of the treatment by the difference in the treatment and control group.</b>  
+
+
+* An <b style="color:#d24693">observational</b> version of this study might take the following form:
+
+  * Ten years after the hair growth drug is released, we examine rates of adult baldness, <b style="color:#d24693">without having modified any of the subjects</b>.
+  
+  * Examining if the population trends have changed, i.e., rates of adult baldness have been reduced, we will try to conclude if the drug has had an effect.
+  
+* A major difference between the types of observations is that <b style="color:#d24693">observational</b> studies do not have a way to control for non-measured variables that may have an effect on the study.
+
+ * A variable that has an effect on the outcome that is not part of the  study is called a <strong>"lurking"</strong> or <strong>"latent" variable</strong>  .
+
+
+========================================================
+
+### <b style="color:#d24693">Observational studies</b> versus <b style="color:#80c936">experiments</b>
+  
+
+* <b>Discuss with a neighbor:</b> suppose a poll is given to UNR students about the quality of UNR food services.  Is this poll an <b style="color:#d24693">observational study</b> or an <b style="color:#80c936">experiment</b>?
+
+  * This is an <b style="color:#d24693">observational study</b> because the <b style="color:#d24693">data is collected without modifying the behavior or applying a treatment to the subjects</b>.
+
+
+* <b>Discuss with a neighbor:</b> suppose UNR wants to examine student satisfaction with possible menu changes in its food services.  One group of students is given the current menu, while another group is given a new menu, and the satisfaction of each student is recorded for a month. Is this study an <b style="color:#d24693">observational study</b> or an <b style="color:#80c936">experiment</b>?
+
+  * This is an <b style="color:#80c936">experiment</b> because there is a group of students given the  <b style="color:#80c936">treatment</b> of a new menu, while the  <b style="color:#80c936">control</b> group uses the same menu.
+  
+  * By examinig the  <b style="color:#80c936">differences between the treatment and the control</b>, we can try to measure the effect of the new menu.
+
+========================================================
+
+### Random Sampling
+
+* We have seen that voluntary sampling is flawed because it leads to certain groups (with strong feelings about the questions) to be highly represented while other groups (who may not care) to have limited representation.
+
+* Put another way, one group has a <strong>higher probability of responding</strong> than other groups. 
+
+* This is the motivation for random sampling... 
+  
+  * we can try to make certain that the probability of getting any group of responses is the same as any other group.
+  
+* <b>Simple random sample:</b> a simple random sample of $n$ subjects is selected in such a
+way that every possible sample of the same size $n$ has the same chance of being
+chosen. 
+
+  * Suppose we are taking a poll of UNR students and we will have a sample size of 1000. 
+  
+  * This means, every possible combination 1000 UNR students is <strong>must be equally likely to be selected</strong> based on our sampling method.
+  
+  * E.g., we can  randomly select students to give interview responses based on their student ID numbers.
+
+  * <b>Note:</b> a simple random sample is often called a random sample, but strictly speaking, a random sample has the weaker requirement that all members of the population have the same chance of being selected.
+  
+========================================================
+
+### Systematic sampling
+
+<div style="float:left; width:100%">
+<img src="systematic_sampling.png" style="width:100%" alt="Diagram of every 3rd individual in a population being sampled.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li><b>Systematic sampling:</b> systematic sampling, we select some starting point and then select every kth
+(such as every 50th) element in the population.</li>
+<li> For example, a grocery store decides to give a poll to every 3rd customer who enters in a day.</li>
+<li> This can  be effective when the order of people entering doesn't hide some pattern -- we have no reason to believe that the 2nd, 5th, 7th etc... person would be different from this sequence in a systematic way.</li>
+<li>  This is different from a <b>simple random sample</b> because some groups of 4 out of 12 people do not have equal probability to be selected as group consisting of the the 3rd, 6th, 9th and 12 people.</li>
+<li> For instance, the 1st, 2nd, 3rd and 4th entrants to the grocery store have zero probability to become a sample based on this rule.</li>
+</ul>
+</div>
+
+========================================================
+
+### Stratified sampling
+
+<div style="float:left; width:50%">
+<img src="stratified_sampling.png" style="width:100%" alt="Diagram of random sampling within political parties.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:50%">
+<ul> 
+<li><b>Stratified sampling:</b> we subdivide the population into at least two different
+<strong>subgroups (or strata)</strong>.</li>
+<li> Groups are chosen such that <strong>subjects within the same subgroup share the same
+characteristics</strong> (such as political party).</li>
+<li> We then draw a sample from each subgroup (or stratum).</li>
+<li> This technique works best when all members of the <b style="color:#1b9e77">population</b> <strong> belong to one and only one of the strata</strong>.</li>
+</ul>
+</div>
+<div style="width:100$;float:left">
+<ul>
+  <li> This allows us to keep the <strong>sample balanced with respect to the groups</strong>, where we can randomly <b style="color:#d95f02">sample</b> each strata proportionately to their percentage of the <b style="color:#1b9e77">population</b>.</li>
+  <li> In the political party example, we need to make sure every member of the population is in <strong>one and only one group</strong>.
+  <li> In a case like this, it can make sense to have groups such as "Democrat", "Republican", "Third Party" and "Unaffiliated " so that we fulfill this requirement.</li>
+</ul>
+</div>
+
+========================================================
+
+### Cluster sampling
+
+<div style="float:left; width:50%">
+<img src="cluster_sampling.png" style="width:100%" alt="Diagram of every student within certain class sections being sampled -- selction of the classes are random.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:50%">
+<ul> 
+  <li> <b>Cluster sampling:</b> we first divide the population area into sections (or clusters).</li>
+  <li> Then we randomly select some of those clusters and choose all the members from
+those selected clusters.</li>
+  <li> This type of sampling works well when <strong>members within each cluster are not homogeneous</strong>, but the <strong>clusters should be relatively homogeneous between each other.</strong></li>
+  <li> That is, <b>each cluster should be a small-scale representation of the entire population</b>.</li>
+  <li> In this example we randomly select classes at UNR.  <strong>Each class section is a cluster</strong>.</li>
+  <li> We obtain responses from all students in the randomly selected classes.</li.    
+</ul>
+</div>
+<div style="width:100%; float:left">
+<ul>
+  <li>This method of sampling would work in the class section example if we selected classes from a list of <strong>general requirements</strong>.
+  <li> In this case, students in the classes would be from <strong>all majors</strong> and thus <strong>heterogeneous</strong>.</li>
+  <li> However, because students are required to take all of the classes in the list, <strong>the clusters are homogeneous with respect to other clusters</strong>.</li>
+  <li> The example from Triola is a case where this wouldn't work well, unless all majors were required to take Architecture, Art History, Biology, Zoology, etc...</li>
+  <li> Otherwise, e.g., the clusters of Art History and Zoology could not be homogenous with respect to each other.</li>
+</ul>
+</div>
+
+========================================================
+
+### Multistage sampling methods
+
+<ul>
+  <li> Often for <b style="color:#1b9e77">complex, heterogenous populations</b> like the United States, a multistage design is implemented to get a sample that can reflect the highly <b style="color:#1b9e77">complex population</b> with a <b style="color:#d95f02">small sample</b>.</li>
+
+  <li> For example, the <b>U.S. government’s unemployment statistics are based on surveyed households</b>  .</li> 
+  <li> It would be very difficult to visit each member of a simple random sample, because individual households are spread all over the country -- <b>there is a practical limitation of where sampling can be concentrated</b>.</li>
+  <li> The U.S. Census Bureau and the Bureau of Labor Statistics instead collaborate to conduct a survey called the Current Population Survey. This is sampled in the following steps:</li>
+  <ol>
+    <li>The entire <strong>United States is partitioned into 2025 different regions called
+primary sampling units (PSUs)</strong> including metropolitan
+areas, large counties, or combinations of smaller counties. These 2025 PSUs are then <strong>grouped into 824 different strata</strong>.</li>
+    <li> In each of the 824 different strata, <strong>one PSU is
+selected in a way such   that the probability of selection is proportional to the size of the
+population in each primary sampling unit</strong>.</li>
+    <li>In each of the 824 selected PSUs, <strong>the housholds are broken up into census enumeration disctricts of about 300 housholds</strong> -- enumeration districts are then randomly selected.</li>
+    <li>Finally, <strong>about 4 households in each enumeration district are selected randomly</strong>.</li>  
+  </ol>
+    <li><b>This technique actually utilizes stratified, cluster and random sampling at different stages in the process.</b>  </li>
+  <li>This process ensures that the sample will reflect the <strong>spatially heterogenous population</strong> while it is practical to <strong>send interviewers to fewer, concentrated locations</strong>.</li> 
+</ul>
+
+========================================================
+
+### Examples of sampling methods
+
+* <b>Discuss with a neighbor:</b> what sampling method is being used in each of the following examples?
+
+  * <b>Twitter poll</b> -- In a Pew Research Center poll, 1007 adults were called after their telephone
+numbers were randomly generated by a computer, and 85% of the respondents were able to
+correctly identify what Twitter is.
+
+  * This is <b>random sampling</b> of users with telephone numbers, where <strong>everyone with a telephone is equally likely to be selected</strong> .  
+  
+  * However, <b>we are assuming that the probability of someone answering their phone is equal across variables of interest</b>.
+
+  * <b>Ecology</b> -- When collecting data from different sample locations in a lake, a researcher usesthe “line transect method” by stretching a rope across the lake and collecting samples at every interval of 5 meters.
+
+  * This is <b>systematic sampling</b> of the lake, <strong>taking observations at fixed intervals</strong>.
+  
+  * <b>Dictionary</b> -- Suppose we are studying the average number of letters in words in the English language.  We collect sample data by randomly selecting 20 different pages
+from a printed version the English dictionary and then <strong>count the total number of letters for words defined in each of those pages</strong>.
+
+  * This is <b>cluster sampling</b>, because we select <strong>clusters for which the sub-population within the cluster is heterogeneous</strong> (words within a given page have many different lengths) <strong>but are homogeneous with respect to each other</strong>  . (each page is similar enough to each other page). 
+  
+  * <b>Public sentiment poll</b> -- the City of Reno designs a sample of Reno adult residents in which all participants are broken into age groups: 18 - 25, 26 - 35, 36 - 45, 46 - 55, 56 and older.  Individuals are selected randomly from these age groups, with total number of participants from each group selected proportionally to the percent of adult residents of this age in Reno.
+  
+  * This is <b>stratisfied sampling</b> because every adult resident in Reno can be placed within one and only one group, and we balance the sample by <strong>random, proportional draws within each strata</strong>  . 
+
+
+========================================================
+
+## Types of observational studies
+
+<div style="float:left; width:60%">
+<img src="observational_study_guide.png" style="width:100%" alt="Diagram observational studies: retrospective studies have observations from the past; cross-sectional studies have observations from one time-instance; prospective studies have observations taken at future time points.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:40%">
+<ul>
+  <li><b>Retrospective (or case-control) study:</b> data are collected from a past time period by going back in time (through examination of records, interviews, and so on).</li>  
+  <ul>
+    <li><b>Good example:</b> <strong>studying reported cases</strong> of the outbreak and spread of a rare disease <strong>after the disease has become under control</strong>.</li>  
+  </ul>
+  <li><b>Cross-sectional study:</b> data are observed, measured, and collected at one
+point in time, not over a period of time.</li>
+  <ul>
+    <li><b>Good example:</b> <strong>A poll is given once</strong> to decide on the name of a new building on campus.</li>  
+  </ul>
+  <li><b>Prospective (or longitudinal or cohort) study:</b> data are collected in the future
+from groups that share common factors (such groups are called cohorts).</li>
+  <ul>
+    <li><b>Good example:</b> a group of current smokers and non-smokers are selected and <strong>measurements of their health are taken for the next 10 years</strong>.</li>  
+  </ul>
+</ul>
+</div>
+
+
+========================================================
+
+### Examples of observational studies
+
+* <b>Discuss with a neighbor:</b> what kind of observational study is being discussed in the example?
+
+  * <b>Nurses’ Health Study</b> -- the Nurses’ Health Study was started in 1976 with 121,700
+female registered nurses who were between the ages of 30 and 55. The subjects were surveyed
+in 1976 and every two years thereafter. The study is ongoing.
+
+  * This is a <b>prospective, longitudinal or cohort study</b>, following the <strong>cohort of the nurses with observations after the beginning of the study</strong>.
+
+  * <b>Smoking Study</b> -- researchers from the National Institutes of Health want to determine
+the current rates of smoking among adult males and adult females. They conduct a survey of
+500 adults of each gender.
+
+  * This is a <b>cross-sectional study</b> because it only uses <strong>observations from a single time point</strong>.
+  
+  *  <b>Drinking and Driving Study</b> -- in order to study the seriousness of drinking and driving, a researcher obtains records from past car crashes. Drivers are partitioned into a group that had no alcohol consumption and another group that did have evidence of alcohol consumption at the time of the crash.
+  
+  * This is a <b> retrospective survey</b> using <strong>observations over a series of past events</strong>. 
+
+  
+
+========================================================
+
+## Designs of <b style="color:#80c936">experiments</b>
+
+
+<div style="float:left; width:30%">
+<img src="bad_design.png" style="width:100%" alt="Diagram of clinical trial in which women alone are in the treatment group and men alone are in the control group.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:70%">
+<ul>
+  <li><b style="color:#80c936">Experimental studies</b> have the benefit of applying a <b style="color:#80c936">treatment</b> to distinguish its <b style="color:#80c936">effect</b> from a <b style="color:#80c936">placebo</b>, observing differences with the <b style="color:#80c936">control group</b>.</li>
+  <ul>
+    <li>However, <b>there are many ways experiments can be made meaningless from poor design</b>.</li>
+  </ul>
+  <li> For example, suppose that we are studying the effect of the (hypothetical) hair growth drug from earlier.</li>
+  <li>Suppose that the <strong>treatment group consists entirely of women</strong>.</li>
+  <li>Suppose that the <strong>control group consists entire of men</strong>.</li>
+  <li>This would be a very <strong>poorly designed experiment</strong>:</li>
+  <ul>
+    <li> If there is reason to believe that physiological differences would change the results of a treatment, <strong>the control group and the treatment group should be balanced across this variable  </strong>.</li>
+  </ul>
+  <li>There is a long history of biased medical studies in the 20th century that have practiced poor experimental design in a similar way.</li>
+  <li> Indeed, many studies were <strong>performed on male subjects alone</strong>, yet conclusions were geralized to the <strong>entire population, including women </strong>.</li> 
+</ul>
+</div>
+
+========================================================
+
+### Designs of  <b style="color:#80c936">experiments</b> -- continued
+
+<ul>
+  <li>Rather than try to exhaustively list ways experiments can go wrong, we will introduce elements of <strong>good experimental design</strong>.</li>
+  <li>Three essential elements of <strong>good design</strong> are the following:</li>
+  <ul>
+    <li><b>Randomization</b>;</li>
+    <li><b>Replication</b>; and</li>
+    <li><b>Blinding</b>.    </li>
+  </ul>
+  <li>We will consider these elements in the context of a historical example, the Salk Vaccine Experiment.</li>
+  <li>In 1954, a large-scale experiment was designed to test the effectiveness of the Salk
+vaccine in preventing polio.</li>
+  <li><strong>Treatment group</strong> -- 200,745 children were given a treatment consisting of Salk vaccine injections.</li>
+  <li><strong>Control group</strong> -- 201,229 children were injected with a placebo
+that contained no drug.</li>
+  <li>The children being injected did not know whether they were getting the Salk vaccine or the placebo.</li> 
+  <li>Children were assigned to the treatment or placebo group through a process of random selection.</li>
+  <li><strong>Treatment group</strong> -- 33 later developed paralytic polio.</li>
+  <li><strong>Control group</strong> -- 115 later developed paralytic polio.</li>
+  <li>Elements of <strong>good experimental design</strong> helped to <strong>determine</strong>. if it would be surprising that the smaller number of cases in the treatment group was <strong>due to random chance</strong> .</li>
+  <li>We will discuss each of these elements in the following.</li>
+</ul>
+
+========================================================
+
+### Randomization
+
+* The 401,974 children in the Salk vaccine experiment were assigned to the Salk vaccine treatment group or the placebo group via a process of random selection equivalent to flipping a coin. 
+
+* You can encode wheter someone is in the treatment or control group in a <strong>binary way</strong>:
+
+  * <b>Treatment / 1 / H</b>
+  * <b>Control / 0 / T</b>  
+
+* Randomly drawing "Treatment" or "Control" with equal probability is equivalent to flipping a fair coin.
+
+* The logic behind randomization is to use chance as a way to create two groups that are similar.
+
+* With a large enough sample for both treatment and control groups, this can be very effective when it is difficult to balance factors like age, gender, height, weight, etc... across groups.
+
+* Chance is being utlized to balance the many population factors across the <strong>control</strong> and <strong>treatment</strong> groups.
+
+  * This makes it so that each <b style="color:#d95f02">sub-sample</b> better reflects the full <b style="color:#1b9e77">population</b>.
+  
+* Randomization can lead to <strong>unbalanced samples</strong> ;
+
+  * this happens typically when <strong>  very small sample sizes are involved</strong>.  
+
+========================================================
+
+### Replication
+
+* <b>Replication</b> -- the repetition of an experiment on <strong>more than one subject</strong>. 
+
+* Good experiments have enough subjects to recognize differences resulting from different
+treatments.
+
+  * The treatment might have different results based on individual factors that can be quite varied.
+  
+  * However, if we look at a large enough sample it increases the chance of <strong>recognizing different treatment effects, and understanding what effects are likely or not</strong>.
+  
+* <b> A large sample is not necessarily a good sample in itself</b>. 
+
+* Although it is important to have a sample that is sufficiently large, it is even more important to have a sample in which <strong>subjects have been chosen in some appropriate way</strong>.
+
+  * <b>A large number of unbalanced samples will still lead to biased conclusions</b> .
+
+* We must <b>both</b>:
+  
+  * use a <strong>sample size</strong> that is large enough to see the true nature of any
+effects, and 
+
+  * obtain the <strong>sample using an appropriate method</strong> like randomness to balance the treatment and control groups.
+
+========================================================
+
+### Blinding  
+
+* <b>Blinding</b> -- this is when the <strong>subject doesn’t know</strong> whether they are receiving a <strong>treatment</strong> or are in the <strong>control</strong> group. 
+
+* <b>Blinding</b> <strong>enables us to determine</strong> whether the treatment effect is <strong>significantly different</strong> from a <b>placebo effect</b>.
+
+  * The placebo effect occurs when an untreated subject reports an improvement in symptoms. 
+
+  * The improvement <strong>can be real or imagined</strong>. 
+
+* <strong>Blinding minimizes the placebo effect</strong> or allows investigators to account for it. 
+
+* The polio experiment was <b>double-blind</b>, which means that
+blinding occurred at two levels: 
+
+  1. The children being injected didn’t know whether they were getting the Salk vaccine or a placebo, and 
+  2. the doctors who gave the injections and evaluated the results did not know either. 
+  
+* Codes were used so that the researchers could objectively evaluate the effectiveness of the Salk vaccine.
+
+========================================================
+
+### Controlling for variables  
+
+
+<div style="float:left; width:30%">
+<img src="bad_design.png" style="width:100%" alt="Diagram of clinical trial in which women alone are in the treatment group and men alone are in the control group.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:70%">
+<ul>
+  <li> <b>Good experimental design limits the effects of variables that are not measured directly in the experiment</b>.</li>
+  <li>Ideally, for every clinical trial we would need <strong>twins in the treatment and control groups</strong> with identical medical histories so that we could <strong>distinguish between the effect of the treatment and the placebo</strong>.</li>
+  <li> In a realistic clinical trial, the best we can do is to have <strong>balanced populations in the treatment and control</strong>, so that we can <b>understand the trends (estimate parameters) in the population</b> .</li>
+  <li> <b>Confounding variables</b> -- occur in an experiment when the investigators are not able to distinguish among the effects of different factors.</li>
+  <li>If we take the hypothetical hair growth drug with the:</li>
+  <ul>
+    <li>control group with men alone; and </li>
+    <li>treatment group with women alone;</li>
+  </ul>
+  <li> we <strong>could not distinguish</strong> if the differences between the outcomes between the <strong>treatment</strong> and <strong>control</strong> were due to either:</li>
+  <ol>
+    <li>the <strong>treatment</strong> itself;</li>
+    <li>or due to significant <strong>differences between the control and treatment sub-samples</strong>.</li>
+  </ol>
+  <li>This is another reason why this it a bad experimental design to have unbalanced groups.</li>
+</ul>
+</div>
+
+========================================================
+
+### Completely randomized design  
+
+
+<div style="float:left; width:30%">
+<img src="randomized_experimental_design.png" style="width:100%" alt="Diagram of clinical trial in which women and men are randomly selected betweent the treatment and control group.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:70%">
+<ul>
+  <li>With respect to our hypothetical example, <strong>randomly assigning participants</strong> to <strong>treatment</strong> and <strong>control</strong> groups <strong>balances the populations across factors</strong>.</li>
+  <li><b>If the sample size is small and the population is complex, this still cannot give a representative sample for the population</b>.</li>
+  <li>When we have sufficiently many random participants in each group, we can be more assured that the <strong>experimental design controls for non-measured variables</strong> .</li>
+  <li>For example, if this trial lasts several years, there are diverse factors in the subjets that might have an effect which we cannot measure.</li>
+  <li>This might include exercise patterns, diets, consumption of tobacco, alcohol, etc...</li>
+  <li>With a large enough random sample, we can have some assurance that the control and treatment groups will be balanced over a wide variety of possible factors.</li>
+</ul>
+</div>
+
+========================================================
+
+### Randomized block design
+
+<div style="float:left; width:30%">
+<img src="randomized_block_design.png" style="width:100%" alt="Diagram of clinical trial in which women and men are selected into blocks and subsequently randomly selected betweent the treatment and control group.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:70%">
+<ul>
+  <li><b>Randomized block design</b> follows the same idea as stratisfied sampling in forming distinct strata or groups for the population</li>
+  <li>This can be important to implement when there are certain sub-groups in the population for which it is important to have proportional representation in the samples.</li>
+  <ul>
+    <li>This is especially the case if we believe that the effect of the treatment might differ within each strata.</li>
+    <li>I.e., the strata that each subject belongs to is itself a variable of interest.</li>
+  </ul>
+  <li>If we believe that the experimental drug might have different effects in men and women, <strong>we can define these as strata</strong>.</li>
+  <li><b>Then within each strata, we randomly assign participants the treatment and the placebo.</b></li>
+</ul>
+</div>
+
+
+========================================================
+
+### Matched pairs design
+
+
+<div style="float:left; width:30%">
+<img src="matched_pairs_design.png" style="width:100%" alt="Diagram of clinical trial in which subjects are selected and matched with other subjets in the treatment and control group.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:70%">
+<ul>
+  <li><b>Matched pair</b> design follows the idea of having <strong>twins in experiments</strong>.</li>
+  <li>In this design, similar subjects (for example twins) are <strong>matched between the treatment and control groups</strong>.</li>
+  <li>This helps to distinguish between the <b>treatment effect</b> and <b>placebo effect</b>.</li>
+  <li> In some experiments, this can take the form of before/ after measurements.</li>
+  <li>However, if there isn't enough <strong>heterogeneity between the matched pairs</strong>, we will still <strong>not represent the full population</strong>.</li>
+  <li>Finding <strong>sufficiently many closely matched pairs</strong> to represent the population makes this approach <strong>difficult</strong>  .</li>
+  <li><b>Rigorously controlled design</b> -- this refers to when in the above, we try to carefully match the treatment and control groups with respect to variables of interest in the experiment.</li>
+  <li>Controlling for variables like this is <strong> extremely difficult in addition to the above</strong>, where we must find matched pairs and <strong>isolate all variables of interest</strong>.</li>
+  <li>This is not often possible, and <b>randomization (if done well) can balance populations agains unforseen confounding variables</b>.</li>
+</ul>
+</div>
+
+========================================================
+
+## <b style="color:#d95f02">Sampling</b> errors
+
+* Imagine now that we are <strong>flipping a fair coin</strong>.
+
+* Suppose we take a sample of 4 flips and get 3 heads and 1 tails.
+
+* In our <b style="color:#d95f02">sample</b> it may appear that it was a $75\%$ probability of getting heads and $25\%$ probability of getting tails.
+
+  * These <b style="color:#d95f02">sample statistics</b> don't match the <b style="color:#1b9e77">population parameters</b> of $50\%$ for both outcomes.
+  
+* If we flipped the coin 100 more times, our <b style="color:#d95f02">sample statistics</b> will approach the true <b style="color:#1b9e77">population parameter</b> on average.
+  
+* <b>The random discrepancy between the <b style="color:#d95f02">sample statistic</b> and the <b style="color:#1b9e77">population parameter</b> is known as sampling error</b>. 
+
+* A nonsampling error is the result of human error, including:
+
+  1. wrong data entries;
+  2. computing errors;
+  3. questions with biased wording;
+  4. false data provided by respondents;
+  5. forming biased conclusions;
+  6. or applying statistical methods that are not appropriate for the circumstances.
+
+* A nonrandom sampling error is the result of using a sampling method that is not
+random, such as using a <b>convenience sample or a voluntary response sample</b>.
+
+========================================================
+
+## Characteristics of data
+
+
+<div style="float:left; width:40%">
+<img src="Standard_deviation_diagram.png" style="width:100%"  alt="Diagram of the percent of outcomes contained within each standard deviation of the mean
+for a standard normal distribution.">
+<p style="text-align:center">
+Courtesy of M. W. Toews <a href="https://creativecommons.org/licenses/by/2.5" target="blank">CC</a> via  
+        <a href="https://commons.wikimedia.org/wiki/File:Standard_deviation_diagram.svg"> Wikimedia Commons</a>. 
+</p>
+</div>
+<div style="float:left; width:60%">
+<ul>
+  <li>We often use visual tools to understand samples and to simplify their analysis</li>
+  <li>We try to characterize data by a number of the features that it exhibits -- thes are some of the ways</li>
+  <ol>
+    <li> <b>Center:</b> A representative value that indicates where the middle of the data set
+is located.</li>
+    <li> <b>Variation:</b> A measure of the amount that the data values vary.</li>
+    <li> <b>Distribution:</b> The nature or shape of the spread of the data over the range of values (such as bell-shaped). </li>
+    <li> <b>Outliers:</b> Sample values that lie very far away from the vast majority of the
+other sample values.</li>
+    <li> <b>Time:</b> Any change in the characteristics of the data over time.</li>
+  </ol>
+</ul>
+</div>
+<div style="float:left;width:100%">
+<ul>  
+  <li> Understanding each of these features in data is essential to distinguishing different types of behaviors, and when different kinds of analysis are appropriate or not.</li>
+  <li>For example, the average is sensitive to outliers (extremely large or small values) which can move the average away from most of the data.</li>
+  <li> If we only consider the mean without looking at other features, we will get an incomplete or misleading story from the data.</li>
+  <li> Our next topic will be how to use visual tools to understand and analyze the data.</li>
+</ul>
+</div>
+
+========================================================
+
+## Frequency distributions
+
+
+<div style="float:left; width:40%">
+<img src="histogram.png" style="width:100%"  alt="Histogram of years of study for our section of STAT 152.">
+<p style="text-align:center">
+From our first poll. 
+</p>
+</div>
+<div style="float:left; width:60%">
+<ul>
+  <li> <b>Frequency distribution (or frequency table)</b> shows how data
+are partitioned among several categories (or classes).</li>
+  <li>We list the categories along with the number (frequency) of data values in each of them.</li>
+  <li>From our first class, we partitioned the data into different classes: whether somone is studying in their first, second, third or fourth + year at UNR.</li>
+  <li>Each respondent indicated one of the choices, and we see the <b>frequency of the response</b> in each of the bars.</li> 
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>One key concept with fequency distributions is the <b>partition</b> of the data.</li>
+  <li>It is important that all the <b>classes</b> of the data are disjoint, and exhaustive -- i.e., all sample data belongs to one and only one class.</li>
+  <li><b>Q:</b> what is incorrect about the histogram above?</li>
+  <li><b>A:</b>The classes weren't defined in a disjoint way.</li> 
+</ul>
+</div>
+
