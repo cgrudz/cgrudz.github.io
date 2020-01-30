@@ -1,0 +1,757 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+Summarizing and graphing data
+========================================================
+date: 01/30/2020
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+
+========================================================
+
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+  * Characteristics of data
+  * Frequency distributions
+  * Histograms
+  * Other kinds of good and bad plots
+
+========================================================
+
+## Lead and IQ example
+
+
+<div style="float:left; width:100%; text-align:center">
+<img src="low_lead_high_lead.png" style="width:80%" alt="Freqency table of IQ scores for sample data set, table 2-2 from textbook.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>We have data in which children who had either low or high lead exposure were given measurements for IQ scores.</li>
+  <li>If we want to see if lead has a <b>significant effect</b> on IQ, the table doesn't tell us much.</li>
+  <li>Indeed, <b>the table is very difficult to interpret</b> and instead we would like to develop <strong>tools to summarize and characterize the data</strong>.</li>
+</ul>
+</div>
+
+
+========================================================
+
+## Characteristics of data
+
+
+<div style="float:left; width:40%">
+<img src="Standard_deviation_diagram.png" style="width:100%"  alt="Diagram of the percent of outcomes contained within each standard deviation of the mean
+for a standard normal distribution.">
+<p style="text-align:center">
+Courtesy of M. W. Toews <a href="https://creativecommons.org/licenses/by/2.5" target="blank">CC</a> via  
+        <a href="https://commons.wikimedia.org/wiki/File:Standard_deviation_diagram.svg"> Wikimedia Commons</a>. 
+</p>
+</div>
+<div style="float:left; width:60%">
+<ul>
+  <li>We often use visual tools to understand samples and to simplify their analysis</li>
+  <li>We try to characterize data by a number of the features that it exhibits -- these are some of the ways</li>
+  <ol>
+    <li> <b>Center:</b> A representative value that indicates where the middle of the data set
+is located.</li>
+    <li> <b>Variation:</b> A measure of the amount that the data values vary.</li>
+    <li> <b>Distribution:</b> The nature or shape of the spread of the data over the range of values (such as bell-shaped). </li>
+    <li> <b>Outliers:</b> Sample values that lie very far away from the vast majority of the
+other sample values.</li>
+    <li> <b>Time:</b> Any change in the characteristics of the data over time.</li>
+  </ol>
+</ul>
+</div>
+<div style="float:left;width:100%">
+<ul>  
+  <li><b> Understanding each of these features in data is essential to distinguishing different types of behaviors, and when different kinds of analysis are appropriate or not.</b>  </li>
+  <li>For example, <strong>the sample average is sensitive to outliers</strong> (extremely large or small values) which can move the sample average away from most of the data.</li>
+  <li> If we only consider the mean (average) without looking at other features, we will get an incomplete or misleading story from the data.</li>
+  <li> Our next topic will be how to use visual tools to understand and analyze the data.</li>
+</ul>
+</div>
+
+
+
+========================================================
+
+## Frequency distributions
+
+
+<div style="float:left; width:20%">
+<img src="frequency_plot.png" style="width:100%" alt="Freqency table of IQ scores for sample data set, table 2-2 from textbook.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:80%">
+<ul>
+  <li> <b>Frequency distribution (or frequency table)</b> shows how data
+are partitioned among several categories (or classes).</li>
+  <li>We list the categories along with the number (frequency) of data values in each of them.</li>
+  <li>For all the observations in the original data table, we:</li>
+  <ol>
+    <li><strong>Identify which partition or class that the observation belongs to.</strong></li>
+    <ul>
+      <li>E.g., if we look at an observation with IQ score of 100, this belongs to the class "90-109".</li>
+      </ul>
+    <li><strong>Tally the number of observations that belong to a class.</strong></li>
+    <ul>
+      <li>E.g., we look back over the entire table of raw data and count how many observations belong to the class "90-109".  This was 35 observations.</li>
+    </ul>
+    </ul>
+  </ol>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>One key concept with fequency distributions is the <b>partition</b> of the data.</li>
+  <li>It is important that all the <b>classes</b> of the data are <b>disjoint and exhaustive</b>.</li>
+  <ul>
+    <li>That is to say, <strong>all sample data belongs to one and only one class</strong>.</li>
+  </ul>
+</ul>
+</div>
+
+========================================================
+
+### Frequency distributions -- definitions
+
+<div style="float:left; width:20%">
+<img src="frequency_plot.png" style="width:100%" alt="Freqency table of IQ scores for sample data set, table 2-2 from textbook.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:80%">
+<ul>
+  <li> There are some common pieces of vocabulary we will use when discussing frequency distributions which we will outline in the following:</li>
+  <ul>
+    <li><b>Lower class limits</b> -- these are the smallest numbers that can belong to the different classes.</li>
+    <li><b>Question:</b> what are the lower class limits in the table to the left?</b>
+    <ul>
+      <li><b>Answer:</b> these are 50, 70, 90, 110, and 130.</li>
+    </ul>
+    <li> <b>Upper class limits</b> -- these are the largest numbers that can belong to the different
+classes.</li> 
+    <li><b>Question:</b> what are the upper class limits in the table to the left?</li>
+    <ul>
+      <li><b>Answer:</b> these are   69, 89, 109, 129, and 149.</li>
+    </ul>
+    <li> <b>Class boundaries</b> -- these are the numbers used to separate the classes, but without the
+gaps created by class limits.</li> 
+  </ul>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>The figure below shows the gaps created by the class limits
+from the table to the left. </li>
+  <li>The values of 69.5, 89.5, 109.5, and 129.5
+are in the centers of the gaps, and following the pattern of those class boundaries, the lowest is 49.5 with the highest 149.5. </li>
+</ul>
+</div>
+<div style="float:left; width:100%;text-align:center">
+<img src="class_boundaries.png" style="width:70%;" alt="Diagram class boundaries between class limits.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+
+
+
+========================================================
+
+### Frequency distributions -- definitions
+
+<div style="float:left; width:20%">
+<img src="frequency_plot.png" style="width:100%" alt="Freqency table of IQ scores for sample data set, table 2-2 from textbook.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:80%">
+<ul>
+  <ul>
+    <li> <b>Class midpoints</b> -- these are the values in the middle of the classes.</li>
+    <li><b>Discuss with a neighbor:</b> can you describe at least one way to compute the class midpoint?</li>
+    <ul>
+      <li> Each class midpoint can be computed by adding the lower class limit to the upper class limit and dividing the sum by 2, e.g.
+      $$\frac{69 + 50}{2} = \frac{119}{2} = 59.5.$$
+      This gives the average of the lower class limit and the upper class limit.</li>
+      <li>A second way is to find half the distance between the class boundaries and to add this to the lower class limit, e.g.,
+      $$\frac{69 - 50}{2} + 50 = \frac{19}{2} + 50 = 9.5 + 50 = 59.5.$$</li>
+      <li>These are equivalent because
+      $$\frac{69 - 50}{2} + 50 = \frac{69 - 50}{2} + \frac{2\times 50}{2} =  \frac{69 - 50 + 100}{2} = \frac{69 + 50}{2}$$
+      </li> 
+      <li> The table to the left has class midpoints of 59.5, 79.5, 99.5, 119.5, and 139.5.</li>
+    </ul>
+  </ul>
+</ul>
+</div>
+<div style="float:left; width:100%;text-align:center">
+<img src="class_boundaries.png" style="width:70%;"  alt="Diagram class boundaries between class limits.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+
+========================================================
+
+### Frequency distributions -- definitions
+
+<div style="float:left; width:20%">
+<img src="frequency_plot.png" style="width:100%" alt="Freqency table of IQ scores for sample data set, table 2-2 from textbook.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:80%">
+<ul>
+  <ul>
+    <li> <b>Class width</b> -- this is the difference between two consecutive lower class limits (or two consecutive lower class boundaries) in a frequency distribution.</li> 
+    <ul>
+      <li>For example, this can be computed as
+      $$70 - 50 = 20.$$</li>
+      <li> <b>Note:</b> this is not the same as if we take the difference of the upper class limit with the lower class limit -- in this case this is only $19$.</li>
+      <li> Remember, the class width is <b>always defined in terms of the difference of one lower class limit with the previous</b></li>
+    </ul>
+  </ul>
+</ul>
+</div>
+<div style="float:left; width:100%;text-align:center">
+<img src="class_boundaries.png" style="width:70%;"  alt="Diagram class boundaries between class limits.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+
+========================================================
+
+## Relative frequency distributions
+
+<div style="float:left; width:30%">
+<img src="relative_frequency_plot.png" style="width:100%" alt="Relative freqency table of IQ scores for sample data set, table 2-4 from textbook.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:70%">
+<ul>
+ <li>A common  variation of the basic frequency distribution is a <b>relative frequency distribution or percentage frequency distribution</b>.</li>
+ <li> Rather than giving the raw number of frequencies, <strong>it can be useful to change the units to a percentage</strong>.</li>
+ <li> This is especially the case when we have a <strong>large number of observations</strong>, and classes with frequencies at many different scales.</li>
+ <li> It is also possible to represent a relative frequency distribution in its equivalent decimal form;</li>
+ <ul>
+  <li><strong>we will refer to a relative frequency distribution in either decimal or percentage units indistinguishably.</strong> </li>
+ </ul>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+<li> <b>Discuss with a neighbor:</b> how do we convert the raw unit of frequency to <strong>relative frequency</strong>?</li>
+ <ul>
+  <li> When we refer to <strong>relative frequency</strong>, in plain English we mean, 
+  <blockquote><b>"How often did we observe data in this class, out of all observations in all classes?"</b></blockquote></li>
+  </ul> 
+  <li> This is mathematically equivalent to
+  $$\begin{align}
+  \text{Relative frequency for a class} &= \frac{\text{frequency (i.e., number of observations in this class)}}{\text{sum of all frequencies (i.e., total number of observations in all classes )}} \\ \\ 
+  \text{Percent frequency for a class} &= \text{Relative frequency for a class}\times 100\%
+  \end{align}$$</li>
+  </ul>
+</div>
+  
+========================================================
+
+## Cumulative frequency distributions
+
+<div style="float:left; width:20%">
+<img src="frequency_plot.png" style="width:100%" alt="Freqency table of IQ scores for sample data set, table 2-2 from textbook.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:50%">
+<ul>
+  <li> Another variation of a frequency distribution is a <b>cumulative frequency distribution</b>. </li>
+  <li> By cumuluative we mean,
+ <blockquote>
+ <b>Cumulative</b> -- acquired by or resulting from accumulation, i.e., growth acquired by repeated addition of elements. 
+ </blockquote></li>
+  <li> In this case, we will look at how the <strong>frequency of events accumulate as we look at successive class limits</strong>.</li>
+  <li> Using the original frequencies on the left-hand-side, </li>
+  <li>we add 2 + 33 to get 35 as the <b>cumulative</b> value in the second row of the right-hand-side.</li>
+</ul>
+</div>  
+<div style="float:left; width:30%">
+<img src="cumulative_frequency_plot.png" style="width:100%" alt="Cumulative freqency table of IQ scores for sample data set, table 2-5 from textbook.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left;width:100%">
+<ul>
+<li>For the third row in the cumulative frequency distribution, we add 2 + 33 + 35 to get the new <b>cumulative</b> value.</li>
+<li> This process continues until we have exhausted all classes.</li>
+<li> <b>Note:</b> the class limits on the right-hand-side are replaced by "less than" expressions that describe the new ranges of values.</li>
+<li>The final row contains a value is larger than the greatest upper class boundary -- what does this imply about the <b>cumulative frequency</b>?</li> 
+<ul>
+  <li><strong>The final cumulative value is the total number of all observations</strong></li>
+</ul>
+</ul>
+</div>
+
+========================================================
+
+## Interpreting frequency distributions
+
+
+<div style="float:left; width:40%">
+  <div style="float:left; width:100%">
+  <img src="Standard_deviation_diagram.png" style="width:100%"  alt="Diagram of the percent of outcomes contained within each standard deviation of the mean
+for a standard normal distribution.">
+  <p style="text-align:center">
+Courtesy of M. W. Toews <a href="https://creativecommons.org/licenses/by/2.5" target="blank">CC</a> via  
+        <a href="https://commons.wikimedia.org/wiki/File:Standard_deviation_diagram.svg"> Wikimedia Commons</a>. 
+  </p>
+  </div>
+<div style="float:left; width:100%">
+<img src="normal_frequency.png" style="width:100%" alt="Freqency table for normally distributed data.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+</div>
+<div style="float:left; width:60%">
+<ul>
+  <li> Frequency distributions can help us <strong>understand the distribution (shape) of a data set</strong>.</li>
+  <li> The pictured distribution is a <b>Normal (Gaussian / bell curve)</b> distribution.</li>
+  <li> Normally distributed data is characterized by the following features:</li>
+  <ol>
+    <li> <strong>The frequencies start low, then increase to one or two high frequencies, and
+then decrease to a low frequency.</strong></li>
+    <li> <strong>The distribution is approximately symmetric.</strong></li>
+    <li><strong>There are few if any extreme values.</strong></li> 
+  </ol>
+  <li> The <b>frequency table</b> is characteristic of the above:</li> 
+  <ol>
+    <li>The frequencies start low, increase to the maximum of 56, then decrease to a low frequency.</li>
+    <li>The frequencies of 1 and 10 that precede the maximum are a mirror image of the frequencies 10 and 1 that follow
+the maximum.</li>
+  </ol>
+  <li> Real data sets are almost never have this kind of perfect symmetry or exact peak;</li>
+  <ul>
+    <li>we will learn tools to to determine when the data is "normal enough".</li>
+  </ul>
+</li>
+</ul>
+
+========================================================
+
+### Example frequency distribution
+
+<div style="float:left; width:30%">
+<img src="verbal_iq_frequency.png" style="width:100%" alt="Freqency table of verbal IQ scores for sample data set, table from exercise 7 from textbook.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:70%">
+<ul>
+  <li><b>Discuss with your neighbor:</b> does the frequency plot to the left appear to come from <strong>normally distributed data</strong>? Which of the criteria does it satisfy? What are reasons it may not be normally distributed?</li>
+  <ul>
+    <li>There are two reasons to believe this could be the case:</li>
+    <ol>
+      <li>The frequencies start low, go to a peak value of 43, and descend back to low.</li>
+      <li>The frequencies are <b>almost</b> symmetric about the peak.</li>
+    </ol>
+    <li>There is one reason why it might not be the case:</li>
+    <ol>
+      <li>There are <strong>two extreme values</strong> in the highest data class.</li>
+    </ol>
+    <li>This is why it can be difficult in practice to determine if data is "normal enough".</li>
+    <li>In this case, this is "normal enough":</li>
+    <ul>
+      <li>the extreme values are not so extreme, and with additional samples we might find similar extreme, but low values.</li>
+    </ul>
+    <li>Frequency tables (and histograms) are somewhat crude ways to check for "normal" data, and deciding if data is normal in this way can be difficult.</li>
+    <li>We will will develop better tools to evaluate this later.</li> 
+</ul>
+</div>
+
+========================================================
+
+### Example frequency distribution
+
+<div style="float:left; width:30%">
+<img src="pennies_distribution.png" style="width:100%" alt="Freqency table for weight of pennies in grams, table 2-8 in text.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:70%">
+<ul>
+  <li><b>Discuss with your neighbor:</b> does the frequency plot to the left appear to come from <strong>normally distributed data</strong>? Which of the criteria does it satisfy?  What are reasons it may not be normally distributed?</li>
+  <ul>
+    <li>This data is highly non-normal, indeed it doesn't statisfy any of our criteria.</li>
+    <li>The most important aspect to notice here is that the weights fall basically into two separate groups.</li>
+    <ul>
+      <li>This is indicated by the large number of middle data classes with zero frequencies.</li>
+    </ul>
+    <li>It appears that we are not observing small random differences in the penny manufacturing and wear process.</li>
+    <li>Rather, it seems like we are looking at different generations of pennies, manufactured with different metal compositions.</li>
+    <ul>
+      <li>Indeed, pennies made before 1983 are 95% copper and 5% zinc.</li>
+      <li> However, after 1983 pennies are made of 2.5% copper and 97.5% zinc.</li> 
+    </ul>
+  </ul>
+</ul>
+</div>
+
+========================================================
+
+### Example frequency distribution
+
+<div style="float:left; width:50%">
+<img src="fequency_lead_low_high.png" style="width:100%" alt="IQ frequency table for both low and high lead exposure, Table 2-9 from text.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:50%">
+<ul>
+  <li>We can now compare the frequency distributions for the low and high lead groups together in a single plot, rather than the large table before.</li>
+  <li><b>Discuss with your neighbor:</b> What features do you notice about the low lead versus high lead frequency distributions?</li>
+  <ul>
+    <li>We should note that the high lead group has a much larger (relative) frequency concentrated with low IQ scores.</li>
+    <li>The high lead group has a much smaller spread of values, with many empty classes.</li>
+    <ul>
+      <li>This may be due in part to fewer observations, but is important to note.</li>
+    </ul>
+  </ul>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <ul>
+    <li> We also remark that the mostly normal structure we saw in the earlier verbal IQ score plot isn't as apparent in the low lead group.</li>
+    <ul>
+      <li>This is probably due, in part, to the fact that the widths of the classes are different between the two different tables.</li>
+      <li>We should remember that the data can appear quite a bit different if the class widths are chosen differently.</li>
+    </ul>
+  </ul>
+</ul>
+</div>
+
+
+========================================================
+
+## Histograms
+
+<div style="float:left;width:25%">
+<div style="float:left; width:100%">
+<img src="iq_histogram_low_lead.png" style="width:100%" alt="Histogram of IQ scores for low lead exposure group.">
+</div>
+<div style="float:left; width:100%">
+<img src="frequency_plot.png" style="width:100%" alt="Freqency table of IQ scores for sample data set, table 2-2 from textbook.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+</div>
+<div style="float:left; width:70%">
+<ul>
+  <li><b>Histograms</b> -- these are just graphical versions of frequency distributions.</li>
+  <ul>
+    <li>These consist of bars of equal width corresponding to the class width of each data class.</li>
+    <li>The horizontal scale is the range of values for the data, separated into the distinct data classes.</li>
+    <li>The heights of the bars are just the frequency of the observations within the class.</li>
+    <li>Therefore, the two summaries of the data are totally equivalent:</li>
+    <ul>
+      <li>The widths of the bars and the range of the data is taken from the left column.</li>
+      <li>The heights of the bars are taken from the right column.</li>
+    </ul>
+    <li>We note, the scale for the vertical axis can also be given in <b>relative frequency</b> (percent or proportion units).</li>
+    <li>The change of scale between a histogram and a relative frequency histogram is equivalent to the way we change scale between frequency distributions and relative frequency distributions.</li  >
+  </ul>
+</ul>
+</div>
+
+========================================================
+
+### Bell-shaped (normal) histograms
+
+<div style="float:left;width:35%">
+<div style="float:left; width:100%">
+<img src="bell_histogram.png" style="width:100%" alt="Histogram of normally dsitributed data.">
+</div>
+<div style="float:left; width:100%">
+<img src="bell_iq_histogram.png" style="width:100%" alt="Histogram of IQ scores for low lead exposure group with bell curve superimposed.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+</div>
+<div style="width:65%; float:left">
+<ul>
+  <li><strong>Histograms of normally distrubted data will generally have a bell shape.</strong></li>
+  <li>We should mention some caveats to this rule however:</li>
+  <ul>
+    <li>The shape of the histogram, like frequency distributions, is strongly affected by the class widths.</li>
+    <ul>
+      <li>At one extreme, we could choose class widths so that only one observation fits within each class -- in this case the histogram would be flat.</li>
+      <li>At another extreme, we could choose class widths so that all observations fit within a single class -- in this case the histogram would also be flat.</li> 
+    </ul>
+    <li>Due to this fact, a histogram can't always be used to accurately assess the normality:</li>
+    <ul>  
+      <li>In the top figure, the widths are chosen well so we see a nice bell shape.</li>
+      <li>In the bottom figure, the bell shaped is more obscure, though it would come out clearly with finer class widths.</li>
+    </ul>
+    <li>We will learn more refined ways of studying the normality later in the course.</li>
+  </ul>
+</ul>
+</div>
+
+========================================================
+
+### Uniform distribution histograms
+
+<div style="float:left; width:40%">
+<img src="uniform_histogram.png" style="width:100%" alt="Histogram of uniform distributed data.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left;width:60%">
+<ul>
+  <li>We do see relatively flat histograms in practice, where the class widths aren't chosen in an extreme way.</li>
+  <li>In the figure to the left, there is on the order of 1000 observations for every class;</li>
+  <li>also the differences between the frequency per class is small for every pair of classes.</li>
+  <li>When data is shaped (non-trivially) flat like this, it is known as <b>uniformly distributed</b> data.</li>
+</ul>
+</div>
+
+========================================================
+
+### Skewed histograms
+
+<div style="float:left; width:100%;">
+<div style="float:left; width:50%">
+<img src="left_skew.png" style="width:100%" alt="Histogram of left skewed data.">
+</div>
+<div style="float:left; width:50%">
+<img src="right_skew.png" style="width:100%" alt="Histogram of right skewed data.">
+</div>
+<div style="float:left; width:100%">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>When we see data that it strongly anti-symmetric we call the data <b>skewed</b>.</li>
+  <li>It is common to call the <b>extreme</b> values in the distribution the <b>tail</b> of the distribution.</li>
+  <li>For example, on the left, there is a <b>tail</b> of values that are much smaller than the majority of observations.</li>
+  <li>On the right, there is a <b>tail</b> of values that are much larger than the majority of observations.</li>
+  <li>We call a distribution <strong>left / right skewed</strong> when the <strong>tail points left / right</strong>.</li> 
+</ul>
+</div>
+
+========================================================
+
+### Bar graphs
+
+<div style="float:left; width:40%">
+<img src="multiple_bar_graph.png" style="width:100%" alt="Multiple bar graph of median income by gender.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left;width:60%">
+<ul>
+  <li>Bar graphs are basically histograms, but ones for which <strong>the data classes can be qualitative or discrete</strong>.</li>
+  <li>We will still plot the vertical bar as the frequency of observations occuring within a givn data class;</li>
+  <li><strong>however, there doesn't need to be any well defined notion of class width or limits</strong>.</li>
+  <li>The classes can be made as simple as "Group A", "Group B", "Group C".</li>
+  <li> In the left we see a <b>multiple bar graph</b> in which we compare two data sets in the same plot.</li>
+  <li>The data classes are the decade, while the vertical axis is the median income in a given decade in thousands of dollars.</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>By using color coding, we can compare two data sets side by side across the data classes.</li>
+  <li>In this case, we plot the historic income inequality in terms of differences between median income of men and women in the United States.</li>
+</ul>
+</div>
+
+========================================================
+
+### Bar graph example
+
+<div style="float:left; width:100%;">
+<div style="float:left; width:50%">
+<img src="fuel_bar_non_zero.png" style="width:100%" alt="Bar graph of fuel consumption with vertical axis not starting at zero.">
+</div>
+<div style="float:left; width:50%">
+<img src="fuel_bar_zero.png" style="width:100%" alt="Bar graph of fuel consumption with vertical axis starting at zero.">
+</div>
+<div style="float:left; width:100%">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>Above is an example of two bar charts of the same fuel consumption data.</li>
+  <li><b>Discuss with a neighbor:</b> what is different about these two presentations of the data?  Which one is more interpretable?  Why?</li> 
+  <ul>
+    <li>The difference lies in the vertical axis scale -- on the left it starts at 30 while on the right it starts at 0.</li>
+    <li>In this case, the practical difference between the fuel consumption of all cars is relatively small, and the graph on the left exagerates this difference.</li>
+    <li>To make the graphs interpretable, we should be careful with the scales -- it is usually a bad idea to start the scale away from zero.</li>
+  </ul>
+</ul>
+</div>
+
+========================================================
+
+### Pareto charts
+
+<div style="float:left; width:40%">
+<img src="pareto_chart.png" style="width:100%" alt="Pareto chart of responses to what contributes most to happiness.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left;width:60%">
+<ul>
+  <li><b>Pareto charts</b> are related to bar graphs and are used when the data classes are purely qualitative.</li>
+  <li>The key distinguishing factor in a Pareto chart is that the <strong>frequencies are listed in descending order</strong>.</li>
+  <ul>
+    <li>For purely qualitative data with no natural order, this choice is made for the visual effect and interpretation of the data.</li>
+  </ul>
+  <li> For example, in the Pareto chart pictured, individuals were surveyed on what they felt was the factor that contributes most to life happiness.</li>
+  <li>Ordering the frequencies descendingly, we can see what was most frequently described as most important, followed by the next most commonly reported factor, and so on.</li>  
+</ul>
+</div>
+<div style="width:100%; float:left;">
+<ul>
+  <li>The units for a Pareto chart can be in either frequency or relative frequency, making this a flexible way to represent data.</li>  
+</ul>
+</div>
+
+========================================================
+
+### Pie charts
+
+
+<div style="float:left; width:40%">
+<img src="pie_chart.png" style="width:100%" alt="Pie chart of responses to what contributes most to happiness.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left;width:60%">
+<ul>
+  <li><b>Pie charts</b> serve the same purpose as a Pareto charts, but <strong>only in a relative frequency scale</strong>.</li>
+  <li>Each "slice" of the pie chart takes up area proportional to the relative frequency of each data class.</li>
+  <li>This pie chart shows the same information as the Pareto chart, but there are some flaws in this representation by comparision:</li>
+  <ol>
+    <li>The colors serve no real purpose in distinguishing data classes, and they can be confusing for color blind individuals.</li>
+    <li>It can be more difficult to intercompare the size of different slices.</li>
+  </ol>
+  <li>For these reasons, anywhere a pie chart can be used, <strong>it is recommended to use a Pareto chart instead</strong> .</li>
+</ul>
+</div>
+
+
+========================================================
+
+## Scatter plots
+
+<div style="float:left; width:100%;text-align:center;">
+<div style="float:left; width:40%">
+<img src="scatter_plot_cor.png" style="width:100%" alt="Scatter plot of arm circumference versus waist circumference.">
+</div>
+<div style="float:left; width:40%">
+<img src="scatter_plot_no_cor.png" style="width:100%" alt="Scatter plot of pulse rate versus weight.">
+</div>
+<div style="float:left; width:100%">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li><b>Scatter plots</b> -- these plots are used to <strong>plot matching pairs of quantitative observations</strong>.</li>
+  <li>This can be especially useful to determine if to variables are <b>correlated</b>.</li>
+  <ul>
+    <li>We will discuss correlation more in depth later but for now it can be read loosely:
+    <blockquote>
+    Variable $x$ is (correlated/ anti-correlated) with variable $y$ if they tend to vary  (together / oppositely).
+    </blockquote></li>
+  </ul>
+  <li><b>Discuss with a neighbor:</b> which of the two above scatter plots evidences <b>correlation</b>?</li>
+  <ul>
+    <li>It appears that <strong>increase in waist circumference tends to go along with an increase in arm circumference</strong>, so these variables appear <b>correlated</b>.</li>
+    <li>An increase in weight doesn't generally go along with an increase (or decrease) in pulse rate, so they don't appear correlated (or anti-correlated).
+  </ul>
+</ul>
+</div>
+
+
+========================================================
+
+## Dot plots and Stem and Leaf plots
+
+<div style="float:left; width:100%;text-align:center;">
+<div style="float:left; width:50%">
+<img src="dot_plot.png" style="width:100%" alt="Dot plot of IQ scores.">
+</div>
+<div style="float:left; width:50%">
+<img src="stem_plot.png" style="width:100%" alt="Stem and leaf plot of IQ scores.">
+</div>
+<div style="float:left; width:100%">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li><b>Dot plots</b> and <b>stem and leaf plots</b> are both conceptually very similar.</li>
+  <li>Every observation will be represented by one dot or digit in each of the above.</li>  
+  <li>Also, every observation can be identified exactly on the numerical scale of interest.</li>
+  <li>The primary difference between a dot plot and a stem and leaf plot is as follows:</li>
+  <ul>
+    <li><b>Dot plot</b> -- one dot is placed above the precise numerical value.</li>
+    <li><b>Stem and leaf plot</b> -- we organize numerical observations into units of 10 (or up to another leading numerical unit).  For each observation, we then <strong>place its final digit behind the leading unit</strong>.</li>
+    <ul>
+      <li>This approach allows us to loosely organize data into different classes (the leading unit) and then identify every data point within the class (by the trailing digit).</li>
+    </ul>
+  </ul>
+</ul>
+</div>
