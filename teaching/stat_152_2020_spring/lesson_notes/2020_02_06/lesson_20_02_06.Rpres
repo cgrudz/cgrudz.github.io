@@ -1,0 +1,544 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+Measures of center and measures of spread
+========================================================
+date: 02/06/2020
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+
+========================================================
+
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+  * Mean
+  * Median
+  * Mode
+  * Midrange
+  * Computing the mean from frequency distributions
+  * Weighted means
+  * Basic concepts of variation
+  
+
+========================================================
+
+## Characteristics of data
+
+
+<div style="float:left; width:40%">
+<img src="Standard_deviation_diagram.png" style="width:100%"  alt="Diagram of the percent of outcomes contained within each standard deviation of the mean
+for a standard normal distribution.">
+<p style="text-align:center">
+Courtesy of M. W. Toews <a href="https://creativecommons.org/licenses/by/2.5" target="blank">CC</a> via  
+        <a href="https://commons.wikimedia.org/wiki/File:Standard_deviation_diagram.svg"> Wikimedia Commons</a>. 
+</p>
+</div>
+<div style="float:left; width:60%">
+<ul>
+  <li>Recall, we try to characterize data by a number of the features that it exhibits.</li>
+  <li>Some of the key measures are:</li>
+  <ol>
+    <li> <b>Center:</b> A representative value that indicates where the middle of the data set
+is located.</li>
+    <li> <b>Variation:</b> A measure of the amount that the data values vary.</li>
+    <li> <b>Distribution:</b> The nature or shape of the spread of the data over the range of values (such as bell-shaped). </li>
+    <li> <b>Outliers:</b> Sample values that lie very far away from the vast majority of the
+other sample values.</li>
+    <li> <b>Time:</b> Any change in the characteristics of the data over time.</li>
+  </ol>
+</ul>
+</div>
+<div style="float:left;width:100%">
+<ul>  
+  <li>We will now begin studying measures of center.</li>
+  <li>There are several main measures of center of a data set:</li>
+  <ol>
+    <li><b>mean</b>;</li>
+    <li><b>median</b>;</li>
+    <li><b>mode</b>; and</li>
+    <li><b>midrange</b>.</li>
+    </ol>
+    <li>Each of these usually gives a different view of where the "most central point" of the data lies.</li> 
+</ul>
+</div>
+
+
+
+========================================================
+
+## Mean
+
+* The <b>(arithmetic sample) mean</b> is usually the most important measure of center.
+
+* Suppose we have <strong>$n$ total sample measurements of some variable $x$</strong>.
+
+  * We will denote these samples $x_1, x_2, \cdots, x_n$
+  
+* Then, the <b>(arithmetic sample) mean is defined</b>
+  
+  $$\text{Sample mean} = \frac{x_1  +x_2 +\cdots + x_n}{n}= \frac{\sum_{i=1}^n x_i}{n} $$
+  
+* <b>Discuss with a neighbor:</b> is the sample mean a <b style="color:#d95f02">statistic</b> or a <b style="color:#1b9e77">parameter</b>?
+
+  * <b>A:</b> the  <b style="color:#d95f02">sample mean</b> is computed from  <b style="color:#d95f02">samples</b> and thus a <b style="color:#d95f02">statistic</b>.
+  
+  * For this reason, if we took <b style="color:#d95f02">new measurements from a new sample</b> of the <b style="color:#1b9e77">population</b>, we could get a different value.
+  
+  * <strong>The random difference between the <b style="color:#d95f02">sample mean</b> and the mean of the true <b style="color:#1b9e77">population mean</b> is called sampling error</strong>.
+  
+* An important property of the sample mean is that it <strong>tends to vary less over re-sampling than other statistics</strong>.
+
+  * That is, it tends to stay close to the same value.
+  
+*  However, <strong>the sample mean is very sensitive to outliers</strong>.
+
+  * If outliers exist in the data, the mean can be drawn far away from the "main" cluster of data. 
+  
+* A statistic is called <b>resistant</b> if it doesn't change very much with respect to outlier data.
+
+
+========================================================
+
+## Median 
+
+<ul>
+  <li> A different notion of center is the <strong>middle of the data</strong>.</li>
+  <li> For a <strong>numerical measurement</strong>, we can always <strong>order the data</strong> so that we go from low to high or high to low.</li>
+  <li> <b>Median</b> -- the median is the middle of the ordered data set.</li>
+  <ul>
+    <li> If there are an <b>odd number of samples</b>, <strong>the median is defined as the middle value exactly</strong>.</li>
+    <li> If there are an <b>even number of samples</b>, we split the data into the lower $50\%$ and upper $50\%$ of the samples;</li>
+    <li> then we take the <strong>median to be the mean of</strong> the:</li>
+    <ol>
+      <li><b>largest of the lower $50\%$</b>; and</li>
+      <li><b>smallest of the upper $50\%$</b>.</li>
+    </ol>
+  </ul>
+  <li>Suppose we are given a list of the following samples $22, 22, 26, 24, 23$.
+  <ul>
+    <li><b>Discuss with a neighbor:</b> what is the median of this list of samples?</li>
+    <li>Ordering the values, we get $22, 22, 23, 24, 26$ so that the middle value is obviously $23$.</li>
+  </ul>
+  <li>Suppose a new sample includes $22, 22, 26, 24, 23, 27$.</li>
+  <ul>
+    <li><b>Discuss with a neighbor:</b> what is the median of this list of samples?</li>
+    <li>In this case, we have an even number of samples.</li>
+    <li> The lower $50\%$ is given by $22,22,23$ and the upper $50\%$ is given by $24,26,27$.</li>
+    <li>Therefore, the <strong>mean of the largest lower value and the smallest upper value</strong> is given by
+    $$\frac{23 + 24}{2} = 23.5.$$</li>
+    </ul>
+</ul>
+
+========================================================
+
+### Median continued
+
+* Let us consider the last example once again.
+
+* Suppose our sample includes the values $22, 22, 26, 24, 23, 27$.
+
+* If we compute the (arithmetic sample) mean, we find
+
+  $$\frac{22+22+26+24+23+27}{6} = \frac{144}{6} = 24.$$
+
+* Now, suppose that we realize that the value $27$ was obtained due to measurement error and our sample should have read $22, 22, 26, 24, 23, 1000$.
+
+* <b>Discuss with a neighbor:</b> by replacing the value $27$ with $1000$ does this affect the median? Does this affect the mean?  Which of these statistics are resistant to outliers?
+
+  * We note, this <b>does not affect the median</b> -- indeed the actual numerical value of the final measurement does not change <strong>which value lies in the middle</strong>.
+  
+  * The lower $50\%$ of the measurements are given by $22,22,23$ and the upper $50\%$ are given by $24,26,1000$.
+  
+  * Once again, we compute the <strong>mean of the largest lower value and the smallest upper value</strong>, given by $\frac{23 + 24}{2} = 23.5.$ so that we say the <strong>median is resistant to outliers</strong>.
+    
+  * On the other hand, the sample mean is given as
+  $$\frac{22+22+26+24+23+1000}{6} = \frac{1117}{6} \approx 186.1667.$$
+
+========================================================
+
+## Mode 
+
+* Another notion of the most <strong>"central point"</strong> in the data can be the value that is <strong>measured most frequently</strong>.
+
+* <b>Mode</b> -- the mode is the observed value that is most frequent in the data.
+
+* Consider the last example with samples of $22, 22, 26, 24, 23, 27$. <b>Q:</b> What is the mode?
+
+  * In this case, we sampled $22$ more than any other value, so this is the mode of the data.
+  
+* When <strong>two or more values have the highest frequency</strong>, we call the data <b>bi-modal</b> or <b>multi-modal</b>.
+
+  * An exception to this above rule is when no values are repeated.
+  
+  * In this case, we say there is no mode to the data.
+
+========================================================
+
+## Differences in mean, median and mode
+
+
+<div style="float:left; width:60%">
+<img src="mean_median_mode.png" style="width:100%"  alt="Differences between mean, median and mode with non-symmetric distributions.">
+<p style="text-align:center">
+Courtesy of Diva Jain <a href="https://creativecommons.org/licenses/by-sa/4.0" target="blank">CC</a> via <a href="https://commons.wikimedia.org/wiki/File:Relationship_between_mean_and_median_under_different_skewness.png"> Wikimedia Commons</a>. 
+</p>
+</div>
+<div style="float:left; width:40%">
+<ul>
+  <li>Usually, the mean, median and mode tell us different characteristics of what we call the "center" of the data.</li>
+  <li>In the <strong>special case when data is normal, these coincide</strong>.</li>
+  <li>In the left, we see data that is all uni-modal, but with three different cases.</li>
+  <li>In the left case, we have right skewness:
+  <ul>
+    <li>Here, the mean and median are discplaced to the right away from the mode.</li>
+    <li>Additionally, the mean and median do not match.</li>
+  </ul>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>In the right case, we have left skewness:</li>
+  <ul>
+    <li> In this case, the mean and the median are skewed to the left away from the mode.</li>
+  </ul>
+  <li><b>Note:</b> the precise location of the mean and median do not need to hold this way for all skew distributions -- <strong>this is only one example of how this can look</strong>  .</li>  
+  <li>"Physically", the <strong>mean corresponds to the center of mass of the distribution</strong>, if each observation is weighted by the measurement value.</li>
+  <li>Even if $50\%$ of values lie above and below the median, the <b>weights</b> of the observations can move the mean away from the median.</li>   
+</ul>
+</div>
+
+========================================================
+
+### Differences in mean, median and mode example
+
+* 11 football players from the Seattle Seahawks were randomly sampled for their weight in pounds.
+
+* The samples are $189, 254, 235, 225, 190, 305, 195, 202, 190, 252, 305$.
+
+* <b>Discuss with a neighbor:</b> what are the mean, median and mode of this data?  Does the data appear to be normally distributed?  Why?
+
+* Here the mean is given by
+ $$\frac{189+254+235+225+190+305+195+202+190+252+305}{11} \approx 231.09.$$
+ 
+* The ordered data is given by $189, 190, 190, 195, 202, 225, 235, 252, 254, 305, 305$.
+ 
+* The <strong>number of samples is odd</strong>, so the middle value can be identified as $225$.
+
+* The data also has <b>two modes</b>, $190$ and $305$.
+
+* Overall, the data appears to be non-normal, as there are many values around $190$, with a long tail into the upper values.
+
+  * Moreover, the probability of extreme values (weight over $300$) is relatively high.
+
+========================================================
+
+### Differences in mean, median and mode example
+
+<div style="float:left; width:60%">
+<img src="weights_hist.png" style="width:100%"  alt="Histogram of the player weights in example.">
+</div>
+<div style="float:left; width:40%">
+<ul>
+  <li>If we make a histogram of the data, we see indeed, there is non-normal structure.</li>
+  <li>Even though the mean and the median are close, multi-modes are a strongly non-normal structure in data.</li>
+  <li>Examining each of the values together, along with the visual plot, tells us a lot about the data.</li>
+  <li>This also shows how <strong>each of the descriptions of center can be flawed and / or give a different picture</strong>.</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+  <li>Here, the modes aren't really "central" values in some sense, especially the upper mode.</li>
+  <li>The median and mean give similar values, but the mean is more sensitive to the large outliers.</li>
+  <ul>
+    <li>Therefore, the mean is larger than the median in this example.</li>
+  </ul>
+</ul>
+</div>
+
+========================================================
+
+### When are mean, median and mode useful
+
+* <b>Discuss with a neighbor:</b> for each of the following, identify a major reason why the mean and median are not meaningful statistics.
+
+ * The zip codes of the White House, Air Force division of the Pentagon, Empire State Building, and Statue of Liberty: 20500, 20330, 10118, 10004.
+ 
+ * <b>A:</b> Zip codes are just category labels that have no actual quantitative meaning.  For example, taking the mean of <b style="color:red">red</b>, <b style="color:green">green</b> and <b style="color:blue">blue</b> has no mathematical meanining in the same way.
+
+ * Rank (by sales) of selected statistics textbooks: 1, 4, 5, 3, 2, 15.
+
+ * <b>A:</b> although these are ordered values, so intercomparision makes sense, mathematical operations are not useful.  For example, it doesn't make any sense to say the mean of the first place textbook and the fifth place text book is a third place text book in sales.
+ 
+ * The most selling textbook may sell many more copies than the second place one, so that their rankings don't exactly correspond to a physical quantity of anything.
+ 
+
+========================================================
+
+## Midrange 
+
+* As a final measure of center, we can consider what is the mid-point between the maximum observation and the minimum observation.
+
+* <b>Midrange</b> -- suppose we have samples $x_1,\cdots, x_n$ and
+
+  $$\begin{align}
+  x_\text{max} = \max_i(x_i) & & x_\text{min} = \min_i(x_i) 
+  \end{align}$$
+  
+* Then, the midrange is computed as
+  
+  $$\text{midrange} = \frac{x_\text{max} + x_\text{min} }{2}$$
+  
+* <b>Discuss with your neighbor:</b> can you give an example of when the midrange does not equal the median?
+
+  * <b>A:</b> a simple example is where we have data $0,0,0,0,100$.
+  
+  * In this case, the median is $0$, while the midrange is $\frac{100 + 0 }{2} = 50$.
+  
+* As we can see, <strong>midrange is extremely sensitive to outliers, both small and large</strong>.
+
+* Midrange is not used as often as the other measures in practice, but it can give a more complete picture of the data when used with the other measures.
+
+========================================================
+
+## Round off rules
+
+<ul>
+  <li>In many cases, we will need to use approximations to caclulate these values;</li>
+  <ul>
+    <li>usually some kind of rounding will be used for computing, e.g., the mean.</li>
+  </ul>
+  <li> Some key considerations are the following:</li>
+  <ol>
+    <li><b>Never round any values until the final step.</b>  We only want to use an approximation in the final computation estimating the statistic.</li>
+    <ul>
+      <li>For example, with data $2.5, 3.7, 4.9$ we should compute the mean as,
+      $$\frac{2.5 + 3.7 + 4.8}{3} = \frac{11}{3} = 3 + \frac{2}{3} \approx 3.66.$$</li>
+      <li>If we round any values before the final step, such as
+      $$\frac{2.5 + 3.7 + 4.8}{3} \approx \frac{3 + 4 + 5}{3} = \frac{12}{3} = 4,$$
+      we can get a very bad approximation.
+    </ul>
+    <li><b>For the mean, median, and midrange, carry one more decimal place than is present in the original set of values.</b></li>
+    <li><b>For the mode, keep the value as is without any kind of  rounding.</b></li>
+
+  </ol>
+</ul>
+
+========================================================
+
+## A common mistake in computing means
+
+<ul>
+  <li>There are additional ways in which we <strong>must be careful in how we calculate and interpret these statistics</strong>.</li>
+  <li>Let's suppose that California has $6,421,880$ students enrolled in primary and secondary school, with  $307,267$ total teachers at this level.</li>
+  <ul>
+    <li>This leaves a mean of $\frac{6,421,880}{307,267} \approx 20.9$ students per teacher in California.</li>
+  </ul>
+  <li>Let's suppose that Alaska has $117,549$ students enrolled in primary and secondary school, with $6,998$ total teachers at this level.</li>
+  <ul>
+    <li>This leaves a mean of $\frac{117,549}{6,998}\approx 16.8$ students per teacher in Alaska.
+    </ul>
+  <li>Suppose we want to compute the mean number of students per teacher for California and Alaska combined;</li>
+  <ul>
+    <li>this should look like
+    $$\frac{\left(\text{Total number of students in California} \right)+ \left(\text{Total number of students in Alaska}\right)}{\left(\text{Total number of teachers in California}\right) + \left(\text{ Total number of teachers in Alaska}\right)  }.$$
+  </ul>
+  <li><b>Discuss with a neighbor:</b> can you obtain this same result by using the formula<br>
+  <br>
+  $$\frac{\text{mean of 20.9 students per teacher} + \text{mean of 16.8 students per teacher}}{2}?$$
+  Why or why not?</li>
+  <ul>
+    <li><b>A:</b>There is a combined number of 6,539,429 students and 315,013 teachers, so the student/teacher ratio for California and Alaska combined is $\frac{6,539,429}{315,013} \approx 20.8$ (not the value of 18.85 from the above calculation).</li>
+  </ul>
+</ul>
+
+========================================================
+
+### A common mistake in computing means continued
+
+<ul>
+  <li>The issue with this formula,
+  $$\frac{\text{mean of 20.9 students per teacher} + \text{mean of 16.8 students per teacher}}{2}$$
+  lies in the fact that California is much more populous than Alaska, with more students and teachers by far;</li>
+  <li>by computing the mean from each of the individual state-means, <strong>we lose the information on how many students and teachers are in each state</strong>.</li>
+  <li>Whenever we compute a <strong>"mean of means" we need to take into account the size of the respective populations which we draw from</strong>.</li>
+  <li>We will discuss this further in the context of a <b>weighted mean</b>.</li>
+</ul>
+
+========================================================
+
+## Weighted means
+
+* Let us suppose that we have samples $x_1, x_2, \cdots, x_n$.
+
+* Suppose each sample is given a corresponding <b>weight</b> $w_i$ so that there are pairs of the form
+ $$\begin{matrix} x_1 & w_1\\ x_2 & w_2 \\ \vdots & \vdots \\ x_n & w_n \end{matrix}$$
+ 
+* We compute a <b>weighted mean</b> using the following formula,
+
+  $$\frac{\sum_{i=1}^n x_i \times w_i}{\sum_i^n w_i} = \frac{x_1 \times w_1 + x_2 \times x_2 + \cdots + x_n \times w_n}{w_1 + w_2 + \cdots + w_n}$$  
+ 
+ * i.e., <strong>this is the sum of the samples times the weights, divided by the sum of the weights</strong> .
+
+========================================================
+
+### Weighted means example
+
+* Let's suppose that we want to compute the grade point mean (GPA) for some student.
+
+* We will suppose that the student gets letter grades as follows: $A, B, C, A, B$.
+
+* The letters are given point values as $A=4.0, B=3.0, C=2.0, D=1.0$
+
+* The GPA is <strong>computed as a weighted mean of the grade points, weighted by the number of credits for the class</strong>.
+
+  $$\begin{matrix} A & 3 \text{ credits} \\ B & 2 \text{ credits}  \\ C & 2 \text{ credits} \\ A & 1 \text{ credit} \\ B & 3 \text{ credits} \end{matrix}$$
+
+* <b>Discuss with a neighbor:</b> how do we compute the weighted mean in this case? What is the GPA? 
+
+  * The <b>weighted mean</b> (GPA) is computed as,
+
+ $$\frac{4.0 \times 3 + 3.0 \times 2 + 2.0 \times 2 + 4.0 \times 1 + 3.0 \times 3}{3 + 2 + 2 + 1 + 3}= \frac{35}{11} \approx 3.18$$
+
+========================================================
+
+### Weighted means example
+
+<ul>
+  <li>If we return to the question of how to compute the <strong>mean of means</strong>, we can consider how we can weight each value proportionally to the population from which it is drawn.</li>
+  <li>We can instead write a formula,<br><br> 
+  $$\frac{\text{mean of 20.9 students per teacher}\times w_1 + \text{mean of 16.8 students per teacher} \times w_2}{w_1 + w_2}.$$</li>
+  <li>The units in the above equation are <b>$\frac{\text{students in state X}}{\text{teachers in state X}}$</b>.</li>
+  <li>By understanding the units in this example, we can derive the proper weights -- we want to end in the units <b>$\frac{\text{total of all students}}{\text{total of all teachers}}$</b>.
+  <li>If we choose weights in the units <b>$\frac{\text{teachers in state X}}{\text{total of all teachers}}$</b>, we obtain:  <br><br>
+  $$\begin{align}
+  \frac{20.9 \frac{\text{Students in C}}{\text{Teachers in C}} \times \frac{307,267}{ 315,013} \frac{\text{ Teachers in C}}{ \text{ Total all teachers}} + 16.8 \frac{\text{Students in A}}{\text{Teachers in A}} \times \frac{6,998}{ 315,013 } \frac{\text{ Teachers in A}}{ \text{ Total all teachers}}}{ \frac{307,267}{ 315,013} \frac{\text{ Teachers in C}}{ \text{ Total all teachers}} +  \frac{6,998}{ 315,013 } \frac{\text{ Teachers in A}}{ \text{ Total all teachers}}}\end{align}$$</li>
+  <li><br>$$\begin{align}
+  =\frac{20.9 \times \frac{307,267}{ 315,013}  \frac{\text{Students in C}}{ \text{ Total all teachers}} + 16.8  \times  \frac{6,998}{ 315,013 } \frac{\text{Students in A} }{ \text{ Total all teachers}}}{  \frac{\text{315,013  Total all teachers}}{ \text{315,013 Total all teachers}}}
+  \end{align}$$</li>
+  <li><br>$$\begin{align}
+  =\frac{20.9 \times 307,267  \text{ Students in C}  + 16.8 6,998 \text{ Students in A}  }{\text{ 315,013 Total all teachers}}
+  \end{align} $$</li>
+  
+</ul>
+
+========================================================
+
+### Weighted means example
+
+* From the last slide, using the analysis of the units, we arrived at the formula which matches the formula for the combined state average
+  
+  $$\frac{20.9 \times 307,267  \text{ Students in C}  + 16.8 6,998 \text{ Students in A}  }{\text{ 315,013 Total all teachers}}\approx 20.8$$
+  
+* In this case, the properly chosen weights were given by
+
+  $$\begin{align}
+  w_1 &=  \frac{307,267}{ 315,013} \frac{\text{ Teachers in C}}{ \text{ Total all teachers}}\\
+  w_2 &=  \frac{6,998}{ 315,013 } \frac{\text{ Teachers in A}}{ \text{ Total all teachers}}
+  \end{align}$$
+  
+* That is, we were able to find the true combined state mean by <strong>finding weights proportional to the sub-populations</strong>.
+
+
+========================================================
+
+## Calculating the mean from a frequency distribution
+
+<div style="float:left; width:60%;text-align:center;">
+<img src="frequency_mean.png" style="width:100%" alt="IQ scores table, including the mean estimate computed from the table.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:40%">
+<ul>
+ <li>Computing the mean from a frequency distribution is very similar to computing a weighted mean.</li>
+ <ul>
+  <li>The biggest difference lies in the fact that <strong>we do not know the true values of the measurements</strong>.</li>
+ </ul>
+  <li>Instead, we will approximate the true values with the <b>class midpoint</b>.</li>
+  <li>We then <strong>weight the class midpoint by the frequency of observations in the class</strong>.</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>The formula to compute the <b>mean of a frequency distribution</b> is as follows:
+  $$\text{Mean of a frequency distribution} = \frac{\sum_\text{Classes} \text{(Class midpoint)} \times \text{(Class frequency)}}{\sum_\text{Classes} \text{(Class frequency)}}.$$</li>
+  <li>In the above table, we will denote $x=\text{Class midpoint}$ and $f=\text{Class frequency}$.</li>
+  <li>The formula thus becomes
+  $$\text{Mean of a frequency distribution} = \frac{\sum_\text{Classes} x \times f}{\sum_\text{Classes} f}.$$</li>
+</ul>
+</div>
+
+========================================================
+
+### Calculating the mean from a frequency distribution continued
+
+<div style="float:left; width:60%;text-align:center;">
+<img src="frequency_mean.png" style="width:100%" alt="IQ scores table, including the mean estimate computed from the table.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:40%">
+<ul>
+ <li>In the table to the left, we can thus make the computation of the mean of the freqency distribution as follows.</li>
+ <ul>
+  <li>For each class, we multiply the frequency $f$ in the second column with the class midpoint $x$ in the third column to get the fourth column value.</li>
+  <li>The total at the bottom row of the second column is the sum of the weights $\sum f$</li>
+  <li>The total at the bottom row of the fourth column is the sum of the weighted class midpoints $\sum (f \times x)$.</li> 
+ </ul>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>The formula thus becomes
+  $$\text{Mean of a frequency distribution} = \frac{\sum_\text{Classes} x \times f}{\sum_\text{Classes} f} = \frac{7201.0}{78} \approx 92.32$$</li>
+</ul>
+</div>
+
+========================================================
+
+## Basic concepts of variation
+
+<div style="float:left; width:40%;text-align:center;">
+<img src="waiting_times.png" style="width:100%" alt="IQ scores table, including the mean estimate computed from the table.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:60%">
+<ul>
+  <li>In the figure to the left, we examine the frequency of wait times in seconds at a bank to see a teller.</li>
+  <li> On the top, the customers were fed into a single line to wait for an open teller among multiple tellers;</li>
+  <li>on the bottom, customers are fed into one of multiple lines to see one an open teller at the front of the line.</li>
+  <li>We note that both frequency plots have the <strong>same mean, median and mode of 100 seconds</strong>.</li>
+  <li>If we only characterize data in terms of the <b>center</b> we actually don't have a very complete picture -- indeed, <strong>we can't distinguish the two scenarios by these statistics</strong> .</li>  
+  <li>Particularly, the outcomes with multiple lines have much more <b>variation</b> than the outcomes with a single line.</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>In this example, the bank actually chose to combine the multiple lines into a single line.</li>
+  <li><b>Note:</b> this does not actually reduce the mean waiting time for customers.</li>
+  <li>However, customers were happier with this option because the <strong>variability in waiting time was reduced</strong>.</li>
+  <li>In practice, <strong>our statistics for variation / spread / dispersion of the data can be the most important statistics</strong>.</li> 
+  <li>We will study <b>range</b>, <b>standard deviation</b> and <b>variance</b> to quantify this.</li>
+</ul>
+</div>
