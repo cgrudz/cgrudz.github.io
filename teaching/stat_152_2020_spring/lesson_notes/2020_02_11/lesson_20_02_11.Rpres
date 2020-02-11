@@ -33,7 +33,6 @@ height: 1080
   * Standard deviation
   * Chebyshev's Theorem
   * Coefficient of variation
-  * z scores
   
 
 ========================================================
@@ -316,7 +315,7 @@ Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
 
 * <b>Discuss with a neighbor:</b> what is the range rule of thumb estimate for the sample standard deviation?  Is this very accurate in this case?
 
-* The range rule of thumb gives $\frac{26 - 22}{4} = {4}{4}=1$, which is not that accurate.
+* The range rule of thumb gives $\frac{26 - 22}{4} = \frac{4}{4}=1$, which is not that accurate.
 
 * This shows that we should only consider this as a very loose approximation, and in practice <strong>we should compute the sample standard deviation directly whenever possible</strong>.
 
@@ -549,115 +548,4 @@ sample or population data, expressed as a percent, describes the standard deviat
   \end{matrix}$$
 
 * Both data sets are on the same scale of millions of dollars, so that Brinks collection varies less than other collections by a factor of over $1\%$ of a million dollars, indicating something amiss.
-
-
-========================================================
-
-## z scores
-
-* We will start to look at <b>measures of relative standing</b>.
-
-  * Measures of relative standing are tools to <strong>describe the location of observations in a data set with respect to the other data pieces</strong>.
-  
-* The most important measure of relative standing is the <b>z score</b>;
-
-  * a z score utilizes our understanding of the spread and concentration of normal data in terms of the standard deviation.
-  
-* However we will make this score into a measure on a relative scale so we can compare values from different distributions.
-
-* Specifically, suppose we have a sample value $x$ from a <b>normal data set</b> with <b style="color:#d95f02">sample mean $\overline{x}$</b> and <b style="color:#d95f02">sample standard deviation $s$</b>.
-
-* Suppose that the <b style="color:#1b9e77">population mean is $\mu$</b> and the <b style="color:#1b9e77">population standard deviation is $\sigma$</b>.
-
-* The <b>z score</b> of $x$ is given as
-
-  $$\begin{matrix}
-  \text{Sample z score} = \frac{x - \overline{x}}{s} & & \text{Population z score} = \frac{x - \mu}{\sigma}
-  \end{matrix}$$
-  
-* This measures how far $x$ deviates from the mean, relative to the size of standard deviation -- particularly, how many standard deviations it lies away.
-
-* Note, we will typically round the z score to two decimal places.
-
-* <b>Z scores also apply to non-normal data</b>, but their interpretation changes slightly as <strong>we cannot use the empirical rule in this context</strong>.  
-
-========================================================
-
-## Interpreting z scores
-
-<div style="float:left; width:40%;text-align:center;">
-<img src="significant_z_score.png" style="width:100%" alt="Significance of measurements by z score.">
-<p  style="text-align:center">
-Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
-</p>
-</div>
-<div style="float:left; width:60%">
-<ul>
-  <li>Let us recall the empirical rule for <b>normally distributed data</b>:</li>
-  <ul>
-    <li>Approximately $68\%$ of the <b style="color:#d95f02">sample data</b> will lie within <b style="color:#1b9e77">one standard deviation $\sigma$ of the population mean $\mu$</b>, i.e., in
-    $$[\mu - \sigma, \mu + \sigma].$$
-    </li>
-    <li>Approximately $95\%$ of <b style="color:#d95f02">sample data</b> will lie within <b style="color:#1b9e77">two standard deviations $2\sigma$ of the population mean $\mu$</b>, i.e., in
-    $$[\mu - 2\sigma, \mu + 2\sigma].$$</li>
-  </ul>
-</ul>
-</div>
-<div style="float:left; width:100%">
-<ul>
-  <ul>
-      <li>Approximately $99.7\%$ of <b style="color:#d95f02">sample data</b> will lie within <b style="color:#1b9e77">three standard deviations $3\sigma$ of the population mean $\mu$</b>, i.e., in
-    $$[\mu - 3\sigma, \mu + 3\sigma].$$</li>
-  </ul>
-  <li>By convention, we will say that <b>an observation is statistically significant</b> low or high in value <strong>if there is $5\%$ or less chance to observe a value at least as extreme</strong>.</li> 
-  <li><b>Discuss with a neighbor:</b> if an observation has a z score of $1$ is this significant?  Why?  What is the probability of finding a value at least this extreme?</li>
-  <ul>
-    <li>By the empirical rule, there is a $68\%$ chance of finding a value within one standard deviation.</li>
-    <li>Therefore, $100\% - 68\% = 32\%$ of values are at least this extreme.  This is not significant.</li>
-  </ul>
-  <li><b>Discuss with a neighbor:</b> if an observation has a z score of $2$ is this significant?  Why?  What is the probability of finding such a value?</li>
-  <ul>
-      <li>By the empirical rule, there is a $95\%$ chance of finding a value within two standard deviations, so $100\% - 95\% = 5\%$ of values are at least this extreme.  This is significant.</li>
-  </ul>
-</ul>
-</div>
-
-========================================================
-
-### Interpreting z scores example
-
-<ul>
-  <li><b>Discuss with a neighbor:</b> which of the following two values is more extreme from the data set from which it came?</li>
-  <ol>
-    <li>A baby is born with weight $4000.0g$, where the sample data includes 400 babies with sample mean $\overline{x}=3152.0g$ and sample standard deviation $s=693.4g$</li>
-    <li>An adult is measured with a body temperature of $99^\circ F$ out of sample data of $106$ adults with sample mean $\overline{x}=98.20^\circ F$ and sample standard deviation of $0.62^\circ F$.</li>
-  </ol>
-  <li>To compare these two measurements which exist on different scales and units, we compute their z scores as:
-  $$\begin{matrix}
-  \text{baby z score}=\frac{4000.0g - 3152.0g}{693.4g} = 1.22\text{ std} & & \text{heat z score}=\frac{ 99^\circ F - 98.2^\circ F}{0.62^\circ F} = 1.29\text{ std}  
-  \end{matrix}$$</li>
-  <li>By comparing the z scores, we see that the <b>body temperature measurment is more standard deviations away from its sample mean</b> than the baby's weight.</li>
-  <li>Even though the difference in temperature units is small, the <strong>relatively small standard deviation in the measurements makes this a more extreme value with respect to its sample data set</strong>.</li> 
-  <li>This illustrates the purpose of the z score, in that it <strong>makes all measurements comparable on a relative, standardized scale</strong>.</li>
-  <li>When data is <b>non-normal</b>, <strong>we do not have the same interpretation of the observation in terms of the probability we have with the empirical rule</strong>.</li>
-  <li>However, <strong>we treat this similarly using the "range rule of thumb"</strong>, which is a kind of <b>approximation of the empirical rule</b>.</li>
-</ul>
-
-========================================================
-
-## Percentiles
-
-* <b>Percentiles</b> -- these are measures of location, denoted $P_1, P_2,\cdots, P_{99}$, which divide a set of data into $100$ groups with about $1\%$ of the values in each group.
-
-  * An example we know already is the <b>median</b>.
-  
-  * Indeed, the median is the $P_{50}$ percentile, which separates the data into groups with $50\%$ of the data above and $50\%$ of the data below.
-  
-* There are different ways in which the percentile can be computed, and therefore we will consider two common approaches;
-
- * the important part is to understand how we can convert a data value into a percentile, and
- 
- * how to convert a percentile back into a data value.
- 
-
 
