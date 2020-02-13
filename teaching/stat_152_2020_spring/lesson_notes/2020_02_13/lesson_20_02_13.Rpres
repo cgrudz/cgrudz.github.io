@@ -1,0 +1,682 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+Measures of relative standing
+========================================================
+date: 02/13/2020
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+
+========================================================
+
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+  * Z scores
+  * Percentiles
+  * Quartiles
+  * Box plots
+  
+
+========================================================
+
+## Z scores
+
+* We will start to look at <b>measures of relative standing</b>.
+
+  * Measures of relative standing are tools to <strong>describe the location of observations in a data set with respect to the other data pieces</strong>.
+  
+* The most important measure of relative standing is the <b>z score</b>;
+
+  * a z score utilizes our understanding of the spread and concentration of normal data in terms of the standard deviation.
+  
+* Like the coefficient of variation, we will make this score into a <strong>measure on a relative scale</strong> so we can compare values from different distributions.
+
+* Specifically, suppose we have a sample value $x$ from a <b>normal data set</b> with <b style="color:#d95f02">sample mean $\overline{x}$</b> and <b style="color:#d95f02">sample standard deviation $s$</b>.
+
+* Suppose that the <b style="color:#1b9e77">population mean is $\mu$</b> and the <b style="color:#1b9e77">population standard deviation is $\sigma$</b>.
+
+* The <b>z score</b> of $x$ is given as
+
+  $$\begin{matrix}
+  \text{Sample z score} = \frac{x - \overline{x}}{s} & & \text{Population z score} = \frac{x - \mu}{\sigma}
+  \end{matrix}$$
+  
+* This measures <strong>how far $x$ deviates from the mean, relative to the size of standard deviation</strong>.
+
+* Note, we will typically round the z score to two decimal places.
+
+* <b>Z scores also apply to non-normal data</b>, but their interpretation changes slightly as <strong>we cannot use the empirical rule in this context</strong>.  
+
+========================================================
+
+## Interpreting z scores
+
+<div style="float:left; width:40%;text-align:center;">
+<img src="significant_z_score.png" style="width:100%" alt="Significance of measurements by z score.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:60%">
+<ul>
+  <li>Let us recall the empirical rule for <b>normally distributed data</b>:</li>
+  <ul>
+    <li>Approximately $68\%$ of the <b style="color:#d95f02">sample data</b> will lie within <b style="color:#1b9e77">one standard deviation $\sigma$ of the population mean $\mu$</b>, i.e., in
+    $$[\mu - \sigma, \mu + \sigma].$$
+    </li>
+    <li>Approximately $95\%$ of <b style="color:#d95f02">sample data</b> will lie within <b style="color:#1b9e77">two standard deviations $2\sigma$ of the population mean $\mu$</b>, i.e., in
+    $$[\mu - 2\sigma, \mu + 2\sigma].$$</li>
+  </ul>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <ul>
+      <li>Approximately $99.7\%$ of <b style="color:#d95f02">sample data</b> will lie within <b style="color:#1b9e77">three standard deviations $3\sigma$ of the population mean $\mu$</b>, i.e., in
+    $$[\mu - 3\sigma, \mu + 3\sigma].$$</li>
+  </ul>
+  <li>By convention, we will say that <b>an observation is statistically significant</b> low or high in value <strong>if there is $5\%$ or less chance to observe a value at least as extreme</strong>.</li> 
+  <li><b>Discuss with a neighbor:</b> if an observation from a <strong>normal data set</strong> has a z score of $1$ is this significant?  Why?  What is the probability of finding a value at least this extreme?</li>
+  <ul>
+    <li>By the empirical rule, there is a $68\%$ chance of finding a value within one standard deviation.</li>
+    <li>Therefore, $100\% - 68\% = 32\%$ of values lie outside of one standard deviation -- i.e., they are at least this extreme.  This is not significant.</li>
+  </ul>
+  <li><b>Discuss with a neighbor:</b> if an observation from a <strong>normal data set</strong> has a z score of $2$ is this significant?  Why?  What is the probability of finding such a value?</li>
+  <ul>
+      <li>By the empirical rule, there is a $95\%$ chance of finding a value within two standard deviations, so $100\% - 95\% = 5\%$ of values lie outside of two standard deviations -- i.e., they are at least this extreme.  This is significant.</li>
+  </ul>
+</ul>
+</div>
+
+========================================================
+
+### Interpreting z scores continued
+
+<div style="float:left; width:40%;text-align:center;">
+<img src="significant_z_score.png" style="width:100%" alt="Significance of measurements by z score.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:60%">
+<ul>
+  <li>Less formally, if the <b>data is not normally distributed</b> we will still use <strong>the range rule of thumb as an approximation of the empirical rule</strong>.
+  <li>If the data is not normally distributed, the empirical rule no longer applies, i.e.,
+  <ul>
+    <li>We <b>are not guaranteed</b> that $68\%$ of data will lie within one standard deviation of the mean.</li>
+    <li>We <b>are not guaranteed</b> that $95\%$ of data will lie within two standard deviations of the mean.</li>
+    <li>We <b>are not guaranteed</b> that $99.7\%$ of data will lie within three standard deviations of the mean.</li>
+  </ul>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>However, <b>Chebyshev's theorem</b> says that <strong>at least $75\%$ of data lies within two standard deviations of the mean</strong>.</li>
+  <ul>
+    <li>The <b>actual amount will often be more than this</b>, as this is a lower bound on any data set.</li>
+  </ul>
+  <li>Therefore, <strong>we can still consider a z score of 2 to be interesting for non-normal data, but we must be more careful about our conclusions</strong>.</li>
+</ul>
+</div>
+
+
+========================================================
+
+### Interpreting z scores example
+
+<ul>
+  <li><b>Discuss with a neighbor:</b> which of the following two values is more extreme from the data set from which it came?</li>
+  <ol>
+    <li>A baby is born with weight $4000.0g$, where the sample data includes $400$ babies with sample mean $\overline{x}=3152.0g$ and sample standard deviation $s=693.4g$</li>
+    <li>An adult is measured with a body temperature of $99^\circ F$ out of sample data of $106$ adults with sample mean $\overline{x}=98.20^\circ F$ and sample standard deviation of $0.62^\circ F$.</li>
+  </ol>
+  <li>To compare these two measurements which exist on different scales and units, we compute their z scores as:
+  $$\begin{matrix}
+  \text{baby z score}=\frac{4000.0g - 3152.0g}{693.4g} = 1.22\text{ std} & & \text{heat z score}=\frac{ 99^\circ F - 98.2^\circ F}{0.62^\circ F} = 1.29\text{ std}  
+  \end{matrix}$$</li>
+  <li>By comparing the z scores, we see that the <b>body temperature measurment is more standard deviations away from its sample mean</b> than the baby's weight.</li>
+  <li>Even though the difference in temperature units is small, the <strong>relatively small standard deviation in the measurements makes this a more extreme value with respect to its sample data set</strong>.</li> 
+  <li>This illustrates the purpose of the z score, in that it <strong>makes all measurements comparable on a relative, standardized scale</strong>.</li>
+  <li>We note that the z score is signed with a $\pm$.  One important property of the z score is that it tells whether the value lies above or below the mean.</li>
+  <li>In the above both measurements <strong>lie above the mean value of the samples</strong> and for this reason they are <b>positive</b>;</li>
+  <ul>
+    <li>on the other hand, whenever we see a <b>negative z score</b>, we know already that the <strong>measurement was below the mean of the samples</strong>.</li>
+  </ul>
+</ul>
+
+========================================================
+
+## Percentiles
+
+* <b>Percentiles</b> -- these are measures of location, denoted $P_1, P_2,\cdots, P_{99}$, which divide a set of data into $100$ groups with about $1\%$ of the values in each group.
+
+  * An example we know already is the <b>median</b>.
+  
+  * Indeed, the median is the $P_{50}$ percentile, which separates the data into groups with $50\%$ of the data above and $50\%$ of the data below.
+  
+* There are different ways in which the percentile can be computed, and therefore we will consider one of several possible approaches;
+
+ * the important part is to understand <b>how we can convert a data value into a percentile</b>, and
+ 
+ * how to <b>convert a percentile back into a data value</b>.
+ 
+* We will discuss both of these in the following, but note,
+
+ * converting back and forth, the results can be inconsistent.
+ 
+* We should be careful therefore about what is the question at hand.
+
+
+========================================================
+
+### Converting data into percentiles
+
+* Suppose we have samples given as $x_1, \cdots, x_n$ where $n$ is the total number of samples in the data set.
+
+* Suppose the measurements are quantitative, so that we can arrange the samples in order;
+
+  * that is, up to re-naming  samples, we can write
+  $$x_i \leq x_{i+1}$$
+  for each $i = 1,\cdots, n-1$.
+  
+* Then, for a particular value $x$, its percentile can be computed as,
+
+  $$\begin{align}\text{Percentile of }x &= \frac{\text{Number of samples with value less than } x}{\text{Number of total samples}}\times 100 
+  \end{align}$$
+  
+  * If we can order the sample values as above, we thus look for the index $i$ for which
+  $$x_i < x \leq x_{i+1}$$
+  
+  * That is, we count the number of samples $i$ with value <b>strictly less than $x$</b>;
+  
+  * the next ordered sample $x_{i+1}$ can have a value that is either greater than or equal to the value $x$.
+  
+  * If we choose the index $i$ as above, the formula becomes
+  $$\begin{align}\text{Percentile of }x &= \frac{i}{n}\times 100 
+  \end{align}$$
+  
+========================================================
+
+### Finding the percentile of some value
+  
+  
+<div style="float:left; width:60%;text-align:center;">
+<img src="samples_table.png" style="width:100%" alt="Table of sample values ordered low to high.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:40%">
+<ul>
+  <li>In the table to the left, we see an example data set where <strong>the samples have been ordered from low to high in the value</strong>.</li>
+  <li>There are $4$ rows and $10$ columns to this table.</li>
+  <li>The samples are the number of chocolate chips in a batch of 40 cookies.</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li><b>Discuss with a neighbor:</b> what is the percentile of $x=23$? That is, what is the percent of samples that have value lower than $23$, relative to the total number of samples?</li>
+   <ul>
+    <li>Notice there are $10$ columns and the first row consists of samples with value less than $23$.</li>
+    <li>That is to say,
+    $$x_{10} < 23 \leq x_{11}.$$
+    </li>
+    <li>In this regard, we have,
+    $$\text{Percentile of }23 = \frac{10}{40}\times 100 = 25.$$</li>
+    <li>Therefore, we say $x=23$ is in the $25$-th percentile.</li>
+   </ul>
+   <li>Similar to the median, <strong>we can say that a cookie with $23$ chips approximately separates the cookies with the lowest $25\%$ of chips from those with the highest $75\%$ of chips</strong>.</li>
+   <li><b>Note:</b> <strong>we do not say $P_{25}=23$</strong>, we will show how to find $P_{25}$ in the following.</li>   
+</ul>
+</div>
+
+========================================================
+
+### Finding the value corresponding to some percentile
+
+
+<div style="float:left; width:35%;text-align:center;">
+<img src="reverse_percentile.png" style="width:100%" alt="Flow chart of converting percentile to data.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:65%">
+<ul>
+  <li>Converting from a percentile value to a data value can be more complex.</li>
+  <li>This is represented by the flow chart to the left, for which we introduce the following notation:</li>
+  <ul>
+    <li>$n$ will be the <b>total number of samples</b> in the data set.</li>
+    <li>$k$ is the <b>percentile of interest</b>.</li>
+    <li>$L$ will be the <b>"locator index"</b>, i.e., if we sort the samples low to high the value $L$ corresponds to the sample indexed $x_L$.</li>
+    <li>$P_k$ will be the <b>$k$-th percentile</b>.</li>
+  </ul>
+  <li>Suppose once again we have samples $x_1, \cdots, x_n$, and that <strong>we want to find the value corresponding to $P_k$</strong>.</li>
+  <ul>
+    <li>E.g., suppose we want to find the value that corresponds to the $25$-th percentile $P_{25}$, $k=25$.</li>
+  </ul>
+  <li>We will assume that, up to re-ordering, $x_i \leq x_{i+1}$ for every $i=1,\cdots, n-1$, i.e., <strong>the samples are sorted from low to high</strong>.</li>
+  <li>We then compute
+  $$L= \left(\frac{k}{100}\right) \times n$$
+  to give us a <strong> data location</strong>.</li>
+  <ul>
+    <li>However, $L$ may not make sense as an index, e.g., it could come up as $12.25$ where the <strong>samples are only indexed by whole numbers</strong>.</li>
+  </ul>
+</ul>
+</div>
+
+========================================================
+
+### Finding the value corresponding to some percentile continued
+
+
+<div style="float:left; width:35%;text-align:center;">
+<img src="reverse_percentile.png" style="width:100%" alt="Flow chart of converting percentile to data.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:65%">
+<ul>
+  <li>The last slide leaves us at the decision if $L$ is: </li>
+  <ol>
+    <li>a <b>whole number</b> corresponding <strong>exactly to some index</strong>; or</li>
+    <li>some <b>decimal number</b> that <strong>does not give an exact index</strong>.</li>
+  </ol>
+  <li>Let's <b>assume case 1 above</b>:</li>
+  <ul>
+    <li> We see that $L$ corresponds to some sample $x_L$ for which:
+    $$x_1 \leq x_2 \leq \cdots \leq x_L \leq x_{L+1}.$$</li>
+    <li>Then consider the value,
+    $$x = \frac{x_L + x_{L+1}}{2},$$</li>
+    <li>we know that
+    $$\begin{align}
+    \text{Percentile of }x& = \frac{\text{Number of samples with value less than } x}{\text{Number of total samples}}\times 100 \\
+    &= \frac{L}{n}\times 100 \\
+    &= \frac{\left(\frac{k}{100}\right)n}{n} \times 100 \\
+    &=k
+    \end{align}$$
+    </li>
+    <li>I.e., <strong>$x = P_k$</strong> by our construction where <strong>$x$ is the mean of $x_{L}$ and $x_{L+1}$</strong>.</li>
+  </ul>
+</ul>
+</div>
+
+
+========================================================
+
+### Finding the value corresponding to some percentile -- example 1
+
+
+<div style="float:left; width:35%;text-align:center;">
+<img src="reverse_percentile.png" style="width:100%" alt="Flow chart of converting percentile to data.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:60%;text-align:center;">
+<img src="samples_table.png" style="width:100%" alt="Table of sample values ordered low to high.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:65%">
+<ul>
+  <li>We will consider the earlier example of the chocolate chip cookies.</li>
+<li>We will suppose that we wish to find a value corresponding to the $25$-th percentile, $P_{25}$ with roughly $25\%$ of values lying below this value.</li>
+  <li><b>Discuss with a neighbor:</b> what is the value corresponding to $P_{25}$? </li>
+  <ul>
+    <li> Notice that $L = \left(\frac{25}{100}\right)40 = 10$, so that <strong>$L$ is a whole number</strong>.</li>
+    <li>Therefore we find $P_{25} = \frac{x_{11} + x_{10}}{2} = \frac{23 + 22}{2} = 22.5$.</li>
+    <li>Recall in the last example, we said $23$ is in $P_{25}$ but $P_{25} \neq 23$.  We need to be careful about this distinction.</li>
+    <li>In this case, <strong>exactly $25\%$ of data lies below $P_{25}=22.5$ and $75\%$ of data lies above</strong>.</li>
+    <li>However, there are many cases that finding such a value shall be only approximate.</li>
+  </ul>
+</ul>
+</div>
+
+
+========================================================
+
+### Finding the value corresponding to some percentile continued
+
+
+<div style="float:left; width:35%;text-align:center;">
+<img src="reverse_percentile.png" style="width:100%" alt="Flow chart of converting percentile to data.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:65%">
+<ul>
+  <li>We are considering the decision if $L$ is: </li>
+  <ol>
+    <li>a <b>whole number</b> corresponding <strong>exactly to some index</strong>; or</li>
+    <li>some <b>decimal number</b> that <strong>does not give an exact index</strong>.</li>
+  </ol>
+  <li>Let's <b>assume case 2 above</b>:</li>
+  <ul>
+    <li> In this case, $L$ doesn't correspond to any particular index, so we can round the value $L$ up to a value we will call $L^\ast$.</li>
+    <ul>
+      <li>For example, if $L=2.35$ we will call $L^\ast =3$.</li>
+    </ul>
+    <li>$L^\ast$ is a whole number, so that we can find a sample $x_{L^\ast}$ in our ordered data.</li>
+    <li>Notice then,
+    $$\begin{align}
+    \text{Percentile of }x_{L^\ast} &= \frac{\text{Number of samples with value less than } x_{L^\ast}}{\text{Number of total samples}}\times 100\\
+    &= \frac{L^\ast - 1}{n}\times 100 \\
+    &\approx k
+    \end{align}$$
+    where the above is simply an <strong>approximation due to the rounding</strong>.</li>
+    <li>Because this cannot be found unambiguously, we denote $P_k = x_{L^\ast}$.</li>
+    <li>This is part of what is meant by, "there are different possible ways to compute the percentile" so that we take this by convention.</li>
+  </ul>
+</ul>
+</div>
+
+
+========================================================
+
+### Finding the value corresponding to some percentile -- example 2
+  
+<div style="float:left; width:35%;text-align:center;">
+<img src="reverse_percentile.png" style="width:100%" alt="Flow chart of converting percentile to data.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:60%;text-align:center;">
+<img src="samples_table.png" style="width:100%" alt="Table of sample values ordered low to high.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:65%">
+<ul>
+  <li>We will consider the earlier example of the chocolate chip cookies.</li>
+  <li>We will suppose that we wish to find a value corresponding to the $18$-th percentile, $P_{18}$ with roughly $18\%$ of values lying below this value.</li>
+  <li><b>Discuss with a neighbor:</b> what is the value corresponding to $P_{18}$? Is this approximate?</li> 
+   <ul>
+    <li>Notice that, 
+    $$L =\left(\frac{k}{100}\times n \right) = \left(\frac{18}{100}\right)\times 40 = 7.2,$$ 
+    which is <strong>not a whole number</strong>.</li>
+    <li>Therefore, <strong>we round</strong> $L=7.2$ up to $L^\ast= 8.0$ which is <strong>the next whole number</strong>.</li>
+    <li>The sample corresponding to $L^\ast=8$ is $x_{8}=22$.</li>
+    <li>Thus, by convention, we say $P_{18}=22$.</li>
+</ul>
+</div>
+
+========================================================
+
+### Finding the value corresponding to some percentile -- example 2
+  
+<div style="float:left; width:35%;text-align:center;">
+<img src="reverse_percentile.png" style="width:100%" alt="Flow chart of converting percentile to data.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:60%;text-align:center;">
+<img src="samples_table.png" style="width:100%" alt="Table of sample values ordered low to high.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:65%">
+<ul>
+  <li>Note: $\frac{7}{40}\times 100 = 17.5$, so that this is only an approximation -- indeed $17.5\%$ of the data actually lies below $x_{8}$.</li>
+    <li>Moreover, $6$ of $40$ values are below the value $22$, so that
+    $$\text{Percentile of }22 = \frac{6}{40}\times 100 = 15$$
+    and actually $15\%$ of data lies below the value  $22$.</li>
+    <li>This shows why <strong>these calculations and approximations can be inconsistent</strong>.</li>
+    <li>It is important thus to understand when we are talking about:</li>
+    <ol>
+      <li>The percentile of some value $x$; or </li>
+      <li>The value $P_k$ associated to some percentile $k$.</li>
+    </ol>
+    <li>Complications arise especially when there are samples with repeated measurement values.</li>
+</ul>
+</div>
+
+
+========================================================
+
+## Quartiles
+
+<ul>
+  <li>There are special values of percentiles that are used most often in practice.</li>
+  <li>Typically, we will be concerned with the <b>quartiles of the data</b> -- these are defined as follows:</li>
+  <ol>
+    <li><b>$Q_1$</b> -- the first quartile is equal to $P_{25}$.  This separates the data such that <strong>approximately $25\%$ of samples lie below this value</strong>.</li>
+    <li><b>$Q_2$</b> -- the second quartile is equal to $P_{50}$ or the <b>median</b>.  This separates the data such that <strong>approximately $50\%$ of samples lie below this value</strong>.</li> 
+    <li><b>$Q_3$</b> -- the third quartile is equal to $P_{75}$. This separates the data such that <strong>approximately $75\%$ of samples lie below this value</strong>.</li>  
+  </ol>
+  <li>We note that the quartiles thus separate the data into $25\%$ chunks -- <strong>between each quartile lies approximately one quarter of the data</strong>.</li>
+  <li>For the same reasons discussed earlier, different ways of computing the percentiles (and the approximations in this) can lead to <strong>different values for the quartiles</strong>.</li>
+  <li>Small differences can be found using different software on the same data, depending on how and what rules are used.</li>
+</ul>
+
+
+========================================================
+
+### Quartiles continued
+
+<ul>
+<li>We will define some additional statistics that describe the center and the variation in the data using quartiles:</li>
+  <ol>
+    <li><b>Interqartile Range (IQR)</b> -- this is defined as $Q_3 - Q_1$ and describes the scale at which the data operates.</li>
+    <ul>
+      <li>Specifically, this measures the width of the inner $50\%$ of the data.</li>
+      <li><b>Discuss with a neighbor:</b> does the IQR seem resistant to outliers? Why?</li>
+      <ul>
+        <li>Consider a sample data set $0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1000$.</li>
+        <li>The <b>range</b> is $1000 - 0 = 1000$ because it is strongly affected by the outlier $1000$.</li>
+        <li>There are $12$ samples such that, $L = \left(\frac{25}{100}\right) 12 = 3$, such that $Q_1 = P_{25} = \frac{x_4 + x_3}{2} = \frac{3 + 2}{2} = 2.5$.</li>
+        <li>Likewise, $L =\left(\frac{75}{100}\right) 12 = 9$ such that $Q_3 = P_{75} = \frac{x_10 + x_9}{2} = \frac{9 + 8}{2} = 8.5$. .</li>
+        <li>Therefore, the IQR is given as $8.5 - 2.5 = 6$, which <strong>gives a better description of the concentration of the data in the presence of the outlier</strong>.</li>
+        <li>We consider the <strong>IQR to be a resistant statistic to outliers</strong>.</li>
+      </ul>
+    </ul>
+    <li><b>Semi-interquartile range</b> -- this is defined as $\frac{Q_3 - Q_1}{2}$ or <strong>half the width of the inner $50\%$ of data</strong>.</li> 
+    <li><b>Midquartile</b> -- this is defined as $\frac{Q_3 + Q_1}{2}$ or the <strong>mean / midpoint of the inner $50\%$ of the data</strong>.</li>
+    <ul>
+      <li><b>Note:</b> because the statistic $Q_3- Q_1$ is resistant to outliers, both of the <strong>Semi-interquartile range and Midquartile are also resistant</strong>.</li>
+    </ul>
+    <li><b>10-90 Percentile Range</b> -- this is defined  as $P_{90}-P_{10}$ or <strong>the width of the inner $80\%$ of the data</strong>.</li>
+    <ul>
+      <li>This is also a fairly resistant statistic, but it can be <strong>affected by clusters of extremely large or small values</strong>.</li>
+    </ul>
+  </ol>
+</ul>
+
+========================================================
+
+## 5 Number summary
+
+<ul>
+  <li>Because of the usefulness of quartiles in summarizing data as <b>resistant statistics</b>, they are <strong>part of a standard data summary</strong>.</li>
+  <li> It is standard to calculate the following <b>five number summary</b> when getting a "feel" for a data set:</li>
+  <ol>
+    <li><b>Minimum value</b> -- this lets us know one endpoint of the range of data, but is sensitive to outliers.</li>
+    <li><b>$Q_1$</b> -- the first quartile, resistant to outliers.</li>
+    <li><b>$Q_2$</b> -- the median, resistant to outliers.</li>
+    <li><b>$Q_3$</b> -- the third quartile, resistant to outliers.</li>
+    <li><b>Maximum value</b> -- this lets us know the other endpoint of the range of data, but is sensitive to outliers.</li>
+  </ol>
+  <li>Together, these statistics give us a way to summarize the data in terms of the <strong>relative spread of the data in terms of min / max $Q_3 / Q_1$ and the relative center of the data in terms of the median</strong>.</li>
+  <li>While the numbers themselves can be useful, we often want to make a graphical representation of these statistics.</li>
+</ul>
+
+
+========================================================
+
+## Box plots
+
+
+<div style="float:left; width:100%;text-align:center;">
+<div style="float:left; width:60%">
+<img src="samples_table.png" style="width:100%" alt="Table of sample values ordered low to high.">
+</div>
+<div style="float:left; width:40%">
+<img src="table_box_plot.png" style="width:100%" alt="Box plot of the table values.">
+</div>
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left;width:40%">
+<ul>
+  <li>From the earlier example, we recall $Q_1 = 22.5$. </li>
+  <li>We find $\left(\frac{50}{100} \right) 40 = 20$ such that
+  $$P_{50} = Q_2 = \frac{x_{21} + x_{20}}{2} = \frac{24 + 24 }{2} = 24.$$</li>
+  <li>And, $\left(\frac{75}{100}\right)40 = 30$ such that
+  $$P_{75}=Q_3 = \frac{x_{31} + x_{30}}{2}=\frac{26+26}{2} =26.$$
+  </li>
+  <li>The min / max values are given by $19$ and $30$ respectively.</li>
+  <li>This information <strong>completes the five number summary</strong>.</li>
+  <li>We can represent the five number summary graphically as a <b>box plot</b>.</li>
+</ul>
+</div>
+<div style="float:right; width:55%">
+<ul>
+  <li><b>Box plots</b> -- these are visual representations of the five number summary.</li>
+  <li>These are constructed as follows:</li>
+  <ul>
+    <li>Find the min / max and $Q_1,Q_2,Q_3$. </li>
+    <li>Construct a <strong>number-line range that extends at least to the min and max as endpoints</strong>.</li>
+    <li>Draw a box with edges at $Q_1$ and $Q_3$.</li>
+    <li>Draw lines at the min / max and at $Q_2$.</li>
+  </ul>
+  <li>The box plot thus gives a picture of how data is centered and how much variation is around the center.</li>
+</ul>
+</div>
+
+========================================================
+
+### Box plots continued
+
+<div style="float:left; width:45%;text-align:center;">
+<img src="normal_skew_box.png" style="width:100%" alt="Example of normal data box plot and skewed data box plot.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:55%">
+<ul>
+  <li>Particularly, we can quickly identify differences in the "shape" or distribution of the data.</li>
+  <li>On the <b>top box plot</b>, we see <strong>normally distributed data</strong> of a simple random sample of the heights of adult women.</li>
+    <li>With normaly distributed data we see some of our typical characterisitcs:
+  <ul>
+  <li>The data is strongly peaked, with relatively few values initially, then many concentrated values, then relatively few values.</li>
+  </ul>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <ul>
+    <li>The data is strongly symmetric, with the values of $Q_1$ and $Q_3$ and the min / max almost symmetric around $Q_2$.</li> 
+  </ul>
+  <li>On the <b>bottom box plot</b> we see strongly skewed data.</li>
+  <li>This box plot represents the salaries of NCAA football coaches in thousands of dollars.</li>
+  <li><b>Discuss with a neighbor:</b> can you identify whether this data is left or right skewed from the box plot?</li> 
+  <ul>
+    <li>Recall, we call data <b>right skewed</b> when the tail points towards the right.</li>
+    <li>On the bottom, we see that the median $Q_2$ is very close to the min so that $50\%$ of data is very small.</li>
+    <li> $Q_3$ lies asymmetrically away from the median, with the max far away from this.</li>
+    <li>This indicates right skewness, due to the long tail of data towards the right.</li> 
+  </ul>
+  <li><b>Note:</b> this kind of plot is missing other data that can be found in a histogram or a frequency distribution, and these can be used to give more details on a specific data set.</li>
+  <li>However, box plots are very good at showing differences between the shape of two data sets.</li>
+</ul>
+</div>
+
+========================================================
+
+## Outliers and modified box plots
+
+<div style="float:left; width:100%;text-align:center;">
+<div style="float:left; width:60%">
+<img src="hannaford.png" style="width:100%" alt="Table of sample values ordered low to high.">
+</div>
+<div style="float:left; width:40%">
+<img src="modified_box_plot.png" style="width:100%" alt="Box plot of the table values.">
+</div>
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<ul>
+  <li>So far, we have been intentionally vague about the question <b>"what is an outlier?"</b></li>
+  <ul>
+    <li> We have only <strong>loosely described these as very extreme values relative to the other measurements</strong>.</li>
+  </ul>
+  <li><b>Outliers have substantial effects on statistical analyses</b> and for this reason it is <strong>important to identify them and quantify their presence in an objective way</strong>.</li>
+  <ul>
+    <li>We can <strong>formally quantify</strong> the presence of outliers using <b>modified box plots</b></li>
+  </ul>
+  <li><b>Modified box plots</b> -- these are constructed as follows:</li>
+  <ul>
+    <li>Compute $Q_1,Q_2,Q_3$ and the IQR equal to $Q3 - Q_1$.</li>
+    <li>We plot box as usual with edges at $Q_1$ and $Q_3$, and a line through this box at $Q_2$.</li>
+    <li><b>However</b>, we draw whiskers that extend to the values $Q_1 - 1.5\times IQR$ and $Q_3 + 1.5\times IQR$</li>
+    <ul>
+      <li><strong>Any value that lies outside of the whiskers $Q_1 - 1.5\times IQR$ and $Q_3 + 1.5\times IQR$ is thus called an outlier</strong>.</li>
+    </ul>
+  </ul>
+  <li>In the above, we see a sample of chocolate chip cookies, for which <strong>the value of $21$ chips is identified as an outlier</strong>.</li>
+</ul>
+
+========================================================
+
+### Modified box plots continued
+
+<div style="float:left; width:40%">
+<img src="Boxplot_vs_PDF.png" style="width:100%"  alt="Diagram of the percent of outcomes contained within each standard deviation of the mean
+for a standard normal distribution.">
+<p style="text-align:center">
+Courtesy of Jhguch <a href="https://creativecommons.org/licenses/by/2.5" target="blank">CC</a> via  
+        <a href="https://commons.wikimedia.org/wiki/File:Boxplot_vs_PDF.svg"> Wikimedia Commons</a>. 
+</p>
+</div>
+<div style="float:left; width:60%">
+<ul>
+  <li>The standard box plot earlier did not have the ability to show our last criterion of normal data, <strong>the presence of few if any outliers</strong>.</li>
+  <li>In the figure to the left, we see a comparision of:</li>
+  <ul>
+    <li>the empirical (68-95-99.7) rule; and</li>
+    <li>a modified box plot for a normal distribution.</li>
+  </ul>
+  <li>We note, the empirical rule says that an observation that lies outside of $[\mu - 2 \sigma, \mu + 2 \sigma]$ is <b>significantly high or low</b>.</li>
+  <ul>
+    <li>This means that it is <strong>statistically interesting to observe</strong>.</li>
+  </ul>
+  <li>For a normal distribution, $Q_1 - 1.5 \times IQR$ and $Q_3 + 1.5\times IQR$ extends to approximately 
+  $$[\mu - 2.698 \sigma, \mu+ 2.698\sigma].$$</li> 
+  <ul>
+    <li>The above range contains approximately $99.3\%$ of all data, which <strong>explains the meaning of few if any ouliers present in normal data</strong>.</li>
+    <ul>
+      <li>I.e., in a large data set, about $0.7\%$ of observations would be considered outliers.</li>
+    </ul>
+  </ul>
+  <li>We note, the intervals for the empirical rule and the box plot aren't the same as one is measured in terms of standard deviations $\sigma$ and the other in terms of quartiles $Q_i$.</li>
+  <li>The comparision of these intervals is pictured in the figure.</li>
+</ul>
+</div>
