@@ -188,6 +188,8 @@ Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
 
 <div style="float:left; width:65%;text-align:center;">
 <img src="random_variable.png" style="width:100%" alt="Random variables are the numerical measure of the outcome of a random process.">
+<p style="text-align:center">
+Courtesy of Ania Panorska  <a href="https://creativecommons.org/licenses/by-sa/3.0" target="blank">CC</a>
 </div>  
 <div style="float:left; width:35%">
 <ul>  
@@ -197,12 +199,14 @@ Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
     <li>$x$ is the number heads in two coin flips.</li>
   </ul>
   <li>Every time we repeat two coin flips <strong>$x$ can take a different value</strong> due to many possible factors:</li>
+  <ul>
+        <li>how much force we apply in the flip;</li> 
+  </ul>
 </ul>
 </div>
 <div style="float:left; width:100%">
 <ul>
   <ul>
-    <li>how much force we apply in the flip;</li>
     <li>air pressure;</li>
     <li>wind speed;</li>
     <li>etc...</li>
@@ -225,6 +229,8 @@ numerical value, determined by chance, for each outcome of a procedure.</li>
 
 <div style="float:left; width:65%;text-align:center;">
 <img src="sample_space.png" style="width:100%" alt="Random variables are the numerical measure of the outcome of a random process.">
+<p style="text-align:center">
+Courtesy of Ania Panorska  <a href="https://creativecommons.org/licenses/by-sa/3.0" target="blank">CC</a>
 </div>  
 <div style="float:left; width:35%">
 <ul> 
@@ -264,6 +270,8 @@ numerical value, determined by chance, for each outcome of a procedure.</li>
 
 <div style="float:left; width:65%;text-align:center;">
 <img src="sample_space.png" style="width:100%" alt="Random variables are the numerical measure of the outcome of a random process.">
+<p style="text-align:center">
+Courtesy of Ania Panorska  <a href="https://creativecommons.org/licenses/by-sa/3.0" target="blank">CC</a>
 </div>  
 <div style="float:left; width:100%">
 <ul>
