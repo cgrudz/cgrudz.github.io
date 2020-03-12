@@ -1176,9 +1176,9 @@ Courtesy of Ania Panorska  <a href="https://creativecommons.org/licenses/by-sa/3
   P(\overline{A}) &= 1 - P(A) \\
   &\approx 1 - P(x=0)\\
   &= 1 - \frac{ \left(n \times p\right)^0 \times e^{- n \times p}}{0!} \\
-  &=1 - \frac{1 \times e^{- 0.0365}}{1} \approx 0.358.
+  &=1 - \frac{1 \times e^{- 0.0365}}{1} \approx 0.0358.
   \end{align} \]</li>
-  <li class="fragment">In fact, using StatCrunch, we can see that the probability of at least \( 1 \) success using the binomial distribution is also approximately \( 0.358 \), so we get a good approximation here.</li> 
+  <li class="fragment">In fact, using StatCrunch, we can see that the probability of at least \( 1 \) success using the binomial distribution is also approximately \( 0.0358 \), so we get a good approximation here.</li> 
 </ul>
 
 </div>
@@ -1454,14 +1454,14 @@ then decrease to a low frequency.</strong></li>
 <div style="float:left; width:100%">
 <ul>
   <li class="fragment">We say that \( x \) has a <b>normal distribution</b>,
-  \[ f(x) = \frac{1}{\sigma \sqrt{2\pi}} e^{\frac{1}{2}\left(\frac{x- \mu}{\sigma}\right)^2} \]
+  \[ f(x) = \frac{1}{\sigma \sqrt{2\pi}} e^{\frac{-1}{2}\left(\frac{x- \mu}{\sigma}\right)^2} \]
   with <b style="color:#1b9e77">the parameters \( \mu \) and \( \sigma \)</b>.</li>
   <li class="fragment"><b>Note:</b> the area under \( f(x) \) cannot be computed by \( l\times h \), but the <strong>total area under the above curve is still \( 1 \)</strong>.</li>
   <ul>
     <li class="fragment">Therefore, <b>accurately computing the probability</b> of some event is typically <strong>done with computer methods</strong> &ndash; like in StatCrunch.</li>
   </ul>
   <li class="fragment">A special case of the normal distribution is the <b>standard normal distribution</b> with <b style="color:#1b9e77">mean \( \mu =0 \)</b> and <b style="color:#1b9e77">standard deviation \( \sigma=1 \)</b>,
-    \[ f(x) = \frac{1}{\sqrt{2\pi}} e^{\frac{1}{2}x^2} \]</li>
+    \[ f(x) = \frac{1}{\sqrt{2\pi}} e^{\frac{-1}{2}x^2} \]</li>
     <li class="fragment">For the standard normal distribution as above, the <b>z-score</b> of some observation \( x \) is actually just <strong>equal to \( x \)</strong>.</li>
 </ul>
 </div>  
