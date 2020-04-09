@@ -1,0 +1,762 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+Introduction to estimation part II
+========================================================
+date: 04/09/2020
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+
+========================================================
+
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+  * Review of point estimates, confidence intervals and critical values
+  * Margin of error
+  * Estimating a population proportion
+  * Finding the right sample size
+  * Estimating a population mean
+  * The student t distribution
+  * Confidence intervals for the mean
+  * The special case when $\sigma$ is known
+  * Finding the right sample size
+  
+  
+========================================================
+
+## Review of point estimates and confidence intervals
+
+
+<div style="float:left; width:45%;text-align:center;">
+<img src="proportions_diagram.png" style="width:100%" alt="Sample proportions tend to be normally distributed about the true parameter as the mean.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>  
+<div style="float:left; width:55%">
+<ul>
+  <li>In the last lecture, we saw how a sample proportion generates a random variable.</li>
+  <li>That is, when we take a sample of a population and compute the proportion of the sample for which some statement is true.</li>
+  <li>Suppose we want to <b>replicate this sampling procedure</b> <strong>infinitely many times</strong>...</li>
+  <ul>
+    <li>It impossible to replicate the sampling infinitely many times, but we can <strong>construct a probabilistic model for this replication process</strong> with a <b>probability distribution</b>.</li> 
+  </ul>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>Formally, we will <b>define $\hat{p}$</b> to be the <strong>random variable</strong> equal to the <b style="color:#d95f02">proportion derived from a random sample of $n$ observations</b>.</li>
+  <ul>
+    <li>For <b>each replication</b>, <strong>$\hat{p}$ attains a different value based on chance</strong>.</li>
+  </ul>
+  <li>Then, for <b>random, independent samples</b>, <b style="color:#d95f02">$\hat{p}$</b> tends to be <strong>normally distributed</strong> about <b style="color:#1b9e77">$p$</b>.</li>
+  <ul>
+    <li>We can thus use the value of <b style="color:#d95f02">$\hat{p}$</b> and the <b>distribution of <b style="color:#d95f02">$\hat{p}$</b></b> to estimate <b style="color:#1b9e77">$p$</b> and how close we are to it.</li>
+  </ul>
+  <li>We know that <b style="color:#d95f02">$\hat{p}$</b>  is an <b>unbiased estimator</b> of the <b style="color:#1b9e77">true population proportion $p$</b>.</li>
+  <ul>
+    <li>That is, over infinitely many resamplings, the <b>expected value</b> <strong>(mean of the probability distribution)</strong> for <b style="color:#d95f02">$\hat{p}$</b> is equal to <b style="color:#1b9e77">$p$</b>.</li>
+  </ul>
+  <li>When we have a <strong><b style="color:#d95f02">specific sample data set</b>, and a specific value for <b style="color:#d95f02">$\hat{p}$</b> associated to it</strong>,  <b style="color:#d95f02">$\hat{p}$</b> is called a <b>point estimate</b> for  <b style="color:#1b9e77">$p$</b>.</li> 
+  <ul>
+    <li>The <strong>measure of "how-close"</strong> we think this is to the true value is called a <b>confidence interval</b>.</li> 
+  </ul>
+</ul>
+</div>
+
+
+========================================================
+
+## Review of confidence intervals
+
+<div style="float:left; width:40%">
+<img src="confidence_table.png" style="width:100%"  alt="Common confidence levels.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:60%">
+<ul>
+  <li>Let's recall how we constructed <b>confidence intervals (CI)</b> in the last lecture.</li> 
+  <ul>
+    <li>Suppose that we want to estimate the <b style="color:#1b9e77"> true proportion $p$</b> with some <b>level of confidence</b>:</li>
+    <ul>
+      <li>if we replicated the sampling procedure infinitely many times, the <b>average number of times</b> we found <b style="color:#1b9e77">$p$</b> in our confidence interval would be <strong>equal to the level of confidence</strong>.</li>  
+    </ul>
+  </ul>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>Let's take an example <b>confidence level of $95\%$</b> -- this corresponds to a <strong>rate of failure of $5\%$</strong> over infinitely many replications.</li>
+  <li>Generally, we will write the confidence level as,
+  $$(1 - \alpha) \times 100\%$$
+  so that we can associate this confidence level with its rate of failure $\alpha$.</li>
+  <li>Recall, we earlier studied ways that we can <b>compute the critical value associated to some $\alpha$</b> for the normal distribution.</li>
+  <li>We will use the same principle here to find <strong>how wide is the interval around <b style="color:#1b9e77">$p$</b></strong> for which <b style="color:#d95f02">$\hat{p}$</b> will lie in this interval
+  $(1-\alpha)\times 100\%$
+  of the time.</li>   
+</ul>
+</div>
+<div style="float:left; width:75%">
+  <li>This is equivalent to a <b>two-sided measure of extremeness</b> in the normal distribution, i.e.,</li>
+  <ul>
+    <li>we want to find the critical value $z_\frac{\alpha}{2}$ for which:</li>
+    <ul>
+      <li>$(1-\frac{\alpha}{2})\times 100\%$ of the area under the normal density lies to the left of $z_\frac{\alpha}{2}$; and</li>
+      <li>$(1-\frac{\alpha}{2})\times 100\%$ of the area under the normal density lies to the right of $-z_\frac{\alpha}{2}$.</li>
+    </ul>
+    <li>Put together, $(1-\alpha)\times 100\%$ of values lie within $[-z_\frac{\alpha}{2},z_\frac{\alpha}{2}]$. 
+  </ul>
+</ul> 
+</div>
+<div style="float:left; width:25%" class="fragment">
+<img src="alpha_over_2_critical.png" style="width:100%"  alt="Area between alpha over two critical value.">
+</div>
+
+========================================================
+
+### Confidence intervals for population proportions and critical values
+
+<div style="float:left; width:40%">
+<img src="confidence_region.png" style="width:100%"  alt="Confidence interval for alpha value.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:60%">
+<ul>
+  <li>In the figure to the left, we see exactly thus how to find the width of the region for a given confidence level.</li>
+  <ul>
+    <li>For a given confidence level $(1 -\alpha)\times 100\%$, we will find the particular $\alpha$.</li>
+    <li>We then find the associated <b>two-sided measure of extremeness</b> with the <strong>$z_\frac{\alpha}{2}$ critical value</strong>.</li>
+    <li>This critical value is associated to the measure of extremeness of <strong>finding an observation that lies far away from the mean</strong>.</li>
+    <li>Particularly, only $\alpha \times 100\%$ of the population lies outside of the region $[-z_\frac{\alpha}{2},z_\frac{\alpha}{2}]$.</li>
+  </ul>
+</ul>
+</div>  
+<div style="float:left; width:100%">
+<ul>
+  <li>Put another way, if you <b>randomly draw a population member</b>, there is <strong>$(1 -\alpha)\times 100\%$ chance that the mean lies at a distance at most $z_\frac{\alpha}{2}$ away from this observation</strong>.</li>
+  <li>The sample proportion point estimate <b style="color:#d95f02">$\hat{p}$</b> <b>can be considered a random draw from population of all point estimates distributed around</b> <b style="color:#1b9e77">$p$</b>.</li>
+  <li>We do not know how close a particular point estimate (depending on a particular sample) is to <b style="color:#1b9e77">$p$</b>.</li>
+  <li>However, we know that <b>over all possible replications of the sampling procedure</b>, the point estimate <b style="color:#d95f02">$\hat{p}$</b> will <strong>lie at a distance at most $z_\frac{\alpha}{2}$ exactly $(1-\alpha)\times 100\%$ of the time</strong>.</li>
+  <li>Therefore, we have $(1-\alpha)\times 100\%$ confidence that the <b style="color:#1b9e77">true $p$</b> lies within this region about <b style="color:#d95f02">$\hat{p}$</b>.</li>
+</ul>
+</div>
+
+
+========================================================
+
+## Standard error
+
+<ul>
+  <li>Consider from the last slide, the interval 
+  $$[- z_\frac{\alpha}{2}, z_\frac{\alpha}{1}]$$  
+  corresponds to the $(1-\alpha)\times 100\%$ confidence interval of the <b>standard normal</b> with mean $\mu = 0$ and standard deviation $\sigma=1$.</li>
+  <li>However, we know that  <b style="color:#d95f02">$\hat{p}$</b> is actually distributed with mean <b style="color:#1b9e77">$p$</b>.</li>
+  <li>Therefore, to compute a confidence interval for where we believe <b style="color:#1b9e77">$p$</b> lies, the natural place to <strong>center the confidence interval is around</strong> <b style="color:#d95f02">$\hat{p}$</b>.</li>
+  <ul>
+    <li>The sample proportion <b style="color:#d95f02">$\hat{p}$</b> is our best guess for <b style="color:#1b9e77">$p$</b>; if we make a construction correctly, we can be assured that our $(1-\alpha)\times 100\%$ confidence interval centered at <b style="color:#d95f02">$\hat{p}$</b> will contain <b style="color:#1b9e77">$p$</b> $(1-\alpha)\times 100\%$ of the time under resampling.</li>
+  </ul>   
+  <li>However, the <b>standard deviation</b> for the distribution of $\hat{p}$ with $n$ observations intuitively <strong>should depend on how many observations we have</strong>.</li>
+  <ul>
+    <li>Particularly, we should generally get better estimates of <b style="color:#1b9e77">$p$</b> with  <b style="color:#d95f02">$\hat{p}$</b> when $n$ is large and the standard deviation of  <b style="color:#d95f02">$\hat{p}$</b>, $\sigma_\hat{p}$, should get smaller when we take a larger number of observations $n$.</li>
+  </ul>
+  <li>Therefore, taking the interval
+  $$[\hat{p} - z_\frac{\alpha}{2}, \hat{p} + z_\frac{\alpha}{2}] $$ 
+  is not in of itself enough.</li>
+  <li>We will need to <strong>scale the width of confidence interval $z_\frac{\alpha}{2}$ by the standard deviation</strong> of <b style="color:#d95f02">$\hat{p}$</b>.</li>
+  <li>This will result in the confidence interval of the form,
+  $$[\hat{p} -   z_\frac{\alpha}{2} \times \sigma_\hat{p}, \hat{p} +  z_\frac{\alpha}{2} \times \sigma_\hat{p} ].$$  </li> 
+  <li>The <strong>standard devation of the sampling variable $\sigma_\hat{p}$</strong> is called the <b>standard error</b>.</li>
+</ul>
+
+
+========================================================
+
+### Standard error continued
+
+<ul>
+  <li>A <b>sample proportion</b> for which some statement about the population holds true can be <strong>considered a simple yes / no  or success / failure sampling trial</strong>.</li>
+  <li>Each observation in a sample of $n$ observations will be either a yes or no,  and we find that <b style="color:#d95f02">$\hat{p}$</b> <strong>of the sample corresponds to yes</strong>.</li>  
+  <li>We can then consider this as a <b>binomial sampling</b>, for which there is <strong><b style="color:#1b9e77">$p$</b> probability of success and $n$ trials</strong>.</li>
+  <ul>
+    <li>This also means that there is  a <b>$1 -p = q$ probability of failure</b>.</li>
+  </ul>
+  <li>Let <b>$X$ be a new random variable</b> equal to the <strong>number of successful trials with the above binomial distribution</strong>.</li>
+  <li>This means that
+  $$\hat{p} = \frac{X}{n},$$
+  because <b style="color:#d95f02">$\hat{p}$</b> <strong>is the sample proportion of successful trials out of all trials</strong>.</li>
+  <li>For the <b>binomial random variable $X$</b>, the expected value is given by
+  $$\mu_X  = n \times p$$
+  and variance is given by
+  $$\sigma_X^2 = n \times p \times q.$$</li>
+    <li>Then the <b>central limit theorm</b> can be used to show in terms of the true parameters
+  $$\frac{X  - n \times p}{\sqrt{n \times p\times q}}$$
+  is <strong>very close to a standard normal in distribution</strong>.</li>
+</ul>
+
+
+========================================================
+
+### Standard error continued
+
+<ul>
+  <li> On the last slide, we showed that
+  $$\frac{X  - n \times p}{\sqrt{n \times p\times q}}$$
+  is very close to a standard normal in distribution.</li>
+  <li>Therefore, with some re-arrangements we can say
+  $$\frac{X  - n \times p}{\sqrt{n \times p\times q}} = \frac{\frac{X}{n} - p}{\sqrt{\frac{ p \times q }{n}}} = \frac{\hat{p} - p}{\sqrt{\frac{ p \times q }{n}}}$$ 
+  is <strong>very close to standard normal</strong>.</li>
+  <li>The above gives us our <b>approximation for $\sigma_\hat{p}$</b>, which we can <strong>write in terms of the sample-based estimates</strong>
+  $$\sigma_\hat{p} \approx \sqrt{\frac{\hat{p} \times \hat{q} }{n}} $$</li>
+  <li>Recall now our confidence interval,
+  $$[\hat{p} -  z_\frac{\alpha}{2} \times \sigma_\hat{p}, \hat{p} +   z_\frac{\alpha}{2} \times \sigma_\hat{p} ].$$
+  <li>For $\sigma_\hat{p}$ approximated as above, we have a good approximation of the <strong>interval around <b style="color:#d95f02">$\hat{p}$</b></strong> which corresponds to <b>$z_\frac{\alpha}{2}$ standard deviations in either direction</b>.</li>
+  <li>The radius around <b style="color:#d95f02">$\hat{p}$</b>,  $z_\frac{\alpha}{2} \times \sigma_\hat{p}$, has a special name, the <b>margin of error</b>.</li>
+</ul>
+
+========================================================
+
+## Margin of error
+
+<div style="float:left; width:50%">
+<img src="Marginoferror95.png" style="width:100%"  alt="Diagram of the percent of outcomes contained within each standard deviation of the mean
+for a normal distribution.">
+<p  style="text-align:center">
+Courtesy of Fadethree Public domain  via  <a href="https://commons.wikimedia.org/wiki/File:Marginoferror95.PNG"> Wikimedia Commons</a>
+</p>
+</div>
+<div style="float:left; width:50%">
+<ul>
+  <li>Formally, we will define
+  $$E = z_\frac{\alpha}{2} \sqrt{\frac{\hat{p}\times \hat{q}}{n}} $$
+  to be the <b>margin of error</b>.</li>
+  <li>This is precisely the <strong>radius of the confidence interval</strong>
+   $$[\hat{p} -  z_\frac{\alpha}{2} \times \sigma_\hat{p}, \hat{p} +   z_\frac{\alpha}{2} \times \sigma_\hat{p} ]$$
+   around $\hat{p}$.</li>
+   <li>Our intiution here is correct in that we get a <strong>more accurate estimate with $\hat{p}$</strong> when we have <b>larger numbers of observations $n$</b>.</li>
+   <li>Notice that as $n$ gets larger, the term
+   $$ \sqrt{\frac{\hat{p}\times \hat{q}}{n}} $$
+   gets smaller.</li>
+   <li>On the other hand, for any fixed confidence level $(1 - \alpha)\times 100\%$, the term $z_\frac{\alpha}{2}$ remains fixed.</li>
+   <li> On the left, we see an example of this phenomena in an example where $p=0.5$ and the number of samples $n$ is varied for $\alpha=0.05$ fixed.</li>
+</ul>
+</div>
+
+========================================================
+
+## Estimating a population proportion summary
+
+<ul>
+  <li>We have now established how to estimate a population proportion from a sample.</li>
+  <li>We will review the steps:
+  <ol>
+    <li>Suppose we have <b>$n$ total observations</b> <strong> generated by simple random sampling</strong>, where each selection can be considered (at least up to approximation) independent.</li>
+    <li>Then let <b style="color:#d95f02">$\hat{p}$</b> be the proportion of observations for which some statement holds true;</li>
+    <ul>
+      <li>this is our point estimate for <b style="color:#1b9e77">$p$</b>, but we <strong>need a confidence interval to tell us "how close"</strong> we think <b style="color:#d95f02">$\hat{p}$</b> is to <b style="color:#1b9e77">$p$</b> with <b>some level of confidence $(1 - \alpha)\times 100\%$</b>.</li>
+    </ul>
+    <li> <b style="color:#d95f02">$\hat{p}$</b> is <b>approximately normally distributed around <b style="color:#1b9e77">$p$</b></b> when $n \times p \geq 5$ and $q \times n \geq 5$ -- usually we say this is satisfied <strong>if there are at least $5$ successes and $5$ failures</strong>.</li>  
+    <li>The <b>standard error</b> is <strong>the standard deviation</strong> of this approximately normal distribution, approximated as
+    $$\sigma_\hat{p} \approx \sqrt{\frac{ \hat{p} \times \hat{q}}{n}}. $$</li>
+    <li>Suppose have some <b>level of confidence $(1 -\alpha)\times 100\%$</b> (usually $90\%,95\%, 99\%$), and <strong>$z_\frac{\alpha}{2}$ is the associated two-sided critical value for the standard normal</strong>.</li>  
+    <li>The confidence interval for $(1-\alpha)\times 100\%$ confidence is
+    $$\left[\hat{p} - z_\frac{\alpha}{2} \times \sqrt{\frac{\hat{p}\times\hat{q}}{n}},\hat{p} + z_\frac{\alpha}{2} \times \sqrt{\frac{\hat{p}\times\hat{q}}{n}} \right] = \left[\hat{p} - E, \hat{p} + E\right]$$
+  </ol>
+  <li>The <b style="color:#1b9e77">true population proportion $p$</b> <strong>lies in this interval $(1- \alpha)\times 100\%$  of the time under replications of samples of size $n$</strong>.</li> 
+  <li>As a rule-of-thumb, the <b>values above should be rounded up to three significant digits</b>.</li>
+</ul>
+
+========================================================
+
+### Estimating a population proportion summary continued
+
+<ul>
+  <li>We should note a few things about the last procedure:</li>
+  <ol>
+    <li>It is important to understand the meaning of each of the:</li>
+    <ul>
+      <li><b>$z_\frac{\alpha}{2}$</b> -- the <strong>two-sided critical value for the standard normal</strong>;</li>
+      <li><b>$\sigma_\hat{p} \approx \sqrt{\frac{\hat{p} \times \hat{q}}{n}}$</b> -- the <strong>our estimate for the standard deviation of <b style="color:#d95f02">$\hat{p}$</b></strong>; and</li>  
+      <li><b>$E = z_\frac{\alpha}{2} \times \sqrt{\frac{\hat{p} \times \hat{q}}{n}}$</b> -- the <strong>margin of error, i.e., the radius of the confidence interval</strong>.</li>
+    </ul>
+    <li>However, with modern statistical software we will not need to compute all of these values individually, and in StatCrunch you can compute the entire confidence interval at once..</li> 
+  </ol>
+  <li>Because some questions in the homework will ask you to compute these pieces individually, in this lecture I will show you how to compute the confidence interval both ways.</li>
+  <li>However, in general you are recommended to compute the confidence interval directly in statistical software whenever possible.</li>
+  <li>Let's now consider the example of the Gallup poll result where there were $1487$ adults surveyed to see if they had a Facebook account.</li>
+  <li>A total of $639$ adults surveyed responded they had an account.</li>
+  <li><b>Consider the following:</b> what assumptions does the sample need to satisfy if we are going to apply this procedure?</li>
+  <ul>
+    <li>Recall, the sampling should follow a simple random procedure, and usually it is sufficient that there are at least $5$ successes and $5$ failures.</li>
+  </ul>
+  <li><b>Consider the following:</b> what is the approximate standard error for the distribution for the sample proportions?</li>
+  </ul>
+</ul>
+
+
+========================================================
+
+### Estimating a population proportion example
+
+<ul>
+  <li>Recall that the standard error approximation is given as 
+  $$\sigma_\hat{p} \approx \sqrt{\frac{\hat{p} \times \hat{q}}{n}}.$$</li>
+  <li>In our example, we have that:</li>
+  <ol>
+    <li>$n=1487$;</li>
+    <li>$\hat{p} = \frac{639}{1487} \approx 43\%$;</li>
+    <li>$\hat{q} = 1 - \hat{p} \approx 57\%$. 
+  </ol>
+  <li>Therefore,  we can write
+  $$\sigma_\hat{p} \approx \sqrt{\frac{0.43 \times 0.57 }{1487}} \approx 0.0001648.$$</li>
+  <li><b>Consider the following</b> how can we use StatCrunch to compute the correct critical value $z_{0.025}$ so that we can compute the standard error?</li>
+  <li>Using StatCrunch, we found that $z_{0.025} \approx 1.96$, so that
+  $$E = z_{0.025} \times \sqrt{\frac{0.43 \times 0.57 }{1487}} \approx 0.0251636.$$</li>
+  <li><b>Consider the following:</b> with the above values for $E$ and <b style="color:#d95f02">$\hat{p}$</b>, what is the $95\%$ confidence interval of <b style="color:#1b9e77">$p$</b>?
+  
+========================================================
+
+### Estimating a population proportion example continued
+
+<ul>
+  <li>Using the values for
+  $$E \approx 0.0251636,$$</li>
+  <li>
+  and $\hat{p} \approx 0.43$ we can find that</li>
+  <li>
+  $$\begin{align}
+  \left[\hat{p} - z_\frac{\alpha}{2}\times \sigma_\hat{p} , \hat{p} + z_\frac{\alpha}{2} \times \sigma_{p} \right] &= [ \hat{p} - E , \hat{p} + E] \\
+  &\approx  [0.43 - 0.0251636, 0.43 + 0.0251636] \\
+  &\approx [0.405, 0.455]
+  \end{align}$$</li>  
+  <li>While it is possible to go through and calculate the confidence interval like this manually, it is faster and more accurate to do so with statistical software.</li>
+  <li>To do so, we will only need to know the total number of trials ($n = 1487$ observations in the sample) and the total number of successful trials ($639$ respondents who had a Facebook account).</li>
+  <li>We will show this in the following.</li>
+</ul>
+
+========================================================
+
+## Analyzing polls
+
+<ul>
+  <li>Now that we know how to estimate proportions of a population, we should make some notes about how to analyze polling data.</li>
+  <ol>
+    <li>When a poll is conducted, it <strong>should be conducted using some kind of sampling method that keeps draws random and for practical purposes independent</strong>.</li>
+    <li>The <strong>proportion of the <b style="color:#d95f02">sample</b></strong> for which some statement (will vote yes) holds true should be considered a <b>point estimate</b>.</li>
+    <li>This <b>point estimate</b> is a <strong>random variable that will change in value when samples are replicated</strong>, and almost surely does not equal the <b style="color:#1b9e77">true population proportion</b>.</li>
+    <li>A <b>level of confidence</b> and <b>confidence interval or margin of error</b> <strong>should be included to understand how uncertain the point estimate is</strong>.</li>
+    <li>The <b>sample size</b> <strong>should be provided with the estimates</strong>.</li>
+    <li>Provided the <b>sample size is sufficiently large</b>, usually on the order of 100's to 1000's, <strong>the results should be reliable, though not guaranteed to correctly contain the <b style="color:#1b9e77">true population proportion</b></strong>.</li>
+  </ol>
+  <li>Regarding the last point, the <b>results will be reliable</b> in the sense that <strong>under replication of samples by the same method, the true proportion should lie in the confidence interval $(1-\alpha)\times 100\%$ of the time</strong>.</li>
+  <li>This <b>does not actually depend on the size of the population</b>, only on the sample size.</li>
+  <ul>
+    <li>That is, <strong>the number of samples necessary is actually independent of the size of the population itself</strong>.</li> 
+  </ul>
+</ul>
+
+========================================================
+
+## Analyzing polls example
+
+<ul>
+  <li>Let's consider the following example where we will try to find the values of the point estimate and margin of error from a confidence interval.</li>
+  <li>In the data from "High-dose nicotine patch therapy" in the textbook, we know that $70$ subjects were given a nicotine patch treatment.</li>
+  <li>The article states that the confidence interval for the number of subjects who did not smoke during the therapy is equal to
+  $$[0.58, 0.81].$$
+  </li>
+  <li><b>Consider the following:</b> can you deduce what the value of the point estimate (the sample proportion) is given the above confidence interval?</li>
+  <ul>
+    <li>Recall, the point estimate $\hat{p}$ is just the midpoint of the interval
+    $$[\hat{p}- E , \hat{p} + E].$$</li>
+    <li>This says that if we take the midpoint formula for the two endpoints,
+    $$\begin{align}
+    \frac{\text{Right endpoint} + \text{Left endpoint}}{2} &= \frac{\hat{p} + E + \hat{p} - E}{2}\\
+    &= \frac{2 \hat{p}}{2} = \hat{p}
+    \end{align}$$
+  </ul>
+  <li>Therefore, we have $\hat{p} = 0.695$.</li>
+</ul>
+
+
+========================================================
+
+### Analyzing polls example continued
+
+<ul>
+<li>Recall, the confidence interval from the article for the number of subjects who did not smoke during the therapy is equal to
+  $$[0.58, 0.81].$$
+  </li>
+<li><b>Consider the following:</b> can you now deduce the margin of error from the confidence interval?</li>
+  <ul>
+    <li>We will first note, $E$ is half of the width of the confidence interval.</li>
+    <li>Thus, using half of the width formula for the interval,
+    $$\begin{align}
+    \frac{\text{Right endpoint} - \text{Left endpoint}}{2} &= \frac{\hat{p} + E - (\hat{p} - E) }{2}\\
+    &= \frac{2 E }{2} = E
+    \end{align}$$</li>
+    <li>Using this observation, we find that the margin of error is given as $E= 0.115$.</li>  
+  </ul>
+</ul>
+
+
+========================================================
+
+## Determining the necessary sample size
+
+<ul>
+  <li>Instead of just analyzing results from a survey, we may also be interested <b>how to plan a survey to reduce errors</b>.</li>
+  <li>A vital question is <strong>"how many samples are needed to get a certain level of error in the estimated parameters?"</strong></li> 
+  <li>With the formula for the margin of error,
+  $$E = z_\frac{\alpha}{2} \times \sqrt{\frac{\hat{p} \times \hat{q}}{n}}$$
+  we can also solve for the number of samples given a desired margin of error.</li>
+  <li>If we solve for $n$, we get
+  $$n=\frac{z_\frac{\alpha}{2}^2 \times \hat{p} \times \hat{q}}{E^2}$$
+  where $E$ is our target margin of error.</li>
+  <li>However, the <b>number of samples $n$</b> <strong>depends on whether we already have an estimate for $\hat{p}$ in hand before this study is conducted</strong>.</li>
+  <li>We might have another estimate $\hat{p}$ before we conduct our replication, if there are other surveys already conducted.</li>
+  <li>If not, we should include more samples to compensate for not already knowing this value.</li>
+  <li>For a target margin of error $E$ the largest number of samples corresponds to the case when $\hat{p}=\hat{q} =0.5$, so that our <b>conservative estimate</b> is,
+  $$n=\frac{z_\frac{\alpha}{2}^2 \times 0.5 \times 0.5}{E^2} = \frac{z_\frac{\alpha}{2} \times 0.25}{E^2}.$$</li>
+  <li>Notice, <strong>this expression doesn't depend on the size of the population</strong>, only on desired margin of error and the confidence level.</li>   
+</ul>   
+  
+
+========================================================
+
+### Determining the necessary sample size example
+
+<ul>
+<li>Recall, solving the margin of error formula for $n$ the number of samples we get
+  $$n=\frac{z_\frac{\alpha}{2}^2 \times \hat{p} \times \hat{q}}{E^2}$$
+  where $E$ is our target margin of error.</li>
+  <li>Let's suppose that we want to conduct a survey to find the number of US adults that make online purchases of household goods.</li>
+  <li>Suppose we had seen another survey stating this was approximately $\hat{p}\approx 0.8$ or $80\%$ of US adults.</li> 
+  <li><b>Consider the following</b> if we want to obtain a $3\%$ margin of error in the $95\%$ confidence level estimate of the true population proportion, what is the necessary number of samples to ensure this?</li>
+  <ul>
+    <li>Notice, if $3\%$ is our target margin of error, then 
+    $$E^2 = (0.03)^2 =0.0009.$$</li>
+    <li>We also have that
+    $$\begin{align}
+    \hat{p} = 0.8 & & \hat{q} = 0.2
+    \end{align}$$</li>
+    <li>Putting these pieces together, and noting that $z_\frac{\alpha}{2} \approx 1.96$ we have
+    $$n =\frac{1.96^2 \times 0.8 \times 0.2}{0.0009} \approx 683$$
+    total samples.</li>
+    <li>Once again, this didn't depend on the size of the US population, only the target margin of error and confidence level.</li>
+  </ul>
+</ul>
+
+========================================================
+
+### Determining the necessary sample size example
+
+<ul>
+<li>Recall, solving the margin of error formula for $n$ the number of samples we get
+  $$n=\frac{z_\frac{\alpha}{2}^2 \times \hat{p} \times \hat{q}}{E^2}$$
+  where $E$ is our target margin of error.</li>
+  <li>Let's suppose that we want to conduct a survey to find the number of US adults that make online purchases of household goods but we do not have any estimate for $\hat{p}$ already.</li>
+  <li>Remember, our conservative estimate is then to take $\hat{p}=\hat{q}=0.5$.</li> 
+  <li><b>Consider the following</b> if we want to obtain a $3\%$ margin of error in the $95\%$ confidence level estimate of the true population proportion, what is the necessary number of samples to ensure this?</li>
+  <ul>
+    <li>Notice, if $3\%$ is our target margin of error, then 
+    $$E^2 = (0.03)^2 =0.0009.$$</li>
+    <li>We also have that
+    $$\begin{align}
+    \hat{p} = 0.5 & & \hat{q} = 0.5
+    \end{align}$$</li>
+    <li>Putting these pieces together, and noting that $z_\frac{\alpha}{2} \approx 1.96$ we have
+    $$n =\frac{1.96^2 \times 0.5 \times 0.5}{0.0009} \approx 1068$$
+    total samples.</li>
+    <li>In this case the number of necessary samples went up, because we had to choose this conservatively without already knowing an estimate for <b style="color:#d95f02">$\hat{p}$</b>.</li>
+    <li>Notice, however, if we already had an estimate for <b style="color:#d95f02">$\hat{p}=0.5$</b> this would have remained the same.</li>
+  </ul>
+</ul>
+
+========================================================
+
+## Sampling distributions for means review
+
+<div style="float:left; width:45%;text-align:center;">
+<img src="means_diagram.png" style="width:100%" alt="Sample proportions tend to be normally distributed about the true parameter as the mean.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>  
+<div style="float:left; width:55%">
+<ul>  
+  <li>We will now recall how to estimate a <b style="color:#1b9e77">population mean $\mu$</b>.</li>   
+  <ul>
+  <li>Suppose there is some <b style="color:#1b9e77">population</b> and there is some <strong>numerical measure of the population $x$</strong> that we wish to find the <b style="color:#1b9e77">true population mean $\mu$</b> for.</li>
+  <ul>
+    <li>For example,</li>
+    <ul>
+      <li>the <b style="color:#1b9e77">population</b> can be all US adults,</li>
+      <li>the <b>numerical measure</b> can be $x=$"age"</li>
+      <li>the <b style="color:#1b9e77">true mean</b> would be the average age of all US adults.</li>  
+  </ul>
+  <li>Let's suppose that we will draw exactly <b style="color:#d95f02">$n$ observations</b> of the population by <b style="color:#d95f02">random sampling</b>.</li> 
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>Suppose we want to <b>replicate this sampling procedure</b> <strong>infinitely many times</strong>...</li>
+  <ul>
+    <li>It is once again impossible to replicate the sampling infinitely many times, but we can <strong>construct a probabilistic model for this replication process</strong> with a <b>probability distribution</b>.</li> 
+  </ul>
+  <li>Formally, we will <b>define $\overline{x}$</b> to be the <strong>random variable</strong> equal to the <b style="color:#d95f02">mean derived from a random sample of $n$ observations</b>.</li>
+  <ul>
+    <li>For <b>each replication</b>, <strong>$\overline{x}$ attains a different value based on chance</strong>.</li>
+  </ul>
+  <li>Then, for <b>large numbers of random, independent samples</b>, <b style="color:#d95f02">$\overline{x}$</b> tends to be <strong>normally distributed</strong> about <b style="color:#1b9e77">$\mu$</b>.</li>
+  <ul>
+    <li>We can thus use the value of <b style="color:#d95f02">$\overline{x}$</b> and the <b>distribution of $\overline{x}$</b> to estimate <b style="color:#1b9e77">$\mu$</b> and how close we are to it.</li>  
+  </ul> 
+  <li>Our method for estimating <b style="color:#1b9e77">$\mu$</b> will be very similar to estimating <b style="color:#1b9e77">p</b> but there will be a practical difference when we know or do not know <b style="color:#1b9e77">$\sigma$</b> beforehand.</li>  
+</ul>
+</div>
+
+========================================================
+
+## Estimating population means
+
+<ul>
+  <li>We usually do not know the <b style="color:#1b9e77">true population standard deviation $\sigma$</b> when we begin sampling, and therefore we will focus on this case which is most common.</li>
+  <li>Like <b style="color:#d95f02">$\hat{p}$</b>, the <b style="color:#d95f02">sample mean $\overline{x}$</b> is our best estimate for the true<b style="color:#1b9e77"> population $\mu$</b>.</li>
+  <li>Suppose we choose some level of confidence $(1-\alpha)\times 100\%$, we will similarly compute a confidence interval with a margin of error $E$,
+  $$\left[ \overline{x} - E, \overline{x} + E\right].$$</li>
+  <li>However, our definition of the margin of error $E$ will change in this context, where:</li>
+  <ol>
+    <li>The <b>standard error</b> is given by,
+    $$\sigma_\overline{x} = \frac{\sigma}{\sqrt{n}};$$</li>
+    <ul>
+      <li>
+      however, with <b style="color:#1b9e77">$\sigma$ unknown</b> we will approximate this with,
+      $$\sigma_\overline{x} \approx \frac{s}{\sqrt{n}}$$
+      i.e., with the <b style="color:#d95f02">sample standard deviation $s$</b> over the <strong>square root of the number of observations</strong>.</li>
+    </ul>
+    <li>The <b>critical value is given by $t_\frac{\alpha}{2}$</b>, the <strong>two-sided critical value of the student t distribution in $n-1$ degrees of freedom</strong>.</li>
+  </ol>
+  <li>Together, the margin of error for the estimate of the population mean is given by
+  $$\begin{align}
+  E &= t_\frac{\alpha}{2} \times \frac{s}{\sqrt{n}}
+  \end{align}$$</li>  
+  <li>We will discuss what the student t distribution is in the following, and how we can use it to find the above margin of error.</li>  
+</ul>
+
+========================================================
+
+### Student t distribution
+
+<div style="float:left; width:45%;text-align:center;">
+<img src="student_t.png" style="width:100%" alt="Student t distribution depends on the degrees of freedom.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>  
+<div style="float:left; width:55%">
+<ul>
+  <li>The "student t" distribution became fully developed when the statistician and brewer William Sealy Gosset was trying to model the quality of raw material like barley for beermaking with very few samples.</li>
+  <li>Gosset worked at Guinness brewery and was not allowed to publish under his own name, so instead published under the name "student".</li>
+  <li>The <b>student t</b> is <strong>very similar to a normal distribution, but has wider variability,  especially in the tails</strong>.</li>  
+  <li>Let's suppose that we have <b style="color:#d95f02">$x_1, \cdots, x_n$ total observations</b> sampled from a <b>normal distribution</b> with mean <b style="color:#1b9e77">$\mu$</b> and <b style="color:#1b9e77">standard deviation $\sigma$</b>.</li>
+  <li>We can compute the <b style="color:#d95f02">sample mean $\overline{x}$</b> and the <b style="color:#d95f02">sample standard deviation $s$</b> from the above observations.</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>  
+  <li>Then, it is an extremely important result that the <b>random variable</b>,
+  $$\frac{\overline{x} - \mu}{\frac{s}{\sqrt{n}}}$$
+  is distributed according to a <strong>student t with $n-1$ degrees of freedom</strong>.</li>  
+  <li>The number of <b>"degrees of freedom"</b> in the student t is a <strong>parameter that determines the shape</strong>, as shown on the diagram above.</li>
+  <li>We will not need to belabor the details, but you should remember that <b>for $n$ observations</b>, <strong>the number of degrees of freedom for the associated student t is $n-1$</strong>.</li>
+</ul>
+</div>
+
+========================================================
+
+### Estimating population means continued
+
+<ul>
+  <li>Returning to the problem, we choose some level of confidence $(1-\alpha)\times 100\%$ and we will similarly compute a confidence interval with a margin of error $E$,
+  $$\left[ \overline{x} - E, \overline{x} + E\right].$$</li>
+  <li>Our definition of the margin of error $E$ for the estimate of the population mean is given in terms of:</li>
+  <ol>
+    <li>The <b>estimated standard error</b>,
+    $$\sigma_\overline{x}\approx \frac{s}{\sqrt{n}}.$$
+    <li>And the <b>critical value is given by $t_\frac{\alpha}{2}$</b>, the <strong>two-sided critical value of the student t distribution in $n-1$ degrees of freedom</strong>.</li>
+  </ol>
+  <li>Together, the margin of error for the estimate of the population mean is given by
+  $$\begin{align}
+  E &= t_\frac{\alpha}{2} \times \frac{s}{\sqrt{n}}
+  \end{align}$$</li>
+  <li>When we have <b>$n>30$ observations or observations that are drawn from a normal population</b>, we can use the <strong>central limit theorem to approximate the distribution</strong> of <b style="color:#d95f02">$\overline{x}$</b> as close-to-normal, distributed around <b style="color:#1b9e77">$\mu$</b>.</li>
+  <li>If we do not know <b style="color:#1b9e77">$\sigma$</b> already, then <b style="color:#d95f02">$\frac{s}{\sqrt{n}}$</b> is the best estimate for the standard deviation, and it turns out that
+  $$\frac{\overline{x} - \mu}{\frac{s}{\sqrt{n}}}$$
+  is distributed according to a <strong>student t with $n-1$ degrees of freedom</strong>.</li>
+  <li>We can calculate <b style="color:#d95f02">$\overline{x}$, $s$</b> and <b style="color:#d95f02">$\sqrt{n}$</b> directly from the observations, but we will generally find $t_\frac{\alpha}{2}$ using technology like StatCrunch.</li>    
+</ul>
+
+========================================================
+
+### Estimating population means example
+
+
+<ul>
+  <li>It is once again important to understand the meaning of all the pieces that we work with here:</li>
+  <ol>
+    <li><b style="color:#d95f02">$\overline{x}$</b> -- <strong> the point estimate for the true population mean <b style="color:#1b9e77">$\mu$</b></strong>.</li>
+    <li><b style="color:#d95f02">$\frac{s}{\sqrt{n}}$</b> -- <strong>the estimated standard deviation of the distribution of <b style="color:#d95f02">$\overline{x}$</b> around <b style="color:#1b9e77">$\mu$ </strong></b>.
+    <li><b>$t_\frac{\alpha}{2}$</b> -- <strong>the student t, two-sided critical value associated to the confidence level $(1-\alpha)\times 100\%$</strong>.</li>
+    <li><b>$E = t_\frac{\alpha}{2} \times \frac{s}{\sqrt{n}}$</b> -- <strong> the radius for the confidence interval for the estimate of the population mean</strong>.</li> 
+  </ol>
+  <li>These pieces together give us the $(1-\alpha)\times 100\%$ confidence interval for the mean $\mu$,
+  $$\left[ \overline{x} - t_\frac{\alpha}{2} \times \frac{s}{\sqrt{n}}, \overline{x} + t_\frac{\alpha}{2} \times \frac{s}{\sqrt{n}} \right] = \left[ \overline{x} - E, \overline{x} + E\right]$$
+  </li>
+  <li>The homework will ask questions that require us to compute each of these pieces individually, but note, with modern statistical software it is faster and more accurate to compute the entire confidence interval at once.</li>
+  <li>For this reason, we will go over both approaches in the examples but you are encouraged whenever possible to compute the confidence interval in modern statistical software directly.</li>
+  <li>We will begin by showing how to find the $t_\frac{\alpha}{2}$ critical value for some $(1-\alpha)\times 100\%$ confidence level in StatCrunch.</li>
+  <li><b>Consider the following:</b> suppose we have $15$ observations $x_1,\cdots, x_{15}$ from a normally distributed population and we want to find a $95\%$ confidence interval for the population mean.  What assumptions do we need to have satisfied to use the $t_\frac{\alpha}{2}$ critical value?  What is the number of degrees of freedom?</li>
+  <ul>
+    <li>Note, we should have $n>30$ observations or they should come from a normally distributed population.  With $n=15$ we have $n-1=14$ degrees of freedom in the student t distribution.</li>  
+    <li>We will now show how to compute the critical value in StatCrunch.</li>
+  </ul>
+</ul>
+
+========================================================
+
+### Estimating population means example continued
+
+<ul>
+  <li>From the last example, we saw that the associated student t, two-sized critical value
+  $$t_\frac{\alpha}{2} \approx 2.145.$$
+  </li>
+  <li><b>Note:</b> for a different number of degrees of freedom, we will <strong>need to re-compute this as the critical value depends on the shape parameter</strong>.</li> 
+  <li>Let's now suppose that we have actual samples of the weights of $15$ girls randomly selected at birth -- the population weights are assumed to be normally distributed.</li>
+  <li>Let's suppose that the sample mean is given as $\overline{x} =30.9$ hectograms (hg) with a sample standard deviation of $s= 2.9$ hg.</li>
+  <li><b>Consider the following:</b> what is the standard error for the distribution of $\overline{x}$ around $\mu$ given the above values?</li>
+  <ul>
+    <li>Given the above, we have $\sigma_\overline{x} = \frac{s}{\sqrt{n}} = \frac{2.9}{\sqrt{15}} \approx 0.749$.</li>
+  </ul>
+  <li><b>Consider the following:</b> what is the $95\%$ confidence interval for the population mean birth weight of baby girls given the above values?</li>
+  <ul>
+    <li>Given the above, our margin of error is given by, 
+    $$E = t_\frac{\alpha}{2} \times \sigma_\overline{x}  = 2.145 \times \frac{2.9}{\sqrt{15}} \approx 1.606$$</li>
+    <li>The  $95\%$ confidence interval can then be computed as,
+    $$[\overline{x} - E, \overline{x} + E] \approx [30.9 - 1.606, 30.9 + 1.606] = [29.3, 32.5]$$</li>
+  </ul>
+  <li>We will now demonstrate how this can be computed at once in StatCrunch.  We will only need the values of $\overline{x}=30.9$, $s=2.9$ and $n=15$ to compute this directly.</li>
+</ul>
+
+========================================================
+
+## The case where $\sigma$ is known
+
+<ul>
+  <li>Note that the use of the student t distribution in calculating the standard error arises precisely <strong>due to the fact that we are estimating <b style="color:#1b9e77">$\sigma$</b> with <b style="color:#d95f02">$s$</b></strong>.</li>  
+  <li>In the unusual case when we actually do know the population $\sigma$ in advanced, we can actually take an approach that is similar to estimating a population proportion.</li>
+  <li>That is, if we know <b style="color:#1b9e77">$\sigma$</b> already, <strong>we can calculate the standard error exactly</strong> as
+  $$\sigma_\overline{x} = \frac{\sigma}{\sqrt{n}}.$$</li>
+  <li>This is actually the exact standard deviation of the sample mean <b style="color:#d95f02">$\overline{x}$</b> distributed around the true population mean <b style="color:#1b9e77">$\mu$</b>.</li>
+  <li>Then, if $n>30$ or the observations are drawn from a normal distribution, the quantity  
+  $$\frac{\overline{x} - \mu}{\frac{\sigma}{\sqrt{n}}}$$
+  is distributed approximately according to a standard normal.</li>
+  <li>When <b style="color:#1b9e77">$\sigma$</b> <b>is known</b>, <strong>we can use the $z_\frac{\alpha}{2}$ critical value and the true standard deviation $\frac{\sigma}{\sqrt{n}}$ directly to compute the margin of error</strong>,
+  $$E = z_\frac{\alpha}{2} \times \frac{\sigma}{\sqrt{n}}.$$</li>
+  <li>The $(1-\alpha)\times 100\%$ confidence interval, in the case where we know <b style="color:#1b9e77">$\sigma$</b> in advanced, then is written
+  $$\left[\overline{x} - z_\frac{\alpha}{2}\times \frac{\sigma}{\sqrt{n}} , \overline{x} + z_\frac{\alpha}{2} \times \frac{\sigma}{\sqrt{n}} \right] = \left[ \overline{x} - E, \overline{x} + E\right] $$
+</ul>
+
+========================================================
+
+### The case where $\sigma$ is known continued
+
+<ul>
+  <li>Recall then our problem in which we have the weights of $15$ girls randomly selected at birth -- the population weights are assumed to be normally distributed.</li>
+  <li>Suppose that the sample mean is given as $\overline{x} =30.9$ hectograms (hg) with a population standard deviation of $\sigma= 2.9$ hg.</li>
+  <li><b>Consider the following:</b> what is the standard error for the distribution of $\overline{x}$ around $\mu$ given the above values?</li>
+  <ul>
+    <li>Given the above, we have $\sigma_\overline{x} = \frac{\sigma}{\sqrt{n}} = \frac{2.9}{\sqrt{15}} \approx 0.749$.</li>
+  </ul>
+  <li>Notice that in the above, the calculation of the standard error only now changed by using $\sigma$ directly.</li>
+  <li><b>Consider the following:</b> what is the $95\%$ confidence interval for the population mean birth weight of baby girls given the above values?</li>
+  <ul>
+    <li>In this case, we again substitute $\sigma$ for $s$ in the equation, but most importantly, we now use the standard normal critical value $z_\frac{\alpha}{2}\approx 1.96$.</li>
+    <li>Notice that $z_\frac{\alpha}{2} \approx 1.96 < 2.145 \approx t_\frac{\alpha}{2}$
+    <li>In particular, we have the confidence interval given as
+    $$\left[\overline{x} - z_\frac{\alpha}{2}\times \frac{\sigma}{\sqrt{n}} , \overline{x} + z_\frac{\alpha}{2} \times \frac{\sigma}{\sqrt{n}} \right] \approx [30.9 - 1.96, 30.9 + 1.96] = [29.4, 32.4]$$</li>
+  </ul>
+  <li><b>Consider the following:</b> if $z_\frac{\alpha}{2} \approx 1.96 < 2.145 \approx t_\frac{\alpha}{2}$, what does this say about the width of the confidence interval when $\sigma$ is known versus when $\sigma$ is unkown?</li>
+  <ul>
+    <li>This says that the confidence interval is wider when $\sigma$ is unkown because $t_\frac{\alpha}{2}$ is larger than $z_\frac{\alpha}{2}$.</li>
+    <li>This is related to how we said the t distribution is like the normal but with wider variability.</li>
+  </ul>
+</ul>
+
+========================================================
+
+### Review of estimating the population mean
+
+<div style="float:left; width:65%;text-align:center;">
+<img src="student_v_normal.png" style="width:100%" alt="We should use critical values of the student t when the population standard deviation is unknown.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>  
+<div style="float:left; width:35%">
+<ul>
+  <li>To summarize when and how we can estimate the population mean:</li>
+  <ul>
+    <li>In general, we should have <b>$n>30$ observations</b> in our data sample or the observations <b>$x_i$ should come from a normally distributed population</b>.</li>
+    <li>We will select some level of confidence $(1-\alpha)\times 100\%$ at which we want to estimate the population mean.</li>
+  </ul> 
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>If the <b style="color:#1b9e77">true population standard deviation $\sigma$</b> <b>is unknown</b>, <strong>we need to use the student t critical value $t_\frac{\alpha}{2}$</strong>.</li>
+  <ul>
+    <li>We will also estimate the standard error $\sigma_\overline{x} \approx \frac{s}{\sqrt{n}}$ so that the confidence interval is given as
+    $$\left[ \overline{x} - E, \overline{x} + E\right] = \left[\overline{x} - t_\frac{\alpha}{2} \times \frac{s}{\sqrt{n}}, \overline{x} + t_\frac{\alpha}{2} \times \frac{s}{\sqrt{n}} \right]. $$</li>
+  </ul>
+  <li>If the <b style="color:#1b9e77">true population standard deviation $\sigma$</b> <b>is known</b>,  <strong>we can use the standard normal critical value $z_\frac{\alpha}{2}$ for a more acccurate confidence interval</strong>.</li>
+  <ul>
+    <li>We can compute the standard error $\sigma_\overline{x}=\frac{\sigma}{\sqrt{n}}$ exactly, so that the confidence interval is given as
+     $$\left[ \overline{x} - E, \overline{x} + E\right] = \left[\overline{x} - z_\frac{\alpha}{2} \times \frac{\sigma}{\sqrt{n}}, \overline{x} + z_\frac{\alpha}{2} \times \frac{\sigma}{\sqrt{n}} \right] .$$</li>
+  </ul>
+</ul>
+</div>
+
+========================================================
+
+## Finding the necessary sample size
+
+<ul>
+  <li>When designing a survey or a collection of data, we may once again be interested in how many samples are necessary to collect to estimate the mean within a  desired margin of error.</li>
+  <li>In the same way we estimated the number of samples necessary to compute a population proportion, we can solve for $n$ in the margin of error formula
+  $$n = \left(\frac{z_\frac{\alpha}{2} \times \sigma}{E}\right)^2.$$</li>
+  <li>Thus if we have a desired margin of error $E$ that is known, an some estimate for $\sigma$ from previous experience or from some small exploratory study, we can solve for $n$ as the unknown above.</li>
+  <li>The process from this point is effectively the same, though we should keep in mind that $n>30$ or normally distributed population assumptions still apply.</li>
+</ul>
+
