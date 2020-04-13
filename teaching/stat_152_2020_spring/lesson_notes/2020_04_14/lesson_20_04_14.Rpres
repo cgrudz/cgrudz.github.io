@@ -1,0 +1,823 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+Estimating the standard deviation and introduction to hypothesis testing part I
+========================================================
+date: 04/14/2020
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+
+========================================================
+
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+  * A quick discussion of confidence intervals for the variance
+  * Tests of significance
+  * The null hypothesis
+  * The alternative hypothesis
+  * The process of hypothesis testing
+  * Significance levels versus confidence levels
+  * Test statistics
+  * P-values
+  * Critical values
+  * Drawing conclusions
+  * Type I and type II errors
+  
+========================================================
+
+## Confidence intervals for the variance
+
+<div style="float:left; width:40%;text-align:center;">
+<img src="variances_diagram.png" style="width:100%" alt="Sample variaces are distributed right-skewed around the true population parameter.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>  
+<div style="float:left; width:60%"> 
+<ul>
+   <li>We have gone over in the last lecture how to estimate a <b style="color:#1b9e77">population proportion $p$</b> and a <b style="color:#1b9e77">population mean $\mu$</b>.</li>
+   <ul>
+      <li>In both cases, a <b style="color:#d95f02">sample statistic generates a "point estimate"</b> as a kind of "best guess" given a certain collection of data.</li>
+      <li>Likewise, we needed a <b style="color:#d95f02">"confidence interval"</b> to quantify <b>how uncertain</b> this best guess was, and to give <strong>a range of other plausible values for the parameter</strong>.</li>
+   </ul>
+   <li>In both cases, our confidence interval <strong>needed to use some estimate of the standard deviation</strong> of the <b style="color:#1b9e77">population</b> to <b>estimate our standard error</b> of the <b style="color:#d95f02">sampling distribution</b>.</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+   <ul>
+      <li>the <b>standard error</b> tells us how the <b style="color:#d95f02">sample statistic</b> varies around the <b style="color:#1b9e77">true parameter</b> <strong>under replication of samples</strong>.</li>  
+   </ul>
+   <li>When estimating the mean without knowledge of <b style="color:#1b9e77">$\sigma$</b>, we used the sample standard deviation <b style="color:#d95f02">$s$</b> to estimate the <b>standard error $\sigma_\overline{x}$</b>.</li>
+   <ul>
+      <li>We know that <b style="color:#d95f02">$s^2$</b> is the best, unbiased estimator for <b style="color:#1b9e77">$\sigma^2$</b>, and although <b style="color:#d95f02">$s$</b> is a biased estimator for <b style="color:#1b9e77">$\sigma$</b>, it is still usually the "best" option in some sense.</li>
+   </ul>
+   <li>A more complicated question is the following,</li>
+   <ul>
+      <li><strong>how do we produce confidence intervals for <b style="color:#1b9e77">$\sigma$</b> that take into account the uncertainty in our sample-based estimates of this parameter?</strong></li>
+   </ul>
+   <li>This is especially due to the fact that the <b style="color:#d95f02">sample variances</b> are <b>distributed right-skewed</b> around the <b style="color:#1b9e77">true population variance</b>.</li>   
+</ul>
+</div>
+   
+========================================================
+
+### Confidence intervals for the variance continued
+
+
+<div style="float:left; width:35%;text-align:center;">
+<img src="chi_square_nonsymmetric.png" style="width:100%" alt="Chi square distribution is skewed.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>  
+<div style="float:left; width:65%">
+<ul>  
+   <li>Because this is a more complicated topic, and goes slightly beyond the overal scope of the course, <strong>this material will not have homework assignments or be tested</strong>.</li>
+   <ul>
+      <li>The purpose of the first part of this lecture is to give exposure to some advanced topics that will be useful for future work with statistical methods.</li>
+   </ul> 
+   <li>The first advanced topic we will need to introduce is a very non-normal probability distribtuion, the <b>"chi-square" distribution</b>.</li>
+   <ul>
+      <li>Usually, this is denoted $\chi^2(k)$ where the Greek letter chi denotes "chi-square".</li>
+   </ul>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+   <ul>
+      <li>The value <strong>$k$ corresponds to the number of "degrees of freedom"</strong>, like the student t degrees of freedom, and will be introduced shortly.</li>
+   </ul>
+   <li>Before we introduce the $\chi^2$ distribution formally, we want to just note a few qualitative features of the distribution:</li>
+   <ol>
+      <li>If $x$ is a random variable that behaves like $\chi^2$, <strong>$x$ will only take on nonnegative values</strong>,
+      $$x \geq 0$$
+      over any realization.</li>
+      <li>The distribution of values $x$ under $\chi^2$ are <b>right-skewed</b>, i.e., there are most values concentrated to the left around zero, but <strong>many extremely large values that occur with much higher frequency than with a normal distribution</strong>.</li> 
+   </ol>
+   <li>Interestingly, despite the differences from the normal distribution, $\chi^2$ is also closely related to the normal.</li>
+</ul>
+</div>
+
+
+========================================================
+
+## Chi-square distribution
+
+
+<div style="float:left; width:40%;text-align:center;">
+<img src="Chi-square_pdf.png" style="width:100%" alt="Random variables are the numerical measure of the outcome of a random process.">
+<p style="text-align:center">
+Courtesy of Geek3 <a href="https://creativecommons.org/licenses/by-sa/3.0" target="blank"> CC BY-SA</a> via  
+        <a href="https://commons.wikimedia.org/wiki/File:Chi-square_pdf.svg"> Wikimedia Commons</a>
+</div>  
+<div style="float:left; width:60%">
+<ul>
+   <li>We will formally define <b>$\chi^2(k)$ -- the chi-square distribution in $k$ degrees of freedom</b> -- as follows: </li>
+   <ul>
+      <li>Suppose that we have the observations $x_1, \cdots, x_n$ <strong>all drawn randomly and independently from a normal population with variance $\sigma^2$</strong>.</li>
+      <li>Then, let <b style="color:#d95f02">$s^2$</b> be the usual <b style="color:#d95f02">sample variance</b> computed from the above observations.</li>
+      <li>Recall, <b style="color:#d95f02">$s^2$</b> is a random variable and an unbiased estimator for the <b style="color:#1b9e77">true variance $\sigma^2$</b>.</li>
+      <li>The random variable
+      $$\frac{(n-1)\times s^2}{\sigma^2}$$
+      is distributed $\chi^2(n-1)$ -- <b>chi-square in $n-1$ degrees of freedom</b>.</li>  
+   </ul>
+</ul> 
+</div>
+<div style="float:left; width:100%">
+<ul>
+   <li>Notice in the above diagram, $k=n-1$ is a shape parameter for the $\chi^2(k)$ distribution.</li>
+   <ul>
+      <li>It is important to remember that as with the student t distribution, when we have <b>$n$ total observations</b> there are <strong>$n-1$ degrees of freedom in the $\chi^2$ distribution</strong>.</li>
+   </ul>
+   <li><b>Consider the following:</b> recall how in the normal and student t distributions, we found a single critical value to find the area under the density graph, using the symmetry about zero.  For $\chi^2(k)$, will we be able to find a single critical value in a similar manner?</li>
+   <ul>
+      <li>With the strong right-skew, we need to find <b>$\chi_R^2$</b> a <strong>right critical value</strong> and <b>$\chi_L^2$</b> a <strong>left critical value</strong>.</li>
+   </ul> 
+</ul> 
+</div>
+
+
+========================================================
+
+## Using the chi-square distribution for confidence intervals
+
+<ul>
+   <li>Notice then, if we have <b>$\chi_R^2$</b> -- <strong>the right critical value</strong> -- and <b>$\chi_L^2$</b> -- <strong>the left critical value</strong> -- our confidence interval for $\sigma^2$ will not be symmetric as
+   $$\left( \sigma^2 - E, \sigma^2 + E\right).$$</li> 
+   <li>Rather, we will have some kind of general lower bound $L$ and upper bound $U$ as $(L, U)$ -- we will consider how we can find such an interval:</li>
+   <ul>
+      <li>Recall, the random variable
+      $$\frac{(n-1)\times s^2}{\sigma^2}$$
+      is distributed as $\chi^2(n-1)$.</li>
+      <li>Suppose we select some confidence level $(1-\alpha)\times 100\%$ for which we find an associated $\chi_R^2$ and $\chi_L^2$.</li>
+      <ul>
+         <li>As usual, these critical points denote the boundary in the distribution for which:</li>
+         <ol>
+            <li><strong>exactly $\frac{\alpha}{2}\times 100\%$ of the total population lies to the right</strong> of <b>$\chi_R^2$</b>; and</li>
+            <li><strong>exactly $\frac{\alpha}{2}\times 100\%$ of the total population lies to the left</strong> of <b>$\chi_L^2$</b></li>
+         </ol>
+         <li><b>in the $\chi^2(n-1)$ distribution</b>.</li>  
+      </ul>
+      <li>The $\chi^2(n-1)$ distributed random variable
+      $$\frac{(n-1)\times s^2}{\sigma^2}$$
+      attains values depending on the <strong>normally distributed observations $x_1,\cdots, x_n$</strong>.</li>
+      <li>We thus have an interval of <b>$\left(\chi_L^2, \chi_R^2\right)$</b> of <strong>$(1-\alpha)\times 100\%$ confidence</strong> of where <b>$\frac{(n-1)\times s^2}{\sigma^2}$ might lie</b>.</li>
+   </ul>
+</ul>
+
+========================================================
+
+### Using the chi-square distribution for confidence intervals continued
+
+<ul>
+   <li>Recall the form for the $(1-\alpha)\times 100\%$ confidence interval for the random variable 
+   $$\frac{(n-1)\times s^2}{\sigma^2} \text{ in } \left( \chi_L^2, \chi_R^2\right)$$</li>
+   <li>We can also state this as
+   $$\begin{align}
+   & &\chi_L^2 & &lt; \frac{(n-1)\times s^2}{\sigma^2} &lt; \chi_R^2 \\ \\
+   & \Leftrightarrow & \frac{\chi_L^2}{(n-1)\times s^2} & &lt; \frac{1}{\sigma^2} &lt; \frac{\chi_R^2}{(n-1)\times s^2}  \\ \\
+   & \Leftrightarrow & \frac{(n-1)\times s^2}{\chi_R^2} & &lt; \sigma^2 &lt;   \frac{(n-1)\times s^2}{\chi_L^2}
+   \end{align}$$</li>
+   <li>The above gives us a means to compute an interval such that:</li>
+   <ul>
+      <li>if the <b>observations $x_1, \cdots, x_n$</b> are <strong>normally distributed and are replicated infinitely many times</strong>,</li>
+      <li>we would expect that the <b style="color:#1b9e77">true $\sigma^2$</b> <strong>would lie in the associated confidence interval $(1-\alpha)\times 100\%$ of the time</strong>.</li>
+   </ul>
+   <li>Again, <b>we  do not guarantee that <b style="color:#1b9e77">$\sigma^2$</b> lies in any particular confidence interval</b> that depends on a particular group of observations $x_1,\cdots, x_n$.</li>
+   <li>However, <b>if the procedure is followed correctly</b>, <strong>we provide a level of confidence in the sense described above</strong>.</li>  
+</ul>
+
+========================================================
+
+## Confidence intervals of the variance example
+
+<div style="float:left; width:35%;text-align:center;">
+<img src="critical_chi_square.png" style="width:100%" alt="Chi square distribution is skewed.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>  
+<div style="float:left; width:65%">
+<ul>  
+   <li>Let's go through an example of what it would look like to compute the confidence interval of the variance:</li>
+   <ul>
+      <li>Suppose that we are given $22$ observations of IQ scores from US adults, and assume that the IQ scores follow a normal distribution.</li>
+      <li>The variance $\sigma^2$ of the IQ scores of the population of US adults is unkown to us, but we can make an estimation for it using the sample of $n=22$ observations with a point estimate and a confidence interval.</li>
+      <li>This means that there are <strong>$n-1=21$ degrees of freedom for the associted $\chi^2$ distribution</strong>.</li>
+      <li>We will select a confidece level of $95\%$ such that we want to find:</li>
+      <ol>
+         <li>$\chi_R^2$ for which $\frac{\alpha}{2} = \frac{5}{2}\% = 2.5\%$ of the area under the probability density lies to the right; and</li>
+         <li>$\chi_L^2$ for which $\frac{\alpha}{2} = \frac{5}{2} = 2.5\%$ of the area under the probability density lies to the left.</li>  
+      </ol>
+   </ul>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+   <li>In the above diagram, we see the associated $\chi_R^2=35.479$ and $\chi_L^2=10.283$ which depend on both $\alpha$ and the number of degrees of freedom.</li>
+   <li>Let's suppose that the sample standard deviation is given as $s=14.22963$.</li>
+   <li><b>Consider the following:</b> using the formula for the confidence interval
+   $\frac{(n-1)\times s^2}{\chi_R^2}  &lt; \sigma^2 &lt;   \frac{(n-1)\times s^2}{\chi_L^2}$ can you determine the confidence interval for the variance $\sigma^2$ of the IQs?</li>
+</ul>
+</div>   
+
+
+========================================================
+
+### Confidence intervals of the variance example continued
+
+<ul>
+   <li>Given our  confidence interval
+   $$\frac{(n-1)\times s^2}{\chi_R^2}  &lt; \sigma^2 &lt;   \frac{(n-1)\times s^2}{\chi_L^2}$$</li>
+   <li>we can write
+   $$\begin{align}
+   & & \frac{21\times (14.22963)^2}{35.479} & &lt; \sigma^2 &lt; \frac{21 \times (14.22963)^2}{10.283} \\ \\
+   &\Leftrightarrow & 120.9 & &lt; \sigma^2 &lt; 417.2.
+   \end{align}$$</li>
+   <li>Notice, we can furthermore find the <b>confidence interval of the standard deviation $\sigma$</b> by <strong>taking the square-root of all terms</strong> 
+   $$11.0 &lt; \sigma &lt; 20.4 .$$</li>
+   <li>Based on the particular samples, we can thus say with $95\%$ confidence that the standard deviation of the IQs of US adults is between $11.0$ and $20.4$.</li>
+   <li><b>Note:</b> the above proccedure depends strongly on the normality of the population from which the observations $x_1,\cdots,x_n$ are drawn.</li>
+   <li>This differs from our methods for estimating the population proportion and the population mean, which could be used for any kind of underlying population as long as there were sufficiently many samples.</li>   
+   <li>For this type of estimation in particular, we will rely on modern statistical software to make these complex calculations accurately.</li>
+   <li>However, this is a good illustration of how our basic principles from the easier examples can be used to estimate more complex parameters.</li>
+</ul>
+
+
+========================================================
+
+## Hypothesis testing
+
+<ul>
+   <li>Recall that we have been using the convention throughout the course that an observation is <b>statistically interesting or significant</b> when there is <strong>$5\%$ chance or less probability to observe an observation at-least-as-extreme</strong>.</li>
+   <ul>
+      <li>This principle has been the basis of us finding $z_\frac{\alpha}{2}$ and $t_\frac{\alpha}{2}$ critical values for $\alpha = 0.05$ corresponding to $5\%$.</li>
+   </ul>
+   <li>Particularly, we would have found it unusual, <strong>in only $1$ out of $20$ replications of samples</strong>, that <b>the associated confidence interval did not contain the true parameter</b>.</li>
+   <li>We can think of rephrasing the above principle as well:</li>
+   <ul>
+      <li>Suppose we are estimating the population proportion $p$, and we have some hypothesis as to what the value might be, $\tilde{p}$.</li>
+      <li>Let us suppose we created a $95\%$ confidence interval,
+      $$(\hat{p} - E, \hat{p} + E)$$
+      and upon comparing <strong>we found that $\tilde{p}$ was not in this region</strong>.</li> 
+      <li>If we are following the procedure correctly, and if the $\tilde{p}$ was actually equal to the true population $p$, then
+      $$\tilde{p} \text{ not in } (\hat{p} - E, \hat{p} + E) $$
+      only $5\%$ of the time.</li>
+   </ul>
+   <li>In the same way that we are surprised if an observation is significantly:</li>
+   <ol>
+      <li>high;</li>
+      <li>low; or</li>
+      <li>far away from the center;</li>
+   </ol>
+   <li><strong>we would find this occurance unusual, and we should question if $\tilde{p}$ was really a good hypothesis for the true $p$</strong>.</li>   
+   <li>This is one of the ways we can motivate hypothesis testing, which will be the next subject.</li>
+</ul>
+
+
+========================================================
+
+### Hypothesis testing continued
+
+<ul>
+   <li>Formally, a hypothesis test starts with a <b>hypothesis or claim about the population</b>.</li>
+   <ul>
+      <li>We might have the hypothesis that the true population proportion $p$ is equal to $\tilde{p}$ or that $p$ will lie in some range.</li>
+      <li>For example, we may be interested in the proportion of the population in support of or against some new technology;</li>
+      <ul>
+         <li>suppose there is the hypothesis that the majority of US adults are not comfortable with drone-based delivery of household goods, i.e.,
+      $$p > 0.5.$$</li>
+      </ul>
+   </ul>
+   <li>Then, a hypothesis test is a <strong>formal way to evaluate this hypothesis using sample data to determine if this claim seems reasonable, or if we have statistically significant reasons to question this hypothesis</strong>.</li>
+   <ul>
+      <li>In a Pitney Bowes survey in the book, $1009$ US adults were surveyed to see if they were comfortable with drone-based delivery of online orders.</li>
+      <li>$545$ participants responded that they were not comfortable with drone-based delivery.</li>
+      <li> This means that out of the sample, approximately $54\%$ of the respondents did not feel comfortable with drone-based delivery of houshold goods.</li>
+      <ul>
+         <li>However, it isn't automatically clear if:</li>
+         <ul>
+            <li>this confirms our hypothesis about the population, or</li>
+            <li>if for example only $45\%$ of respondents didn't feel comfortable that we should reject this hypothesis about the population,</li>
+         </ul>
+         <li>as there is natural variablity in the responses due to sampling error.</li>
+      </ul>
+   </ul> 
+   <li>Hypothesis testing is a procedure for formally making decisions about this claim based on sample data, in a way that uses statistical significance.</li>
+</ul>
+
+========================================================
+
+## The null and alternative hypothesis
+
+<div style="float:left; width:45%;text-align:center;">
+<img src="hypothesis_flow.png" style="width:100%" alt="Flowchart for hypothesis testing.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>   
+<div style="float:left; width:55%"> 
+<ul>
+   <li>In order to make a procedure like confidence intervals that gives us a mathematical level of certainty of the resuts, we will introduce some terminology:</li>
+   <ol>  
+      <li><b>$H_0$</b> -- <strong>this the null hypothesis</strong>.</li>
+      <ul>
+         <li>The null hypothesis is always a statement about some <b style="color:#1b9e77">population parameter</b> <strong>begin equal $(=)$ to some value</strong>.</li>
+      </ul>
+      <li><b>$H_1$</b> -- <strong>this is the alternative hypothesis</strong>.</li>
+      <ul>
+         <li>The alternative hypothesis is the statement that the <b style="color:#1b9e77">population parameter</b> is <strong>different than the null</strong>.</li>
+         <li><b>Symbolically</b>, it will always take the form of <strong>$( &gt; / &lt; / \neq)$</strong> in terms of the <b style="color:#1b9e77">parameter</b> in question.</li>
+      </ul>
+   </ol>
+   <li>The first part of the procedure is to identify our claim and to write it in a mathematical way in terms equality or some kind of inequality.</li>
+   <li>Following this, we need to understand how these statements relate to the null and alternative hypotheses.</li>
+</ul>
+
+
+========================================================
+
+### The null and alternative hypothesis continued
+
+<ul>
+   <li>Let's consider our earlier hypothesis that the majority of US adults are uncomfortable with drone-based delivery of household goods.</li>
+   <li>We need to formulate the proposition above in terms of a population parameter:</li>
+   <ul>
+      <li>Let <b style="color:#1b9e77">$p$</b> be the <b style="color:#1b9e77">true population proportion</b> of US adults who feel uncomfortable with drone-based delivery;</li>
+      <li>we do not know this value, but <b>we hypothesize</b> that
+      $$p>0.5$$
+      because this constitutes a <strong>majority of US adults</strong>.</li>
+   </ul>
+   <li><b>Consider the following:</b> what if the majority of US adults were not opposed to drone-based delivery?  How would could this statement be phrased to contradict our hypothesis in terms of the parameter <b style="color:#1b9e77">$p$</b>?</li>
+   <ul>
+      <li>If we want to write the opposite statment, that less than a majority of US adults are uncomfortable with drone-based delivery, this would be written as,
+      $$p \leq 0.5.$$</li>
+      <li>However, we want to <strong>find a specific statement about the equality</strong> of <b style="color:#1b9e77">$p$</b> so that we can <b>work with a single value</b>.</li>
+   </ul>
+   <li>The idea that follows is that we will <b>fix a value</b> <b style="color:#1b9e77">$p$</b> that <strong>contradicts our hypothesis</strong> and see if the <b style="color:#d95f02">evidence from sampling</b> makes the <strong>opposite claim seem unlikely</strong>.</li>
+   <ul>
+      <li>Whenever we sample a group of US adults and collect their responses, the <b style="color:#d95f02">sample proportion $\hat{p}$</b> is assigned a value that depends on that group of observations -- this will be the evidence we will gather.</li>
+   </ul>
+      <li>The largest proportion of the <b style="color:#1b9e77">population of US adults</b> who could be opposed to drone-based delivery without consituting a majority would be <b style="color:#1b9e77">$p=0.5$</b></li>   
+   <ul>
+      <li>Therefore we will gather evidence <strong>under the assupmtion</strong> that <b style="color:#1b9e77">$p=0.5$</b></li> 
+   </ul>
+</ul>
+   
+
+========================================================
+
+### The null and alternative hypothesis continued
+
+
+<div style="float:left; width:45%;text-align:center;">
+<img src="hypothesis_flow.png" style="width:100%" alt="Flowchart for hypothesis testing.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>   
+<div style="float:left; width:55%"> 
+<ul>
+   <li>Corresponding to the flow chart, this was an example of <b>steps 1 - 2</b>.</li>
+   <li>Whenever we <b>begin the process of hypothesis testing</b> we will need to <strong>phrase the hypothesis mathematically, and then devise the opposite claim</strong>.</li> 
+   <li>The <b>opposite claim</b> will be the one we will <strong>fix at an equality value $(=)$</strong> so that we can <b>assume a specific value</b> for the <b style="color:#1b9e77">parameter</b>.</li>
+   <li>This takes us to step 3:</li>
+   <ul>
+      <li>The <b>alternative hypothesis $H_1$</b> is the one which we want to test, which will take <strong>some form of inequality $(&gt; / &lt; / \neq)$</strong>.</li>
+      <li>The <b>null hypothesis $H_0$</b> is the contradictory hypothesis, which we <strong>assume to be true</strong> and <strong>take the parameter to be equal $(=)$ to some value</strong>.</li>  
+   </ul> 
+   <li>From our example, we thus phrase the problem as follows:</li>
+   <ul>
+      <li>Let <b style="color:#1b9e77">$p$ be the population parameter</b> for the number of US adults who are uncomfortable with drone-based delivery.</li>
+      <li><b>$H_0:$</b> <strong>the null hypothesis states
+      $$p=0.5.$$</strong></li>
+      <li><b>$H_1:$</b> <strong>the alternative hypothesis states
+      $$p &gt; 0.5.$$</strong></li>      
+   </ul>
+   <li>We must now devise a way to compare the null hypothesis with evidence from sampling.</li>
+</ul>
+</div>
+
+========================================================
+
+## Significance level
+
+<ul>
+   <li>We will once again follow the principle that if <b>finding an observation at least-as-extreme</b> as our sample is quite unlikely, we should question our assumptions.</li>
+   <ul>
+      <li>If our <b style="color:#d95f02">sample is extreme</b> under our <b style="color:#1b9e77">assumed value of the parameter</b> (similar observations are unlikely to be selected by chance),</li>
+      <li>we will <b>reject the null hypothesis in favor of the alternative</b>.</li>
+   </ul>
+   <li>However, our <b style="color:#d95f02">sample is random</b> and <b style="color:#d95f02">involves sampling error</b>, so there will be a certain probability that we <strong>incorrectly reject the null hypothesis</strong>.</li>
+   <li>Let us select some $\alpha$ usually at $5\%$ by convention but sometimes at $1\%$ or $10\%$ as well.</li>
+   <ul>
+      <li>This <b>$\alpha$</b> is the <strong>probability of incorrectly rejecting the null hypothesis</strong>.</li>  
+   </ul>
+   <li>This <b>$\alpha$</b> is called the <strong>significance level</strong>, 
+   $$\text{Significance level }\alpha = P(\text{Rejecting }H_0\text{ when }H_0\text{ is true}).$$</li>
+   <ul>
+      <li>This is why we say an <b>observation is significantly (high / low / far from the mean)</b> when the probability of <strong>finding an observation at-least-as-extreme is $5\%$ or less</strong>.</li>
+      <li>This is also the same way we used <b>$\alpha$</b> to find a <strong>one-sided critical value $z_\alpha$</strong> or a <strong>two-sided critical value $z_\frac{\alpha}{2}$</strong> in the standard normal.</li>
+   </ul>
+</ul>
+
+
+========================================================
+
+### Significance level continued
+
+
+<div style="float:left; width:45%;text-align:center;">
+<img src="hypothesis_flow.png" style="width:100%" alt="Flowchart for hypothesis testing.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:55%"> 
+<ul>
+   <li>Choosing the <strong>significance level</strong> is <b>step 4</b> of the flow chart of hypothesis testing.</li>
+   <li>In our example, we have:</li>
+   <ol>
+      <li>identified the <b>hypothesis</b> or the claim that we wanted to test and expressed it <strong>mathematically in terms of inequality
+      $$p &gt; 0.5;$$</strong></li>
+      <li>Identified the <b>contradictory claim</b> and expressed it <strong>mathematically in terms of equality,
+      $$p=0.5;$$</strong></li>
+      <li>Associated the <b>alternative hypothesis</b> with the <strong>ineqality,
+      $$H_1 : p &gt; 0.5$$</strong>
+      and the <b>null hypothesis</b> with the <strong>equality
+      $$H_0 : p = 0.5 .$$</strong></li>
+      <li><b>assumed the null hypothesis</b>, and <strong>selected a level of significance $\alpha$</strong> usually equal to $5\%$.</li>  
+   </ol>
+   <li>In step 5 we will identify the <b style="color:#d95f02">test statistic</b> which will be <strong>used to evaluate the hypothesis</strong>.</li>
+</ul>
+
+========================================================
+
+## Identifying the test statistic
+
+<div style="float:left; width:65%;text-align:center;">
+<img src="test_statistic.png" style="width:100%" alt="Flowchart for test statistics.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>   
+<div style="float:left; width:35%"> 
+<ul>
+   <li>Estimating parameters, we used our probability distribution for the <b style="color:#d95f02">sample statistics</b> to <b>evaluate $(1-\alpha)\times 100\%$ confidence intervals</b> for the the <b style="color:#1b9e77">parameter of interest</b>.</li>   
+   <li>In the same way, we can use the probability distribtion for the <b style="color:#d95f02">sample statistic</b> to to evaluate <b>how extreme</b> the <b style="color:#d95f02">test statistic</b> is under the <b>null hypothesis</b> for the <b style="color:#1b9e77">parameter</b>.</li> 
+   <li>The table lists identical statistics we used to compute confidence intervals, with the same assumptions, which we can compute once again from the sample.</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+   <li>When we <b>assume the null hypothesis</b>, we <strong>assume a value</strong> for the <b style="color:#1b9e77">parameter of interest, e.g., $p$ / $\mu$ / $\sigma$</b>.</li>
+   <li>Therefore, the <b>test statistic in the right column</b> can be <strong>computed with the assumed value</strong> of the <b style="color:#1b9e77">parameter of interest</b>, and the associated <b style="color:#d95f02">statistic from the sample</b>.</li>
+   <li>The way we <b>evaluate the hypothesis</b> with the <b style="color:#d95f02">test statistic</b> is the basis of two different techniques.</li>
+</ul>
+</div>
+
+========================================================
+
+## P-values versus critical values
+
+<div style="float:left; width:45%;text-align:center;">
+<img src="hypothesis_flow.png" style="width:100%" alt="Flowchart for hypothesis testing.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:55%"> 
+<ul>
+   <li>In the flow chart, we have now gone through the following steps:</li>
+   <ol>
+      <li>We have <b>identified a claim</b> in terms of an inequality statement <strong>$(&gt; / &lt; / \neq )$</strong>.</li>
+      <ul>
+         <li>In our example, we hypothesize that the majority of US adults were uncomfortable with drone-based delivery <b style="color:#1b9e77">$p>0.5$</b>.</li>
+      </ul>
+      <li>We identified a <b>contradictory claim</b> that is phrased in terms of an <strong>equality $(=)$</strong>.</li>
+      <ul>
+         <li>the contradictory claim was given as <b style="color:#1b9e77">$p=0.5$</b>.</li>
+      </ul>
+      <li>We identified the <b>alternative hypothesis</b> with the <strong>inequality</strong> and the <b>null hypothesis</b> with the <strong>equality</strong>.</li>
+      <ul>
+         <li>That is <strong>$H_1: p>0.5$ and $H_0: p= 0.5$</strong>.</li>
+      </ul>
+      <li>We chose a <b>significance level</b> -- typically <strong>$\alpha=5\%$</strong>.</li>
+      <li>We identified the appropriate <b style="color:#d95f02">test statistic</b>,</li>
+      <ul>
+         <li>i.e., 
+         $$\frac{\hat{p} - p}{\sqrt{\frac{p\times q}{n}}} = \frac{0.540 - 0.50}{\sqrt{\frac{0.5\times 0.5}{1006}}} \approx 2.54$$  
+         approximately distributed as standard normal.</li>
+   </ol> 
+   <li>We will now discuss how to evaluate this test statistic by the method of <b>critical values</b>.</li> 
+</ul>
+</div>
+
+========================================================
+
+### Critical values
+
+<div style="float:left; width:25%;text-align:center;">
+<img src="critical_region.png" style="width:100%" alt="Critical regions for one- and two-sided tests of significance.">
+<p  style="text-align:center">   
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>   
+<div style="float:left; width:75%"> 
+<ul>  
+   <li>Using critical regions to test a hypothesis is similar to using critical values to construct confidence intervals.</li>   
+   <li>The type of <b>critical region</b> we use <strong>depends on the alternative hypothesis $H_1$</strong>.</li>
+   <ul>
+      <li>Suppose that the alternative hypothesis takes the form <b>$H_1: \neq$</b>.</li>
+      <ul>
+         <li>In this case, we will construct a critical region with endpoints where:</li>
+         <ul>
+            <li><strong>$\frac{\alpha}{2}$ of the area under the probability density lies to the left of the left endpoint</strong>; and</li>
+            <li><strong>$\frac{\alpha}{2}$ of the area under the probability density lies to right of the right endpoint</strong>.</li>
+         </ul>
+         <li>If the density is the standard normal, the critical region corresponds to,
+         $(-z_\frac{\alpha}{2}, z_\frac{\alpha}{2})$</li>
+   </ul>
+   <li>Suppose that the alternative hypothesis takes the form of <b>$H_1: &lt;$</b>.</li>
+   <ul>
+      <li>In this case, we will construct a critical region with a single enpoint where <strong>$\alpha$ of the area under the density lies to the left of the enpoint</strong>.</li>
+      <li>If the density is standard normal, the critical region corresponds to
+      $(-z_\alpha, + \infty).$</li> 
+   </ul>
+   <li>Suppose that the alternative hypothesis takes the form of <b>$H_1: &gt;$</b>.</li>
+   <ul>
+      <li>In this case, we will construct a critical region with a single endpoint where <strong>$\alpha$ of the area under the probability density lies to the right of this enpoint</strong>.</li>
+      <li>If the density is the standard normal, the critical region corresponds to
+      $(-\infty, z_\alpha)$.</li>
+   </ul>
+   <li>In our example, we have $H_1: p &gt; 0.5$ and we will reject the null hypothesis only if $\frac{\hat{p} - p}{\sqrt{\frac{p\times q}{n}}} &gt; z_\alpha$ under the null hypothesis $p=0.5, q=0.5$  .</li>
+</ul>
+</div>   
+
+
+========================================================
+
+### Critical values
+
+
+<div style="float:left; width:45%;text-align:center;">
+<img src="critical_region_proportion.png" style="width:100%" alt="The right-critical region corresponding to the example.">
+<p  style="text-align:center">   
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:55%">
+<ul>
+   <li>This is because the test statistic
+   $$\frac{\hat{p} - p }{\sqrt{\frac{p \times q }{n}}}$$
+   is simply the <b>z score</b> of the <strong>normal random variable
+   <b style="color:#d95f02">$\hat{p}$</b> with <b style="color:#1b9e77">mean $p$</b> and <b style="color:#1b9e77">standard deviation $\sigma_\hat{p} = \sqrt{\frac{p\times q}{n}}$</b></strong>.</li>
+   <li>Under the <b style="color:#1b9e77">null hypothesis $p=0.5$</b> has a z score of zero as the <b style="color:#1b9e77">assumed mean</b> of the probability distribution for the <b style="color:#d95f02">sample proportion</b>.</li>
+   <li>In our example, the z score for <b style="color:#d95f02">$\hat{p} = 0.540$</b> is $z=2.55$ or $2.55$ standard deviations away from $p$ in the positive direction.</li> 
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+   <li>Notice that the $z_\alpha$ critical value for $\alpha=0.05$ is $z_\alpha=1.645$ and $z > z_\alpha$.</li>
+   <li>Because the z score for <b style="color:#d95f02">$\hat{p}$</b> lies outside of the critical region, we can say that there is <strong>less than $\alpha=0.05$ probability</strong> that we would find such an observed <b style="color:#d95f02">$\hat{p}$</b> under the <b>assumption that <b style="color:#1b9e77">$p=0.5$</b></b>.</li> 
+   <li>I.e., there is less than $5\%$ chance to observe such a sample proportion at least-as-extreme as <b style="color:#d95f02">$\hat{p}$</b> when <b style="color:#1b9e77">$p=0.5$</b>.</li>
+   <li>Therefore, this <b style="color:#d95f02">$\hat{p}$</b> is a statistically significant result when we assume the null hypothesis of <b style="color:#1b9e77">$p=0.5$</b>, and we should question this assumption.</li>
+   <li>Particularly, we will reject the null hypothesis with a $5\%$ level of significance.</li>
+</ul>
+</div>
+
+========================================================
+
+### P-values
+
+<div style="float:left; width:55%;text-align:center;">
+<img src="right_left_flow.png" style="width:100%" alt="The right-critical region corresponding to the example.">
+<p  style="text-align:center">   
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:45%">
+<ul>  
+   <li>Evaluating the probablity of observing some statistic at-least-as-extreme as $\hat{p}$ with critical values can be performed directly with P-values.</li>
+   <li>To the left, we see a flow chart where we have the choice of:</li>
+   <ol>
+      <li><b>$H_1: &lt;$</b> -- corresponds to a <strong>left-tailed test</strong>.</li>
+      <li><b>$H_1: \neq$</b> -- corresponds to a <strong>two-sided test</strong>.</li>
+      <li><b>$H_1: &gt;$</b> -- corresponds to a <strong>right-tailed test</strong>.</li> 
+   </ol>
+   <li>The <b>P-value</b> stands for the <strong>"probability value" of finding at-least-as-extreme as a sample statistic as our oberved test statistic</strong>.</li>
+   <li>For a <b>left-tailed test</b>, this corresponds to the <strong>area under the density to the left of our test statistic</strong>.</li>
+   <li>For a <b>right-tailed test</b>, this corresponds to the <strong>area under the density to the right of our test statistic</strong>.</li>
+   <li>Similarly to an $\alpha$ critical value, the test statistic corresponds to its probability P-value.</li>
+   <li>If the <b>P-value is less than $\alpha$</b>, then our <strong>test statistic is significant at the level $\alpha$</strong>.</li> 
+   <li>I.e., observing a sample value at least as extreme as the test statistic has probability less than $\alpha$.</li>
+</ul>
+</div>
+
+========================================================
+
+### P-values
+
+<div style="float:left; width:55%;text-align:center;">
+<img src="right_left_flow.png" style="width:100%" alt="The right-critical region corresponding to the example.">
+<p  style="text-align:center">   
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:45%">
+<ul>  
+   <li>There is an additional consideration for a two-sided test of significance as in the center of the diagram.</li>
+   <li>Particularly, suppose $H_1:\neq$,</li>
+   <ul>
+      <li>we want to determine if there is a <b>probability less than $\alpha$</b> of finding a <b style="color:#d95f02">sample value at-least-as-extreme as our test statistic</b> in <strong>either direction from the mean</strong>.</li> 
+   </ul>
+   <li>Therefore, we will determine if:</li>
+   <ol>
+      <li>the <b style="color:#d95f02">test statistic</b> lies to the <b>left of the center</b>, the <strong>P-value is twice the area to the left of the test statistic</strong> (for symmetric distributions).</li>
+      <li>the <b style="color:#d95f02">test statistic</b> lies to the <b>right of the center</b>, the <strong>P-value is twice the area to the right of the test statistic</strong> (for symmetric distributions).</li>  
+   </ol>
+   <li>This is because for symmetric distributions, there are equal portions of area in the right and left tails.</li>
+   <li>Therefore, as a two-sided measure of extremeness there is equal probability of finding a sample value at-least-as far from the mean as the test statistic in the right and left tails.</li>
+</ul>
+</div>
+
+
+========================================================
+
+### Critical values vs p-values summary
+
+
+<div style="float:left; width:55%;text-align:center;">
+<img src="hypothesis_flow2.png" style="width:100%" alt="Flowchart for hypothesis testing.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:45%"> 
+<ul>
+   <li>In both ways of testing for significance:</li>
+   <ol>
+      <li>finding the p-value of the test statistic, and</li>
+      <li>finding the critical region, and checking this region for the test statistic,</li>
+   </ol>
+   <li>the purpose is the same -- we pre-select a level of significance $\alpha$ and check:</li>
+   <ul>
+      <li>under the assumption of the null hypothesis</li>
+      <li>is the probability of observing a randomly sampled statistic at-least-as extreme as the test statistic less than $\alpha$?</li>
+   </ul>
+   <li>The critical value method does this pictorally while the p-value method does this numerically.</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+   <li>In either case if the probability is less than $\alpha$, we reject the null hypothesis $H_0$.</li>
+   <li>If the probability is $\alpha$ or greater, we fail to reject the null,</li>
+   <ul>
+      <li>i.e., the evidence doesn't make the contradictory claim look unlikely.</li>
+   </ul>
+   <li>These steps finally take us to the end of the hypothesis test in which we have to make sense of the result and explain our conclusion.</li>
+</ul>
+</div>
+
+
+========================================================
+
+## Conclusion of a hypothesis test
+
+
+<div style="float:left; width:65%;text-align:center;">
+<img src="conclusion_flow.png" style="width:100%" alt="Flowchart for hypothesis testing.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:35%"> 
+<ul>
+   <li>To make a real conclusion about our original hypothesis, we should be careful about the meaning of <b>"rejecting"</b> or <b>"failing to reject"</b> the <strong>null hypothesis</strong>.</li>
+   <li>Formally, <b>we do not ever "accept" the null hypothesis</b> because this <strong>is not a statement that can be proved by the test statistic</strong>.</li>
+   <li>Indeed, we can only rule the null hypothesis as being unlikely when the evidence does not support it.</li>
+   <li>This means we can only <b>support a research hypothesis</b> by <strong>showing the contradictory claim to be unlikely</strong>.</li> 
+   <li>Similarly, we can only <b>reject a research hypothesis</b> <strong>if the research hypothesis is the null hypothesis</strong>.</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+   <li>This is why it is important to formulate a research hypothesis in terms of a statement of inequality $(&gt; / &lt; / \neq)$ if we want to show support for this claim.</li>
+</ul> 
+</div>
+
+========================================================
+
+## Type I and type II errors
+
+
+<div style="float:left; width:60%;text-align:center;">
+<img src="type_I_type_II.png" style="width:100%" alt="Flowchart for hypothesis testing.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:40%"> 
+<ul>
+   <li>Recall that we defined $\alpha$ to be the probability,
+   $$\begin{align}
+   \alpha = P(\text{Rejecting }H_0\text{ when }H_0\text{ is true}).
+   \end{align}$$</li>
+   <li>If the p-value of a test statistic is $1\%$, this means that under the null hypothesis we would see a value at-least-as extreme as this once out of every $100$ replications.</li>
+   <li>It is possible that the null hypothesis is true, and our sample value under this replication happens to be extreme.</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+   <li>We are also in danger of failing to reject the null hypothesis $H_0$ when the null hypothesis is false -- this is denoted,
+   $$\begin{align}
+   \beta = P(\text{Failing to reject }H_0\text{ when }H_0\text{ is false}).
+   \end{align}$$</li>
+   <li>The mistake of <strong>rejecting the null hypothesis even when it is true</strong> is known as a <b>type I error</b>.</li>   
+   <li>The mistake of <strong>not rejecting the null hypothesis even when it is false</strong> is known as a <b>type II error</b>.</li>
+   <li>Similar to our probability table examples, <b>type I error</b> can be thought of as a <strong>false positive</strong>, in terms of supporting the alternative.</li>
+   <li>On the other hand, <b>type II error</b> can be thought of as a <strong>false negative</strong>, in terms of rejecting the null.</li>
+   <li>Similar to confidence intervals, <b>hypothesis testing</b> represents a procedure that guarantees a <strong>certain level of significance over independent replications of samples</strong>;</li>
+   <ul>
+      <li>nonetheless, any individual sample can lead to the wrong conclusion.</li>
+   </ul>
+</ul>
+</div>
+
+
+========================================================
+
+### Type I and type II errors continued
+
+<div style="float:left; width:100%">
+<ul>
+   <li>Let's recall our example about the population proportion uncomfortable with drone-based delivery.</li>
+   <li>We had null and altenative hypothesis given as
+   $$\begin{align}
+   H_0: & p = 0.5 & & H_1: p&gt; 0.5
+   \end{align}$$
+   <li><b>Consider the following:</b> how would you describe a type I error in this case? I.e., what would we conclude in the case of a type I error?</li>
+   <ul>
+      <li>We would incorrectly reject $H_0:p=0.5$,</li>
+      <li>i.e., we would conclude that the majority of US adults are uncomfortable with drone-based delivery when it really is not a majority.</li>
+   </ul>
+   <li><b>Consider the following:</b> how would you describe a type II error in this case? I.e., what would we conclude in the case of a type II error?</li>
+   <ul>
+      <li>We would incorrectly fail to reject the null $H_0: p =0.5$,</li>
+      <li>i.e., we would not conclude that the majority of US adults are opposed to drone-based delivery even though this is the case.</li>
+   </ul>
+   <li>The practical risk of a type I and a type II error differ substantially -- for example in a medical treament a type I error could make a false conclusion that a treatment is effective when there is actually no effect.</li>
+   <ul>
+      <li>This could have dangerous consequences if the treatment has negative side effects and if prescribed the treatment may only have negative consequences.</li>
+   </ul>
+   <li>For this reason, we typically control type I error $(\alpha)$ as a first priority.</li>
+   <ul>
+      <li>Actually, the probability of $\alpha$, $\beta$ and the sample size $n$ are all interrelated, and knowing two of three determines the other.</li>
+   </ul>
+</ul>
+</div>
+
+========================================================
+
+### Type I and type II errors continued
+
+<ul>
+   <li>Because a choice of,
+   $$\begin{align}
+   \alpha &= P(\text{Rejecting }H_0\text{ when }H_0\text{ is true})\\
+   \beta  &= P(\text{Failing to reject }H_0\text{ when }H_0\text{ is false})
+   \end{align}$$
+   determines a sample size, one can control the probability of</li>
+   <ul>
+      <li>a type I error $\alpha$; and</li>
+      <li>a type II error $\beta$;</li>
+   </ul>
+   <li>by choosing a large enough sample size $n$.</li>
+   <li>However, in practice, one will choose a maximum tolerated probability of a type I error $\alpha$ and usually take as many observations in a sample as there are in a practical balance with the probability $\beta$ and the limits of obataining data.</li>
+   <li>We may suppose in a different respect, what is the probability that given a specific alternative $$H_1: p = 0.6,$$ what is the probability that we will correctly reject the null, $$H_0: p= 0.5.$$</li>
+   <li>For a specific value of the alternative, we can use the significance level $\alpha$ and the alternative value of the parameter and the probability $\beta$ of a type II error, we can compute the probability of correctly rejecting $H_0$ in the case that it is false.</li>
+   <li>We have to fix some particular value to make this calculation, and with respect to the above this could be phrased as
+   $$P(\text{ Reject }H_0:p=0.5\vert H_1:p=0.6 \text{ is actually true}).$$</li>
+   <li>This measure of accuracy is called the "Power of the hypothesis test"</li>
+   <li>The power of the hypothesis test is more complicated to compute, and it will go beyond the scope of this course.</li>
+   <li>The key to remember is that the power depends on a particular value for the alternative as above, so that the power of the hypothesis test can take on many different values.</li>
+</ul>
