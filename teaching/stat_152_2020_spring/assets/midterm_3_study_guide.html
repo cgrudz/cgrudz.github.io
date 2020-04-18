@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Midterm 3 Study guide</title>
+
+<style type="text/css">
+  
+  /* Whole document - standard notebook size and margins */
+  body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      max-width: 8.5in;
+      margin: auto;
+      background: #FFFFFF;
+      padding: 1in 1in 1in 1in;
+  }
+
+#customlist {
+  /* delete default counter */
+  list-style-type: none;
+  /* create custom counter and set it to 0 */
+  counter-reset: elementcounter;
+}
+
+#customlist>li:before {
+  /* print out "Section " followed by the current counter value */
+  content: "Section " counter(elementcounter) ":";
+  /* increment counter */
+  counter-increment: elementcounter;
+}
+  
+</style>
+
+
+
+
+
+<link href="data:text/css;charset=utf-8,%3Cstyle%20type%3D%22text%2Fcss%22%3E%0A%0A%0Abody%20%7B%0Afont%2Dfamily%3A%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Amax%2Dwidth%3A%208%2E5in%3B%0Amargin%3A%20auto%3B%0Abackground%3A%20%23FFFFFF%3B%0Apadding%3A%201in%201in%201in%201in%3B%0A%7D%0A%0Ah1%20%7B%0Afont%2Dsize%3A%2050px%3B%0Acolor%3A%20%23000000%3B%0Atext%2Dalign%3Acenter%3B%0Amargin%2Dbottom%3A15px%3B%0A%7D%0Ah1%2Bp%20%7B%0A%0Acolor%3A%20%23000000%3B%0Afont%2Dsize%3A%2020px%3B%0Aline%2Dheight%3A%202em%3B%0Amargin%2Dtop%3A%200%2E5em%3B%0Amargin%2Dbottom%3A%200em%20%21important%3B%0Atext%2Dalign%3A%20center%3B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0A%0Ah2%20%7B%0Acolor%3A%20%23000000%3B%0A%7D%0A%0Adt%20%7B%0Afloat%3A%20left%3B%0Aclear%3A%20left%3B%0Awidth%3A%2017%25%3B%0A%0A%7D%0Add%20%7B%0Amargin%2Dleft%3A%2017%25%3B%0A%7D%0Ap%20%7B%0Amargin%2Dtop%3A0%3B%0Amargin%2Dbottom%3A7px%3B%0A%7D%0A%0Ablockquote%20%7B%0Atext%2Dalign%3A%20left%3B%20%7D%0A%0Aa%20%7B%0Atext%2Ddecoration%3A%20none%3B%0Acolor%3A%20%231D5996%3B%0A%7D%0Aa%3Ahover%2C%20a%3Aactive%20%7B%0Abackground%2Dcolor%3A%20%231D5996%3B%0Acolor%3A%20%23FFFFFF%3B%0Atext%2Ddecoration%3A%20none%3B%0Atext%2Dshadow%3A%201px%201px%201px%20%23333%3B%0A%7D%0A%0Ahr%20%7B%0Acolor%3A%20%23A6A6A6%3B%0A%7D%0Atable%20%7B%0Awidth%3A%20100%25%3B%0Aborder%2Dcollapse%3Acollapse%3B%0Aborder%2Dspacing%3A0%3B%0Adisplay%3Atable%0A%7D%0Atable%2EminimalistBlack%20%7B%0Aborder%3A%203px%20solid%20%23000000%3B%0Awidth%3A%20100%25%3B%0Atext%2Dalign%3A%20left%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%2EminimalistBlack%20td%2C%20table%2EminimalistBlack%20th%20%7B%0Apadding%3A%205px%204px%3B%0A%7D%0Atable%2EminimalistBlack%20tbody%20td%20%7B%0Afont%2Dsize%3A%2015px%3B%0A%7D%0Atable%2EminimalistBlack%20thead%20%7B%0Abackground%3A%20%23CFCFCF%3B%0Abackground%3A%20%2Dmoz%2Dlinear%2Dgradient%28top%2C%20%23dbdbdb%200%25%2C%20%23d3d3d3%2066%25%2C%20%23CFCFCF%20100%25%29%3B%0Abackground%3A%20%2Dwebkit%2Dlinear%2Dgradient%28top%2C%20%23dbdbdb%200%25%2C%20%23d3d3d3%2066%25%2C%20%23CFCFCF%20100%25%29%3B%0Abackground%3A%20linear%2Dgradient%28to%20bottom%2C%20%23dbdbdb%200%25%2C%20%23d3d3d3%2066%25%2C%20%23CFCFCF%20100%25%29%3B%0Aborder%2Dbottom%3A%203px%20solid%20%23000000%3B%0A%7D%0Atable%2EminimalistBlack%20thead%20th%20%7B%0Afont%2Dsize%3A%2015px%3B%0Afont%2Dweight%3A%20bold%3B%0Acolor%3A%20%23000000%3B%0Atext%2Dalign%3A%20left%3B%0A%7D%0Atable%2EminimalistBlack%20tfoot%20%7B%0Afont%2Dsize%3A%2014px%3B%0Afont%2Dweight%3A%20bold%3B%0Acolor%3A%20%23000000%3B%0Aborder%2Dtop%3A%203px%20solid%20%23000000%3B%0A%7D%0Atable%2EminimalistBlack%20tfoot%20td%20%7B%0Afont%2Dsize%3A%2014px%3B%0A%7D%0A%0A%2Eshort%5Fanswer%5Fdiv%20%7B%0Awidth%3A100%25%3B%0Aheight%3A1%2E5in%3B%0Afloat%3Aleft%3B%0A%7D%0A%2Eanswer%5Fdiv%20%7B%0Awidth%3A100%25%3B%0Aheight%3A2in%3B%0Afloat%3Aleft%3B%0A%7D%0A%2Elong%5Fanswer%5Fdiv%7B%0Awidth%3A100%25%3B%0Aheight%3A3in%3B%0Afloat%3Aleft%3B%0A%7D%0A%0A%40media%20print%20%7B%0A%2Epagebreak%20%7B%20page%2Dbreak%2Dbefore%3A%20always%3B%20padding%2Dtop%3A1in%3B%0A%7D%20%7D%0Adiv%2Esolutions%20%2A%20%7B%0Acolor%3A%23000099%3B%0A%7D%0A%3C%2Fstyle%3E%0A" rel="stylesheet" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Midterm 3 Study guide</h1>
+
+
+
+<div id="instructions" class="section level2">
+<h2>Instructions</h2>
+<p><strong>The midterm will be available on Thursday April 23 from 12:00 AM until 11:59 PM. You may take the midterm at any time during this period in Canvas, but you will only have 75 minutes to complete this once it begins.</strong> The midterm will be a total of <span class="math inline">\(13\)</span> questions long giving approximately <span class="math inline">\(5\frac{3}{4}\)</span> minutes to spend per question. The midterm will cover the content from the book sections:</p>
+<ul>
+<li>6.1 - 6.2</li>
+<li>6.4 - 6.5</li>
+<li>7.1 - 7.2</li>
+<li>8.1 - 8.3</li>
+</ul>
+<p>There will be an emphasis on the following topics:</p>
+<ul>
+<li>How to find the probability of randomly selecting an observation from a normal distribution that is at least some value, at most some value, or lying in some range.</li>
+<li>How to use the Central Limit Theorem to find the probability of a sample mean being at least some value, at most some value, or lying in some range.</li>
+<li>How to assess the normality of some sample of observations using histograms or Q-Q plots.</li>
+<li>How to find a <span class="math inline">\(t_\frac{\alpha}{2}\)</span> or a <span class="math inline">\(z_\frac{\alpha}{2}\)</span> critical value from the appropriate student t or standard normal distribution, given some level of confidence <span class="math inline">\((1 - \alpha)\times 100\%\)</span>.</li>
+<li>When to use a critical value from a student t distribution and when to use a critical value from a standard normal distribution. You should understand how many degrees of freedom to use in the student t when it is appropriate.</li>
+<li>How to compute a confidence interval for a population proportion or population mean, either directly in StatCrunch, or piece-by-piece using the appropriate critical value, point estimate and standard error.</li>
+<li>How to compute the margin of error for a confidence interval, either piece-by-piece using the appropriate critical value and standard error, or given a confidence interval.</li>
+<li>How to compute a point estimate for a population proportion or a population mean, either directly from sample values or given a confidence interval.</li>
+<li>How to find the necessary number of samples to estimate a population proportion or a population mean, given a target margin of error and given level of confidence.</li>
+<li>How to perform a hypothesis test for a population proportion or population mean given sample values, a level of significance and whether the population standard deviation is known or unknown. You should be able to conclude the hypothesis test correctly given the P-value from such a test.</li>
+<li>How to compute the P-value from a z score or t test statistic given a one-sided or two-sided hypothesis test. You should be able to infer what type of test statistic is being evaluated based on the use of a population proportion, a population mean, and whether the population standard deviation is known or not. You should be able to infer as well whether a left-sided, right-sided or two-sided test is being used.</li>
+</ul>
+<div class="pagebreak">
+
+</div>
+</div>
+<div id="suggested-problems" class="section level2">
+<h2>Suggested problems</h2>
+<p>In Pearson, there is an online miderm 3 review – this is not scored for the final grade, and you can ignore problems that do not come from the above sections or topics.</p>
+<p>In the textbook, you are recommended to study chapter review problems that emphasize the above topics.</p>
+<p>In the lectures, you are recommended to study all discussion questions and examples that emphasize the above topics.</p>
+<p>You are recommended to review all quiz questions.</p>
+</div>
+<div id="grading" class="section level2">
+<h2>Grading</h2>
+Because there is no partial credit, the midterm has a built in curve. The exam is graded out of 20 points, with 13 questions each worth 1.6 points. This means that
+<table style="text-align:center">
+<tr>
+<th>
+Number of questions incorrect
+</th>
+<th>
+Percent score
+</th>
+<tr>
+<td>
+0
+</td>
+<td>
+104%
+</td>
+</tr>
+<tr>
+<td>
+1
+</td>
+<td>
+96%
+</td>
+</tr>
+<tr>
+<td>
+2
+</td>
+<td>
+88%
+</td>
+</tr>
+<tr>
+<td>
+3
+</td>
+<td>
+80%
+</td>
+</tr>
+<tr>
+<td>
+4
+</td>
+<td>
+72%
+</td>
+</tr>
+<tr>
+<td>
+5
+</td>
+<td>
+64%
+</td>
+</tr>
+<tr>
+<td>
+6
+</td>
+<td>
+56%
+</td>
+</tr>
+<tr>
+<td>
+7
+</td>
+<td>
+48%
+</td>
+</tr>
+<tr>
+<td>
+8
+</td>
+<td>
+40%
+</td>
+</tr>
+<tr>
+<td>
+9
+</td>
+<td>
+32%
+</td>
+</tr>
+<tr>
+<td>
+10
+</td>
+<td>
+24%
+</td>
+</tr>
+<tr>
+<td>
+11
+</td>
+<td>
+16%
+</td>
+</tr>
+<tr>
+<td>
+12
+</td>
+<td>
+8%
+</td>
+</tr>
+<tr>
+<td>
+13
+</td>
+<td>
+0%
+</td>
+</tr>
+</table>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
