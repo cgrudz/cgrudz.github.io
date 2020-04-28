@@ -1,0 +1,545 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+Introduction to correlation
+========================================================
+date: 04/28/2020
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+
+========================================================
+
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+   * Scatter plots
+   * Correlation
+   * Linear correlation coefficient
+   * Computing correlation
+   
+
+
+========================================================
+
+## Motivation
+
+<div style="float:left; width:45%;text-align:center;">
+<img src="chocolate_vs_nobel_scatter.png" style="width:100%" alt="Scatter plot of chocolate consumption versus number of Nobel laureats per country.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:55%">
+<ul>
+   <li>Intuitively, we think of the idea of correlation or anti-correlation as the behavior of <b>two variables</b> <strong>varying together or oppositely</strong>.</li>
+   <li>To the left, we see the number of Nobel Leaureates per million persons in a country plotted in a scatter plot versus the number of kg of chocolate consumed per capita.</li>
+   <li>At at glance, we can see that the two variables <b>tend to vary together</b>, but <strong>not in an exact, determinstic way</strong>;</li>
+   <ul>
+      <li>i.e., a $1$ unit increase in chocolate consumption doesn't automatically correspond identically to a $2.5$ unit increase in the number of Nobel Laureates.</li>
+   </ul>
+   <li>Also, there is no reason to believe that the increase in one causes an increase in the other;</li>
+</ul> 
+</div>
+<div style="float:left; width:100%">
+<ul>
+   <ul>
+      <li>i.e., eating more chocolate doesn't produce more Nobel prize winning scientist.</li>
+   </ul>
+   <li>Indeed, a more rational explanation is that these values tend to vary together because Nobel Prizes usually go to countries with highly developed academic, cultural and industrial infrastructure.</li>
+   <li>Likewise, inhabitants of these coutnries can better afford luxury goods like chocolate.</li>
+   <li><b>Correlation should never be considered causation</b>, but rather that <strong>two measurements tend to have systematic associations, which may be better explained by other latent variables</strong>.</li>
+   <li>We may see a similar association when plotting either of the two above variables versus a third variable that acts as an economic indicator.</li>
+</ul>
+</div>
+
+========================================================
+
+### Motivation continued
+
+<div style="float:left; width:35%;text-align:center;">
+<img src="chocolate_vs_nobel.png" style="width:100%" alt="Table plot of chocolate consumption versus number of Nobel laureats per country.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>  
+</div>
+<div style="float:left; width:65%">
+<ul>
+   <li>Understanding the <b>limitations of correlation for explanatory power</b>, we can <strong>use correlation as a powerful research tool for the purpose that it is intended</strong>.</li>
+   <li><b>Correlation</b> is a statistic that we will compute from <strong>pairs of measurements in a single sample</strong>.</li>
+   <li>In the last example, we had a sample consisting of individual contries.</li>
+   <li>Each observation (country) corresponded to two distinct measurements:</li>
+   <ol>
+      <li>The number of kg of chocolate consumed per capita.</li>
+      <li>The number of Nobel Laureates per million inhabitants.</li>
+   </ol>
+   <li>This will always be a feature of computing correlation -- we need <strong>observations which have two measurements</strong>.</li>
+   <ul>
+      <li>We will compute the correlation coefficient between these variables.</li>  
+   </ul>
+   <li>Usually, we will use a scatter plot as a first check for a systematic pattern and then we wil then compute the statistic.</li>
+   <ul>
+      <li>Being a <b style="color:#d95f02">statistic</b>, the correlation coefficient is subject to <b style="color:#d95f02">sampling error</b>;</li>
+      <li>we will also need to <b>test for the significance</b> to <strong>quantify the uncertainty of the value in relation to the <b style="color:#1b9e77">population parameter</b></strong>.</li> 
+   </ul>
+</ul> 
+
+========================================================
+
+### Motivation continued
+
+<div style="float:left; width:35%;text-align:center;">
+<img src="positive_correlation.png" style="width:100%" alt="Scatter plot of variables correlated with a value equal to 0.859.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>  
+</div>
+<div style="float:left; width:65%">
+<ul>
+   <li><b>Consider the following:</b> as a quick example would you say that the pair of variables $x$ and $y$ to the left are:</li>
+   <ol>
+      <li>Positively correlated? I.e., do they vary together?</li>
+      <li>Negatively or anti-correlated? I.e., do they vary oppositely?</li>
+      <li>Or uncorrelated? I.e., there is no systematic pattern?</li>
+   </ol>
+   <li>Why would you say this?</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+   <ul>
+      <li>In the above, this exhibits <b>positive correlation</b>.</li>
+      <li>This is because an increase of the value of $x$ generally corresponds to an increase in the value of $y$.</li>
+   </ul>
+</ul>
+</div>
+
+========================================================
+
+### Motivation continued
+
+<div style="float:left; width:35%;text-align:center;">
+<img src="negative_correlation.png" style="width:100%" alt="Scatter plot of variables correlated with a value equal to -0.971.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>  
+</div>
+<div style="float:left; width:65%">
+<ul>
+   <li><b>Consider the following:</b> as a quick example would you say that the pair of variables $x$ and $y$ to the left are:</li>
+   <ol>
+      <li>Positively correlated? I.e., do they vary together?</li>
+      <li>Negatively or anti-correlated? I.e., do they vary oppositely?</li>
+      <li>Or uncorrelated? I.e., there is no systematic pattern?</li>
+   </ol>
+   <li>Why would you say this?</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+   <ul>
+      <li>In the above, this exhibits <b>negative or anti-correlation</b>.</li>
+      <li>This is because an increase of the value of $x$ generally corresponds to a decrease in the value of $y$.</li>
+   </ul>
+</ul>
+</div>
+
+========================================================
+
+### Motivation continued
+
+<div style="float:left; width:35%;text-align:center;">
+<img src="no_correlation.png" style="width:100%" alt="Scatter plot of variables correlated with a value equal to 0.074.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>  
+</div>
+<div style="float:left; width:65%">
+<ul>
+   <li><b>Consider the following:</b> as a quick example would you say that the pair of variables $x$ and $y$ to the left are:</li>
+   <ol>
+      <li>Positively correlated? I.e., do they vary together?</li>
+      <li>Negatively or anti-correlated? I.e., do they vary oppositely?</li>
+      <li>Or uncorrelated? I.e., there is no systematic pattern?</li>
+   </ol>
+   <li>Why would you say this?</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+   <ul>
+      <li>In the above, this exhibits <b>uncorrelated variables</b>.</li>
+      <li>This is because an increase of the value of $x$ generally doesn't correspond to any pattern in the value of $y$.</li>
+   </ul>
+</ul>
+</div>
+
+========================================================
+
+### Motivation continued
+
+<div style="float:left; width:35%;text-align:center;">
+<img src="nonlinear.png" style="width:100%" alt="Scatter plot of variables in a nonlinear relationship.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>  
+</div>
+<div style="float:left; width:65%">
+<ul>
+   <li><b>Consider the following:</b> as a quick example would you say that the pair of variables $x$ and $y$ to the left are:</li>
+   <ol>
+      <li>Positively correlated? I.e., do they vary together?</li>
+      <li>Negatively or anti-correlated? I.e., do they vary oppositely?</li>
+      <li>Or uncorrelated? I.e., there is no systematic pattern?</li>
+   </ol>
+   <li>Why would you say this?</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+   <ul>
+      <li>In the above, this exhibits slight positive correlation, but <b>correlation isn't a good measure of the relationship</b>.</li>
+      <li>In some areas of $x$, there is a postive trend in $y$ when increasing $x$, and other areas there is a negative trend in $y$ when increasing $x$.</li>
+      <li>This is another key concept in that correlation describes linear relationships;</li>
+      <ul>
+         <li>in the previous examples of <b>positive and negative correlation</b>, we could <strong>draw a straight line to show the approximate relationship betwen $x$ and $y$</strong>.</li>
+      </ul>
+      <li>Here a straight line isn't a very good fit between the variables, and <strong>correlation is not a useful description of the relationship</strong>.</li>
+   </ul>
+</ul>
+</div>
+
+========================================================
+
+## Linear correlation coefficient
+
+<ul>
+   <li>Formally, we will discuss the linear correlation coefficient as follows:</li>
+   <ul>
+      <li>Let's suppose that we have <b>$n$ observations</b> which have <strong>pairs of measurements $(x,y)$ collected by simple random sampling</strong>.</li>
+      <li>Let's suppose that there <b>are not any extreme or outlier observations</b> among the $(x,y)$ measurments.</li>
+      <li>Let's suppose that upon inspection with a <b>scatter plot</b>, we <strong>do not see a nonlinear pattern between the variables</strong> like in the last example.</li>
+      <li>Then, if <b>$z_{x_i}$</b> is the <strong>z score of the measurement $x_i$</strong> and <b>$z_{y_i}$</b> is the <strong>z score of the measurement $y_i$</strong>,</li>
+      <li>the <b>linear correlation coefficient $r$</b> <strong>between the variables $x$ and $y$</strong> is given as
+      $$\begin{align}
+      r = \frac{\sum_{i=1}^n \left(z_{x_i} \times z_{y_i}\right)}{n-1}
+      \end{align}$$</li>
+      <li>Actually, we can always compute the above value $r$ for any set of paired measurement data.</li>
+      <ul>
+         <li>However, <b>the above conditions are necessary</b> to <strong>make the correlation coefficient meaningful in making any conclusions about the existence of a systematic, linear pattern between $x$ and $y$</strong>.</li>
+      </ul>
+      <li>Using some algebra, it can be shown that the linear correlation coefficient can be computed as,
+      $$\begin{align}
+      r &= \frac{\sum_{i=1}^n (x_i\times y_i) - \left(\sum_{i=1}^n x_i\right) \times \left(\sum_{i=1}^n y_i\right)}{\sqrt{n\times \left(\sum_{i=1}^n x_i^2\right) - \sum_{i=1}^n x_i^2}\times \sqrt{n\times \left(\sum_{i=1}^n y_i^2\right) - \sum_{i=1}^n y_i^2}} = \frac{s_{xy}^2}{s_x \times s_y}
+      \end{align}$$</li>
+      <li>There are important reasons why we would want to consider the alternative forms above, but these go beyond the scope of the course;</li>
+      <ul>
+         <li>we will only focus on understanding the basic meaning and use of the coefficient, and computing it in StatCrunch.</li>
+      </ul>
+   </ul>
+</ul>
+
+
+========================================================
+
+### Properties of the linear correlation coefficient
+
+<ul>
+   <li>Because we will focus on how to use the linear correlation coefficient with statistical software, we will focus on the form
+   $$\begin{align}
+      r = \frac{\sum_{i=1}^n \left(z_{x_i} \times z_{y_i}\right)}{n-1}.
+      \end{align}$$</li>
+   <li>We should go over some of the fundamental properties of the linear correlation coefficient here:</li>
+   <ol>
+      <li>The values of $r$ are bounded as,
+      $-1 \leq r \leq 1,$
+      where <b>$r$ close-to $1$</b> <strong>loosely means strong positive correlation</strong> and <b>$r$ close-to $-1$</b> <strong>loosely means strong negative correlation</strong>.</li>
+      <ul>
+         <li>However, <b>the interpretation</b> of the linear correlation coefficient will <strong>depend on the statistical significance</strong>.</li>
+      </ul>
+      <li>When we compute $r$ on pairs of measurements, we have rescaled the values to z scores as above -- therefore, the <strong>linear correlation coefficient won't change if we change the scale of the original measurments</strong>.</li>
+      <ul>
+         <li>E.g., if we take measurements in $x$ inches and $y$ pounds, but convert to $\tilde{x}$ milimeters and $\tilde{y}$ kilograms, both $r$ scores will remain the same with either unit.</li>
+      </ul>
+      <li>Because the formula above is symmetric in the z scores for $x$ and $y$, <strong>we can switch the order in which we enter $x$ and $y$ and the value won't change</strong>.</li>
+      <li>The <b>linear correlation coefficient</b> <strong>isn't good for interpreting nonlinear relationships</strong>, and thus we have to check for patterns that are not well described by straight lines in the data.</li>
+      <li>The <b>linear correlation coefficient</b> is <strong>very sensitive to outliers, and a single outlier measurement could radically change the value</strong>.</li>
+      <ul>
+         <li>Therefore, we should perform visual inspection for outliers to determine if there are such points, and if they are erroneous or truthful measurments.</li>
+      </ul>
+   </ol>
+</ul>
+
+========================================================
+
+### Understanding the linear correlation coefficient formulation
+
+<div style="float:left; width:35%;text-align:center;">
+<img src="chocolate_vs_nobel_scatter_quadrant.png" style="width:100%" alt="Scatter plot of chocolate consumption versus number of Nobel laureats per country.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>  
+</div>
+<div style="float:left; width:65%">
+<ul>
+   <li>Recall the form of the linear correlation coefficient,
+   $$\begin{align}
+      r = \frac{\sum_{i=1}^n \left(z_{x_i} \times z_{y_i}\right)}{n-1}.
+      \end{align}$$</li>
+      <li>Using the above form, we can easily interpret why we have:</li>
+      <ol>
+         <li>a value of $r=1$ associated to a positive relationship between the variables $x$ and $y$; and</li>
+         <li>why we have a value of $r=-1$ associated to a negative relationship between the variables $x$ and $y$.</li>
+      </ol>
+      <li>Suppose we plot the z score for the observations as on the left, separated out by quadrant.</li> 
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+   <li>If the linear correlation coefficient is positive, this corresponds to many positive terms in the sum above.</li>
+   <ul>
+      <li>Specifically, the sign of pairs of $z_{x_i}$ and $z_{y_i}$ need to match for many observations -- this corresponds to quadrant 1 and quadrant 3.</li>
+   </ul>
+   <li>Similarly, if the linear correlation coefficient is negative, this corresponds to many negative term sin the sum above.</li>
+   <ul>
+      <li>Specifically, the sign of pairs of $z_{x_i}$ and $z_{y_i}$ need to be opposite for many observations -- this corresponds to quadrant 2 and quadrant 4.</li>   
+   </ul>
+   <li>A line that passes through quadrant 1 and 3 has a positive slope, while a line that passes through quadrants 2 and 4 has a negative slope.</li>
+   <li>However, the strength of this relationship will be judged in terms of the statistical significance.</li>
+</ul> 
+</div>
+
+
+========================================================
+
+### Critical values for correlation
+  
+<div style="float:left; width:60%;text-align:center;">
+<img src="shoe_print.png" style="width:100%" alt="Scatter plot for height versus shoe print length.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:40%">
+<ul>
+  <li>In order to say <strong>how close to $\pm 1$ is close enough for $r$</strong> to indicate correlation, we will generally use p values, or sometimes critical values.</li>
+  <li>On the left are measurements for the shoe print length and height of five individuals.</li>
+  <li>The linear correlation coefficient in this case $r\approx0.591$ isn't close to $\pm 1$ or $0$.</li> 
+  <li>Notice in the figure, we also list the <b>critical values</b> for $r$.</li>
+  <li>If the linear correlation coefficient $r$ is <strong>at least as extreme</strong> as the critical values, we can conclude that there is <b>statistical significance</b>.</li>
+<li>The critical values above are $\approx \pm 0.878$, but $r$ is not as close to $\pm 1$ as the critical values.</li>
+<li>Therefore we fail to reject the null hypothesis.</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li><b>Consider the following:</b> is this a one-sided or two-sided test of significance?  What is the null hypothesis in this case?  What is the altenative hypothesis?</li>
+  <ul>
+     <li>The critical values $\pm 0.878$ measure the extremeness in distance away from the center, or a two-sided test of signficance.</li>
+     <li>For a two-sided test of significance, if  <b style="color:#1b9e77">$\rho$ is the population parameter</b>, the null and altenative hypotheses take the form
+     $$\begin{align}
+     H_0 : \rho= 0 & & H_1: \rho\neq 0.
+     \end{align}$$</li>
+</ul>
+</div>
+
+========================================================
+
+### Critical values for correlation continued
+
+<div style="float:left; width:30%">
+<img src="critical_values_0.png" style="width:100%" alt="List of critical values for correlation.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:30%">
+<ul>
+  <li>We can consider graphically <strong>"how extreme"</strong> the linear correlation coefficient is compared to the <b>critical value</b>.</li> 
+  <li>For each number of pairs of measurements, there is an associated <b>critical value</b> that will determine the significance of the correlation.</li>
+  <li>We measured five individuals, getting five pairs of measurements with the corresponding critical value.</li>
+</ul>
+</div>  
+<div style="float:left; width:40%">
+<img src="critical_window.png" style="width:100%" alt="Critical value window diagram.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:70%">
+<ul>
+  <li>This critical value corresponds to the <b>inner window of "no correlation"</b> in the diagram on the right-hand-side.</li> 
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>For any linear correlation coefficient <strong>(computed on 5 pairs of measurements)</strong> that isn't at least as extreme as $\pm 0.878$, </li>
+  <ul>
+    <li><b>we fail to reject the null hypothesis that the variables are uncorrelated</b>.</li>   
+  </ul>
+  <li>If the linear correlation coefficient <strong>(computed on 5 pairs of measurements)</strong> lies in either $[-1,-0.878]$ or $[0.878,1]$</li>
+  <ul>
+    <li><b>we reject the null hypothesis with $5\%$ signficance, and we say that the variables are correlated</b>.</li>
+  </ul>
+</ul>
+</div>
+
+========================================================
+
+### Critical values for correlation continued
+
+<div style="float:left; width:30%">
+<img src="critical_values_0.png" style="width:100%" alt="List of critical values for correlation.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+
+<div style="float:left; width:70%">
+<img src="car_weight_fuel_consumption.png" style="width:100%" alt="Car weight and fuel consumption data table.">
+<p style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 5th edition
+</p>
+</div>
+<div style="float:left; width:70%">
+<ul>
+  <li>Above, we have seven measurements of different cars' weights and highway miles per gallon gas consumption.</li>
+  <li>Suppose we use software to compute that the linear correlation coefficient is $r \approx -0.987$.</li> 
+  <li><b>Consider the following:</b> using the table to the left of the critical values, can you determine if we would call the car weight and highway miles per gallon fuel consumption (anti)-correlated?  If so, what does this relationship signify?</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>We note that there are 7 pairs of measurements, so the corresponding critical value is $0.754$.</li>
+  <ul>
+    <li>The linear correlation coefficient $-0.987$ is more extreme than $-0.754$, so we say the variables are correlated.</li>
+  </ul>
+  <li>We recall, the negative sign for the correlation coefficient means that the variables of weight and highway MPG <strong>vary together oppositely</strong> ; </li>
+  <ul>
+    <li>i.e., <strong>as the weight goes up, the highway MPG goes down</strong>.</li>
+  </ul>
+</ul>
+</div>
+
+========================================================
+
+### Critical values for correlation continued
+
+    
+<div style="float:left; width:60%;text-align:center;">
+<img src="shoe_print_more_samples.png" style="width:100%" alt="Scatter plot for height versus shoe print length.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:40%">
+<ul>
+  <li><b>Note:</b> <strong>the linear correlation coefficient depends on the sample data</strong>.</li>
+  <ul>
+    <li>If we take measurements of the height and shoe print of five new people, <b>we will quite likely get a different linear correlation coefficient</b>.</li>
+  </ul>
+  <li>Also, the <strong>critical values and p-values depend on the number of observations in the sample</strong>.</li>  
+  <li>In the plot to the left, there are 40 total subject for whom we have pairs of measurements.</li>  
+  <li><b>Consider the following:</b> does the relationship between height and shoe print length show more evidence of correlation now?  Do you think the linear correlation coefficient will be close to $1$, $-1$ or to $0$?</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>In this case, the linear correlation coefficient is $\approx 0.813$ suggesting that the varialbes are positively correlated.</li>
+  <li><b>Note:</b> $r$ is not as extreme as the critical value of $0.878$ from before -- <b>however, this critical value was for $5$ samples only</b>.
+  <li>The critical value for $40$ samples is approximately $0.304$, so a coefficient of $0.813$ is much more extreme.</li>  
+  <li>More typically, we will use the p value for the linear correlation coefficient direclty as in the following example.</li>
+</ul>
+</div>
+
+
+========================================================
+
+## Computing the linear correlation coefficient manually example
+
+<div style="float:left; width:55%;text-align:center;">
+<img src="chocolate_vs_nobel_formula.png" style="width:100%" alt="Computation of the linear correlation coefficient.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>  
+</div>
+<div style="float:left; width:35%">
+<ul>
+   <li>We will return to only $n=5$ cases of the chocolate/ Nobel Laureate data.</li>
+   <li>In the left, we see the exact values of the paired measurments from $5$ countries in the original units -- laureates per million and kg of chocolate per capita.</li>
+   <ul>
+      <li>In the middle two columns, we have the corresponding z score for each measurement.</li>
+   </ul>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+   <li>In the final column, there are the values of the products of the corresponding z scores for each pair of measurements from the same country.</li>
+   <li>The sum of thes values is at the bottom of the right column, which divided by $n-1=4$ gives the linear correlation coefficient $r\approx 0.795$.</li>
+   <li>We can recall from the last example that the critical value for $n=5$ is $0.878$, so <strong>we fail to reject the null hypothesis that the variables are uncorrelated</strong>.</li>
+   <li>We can verify this computation by entering the pairs of values manually and computing the correlation coefficient in StatCrunch.</li>
+   <li>We will also compute the p value of this linear correlation coefficient to verify the hypothesis test.</li>
+</ul>
+</div>
+
+========================================================
+
+## Computing the linear correlation coefficient from a data set
+
+<div style="float:left; width:35%;text-align:center;">
+<img src="chocolate_vs_nobel.png" style="width:100%" alt="Table of chocolate consumption versus number of Nobel laureats per country.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>  
+</div>
+<div style="float:left; width:65%">
+<ul>
+   <li>We saw that the threshold for calling a linear correlation coefficient $r$ significant depends on the number of observations $n$.</li>
+   <li>With only a few ($n=5$) observations, it takes a much higher linear correlation coefficient than with many samples ($n=23$) to reject the null hypothesis with significance.</li>
+   <ul>
+      <li><strong>It is much easier for a small number of observations to appear to have a linear relationship just by random chance, than for a large number of observations</strong>.</li>
+   </ul>
+   <li>We will now consider the full data set and compute both the linear correlation coefficient and the p value for this statistic in StatCrunch.</li>
+   <li>Notice, in this case the linear correlation coefficient $r$ was closer to one, but the p value was extremely small.</li>
+   <li>This corresponds with the fact that <strong>the linear relationship has held over a much larger number of pairs of measurements</strong>.</li>
+</ul>
+</div>   
+<div style="float:left; width:20%">
+<ul>  
+   <li>Graphically, we can see the critical region for $n=23$ observations corresponds to $[-0.413,0.413]$, using a two-sided test.</li>
+</ul>
+</div>   
+<div style="float:left; width:45%" class="fragment">
+<img src="critical_values.png" style="width:100%" alt="Critical values for 23 observations.">   
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>  
+</div>
+
+
+========================================================
+
+## Computing the linear correlation coefficient for the body data
+
+<ul>
+   <li>We will now go through one example of computing the linear correlation coefficient with the Body Data in StatCrunch.</li>
+   <li>This kind of example should be representative of a quiz or exam question and you are recommended to study this type of example on your own for your understanding and practice.</li>
+   <li>We will show this as follows.</li>
+</ul>
+
