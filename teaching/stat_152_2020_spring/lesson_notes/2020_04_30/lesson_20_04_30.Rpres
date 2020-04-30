@@ -1,0 +1,561 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+Introduction to regression
+========================================================
+date: 04/30/2020
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+
+========================================================
+
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+   * Review of Correlation
+   * Linear trends in data
+   * Regression 
+   * Computing and graphing regression lines
+   * Explained variation
+   * Making predictions
+   * Residuals
+
+
+========================================================
+
+## Review of correlation
+  
+<div style="float:left; width:60%;text-align:center;">
+<img src="shoe_print.png" style="width:100%" alt="Scatter plot for height versus shoe print length.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:40%">
+<ul>
+  <li>Recall in the last lecture, we studied the <b>linear correlation coefficient</b> as a way to <strong>quantify a systematic, linear association between pairs of measurments</strong> in a sample of data.</li>
+  <li>In the case where:</li>
+  <ol>
+   <li>the observations were collected by <strong>simple random sampling</strong>;</li>
+   <li>upon inspection with a scatter plot, there was <strong>not a strong nonlinear pattern</strong>; and</li>
+   <li>there were <strong>no outliers in either of the $x$ or $y$ measurements</strong>;</li>
+  </ol>
+  <li>We used the linear correlation coefficient,
+  $$\begin{align}
+  r = \frac{\sum_{i=1}^n \left(z_{x_i} \times z_{y_i}\right)}{n-1}
+  \end{align}$$
+  to quantify the strength of this relationship.</li>
+</ul>
+</div>   
+<div style="float:left; width:100%">
+<ul>
+  <li>Values of <b>$r$ close to $1$</b> could loosely be interpreted as <strong>exhibiting a positive relationship between the variables $x$ and $y$</strong>.</li>
+  <li>Values of <b>$r$ close to $-1$</b> could loosely be interpreted as <strong>exhibiting a negative relationship between the variables $x$ and $y$</strong>.</li>
+  <li>However, <b style="color:#d95f02">$r$ is a sample statistic</b> which we must <strong>quantify the uncertainty</strong> of due to <b style="color:#d95f02">sampling error</b>;</li>
+  <li>that is for the <b style="color:#1b9e77">population level correlation coefficient parameter $\rho$</b> we will usually <strong>test the hypothesis</strong>,
+  $$\begin{align}
+  H_0: \rho  =0 & & H_1 \rho \neq 0.
+  \end{align}$$
+</ul> 
+</div>
+
+
+========================================================
+
+### Review of correlation continued
+
+
+<div style="float:left; width:60%;text-align:center;">
+<img src="shoe_print_more_samples.png" style="width:100%" alt="Scatter plot for height versus shoe print length.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:40%">
+<ul>
+  <li>Recall that  <strong>critical values and p-values depend on the number of observations in the sample</strong>.</li>
+  <li>A <strong>small number of measurements can easily exhibit a linear pattern</strong> when there is <b>no correlation between the variables <b style="color:#1b9e77">($\rho=0$)</b></b> just by <b style="color:#d95f02">random sampling error</b>;</li>
+  <li>however, this is more difficult for a large number of measurements.</li>
+  <li>As by the usual convention, if the p value for the hypothesis test is less than $\alpha =0.05$ we will rejet the null hypothesis with $5\%$ significance and claim that there exists some systematic linear relationship between the variables.</li>
+  <li><b>Note:</b> this systematic relationship does not mean one causes the other.</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+   <li><b>Correlation or anti-correlation</b> simply means that the <strong>values tend to vary together or oppositely</strong>;</li>
+   <ul>
+      <li>often, additional latent variables that are not measured can provide a better explantion of cause-and-effect.</li>
+   </ul>
+   <li>However, if we understand the purpose and limitations of correlation, this can be a powerful research tool to describe when certain measurements tend to vary together or oppositely as described above.</li>
+   <li>A natural extension of this idea is if there is a linear trend, we can make a model for this trend in terms of a line.</li>
+</ul>
+</div>
+
+
+
+========================================================
+
+## Regression
+
+
+<div style="float:left; width:60%;text-align:center;">
+<img src="regression_line.png" style="width:100%" alt="Scatter plot for height versus shoe print length with regression line.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:40%">
+<ul> 
+  <li>Noting that there was correlation in height and shoe print length, we could say,
+  <blockquote>
+  "On average, an increase in someone's height usually goes along with an increase in their shoe print length (and vice versa)."
+  </blockquote>
+  </li>
+  <li>A <b>regression line (or best fit line)</b> quantifies what this trend looks like.</li> 
+  <li>Recall the equation for a line,
+  $$y = {\color{red} a} +{\color{blue} b}x$$</li>
+  <ul>
+    <li><b style="color:red">The coefficient $a$ is the intercept.</b></li>
+    <ul>
+      <li>When the quantity $x$ is zero, then $y = {\color{red} a}$.</li>
+    </ul>
+    <li><b style="color:blue">The coefficient $b$ is the slope.</b></li>
+    <ul>
+      <li>An increase of 1 unit of variable $x$ corresponds to ${\color{blue} b}$ units of increase in  $y$.</li>
+    </ul>
+  </ul> 
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+   <li>In statitistics, we deal with random quantities that are subject to non-deterministic variation.</li>
+   <li>In this case, a best fit line doesn't mean that we have a direct input-output relationship as in the above equation.</li>
+   <li>Rather, this should be viewed as, if we were to <strong>average over the variation we see in the observations</strong>, the <b>mean increase in $y$ with a one unit increase in $x$ would be <b style="color:blue">$b$</b></b>.</li>
+   <li>This interpretation can then be used to predict the mean value of, e.g., the height, given some value of shoe print length.</li> 
+</ul> 
+</div>
+
+
+========================================================
+
+### Regression continued
+
+
+<div style="float:left; width:60%;text-align:center;">
+<img src="regression_line.png" style="width:100%" alt="Scatter plot for height versus shoe print length with regression line.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:40%">
+<ul>
+  <li> In regression, we write the equation for a line in a special form:
+  $$\hat{y} = {\color{red} {b_0} } + {\color{blue} {b_1} } x,$$
+  where we re-name the variables as:</li>
+  <ul>
+    <li>$y$ -- this is called the <b>response</b>;</li>
+    <li>$x$ -- this is called the <b>predictor</b>;</li>
+    <li>${\color{red} a}$ -- this is re-named ${\color{red} {b_0} }$; and </li>
+    <li>${\color{blue} b}$ -- this is re-named ${\color{blue} {b_1} }$.</li>
+  </ul>
+  <li>In our example, we could use software to compute</li>
+  <ul>
+    <li>${\color{red} {b_0} \approx 80.9}$; and</li>
+    <li>${\color{blue} {b_1} \approx 3.22}$.</li>  
+  </ul>
+   <li>The regression equation would then be read,
+  $$\hat{y}_\text{(Height)} = {\color{red} {80.9} } + {\color{blue} {3.22} } x_\text{(Shoe print length)}.$$</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+   <li>We should remember that there are <b>limitations to this equation</b>, and we cannot take the relationship this describes literally if we use <strong>values that go far beyond the scope of our observations</strong>.</li>  
+   <li>For example, we have no reason to believe that the trend will be accurate for a shoe print length of 100 cm, with an associated mean height of 402.9 cm.</li>
+   <li>This lies far beyond our observations, and the model will generally fail whenever we stretch this interpretation so far.</li>
+</ul>
+</div>
+
+========================================================
+
+### Requirements for regression
+
+<div style="float:left; width:40%;text-align:center;">
+<img src="regression_line.png" style="width:100%" alt="Scatter plot for height versus shoe print length with regression line.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:60%">
+<ul>
+   <li>Semi-formally, we will introduce regression as follows:</li>
+   <ul>
+    <li>Suppose that we have <b>$n$ observations</b> in a <strong>simple random sample with paired measurements $(x,y)$</strong>.</li>
+    <li>Suppose that when plotting $y$ versus $x$ in a scatter plot, we see <strong>mostly a straight line pattern, and no signs of a nonlinear pattern</strong>.</li>
+    <ul>
+      <li>For any fixed value $x_i$, all associated values of $y_{i,j}$ plotted above $x_i$ should be roughly normally distributed, and the mean of the $y_{i,j}$ should lie roughly on the straight line pattern.</li>
+    </ul>
+    <li>Suppose that for each fixed value $x_i$, the standard deviation of all $y_{i,j}$ lying above $x_i$ should be approximately the same as for each other $y_{k,j}$ lying above $x_k$ where $k\neq i$.</li>
+   </ul>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <ul>
+    <li>Additonally, suppose there aren't any extreme outliers in the observations.</li>
+  </ul>
+  <li>Under the loose conditions described above, we can effectively estimate a "best-fit" regression line 
+  $$\hat{y} = b_0 + b_1 x;$$</li>
+  <ul>
+    <li>up to <strong>some uncertainty</strong>, due to <b style="color:#d95f02">sampling error</b>, this <b>regression line estimates the mean value of the $y_{i,j}$ distributed above $x_i$ for any given value $x_i$ in the scope of the model</b>.</li>  
+  </ul>
+  <li>Actually, because <b style="color:#d95f02">$b_0$ and $b_1$ are computed from samples</b>, these are <b style="color:#d95f02">statistics</b> which are estimating <b style="color:#1b9e77">unknown popluation parameters</b> which describe the above relationship.</li>
+</ul>
+</div>
+
+========================================================
+
+## The regression equation
+
+
+<div style="float:left; width:60%;text-align:center;">
+<img src="regression_table.png" style="width:100%" alt="Table of regression parameter versus statistic values.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:40%">
+<ul>
+  <li>For the <b>regression line</b>, we are <strong>assuming that there exist</strong> actual <b style="color:#1b9e77">population parameters</b> that <strong>describe the mean of the $y$ values above $x$ values</strong>, as
+  $$y = {\color{#1b9e77} {\beta_0} }+ {\color{#1b9e77} {\beta_1} } x.$$
+  </li>
+  <li>The estimates $b_0$ and $b_1$ for the intercept and slope of this line are computed as
+  $$\begin{align}
+  b_1 = r\times \frac{s_y}{s_x} & & b_0 = \overline{y} - b_1 \overline{x} 
+  \end{align}$$</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li> where:</li>
+  <ol>
+    <li><b style="color:#d95f02">$r$</b> is the linear correlation coefficent which we discussed last lecture.</li>
+    <li><b style="color:#d95f02">$s_x$</b> is the sample standard deviation of the $x$ values and <b style="color:#d95f02">$s_y$</b> is the sample standard deviation of the $y$ values;</li>
+    <li><b style="color:#d95f02">$\overline{x}$</b> is the sample mean of the $x$ values and <b style="color:#d95f02">$\overline{y}$</b> is the sample mean of the $y$ values.</li>
+  </ol>
+  <li>Once again, this gives <b style="color:#d95f02">sample-based estimates</b> for <b style="color:#1b9e77">population parameters</b>, so we will want to <strong>quantify our uncertainty</strong> about these values using our methods of <b>confidence intervals</b> and <b>hypothesis tests</b>.</li>
+  <li>We will also want to <strong>make sure the assumptions we discussed loosely</strong> on the last slide <b>are accurate (for the most part)</b> -- methods for checking these assumptions are called diagnostics.</li>
+  <ul>
+    <li>We note, if there are <b>large numbers of observations</b>, the <strong>assumptions of normal distributions and equal standard deviations don't have to hold exactly</strong>, and we can still obtain reasonable results.</li>
+  </ul>
+  <li>However, we should <b>always be conscious of the effects of outliers</b>, because they <strong>can dramatically change the way the regression line behaves</strong>.</li>
+</ul> 
+</div>
+
+========================================================
+
+### Computing the regression equation
+
+<div style="float:left; width:40%;text-align:center;">
+<img src="chocolate_vs_nobel_regression.png" style="width:100%" alt="Table of regression parameter versus statistic values.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:60%">
+<ul>
+  <li>Performing regression without technology is very impractical, and we will not emphasize this whatsoever.</li>
+  <li>However, just for sake of viewing the estimated regression equation laid out formally for our running example, we will show this here.</li>
+  <li>For the example of Nobel Laureates versus chocolate consumption, recall that in the last lecture we found that:</li>
+  <ol>
+    <li>there were <strong>no extreme outliers</strong> and <strong>no nonlinear patterns</strong> in the data;</li>
+    <li>and the <b>correlation coefficient</b> was given as $r\approx 0.801$, <strong>rejecting the null hypothesis $\rho=0$ with $5\%$ significance</strong>.</li>
+  </ol>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>Informally, this makes it reasonable to consider a regression plot as pictured above.</li>
+  <li>The sample standard deviations and sample means of the $x$ and $y$ values are given as,
+  $$\begin{align}
+  \overline{x} \approx 5.8043 & & s_x \approx 3.2792 \\
+  \overline{y} \approx 11.1043 & & s_y \approx 10.2116
+  \end{align}$$</li>
+  <li>Together this gives our estimated regression coefficients as
+  $$\begin{align}
+  b_1 = 0.801 \times \frac{10.2116}{3.2792} \approx 2.4931 \\
+  b_0 = 11.1043 - 5.8043 \times 2.4931 \approx -3.3667
+  \end{align}$$
+</ul>
+</div>
+
+========================================================
+
+### Computing the regression equation
+
+<div style="float:left; width:40%;text-align:center;">
+<img src="chocolate_vs_nobel_regression.png" style="width:100%" alt="Table of regression parameter versus statistic values.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:60%">
+<ul>
+  <li>From the calculations on the last slide, we have
+    $$\begin{align}
+  b_1 \approx 2.49 \\
+  b_0 \approx -3.37
+  \end{align}$$</li>
+  <li>Therefore, our "best-fit" regression equation is given as,
+  $$\hat{y}_\text{Nobel per million} = -3.37 + 2.49 \times x_\text{kg of chocolate per capita}.$$  
+  </li>
+  <li>Notice that if $x=0$, the regression line would say the mean number of Nobel Laureates would be negative;</li>
+  <ul>
+    <li>however, this lies outside of the scope of the model as the smallest $x$ value is $0.7$, and we should be careful in the interpretation of the smallest and largest values in $x$.</li>
+  </ul>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>Crucially, we have not yet peformed any uncertainty quantification of the model.</li>
+  <li>The <b>correlation in the variables with $5\%$ significance</b> is a <strong>good indicator for the hypothesis test</strong>
+  $$\begin{align}
+  H_0: \beta_1 = 0 & & H_1 : \beta_1 \neq 0
+  \end{align}$$
+  because $b_1 = r \times \frac{s_y}{s_x}$.</li>
+  <li>This hypothesis test is whether we believe there is a <b>non-zero slope to the line</b>, i.e., <strong>a non-trivial linear relationship between $x$ and $y$</strong>.</li>
+  <li>If we <b>fail to reject the null</b>, we <strong>do not have a strong indication that a change in $x$ corresponds to any particular change in $y$</strong>.</li>
+  <li>We will perform this as follows in StatCrunch directly.</li>
+</ul>
+</div>
+
+========================================================
+
+## Explained variation
+
+<div style="float:left; width:40%;text-align:center;">
+<img src="chocolate_vs_nobel_regression.png" style="width:100%" alt="Nobel Prize Laureate versus chocolate consumption regression line.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:60%">
+<ul>
+  <li>There is another important connection between the correlation coefficient $r$ and the regression line which we will discuss as follows.</li>
+  <li>The value of $r$ taken as a square is known as the <b>"percent of explained variation"</b> <strong>in the value $y$ by the regression line in terms of $x$</strong>.</li>
+  <li>The percent explained variation is, <b>how much of the pattern in $y$ is described by the regression line with a non-zero slope</b>;</li>
+  <ul>
+    <li>alternatively, if there was a <b>zero slope</b>, i.e., if the <strong>null hypothesis</strong>
+    $$H_0: \beta_1 =0,$$
+    <strong>is true, the variation in $y$ would be better described simply by the best fit horizontal line</strong>.</li>
+  </ul>
+  <li>A <b>horizontal line</b> in the plot of $y$ versus $x$ is <strong>written as $\hat{y}=b_0$ for some best choice of $b_0$</strong>.</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>But we saw that
+  $$
+   b_0 = \overline{y} - b_1 \overline{x} 
+  $$
+  so that <strong>if $b_1$ should actually be equal to $0$</strong> like the true parameter, then <b>we should write</b>
+  $$\begin{align}
+  &b_0 = \overline{y} & &\Rightarrow & & \hat{y} = \overline{y}
+  \end{align}  
+  $$</li>
+  <li>The <b>values of $r^2$ range from $0$ to $1$</b>, with <b>$r^2$ close to $1$</b> telling us that the <strong>regression line gives a better fit than the horizontal line $\hat{y}=\overline{y}$</strong>.</li>
+  <li>In this case, $r=0.801$ so that $r^2 \approx 0.642$; this loosely says that $64.2\%$ of the trend in $y$ is explained by the regression line;</li>
+  <li>this is strong improvement over the horizontal line $\hat{y} = 11.1043$, which we can see just by visual inspection.</li>
+  <li>In the case we have a well fitting line, we will next discuss how we can use this to make predictions.</li>
+</ul>
+</div>
+
+========================================================
+
+## Predictions
+
+
+<div style="float:left; width:45%;text-align:center;">
+<img src="predicting_values_of_y.png" style="width:100%" alt="Predicting values of y flow chart.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>  
+<div style="float:left; width:55%">
+<ul>
+  <li>We saw how the <b>regression line</b> can give us a <strong>numerical value for the expected value of the response variable $y$ given some value $x$</strong>.</li>
+  <li>For a given choice of $x_i$ this is given precisely by,
+  $$\hat{y}_i = b_0 + b_1 x_i,$$
+  <strong>but $x_i$ does not have to be a value we have already observed</strong>.</li>
+  <ul>
+    <li>This is what is meant by prediction with the regression function -- <strong>we can provide an expected value for a new case of $x$ that has not been observed yet</strong>.</li>
+  </ul> 
+  <li>However, there are a number of <b>considerations and limitations of these predictions</b> which we will outline as follows.</li>
+  <li>The first consideration should be if the regression equation is appropriate at all:</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+<ol>
+    <li>Visually, we should see that the <b>data follows the regression line well in a scatter plot</b>, and that it is <strong>not strongly affected by outliers</strong>.</li>
+    <li>The value of <b>$r$</b> should <strong>reject the null hypothesis of $H_0:\rho=0$ with significance</strong>.</li>
+    <ul>
+      <li>If this were <b>not the case</b>, we <strong>cannot reject that the slope of the regression line should be equal to zero</strong> as $b_1 = r \times \frac{s_y}{s_x}$;</li>
+      <li>if we can't reject $H_0:\rho=0$, we <b>should just use $\hat{y}= \overline{y}$ instead</b>.</li>
+    </ul>
+    <li>The <b>value of $x$ shouldn't go beyond the scope of the observations</b> -- <strong>the predictions will become unreliable</strong>.</li>  
+</ol>
+</div>
+
+========================================================
+
+### Predictions continued
+
+
+<div style="float:left; width:45%;text-align:center;">
+<img src="predicting_values_of_y.png" style="width:100%" alt="Predicting values of y flow chart.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>  
+<div style="float:left; width:55%">
+<ul>
+  <li>In the flow chart to the left, we can see the three conditions before -- <b>suppose that these conditions are satisfied</b>.</li>
+  <li>If these are satisfied, we can obtain the prediction directly as discussed before;</li>
+  <ul>
+    <li>let us suppose that $x_i$ is some value of $x$ for which we want to predict the expected value of $y$.</li>
+  </ul>
+  <li>Then the <b>predicted value</b> is given by <strong>substituting this value into the regression equation</strong>,
+  $$\hat{y}_i = b_0 + b_1 x_i,$$
+  rounded to the appropriate decimal place for the problem and scale of interest.</li>
+  <li>However, <b>if any of the above conditions fail</b>, <strong>we should instead use the mean of the $y$ values directly as the prediction</strong>, i.e.,
+  $\hat{y}=\overline{y}$ as discussed earlier.</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>In the quiz and the final exam, you should be able to examine a real data set for the above conditions, and find the appropriate prediction based on these conditions.</li>
+  <li>Particularly, you should be able to identify which of the above conditions has failed, if any, and then compute the appropriate value for $\hat{y}$.</li>
+  <li>We will look at two such examples in the following in the body data in StatCrunch;</li>
+  <li>however, even though we will only look at two examples you should be able to identify all of the conditions above and in different data sets included with the book online.</li>
+</ul>
+</div>
+
+========================================================
+
+## Residuals
+
+<div style="float:left; width:45%;text-align:center;">
+<img src="residuals.png" style="width:100%" alt="Residuals to the regression line.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>  
+<div style="float:left; width:55%">
+<ul>
+  <li>There are good reasons we might want to consider the <b>difference between an observed value and the value that the model predicts</b>.</li>
+  <li>Suppose that $x_i$ is actually some observed measurement paired with the observed value $y_i$.</li>
+  <li>In general, <strong>we should not believe that $y_i$ is actually equal to
+  $$\hat{y}_i = b_0 + b_1 x_i ,$$</strong>
+  as there is random variation in every piece of sample data $(x_i,y_i)$.</li>
+  <li>Even though $\hat{y}_i$ is our estimate for the expected value of $y_i$, these observations are randomly distributed around the true expected value;</li>
+  <ul>
+    <li>therefore, there is generally a mismatch even if $\hat{y}$ is a perfectly accurate estimate of the expected value.</li>
+  </ul> 
+  <li>There is a special name for this <strong>mismatch $y_i - \hat{y}_i$</strong>, <b>the residual</b>.</li>
+  <li>In the figure to the left, we can see a diagram of what a residual would look like in terms of the vertical lines.</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>The <b>regression line is called a "best-fit" line</b> because it is actually the line that <strong>minimizes the total of all squared residuals</strong>.</li>
+  <ul>
+    <li>Concretely, this is a minimum distance line between the predicted and the observed values of $y$ when written in terms of $x$.</li>  
+  </ul>
+  <li>This is generally a very desireable property for the predictions, but it is also a weakness when the data has extreme outliers, particularly in the $x$ values...</li>
+</ul>
+</div>
+
+
+========================================================
+
+## Outliers and influential points
+
+<div style="float:left; width:65%; text-align:center;">
+<div style="float:left; width:50%;text-align:center;">
+<img src="leverage_1.png" style="width:100%" alt="Residuals to the regression line.">
+</div>
+<div style="float:left; width:50%;text-align:center;">
+<img src="leverage_2.png" style="width:100%" alt="Residuals to the regression line.">
+</div>
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:35%">
+<ul>
+  <li>The regression line will try to fit the extreme outlier at the cost of other observations, when there is an extreme outlier in the $x$ values.</li>
+  <li>If there are <b>extreme outliers in the $x$ values</b> that would otherwise lie off the regression line, <strong>including such a point will dramatically change the fit</strong>.</li>
+  <li>Consider the plots to the left.</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>In the left plot, we have the regression from the original Nobel/ Chocolate data where we have a reasonable fit to the data.</li>
+  <li>In the right plot, the book's author has included an influential point, in that it is extreme in the $x$ values, and lies away from the original regression line.</li>  
+  <li>The regression line in the right plot has tried to minimize the squared residuals for all observations, but has placed special importance on this point at the cost of the others.</li>
+  <li>This one of the main resons we need to be conscious of outlier points in the data, and to determine if these measurements are truthful or erroneous.</li>
+  <li>Their presence can dramatically change our understanding of the relationship between $x$ and $y$, and the predictions we would obtain therenin.</li>
+</ul>
+</div>
+
+========================================================
+
+## Residual plots
+
+
+<div style="float:left; width:100%; text-align:center;">
+<div style="float:left;width:100%">
+<div style="float:left; width:33%;text-align:center;">
+<img src="good_residuals.png" style="width:100%" alt="Residuals to the regression line.">
+</div>
+<div style="float:left; width:33%;text-align:center;">
+<img src="nonlinear_residuals.png" style="width:100%" alt="Residuals to the regression line.">
+</div>
+<div style="float:left; width:33%;text-align:center;">
+<img src="non_constant_std_residual.png" style="width:100%" alt="Residuals to the regression line.">
+</div>
+</div>
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left;width:100%">
+<ul>
+  <li>When performing regression in practice, one of the most important aspects is to verify if the assumptions have not held.</li>
+  <ul>
+    <li>This is most typically performed by plotting the residuals above the $x$ value as in the above figures.</li>
+  </ul>
+  <li>Particularly, the residuals should just look like white-noise, with no particular pattern or structure.</li>
+  <li>On the left, this is a <b>good case</b>, where there <strong>isn't any particular stucture</strong>.</li>
+  <li>In the middle, there is a <b>nonlinear structure</b> making the model <strong>not a good fit</strong>.</li>
+  <li>On the right, the <b>residuals widen as we increase $x$</b>, meaning that the <strong>equal standard deviation assumptionno longer holds</strong>.</li>
+  <li>This is just a quick preview of the kinds of ideas you would see in a future statistical modelling class, but will not be on the exams.</li>
+</ul>
+</div>
