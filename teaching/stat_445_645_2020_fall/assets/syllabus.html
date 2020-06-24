@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+
+<html lang="en-us">
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Introduction to Statistical Computing</title>
+
+<style type="text/css">
+  
+  /* Whole document - standard notebook size and margins */
+  body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      max-width: 8.5in;
+      margin: auto;
+      background: #FFFFFF;
+      padding: 1in 1in 1in 1in;
+  }
+
+#customlist {
+  /* delete default counter */
+  list-style-type: none;
+  /* create custom counter and set it to 0 */
+  counter-reset: elementcounter;
+}
+
+#customlist>li:before {
+  /* print out "Section " followed by the current counter value */
+  content: "Section " counter(elementcounter) ":";
+  /* increment counter */
+  counter-increment: elementcounter;
+}
+  
+</style>
+
+
+
+
+
+<link href="data:text/css;charset=utf-8,%3Cstyle%20type%3D%22text%2Fcss%22%3E%0A%0A%0Abody%20%7B%0Afont%2Dfamily%3A%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Amax%2Dwidth%3A%208%2E5in%3B%0Amargin%3A%20auto%3B%0Abackground%3A%20%23FFFFFF%3B%0Apadding%3A%201in%201in%201in%201in%3B%0A%7D%0A%0Ah1%20%7B%0Afont%2Dsize%3A%2050px%3B%0Acolor%3A%20%23000000%3B%0Atext%2Dalign%3Acenter%3B%0Amargin%2Dbottom%3A15px%3B%0A%7D%0Ah1%2Bp%20%7B%0A%0Acolor%3A%20%23000000%3B%0Afont%2Dsize%3A%2020px%3B%0Aline%2Dheight%3A%202em%3B%0Amargin%2Dtop%3A%200%2E5em%3B%0Amargin%2Dbottom%3A%200em%20%21important%3B%0Atext%2Dalign%3A%20center%3B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0A%0Ah2%20%7B%0Acolor%3A%20%23000000%3B%0A%7D%0A%0Adt%20%7B%0Afloat%3A%20left%3B%0Aclear%3A%20left%3B%0Awidth%3A%2017%25%3B%0A%0A%7D%0Add%20%7B%0Amargin%2Dleft%3A%2017%25%3B%0A%7D%0Ap%20%7B%0Amargin%2Dtop%3A0%3B%0Amargin%2Dbottom%3A7px%3B%0A%7D%0A%0Ablockquote%20%7B%0Atext%2Dalign%3A%20left%3B%20%7D%0A%0Aa%20%7B%0Atext%2Ddecoration%3A%20none%3B%0Acolor%3A%20%231D5996%3B%0A%7D%0Aa%3Ahover%2C%20a%3Aactive%20%7B%0Abackground%2Dcolor%3A%20%231D5996%3B%0Acolor%3A%20%23FFFFFF%3B%0Atext%2Ddecoration%3A%20none%3B%0Atext%2Dshadow%3A%201px%201px%201px%20%23333%3B%0A%7D%0A%0Ahr%20%7B%0Acolor%3A%20%23A6A6A6%3B%0A%7D%0Atable%20%7B%0Awidth%3A%20100%25%3B%0Aborder%2Dcollapse%3Acollapse%3B%0Aborder%2Dspacing%3A0%3B%0Adisplay%3Atable%0A%7D%0Atable%2EminimalistBlack%20%7B%0Aborder%3A%203px%20solid%20%23000000%3B%0Awidth%3A%20100%25%3B%0Atext%2Dalign%3A%20left%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%2EminimalistBlack%20td%2C%20table%2EminimalistBlack%20th%20%7B%0Apadding%3A%205px%204px%3B%0A%7D%0Atable%2EminimalistBlack%20tbody%20td%20%7B%0Afont%2Dsize%3A%2015px%3B%0A%7D%0Atable%2EminimalistBlack%20thead%20%7B%0Abackground%3A%20%23CFCFCF%3B%0Abackground%3A%20%2Dmoz%2Dlinear%2Dgradient%28top%2C%20%23dbdbdb%200%25%2C%20%23d3d3d3%2066%25%2C%20%23CFCFCF%20100%25%29%3B%0Abackground%3A%20%2Dwebkit%2Dlinear%2Dgradient%28top%2C%20%23dbdbdb%200%25%2C%20%23d3d3d3%2066%25%2C%20%23CFCFCF%20100%25%29%3B%0Abackground%3A%20linear%2Dgradient%28to%20bottom%2C%20%23dbdbdb%200%25%2C%20%23d3d3d3%2066%25%2C%20%23CFCFCF%20100%25%29%3B%0Aborder%2Dbottom%3A%203px%20solid%20%23000000%3B%0A%7D%0Atable%2EminimalistBlack%20thead%20th%20%7B%0Afont%2Dsize%3A%2015px%3B%0Afont%2Dweight%3A%20bold%3B%0Acolor%3A%20%23000000%3B%0Atext%2Dalign%3A%20left%3B%0A%7D%0Atable%2EminimalistBlack%20tfoot%20%7B%0Afont%2Dsize%3A%2014px%3B%0Afont%2Dweight%3A%20bold%3B%0Acolor%3A%20%23000000%3B%0Aborder%2Dtop%3A%203px%20solid%20%23000000%3B%0A%7D%0Atable%2EminimalistBlack%20tfoot%20td%20%7B%0Afont%2Dsize%3A%2014px%3B%0A%7D%0A%0A%2Eshort%5Fanswer%5Fdiv%20%7B%0Awidth%3A100%25%3B%0Aheight%3A1%2E5in%3B%0Afloat%3Aleft%3B%0A%7D%0A%2Eanswer%5Fdiv%20%7B%0Awidth%3A100%25%3B%0Aheight%3A2in%3B%0Afloat%3Aleft%3B%0A%7D%0A%2Elong%5Fanswer%5Fdiv%7B%0Awidth%3A100%25%3B%0Aheight%3A3in%3B%0Afloat%3Aleft%3B%0A%7D%0A%0A%40media%20print%20%7B%0A%2Epagebreak%20%7B%20page%2Dbreak%2Dbefore%3A%20always%3B%20padding%2Dtop%3A1in%3B%0A%7D%20%7D%0Adiv%2Esolutions%20%2A%20%7B%0Acolor%3A%23000099%3B%0A%7D%0A%3C%2Fstyle%3E%0A" rel="stylesheet" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Introduction to Statistical Computing</h1>
+
+
+
+<p>STAT 445/645 <br> Instructor: Colin Grudzien<br></p>
+<div id="class-information" class="section level2">
+<h2>Class Information:</h2>
+<div id="class-times-spring-2020-monwed-230-pm---345-pm" class="section level3">
+<h3>Class times: Spring 2020 – MonWed 2:30 PM - 3:45 PM</h3>
+</div>
+<div id="class-room-dmsc-106" class="section level3">
+<h3>Class room: DMSC 106</h3>
+</div>
+<div id="final-exam-200-pm-wednesday-december-16th-see-final-exam-policy" class="section level3">
+<h3>Final exam: 2:00 PM Wednesday December 16th, see <a href="#final_exam_policy">final exam policy</a></h3>
+</div>
+</div>
+<div id="instructor-information" class="section level2">
+<h2>Instructor information:</h2>
+<table class="minimalistBlack">
+<thead>
+<tr>
+<th>
+Contact
+</th>
+<th>
+Office
+</th>
+<th>
+Office Hours
+</th>
+</tr>
+</thead>
+<tr>
+<td>
+<a href="mailto:CGrudzien@unr.edu" class="email">CGrudzien@unr.edu</a>
+</td>
+<td>
+DMSC 218
+</td>
+<td>
+MonWed 4:00 - 5:00 PM on zoom
+</td>
+</tr>
+<tr>
+<td>
+<ol start="775" style="list-style-type: decimal">
+<li>784-7554
+</td>
+<td>
+</td>
+<td>
+or by appointment
+</td>
+</tr>
+</table></li>
+</ol>
+</div>
+<div id="communication" class="section level2">
+<h2>Communication</h2>
+<p>Announcements and course updates will be posted in <a href="https://unr.canvaslms.com/login/canvas" target="blank">Webcampus</a>. Students are expected to keep up-to-date on the course by reading these announcements for important information on assignments, midterms, etc.</p>
+</div>
+<div id="help-questions" class="section level2">
+<h2>Help &amp; Questions</h2>
+<p>There will be a classroom discussion forum where you can seek help from the instructor and peers about the assignments. Some assignments will require that you post and discuss results in this forum.</p>
+<p>The best way to contact the instructor is via email or message within Webcampus. Messages received before 16:00 during business days will usually get a response the same day. Emails received after 16:00 or during the weekend are not guaranteed a same-day response. Longer questions will not be answered by email and will be directed to appointments or office hours.</p>
+<p>After class sessions on Zoom, the instructor will be <strong>available until 5:00 for public office hours and questions</strong>. If you cannot attend office hours or if you need to discuss something privately you can set an appointment with the instructor directly.</p>
+</div>
+<div id="course-description" class="section level2">
+<h2>Course description</h2>
+<div id="content" class="section level3">
+<h3>Content</h3>
+<p>This course introduces students to computational statistical methods within a modern computing environment. The first part of this course will be devoted to learning the R language and basic programming skills. The second part of this course reviews univariate statistics seen in the prerequisites, but within a computational framework. The third part of this course introduces basics concepts and computational techniques for understanding root finding and minimization/maximization methods using multivariate distributions, numerical linear algebra, numerical integration and numerical differentiation. In the last part of this course, students are introduced to three different frameworks for statistical modeling, using regression, maximum likelihood estimation and Markov chain Monte Carlo techniques. A final report is required for graduate students and is optional for undergraduate students as in the <a href="#final_exam_policy">final exam policy</a>.</p>
+</div>
+<div id="structure-for-online-learning" class="section level3">
+<h3>Structure for online learning</h3>
+<p>This class will follow a flipped design in which students are expected to watch one or more short lectures before the class session. This lecture will cover content that is relevant to the day’s activity in class. Class sessions will be held on Zoom and students are expected to attend the Zoom meeting to work on the day’s activities with their cohort. The day’s activities will require posting a discussion of the results according to the assignment rubric in the forum for completion credit. Quizzes and Midterms are taken online, open-book, open-note in WebCampus, but students are expected to work alone on these exams.</p>
+</div>
+</div>
+<div id="catalog-description" class="section level2">
+<h2>Catalog description</h2>
+<p>Introduction to statistical computing; data visualization and manipulation; document creation; graphics; simulation techniques; parallel computing; estimation; optimization; advanced statistical methods.</p>
+</div>
+<div id="prerequisites" class="section level2">
+<h2>Prerequisites</h2>
+<p>Prerequisite(s): STAT 352 or STAT 467 or STAT 667 or instructor approval.</p>
+</div>
+<div id="required-software-and-technology" class="section level2">
+<h2>Required software and technology</h2>
+By signing up for this class you acknowledge the responsibility to have access to:
+<ul>
+<li>
+A home desktop or home laptop computer that you can use for online quizzes and that you <strong>can install statistical software on and download data to</strong>.
+</li>
+<li>
+A reliable internet connection to consistently attend class activities and to access online class content or examination.
+</li>
+</ul>
+<p>In the first two weeks of class students are required to obtain a free educational license of <a href="https://www.datacamp.com/courses/free-introduction-to-r">DataCamp’s Introduction to R</a>, with instructions sent in an announcement by the instructor. <strong>You do not have to pay for DataCamp so please await instructions on how to sign up free through STAT 445/645.</strong></p>
+You will also need to install the following software for class assignments:
+<ul>
+<li>
+R is required for the class. Students can get an installation file from <a href="https://www.r-project.org/" target="blank">the R project (free and open source software)</a>.
+</li>
+<li>
+Students are required to install the editor <a href="https://rstudio.com/products/rstudio/download/" target="blank">RStudio Free Desktop Edition</a> for some class assignments.
+</li>
+<li>
+Students are also required to install <a href="https://www.latex-project.org/" target="blank">LaTeX (free typesetting language)</a>. This is required to compile R Markdown, and is the standard for writing mathematical and statistical reports and publications.
+</li>
+<li>
+Advanced students interested in the theory of programming are recommended <a href="https://eloquentjavascript.net/" target="blank">Eloquent Javascript (free, creative commons)</a>.
+</li>
+</ul>
+</div>
+<div id="required-book" class="section level2">
+<h2>Required book</h2>
+There is no required textbook for this class. Students will be expected to follow the video lectures and the class activities to learn the content of this course, but additional recommended resources are the following:
+<ul>
+<li>
+<a href="https://www.springer.com/gp/book/9783319553351" target="blank"> <em>Härdle, W.K., O. Okhrin, and Y. Okhrin. Basic Elements of Computational Statistics. Springer International Publishing, 2017.</em></a>
+</li>
+<li>
+<a href="https://www.routledge.com/Statistical-Computing-with-R-Second-Edition/Rizzo/p/book/9781466553323" target="blank"> <em>Rizzo, Maria L. Statistical computing with R. CRC Press, 2019.</em></a>
+</li>
+<li>
+<em>Kutner, M. et al. Applied Linear Statistical Models 5th Edition / Applied Linear Regression Models 4th Edition</em>
+</li>
+<li>
+<a href="https://newonlinecourses.science.psu.edu/statprogram/reviews" target="blank">Review of statistical concepts, calculus and matrices.</a>
+</li>
+</ul>
+</div>
+<div id="electronic-resources" class="section level2">
+<h2>Electronic resources</h2>
+<div id="web-campus" class="section level3">
+<h3><a href="https://wcl.unr.edu">Web Campus</a></h3>
+<p>Students are responsible for checking their email accounts and Web Campus for announcements. Students are assumed to be aware of all information posted to these sources prior to each meeting. <strong>Announcements, homework and grades will be posted in Web Campus.</strong></p>
+</div>
+<div id="course-archive-page" class="section level3">
+<h3><a href="https://cgrudz.github.io/teaching/stat_445_645_2020_fall/">Course archive page</a></h3>
+<p>This page includes an archive of lecture notes and activities from the class, along with the current schedule for the semester.</p>
+</div>
+</div>
+<div id="student-learning-outcomes" class="section level2">
+<h2>Student learning outcomes</h2>
+<p>Upon completion of this course, students will be able to:</p>
+<ol style="list-style-type: decimal">
+<li><p>implement statistical simulation, re-sampling techniques, and maximum likelihood estimation;</p></li>
+<li><p>conduct a simulation-based power analysis; and</p></li>
+<li><p>write professional quality reports and computer code.</p></li>
+</ol>
+<p>Graduate students will additionally complete a final research project and effectively communicate their findings.</p>
+</div>
+<div id="assignments-and-grading" class="section level2">
+<h2>Assignments and grading</h2>
+<div id="video-lectures" class="section level3">
+<h3>Video lectures</h3>
+<p>Each week there will be at least two short video lectures to watch before the class activities on Monday and Wednesday normal class sessions.</p>
+</div>
+<div id="activities" class="section level3">
+<h3>Activities</h3>
+<p>In a normal class session, students will work through a class activity that uses the content from the video lectures that week. The activity will require a written summary and analysis at the end of the day according to the activity rubric.</p>
+</div>
+<div id="quizzes" class="section level3">
+<h3>Quizzes</h3>
+<p>There will be quizzes most weeks in WebCampus to evaluate learning of the concepts from the week. This will usually take the form of a multiple choice exam in WebCampus which is open-book, open-note. Students are expected to work on quizzes alone.</p>
+</div>
+<div id="homework" class="section level3">
+<h3>Homework</h3>
+<p>In the first four weeks of class, students will complete chapters of <a href="https://www.datacamp.com/courses/free-introduction-to-r">DataCamp’s Introduction to R</a> for homework in preparation for the Midterm 1 project. After week four, quizzes on the week’s content will replace homework as the weekly assessment.</p>
+</div>
+<div id="midterms" class="section level3">
+<h3>Midterms</h3>
+<p>There will be three midterms scheduled tentatively on:</p>
+<ol style="list-style-type: decimal">
+<li>Project – due Friday, September 24,</li>
+<li>Online exam – Wednesday, October 14, and</li>
+<li>Online exam – Wednesday, November 11.</li>
+</ol>
+<p>There will be a review session before each exam. Midterm 1 will take the form a project to be submitted by 11:59 PM on Friday, September 14. Details are in the <a href="./midterm_1.html">Midterm 1 project description</a>.</p>
+</div>
+<div id="final-exam-policy" class="section level3">
+<h3><a id="final_exam_policy"></a> Final exam policy</h3>
+<p>The final project is required for graduate students and optional for undergraduate students. This will consist of a final report written on one of several available topics to choose from in the assignment. Undergraduate students may optionally complete a final project in order replace their lowest midterm score with the score on the final exam. The <strong>final project must be submitted on WebCampus by 2:00 PM on Wednesday, December 16</strong>. Details on the assignment are in the <a href="./final_exam.html" target="blank">final project description</a>.</p>
+</div>
+</div>
+<div id="final-grades" class="section level2">
+<h2>Final grades</h2>
+<p>Final grades will be calculated according to the following: <br></p>
+<table class="minimalistBlack">
+<thead>
+<tr>
+<th>
+Category
+</th>
+<th>
+Percent of final grade for 400 level
+</th>
+<th>
+Percent of final grade for 600 level
+</th>
+</tr>
+</thead>
+<tr>
+<td>
+Class activities
+</td>
+<td>
+<span class="math inline">\(40\%\)</span>
+</td>
+<td>
+<span class="math inline">\(15\%\)</span>
+</td>
+</tr>
+<tr>
+<td>
+Quiz and homework average
+</td>
+<td>
+<span class="math inline">\(15\%\)</span>
+</td>
+<td>
+<span class="math inline">\(15\%\)</span>
+</td>
+<tr>
+<td>
+Midterm 1 Project
+</td>
+<td>
+<span class="math inline">\(15\%\)</span>
+</td>
+<td>
+<span class="math inline">\(15\%\)</span>
+</td>
+</tr>
+<tr>
+<td>
+Midterm 2
+</td>
+<td>
+<span class="math inline">\(15\%\)</span>
+</td>
+<td>
+<span class="math inline">\(15\%\)</span>
+</td>
+</tr>
+<tr>
+<td>
+Midterm 3
+</td>
+<td>
+<span class="math inline">\(15\%\)</span>
+</td>
+<td>
+<span class="math inline">\(15\%\)</span>
+</td>
+</tr>
+<tr>
+<td>
+Final exam project
+</td>
+<td>
+<span class="math inline">\(0\%\)</span>
+</td>
+<td>
+<span class="math inline">\(25\%\)</span>
+</td>
+</tr>
+</table>
+<p><br> The final letter grade will be assigned according to the weighted score as in the following table:</p>
+<table class="minimalistBlack">
+<thead>
+<tr>
+<th>
+Weighted score <span class="math inline">\(x\)</span>
+</th>
+<th>
+Final letter grade
+</th>
+</tr>
+</thead>
+<tr>
+<td>
+<span class="math inline">\(90\% \leq x \leq 100\%\)</span>
+</td>
+<td>
+A
+</td>
+</tr>
+<tr>
+<td>
+<span class="math inline">\(80\% \leq x &lt; 90\%\)</span>
+</td>
+<td>
+B
+</td>
+</tr>
+<tr>
+<td>
+<span class="math inline">\(70\% \leq x &lt; 80\%\)</span>
+</td>
+<td>
+C
+</td>
+</tr>
+<tr>
+<td>
+<span class="math inline">\(60\% \leq x &lt; 70\%\)</span>
+</td>
+<td>
+D
+</td>
+</tr>
+<tr>
+<td>
+<span class="math inline">\(0 \% \leq x &lt; 60\%\)</span>
+</td>
+<td>
+F
+</td>
+</tr>
+</table>
+</div>
+<div id="important-dates" class="section level2">
+<h2>Important dates</h2>
+<p>Please see the <a href="https://www.unr.edu/academic-central/academic-resources/academic-calendar##Spring%202020">UNR Academic Calendar</a> for important dates in the semester.</p>
+</div>
+<div id="late-policy-and-exceptions" class="section level2">
+<h2>Late policy and exceptions</h2>
+<p>There are no makeups for quizzes, exams or participation except for university recognized activities or exceptional circumstances, as per university policy. To accommodate unforeseen circumstances, <strong>the lowest quiz or homework score and the lowest two participation scores will be dropped from the final grade calculation</strong>. For undergraduates, a midterm score can be replaced with the final project score only once. If a student feels confident in R scripting at the start of the course and can demonstrate previous work, all DataCamp assignments can be excused and replaced with the score they receieve on the Midterm 1 Project. This is approved on a case-by-case basis by the instructor.</p>
+<p>If a student needs to miss class due to participation in official university activities or a religious observance, they <strong>must make arrangements with the instructor at least one week prior to the date in question – the absence will not be given consideration without this advanced notice</strong>. In cases of absences due to extended illness, family emergency, bereavement, or other compelling reason, students should notify the instructor as soon as possible and <strong>within one week of the start of the absence</strong>. The instructor has the right to request formal, written documentation in such cases as they deem appropriate. Please see the <a href="https://www.unr.edu/administrative-manual/3000-3999-students/3020-class-absence-policy">full policy statement on absences</a>.</p>
+</div>
+<div id="extra-credit" class="section level2">
+<h2>Extra credit</h2>
+<p>No extra work will be given to earn extra points at any point during the semester. Do not email the instructor to request for extra work for extra credit.</p>
+</div>
+<div id="diversity-statement" class="section level2">
+<h2>Diversity statement</h2>
+<p>The University of Nevada, Reno is committed to providing a safe learning and work environment for all. Students are expected to treat each other and the instructor with respect. No form of harassment, discrimination or bullying will be tolerated. If you believe you have experienced discrimination, sexual harassment, sexual assault, domestic/dating violence, or stalking, whether on or off campus, or need information related to immigration concerns, please contact the University’s Equal Opportunity &amp; Title IX Office at (775) 784-1547. Resources and interim measures are available to assist you. For more information, please visit the <a href="https://www.unr.edu/equal-opportunity-title-ix">Title IX website for UNR</a></p>
+</div>
+<div id="disability-services" class="section level2">
+<h2>Disability services</h2>
+<p>Any student with a disability needing academic adjustments or accommodations is requested to speak with the Disability Resource Center (Pennington Student Achievement Center, Suite 230) as soon as possible to arrange for appropriate accommodations. More information can be found at the <a href="https://www.unr.edu/drc">DRC website</a>.</p>
+</div>
+<div id="academic-conduct" class="section level2">
+<h2>Academic conduct</h2>
+<p>No laptops, cell phones, mp3 players, or other electronics are to be used for personal reasons in class. If you are being disruptive during class you will be asked to leave. Disruptions in this context include inadequate participation. Please see our official <a href="https://www.unr.edu/student-conduct">Student Code of Conduct</a>.</p>
+</div>
+<div id="academic-success-services" class="section level2">
+<h2>Academic success services</h2>
+<p>A common habit among successful students is to seek help outside of the classroom. Your student fees cover use of the <a href="https://www.unr.edu/mathcenter">Math Center</a> (784-4433), <a href="https://www.%20unr.edu/tutoring-center">Tutoring Center</a> (784-6801), and <a href="https://www.unr.edu/writing-center">University Writing Center</a> (784-6030). These centers support your classroom learning; it is your responsibility to take advantage of their services.</p>
+</div>
+<div id="statement-on-audio-and-video-recording" class="section level2">
+<h2>Statement on Audio and Video Recording</h2>
+<p>Surreptitious or covert video-taping of class or unauthorized audio recording of class is prohibited by law and by Board of Regents policy. This class may be videotaped or audio recorded only with the written permission of the instructor. In order to accommodate students with disabilities, some students may be given permission to record class lectures and discussions. Therefore, students should understand that their comments during class may be recorded.</p>
+</div>
+<div id="academic-dishonesty" class="section level2">
+<h2>Academic dishonesty</h2>
+<p>Cheating, plagiarism, or otherwise obtaining grades under false pretenses constitutes academic dishonesty according to the code of this university. Academic dishonesty will not be tolerated and penalties can include canceling a students enrollment without a grade or giving an F for the assignment or for the entire course. For more details, see the University of Nevada, Reno general catalog. The University Academic Standards Policy defines academic dishonesty, and mandates specific sanctions for violations. See the <a href="https://www.unr.edu/administrative-manual/6000-6999-curricula-teaching-research/instruction-research-procedures/6502-academic-standards">University Academic Standards policy: UAM 6,502</a>.</p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
