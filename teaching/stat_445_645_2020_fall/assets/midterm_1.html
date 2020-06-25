@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Midterm 1 STAT 445/645,  Fall 2020</title>
+
+<style type="text/css">
+  
+  /* Whole document - standard notebook size and margins */
+  body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      max-width: 8.5in;
+      margin: auto;
+      background: #FFFFFF;
+      padding: 1in 1in 1in 1in;
+  }
+
+#customlist {
+  /* delete default counter */
+  list-style-type: none;
+  /* create custom counter and set it to 0 */
+  counter-reset: elementcounter;
+}
+
+#customlist>li:before {
+  /* print out "Section " followed by the current counter value */
+  content: "Section " counter(elementcounter) ":";
+  /* increment counter */
+  counter-increment: elementcounter;
+}
+  
+</style>
+
+
+
+
+
+<link href="data:text/css;charset=utf-8,%3Cstyle%20type%3D%22text%2Fcss%22%3E%0A%0A%0Abody%20%7B%0Afont%2Dfamily%3A%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Amax%2Dwidth%3A%208%2E5in%3B%0Amargin%3A%20auto%3B%0Abackground%3A%20%23FFFFFF%3B%0Apadding%3A%201in%201in%201in%201in%3B%0A%7D%0A%0Ah1%20%7B%0Afont%2Dsize%3A%2050px%3B%0Acolor%3A%20%23000000%3B%0Atext%2Dalign%3Acenter%3B%0Amargin%2Dbottom%3A15px%3B%0A%7D%0Ah1%2Bp%20%7B%0A%0Acolor%3A%20%23000000%3B%0Afont%2Dsize%3A%2020px%3B%0Aline%2Dheight%3A%202em%3B%0Amargin%2Dtop%3A%200%2E5em%3B%0Amargin%2Dbottom%3A%200em%20%21important%3B%0Atext%2Dalign%3A%20center%3B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0A%0Ah2%20%7B%0Acolor%3A%20%23000000%3B%0A%7D%0A%0Adt%20%7B%0Afloat%3A%20left%3B%0Aclear%3A%20left%3B%0Awidth%3A%2017%25%3B%0A%0A%7D%0Add%20%7B%0Amargin%2Dleft%3A%2017%25%3B%0A%7D%0Ap%20%7B%0Amargin%2Dtop%3A0%3B%0Amargin%2Dbottom%3A7px%3B%0A%7D%0A%0Ablockquote%20%7B%0Atext%2Dalign%3A%20left%3B%20%7D%0A%0Aa%20%7B%0Atext%2Ddecoration%3A%20none%3B%0Acolor%3A%20%231D5996%3B%0A%7D%0Aa%3Ahover%2C%20a%3Aactive%20%7B%0Abackground%2Dcolor%3A%20%231D5996%3B%0Acolor%3A%20%23FFFFFF%3B%0Atext%2Ddecoration%3A%20none%3B%0Atext%2Dshadow%3A%201px%201px%201px%20%23333%3B%0A%7D%0A%0Ahr%20%7B%0Acolor%3A%20%23A6A6A6%3B%0A%7D%0Atable%20%7B%0Awidth%3A%20100%25%3B%0Aborder%2Dcollapse%3Acollapse%3B%0Aborder%2Dspacing%3A0%3B%0Adisplay%3Atable%0A%7D%0Atable%2EminimalistBlack%20%7B%0Aborder%3A%203px%20solid%20%23000000%3B%0Awidth%3A%20100%25%3B%0Atext%2Dalign%3A%20left%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%2EminimalistBlack%20td%2C%20table%2EminimalistBlack%20th%20%7B%0Apadding%3A%205px%204px%3B%0A%7D%0Atable%2EminimalistBlack%20tbody%20td%20%7B%0Afont%2Dsize%3A%2015px%3B%0A%7D%0Atable%2EminimalistBlack%20thead%20%7B%0Abackground%3A%20%23CFCFCF%3B%0Abackground%3A%20%2Dmoz%2Dlinear%2Dgradient%28top%2C%20%23dbdbdb%200%25%2C%20%23d3d3d3%2066%25%2C%20%23CFCFCF%20100%25%29%3B%0Abackground%3A%20%2Dwebkit%2Dlinear%2Dgradient%28top%2C%20%23dbdbdb%200%25%2C%20%23d3d3d3%2066%25%2C%20%23CFCFCF%20100%25%29%3B%0Abackground%3A%20linear%2Dgradient%28to%20bottom%2C%20%23dbdbdb%200%25%2C%20%23d3d3d3%2066%25%2C%20%23CFCFCF%20100%25%29%3B%0Aborder%2Dbottom%3A%203px%20solid%20%23000000%3B%0A%7D%0Atable%2EminimalistBlack%20thead%20th%20%7B%0Afont%2Dsize%3A%2015px%3B%0Afont%2Dweight%3A%20bold%3B%0Acolor%3A%20%23000000%3B%0Atext%2Dalign%3A%20left%3B%0A%7D%0Atable%2EminimalistBlack%20tfoot%20%7B%0Afont%2Dsize%3A%2014px%3B%0Afont%2Dweight%3A%20bold%3B%0Acolor%3A%20%23000000%3B%0Aborder%2Dtop%3A%203px%20solid%20%23000000%3B%0A%7D%0Atable%2EminimalistBlack%20tfoot%20td%20%7B%0Afont%2Dsize%3A%2014px%3B%0A%7D%0A%0A%2Eshort%5Fanswer%5Fdiv%20%7B%0Awidth%3A100%25%3B%0Aheight%3A1%2E5in%3B%0Afloat%3Aleft%3B%0A%7D%0A%2Eanswer%5Fdiv%20%7B%0Awidth%3A100%25%3B%0Aheight%3A2in%3B%0Afloat%3Aleft%3B%0A%7D%0A%2Elong%5Fanswer%5Fdiv%7B%0Awidth%3A100%25%3B%0Aheight%3A3in%3B%0Afloat%3Aleft%3B%0A%7D%0A%0A%40media%20print%20%7B%0A%2Epagebreak%20%7B%20page%2Dbreak%2Dbefore%3A%20always%3B%20padding%2Dtop%3A1in%3B%0A%7D%20%7D%0Adiv%2Esolutions%20%2A%20%7B%0Acolor%3A%23000099%3B%0A%7D%0A%3C%2Fstyle%3E%0A" rel="stylesheet" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Midterm 1 STAT 445/645,<br> Fall 2020</h1>
+
+
+
+<p>Instructor: Colin Grudzien<br></p>
+<div id="assignment" class="section level2">
+<h2>Assignment:</h2>
+<div id="summary" class="section level3">
+<h3>Summary</h3>
+<p>For the midterm project, you are to to write a research report in RMarkdown. The report must be uploaded in a PDF format to Webcampus. The report should be approximately 7 - 10 pages long including code and figures, but not including references.</p>
+</div>
+<div id="midterm-components" class="section level3">
+<h3>Midterm components</h3>
+<div id="reseach-question" class="section level4">
+<h4><a id="research_question"></a> Reseach question</h4>
+<p>You will identify a research question that you would like to answer with linear regression by studying a particular data set. This question should have the following attributes,</p>
+<ul>
+<li><strong>the question is clear:</strong> it provides enough specifics that one’s audience can easily understand its purpose without needing additional explanation.</li>
+<li><strong>the question is focused:</strong> it is narrow enough that it can be answered concretely.</li>
+<li><strong>the question is concise:</strong> it is expressed in the fewest possible words.</li>
+<li><strong>the question is complex:</strong> it is not answerable with a simple “yes” or “no,” but rather requires synthesis and analysis of ideas and sources prior to composition of an answer.</li>
+<li><strong>the question is arguable:</strong> its potential answers are open to debate rather than accepted facts.</li>
+</ul>
+<p>For example, you may consider the question “When factoring for behavioral differences and the variability of the health of US adults, does smoking cigarettes cause a practically significant increase in the rate of cancer?” The relationship between smoking is now widely accepted, but it was established largely by statistical techniques. You should consider how this question satisfies the above criteria when you formulate your own question.</p>
+<p>This question will give you context for the methods studied in the course. Over the rest of the semester, the focus of this course is to learn modeling frameworks that can help answer this question.</p>
+</div>
+<div id="exploratory-analysis" class="section level4">
+<h4>Exploratory analysis</h4>
+<p>In this project, each student needs to identify a unique data set and to perform basic exploratory analysis on this data in the R language. Your data analysis should reflect your research question, and should help you gain intuition on the relationships between variables that may affect your conclusions. You should interrogate the data for patterns, multi-modality, correlation between variables, summary statistics, trends, outliers, nonlinear scaling and any points of interest.</p>
+</div>
+<div id="linear-regression" class="section level4">
+<h4><a id="linear_regression"></a>Linear regression</h4>
+<p>Following your exploratory analysis, you should construct a linear regression model in the R language. This linear regression model should involve more than two predictors. You need to discuss the questions outlined below.</p>
+<p><strong>Questions at the 400 level are:</strong></p>
+<ul>
+<li><p>If you plot the response variable versus the predictor variables, does the relationship appear to be a linear one?</p></li>
+<li><p>Are the predictors correlated with the response and/or each other with <span class="math inline">\(\alpha=5\%\)</span> significance?</p></li>
+<li><p>Produce a model summary for the linear regression. Can you identify which parameters are significant in the model with <span class="math inline">\(\alpha=5\%\)</span> significance and which are not? Which are they, and are they correlated with the predictor? Are these variables strongly correlated with other predictors?</p></li>
+<li><p>If you remove a parameter that lacks significance, what do you notice about the differences in the estimated values of the other parameters?</p></li>
+<li><p>If you remove a parameter that lacks significance, what do you notice about the p-values for the estimated values of the other parameters?</p></li>
+<li><p>Examine the confidence intervals for parameters. If a <span class="math inline">\(95\%\)</span> confidence interval includes <span class="math inline">\(0\)</span>, how does this relate to the P-value for the estimated value of the parameter?</p></li>
+<li><p>How is <span class="math inline">\(R^2\)</span> interpreted at a high level and what does this suggest in relationship to your linear model?</p></li>
+</ul>
+<p><strong>Questions at the 600 level are:</strong></p>
+<ul>
+<li><p>Try to systematically select a model in which all estimated parameters are significant. How can you interpret the estimated parameters for this model?</p></li>
+<li><p>What do the signs of the estimated values tell you about the relationships between the predictors and the response?</p></li>
+<li><p>For a unit change in one of the predictors, which of these have the largest influence on the response?</p></li>
+<li><p>Can you produce a prediction for a new case? What is the predicted value and confidence interval for a new observation with all predictors equal to the mean of the predictors?</p></li>
+<li><p>What is the predicted value and the confidence interval for a new observation with all predictors equal to the 90th percentile? What do you notice about the differences between these two predictions?</p></li>
+</ul>
+</div>
+<div id="conclusion" class="section level4">
+<h4><a id="conclusions"></a>Conclusion</h4>
+<p>You will need to discuss your results and summarize them in a thoughtful but concise way. Draw connections between your research question and the relationships observed in the above regression and the exploratory data analysis.</p>
+</div>
+<div id="code-requirements" class="section level4">
+<h4>Code requirements</h4>
+<p>You need to include R code in the RMarkdown document to demonstrate your work. Keep the code and the relevant analysis within the page limit. This means iterating on the notebook and reducing it down to the most important analysis and details. Figures should be captioned, with clear and easy-to-interpret labels and graphics.</p>
+</div>
+</div>
+<div id="document-structure" class="section level3">
+<h3>Document structure</h3>
+<p>The document should be structured as follows:</p>
+<ul>
+<li><strong>Section 1:</strong> Introduce your topic, discussing your research question and why you have chosen it. You should make clear why the question is interesting and relevant.</li>
+<li><strong>Section 2:</strong> Discuss your exploratory data analysis. You should include plots of relationships between variables including line plots and correlation plots, as well as univariate summary figures such as histograms.</li>
+<li><strong>Section 3:</strong> Apply a linear model in R that models the relationship of interest in your research question. Discuss the <a href="#linear_regression">questions above</a>. Undergraduates are only required to answer the 400 level questions. Graduate students are required to answer both the 400 level and the 600 level questions.</li>
+<li><strong>Section 4:</strong> Discuss your conclusions as described in the <a href="#conclusions">component above</a>.</li>
+<li><strong>Section 5:</strong> Works cited.</li>
+</ul>
+</div>
+<div id="learning-outcomes" class="section level3">
+<h3>Learning outcomes</h3>
+<p>Upon completing the report, the student will demonstrate:</p>
+<ul>
+<li>the ability to formulate an actionable research question;</li>
+<li>the ability to independently acquire new skills in the programming language R;</li>
+<li>the ability to produce exploratory analysis of statistical relationships in a real data set; and</li>
+<li>the ability to draw connections to the research question from the investigation.</li>
+</ul>
+</div>
+<div id="rubric" class="section level3">
+<h3>Rubric</h3>
+<p>The rubric below describes the necessary work delivered per category and associated points in this assignment for full credit. Reports that do not address all of these points, or give inadequate attention to these points will receive partial credit. Adequate attention is contextual and subjective, based on the problem itself and the overall work performed in the report. <strong>Students are encouraged to discuss their report in a rough draft with the instructor to get feedback on how to better address these points. Additionally, reports that do not follow document outline, do not use clear language, have formatting or writing errors, or unprofessional figures may be penalized for some of the points below.</strong></p>
+<table class="minimalistBlack" style="text-align:center">
+<thead>
+<tr>
+<th>
+Category
+</th>
+<th>
+Expected results
+</th>
+<th>
+Total points
+</th>
+</tr>
+</thead>
+<tr>
+<td style="padding:8px;">
+Research question
+</td>
+<td style="padding:8px;">
+The student effectively discusses their research question, demonstrating the attributes <a href="#research_question">described above</a>. The student clearly describes why this question is relevant and interesting.
+</td>
+<td style="padding:8px;">
+10 points
+</td>
+</tr>
+<tr>
+<td style="padding:8px;">
+Exploratory analysis
+</td>
+<td style="padding:8px;">
+The student effectively discusses connections between their research question and the summary statistics and frequency distributions of the data. The student evaluates the data for the presence of outliers, multimodal and / or skewed distributions. The student makes effective use of plots to demonstrate relationships.
+</td>
+<td style="padding:8px;">
+10 points
+</td>
+</tr>
+<tr>
+<td style="padding:8px;">
+Regression
+</td>
+<td style="padding:8px;">
+The student effectively discusses all <a href="#linear_regression">required questions</a>.
+</td>
+<td style="padding:8px;">
+10 points
+</td>
+</tr>
+<tr>
+<td style="padding:8px;">
+Conclusion
+</td>
+<td style="padding:8px;">
+The student effectively summarizes their work in the project and draws final connections between the statistical relationships observed and the research question posed at the begining. The student provides a short discussion on the next steps they would pursue given more time to study the problem.
+</td>
+<td style="padding:8px;">
+10 points
+</td>
+</tr>
+<tr>
+<td>
+<strong> Grand total</strong>
+<td>
+All of the above
+</td>
+<td>
+40/40 points
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="due-date" class="section level2">
+<h2>Due date</h2>
+<p>The report must be submitted on Webcampus by <strong>10:00 AM, Friday, September 25th</strong>.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
