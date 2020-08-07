@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Final project</title>
+
+<style type="text/css">
+  
+  /* Whole document - standard notebook size and margins */
+  body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      max-width: 8.5in;
+      margin: auto;
+      background: #FFFFFF;
+      padding: 1in 1in 1in 1in;
+  }
+
+#customlist {
+  /* delete default counter */
+  list-style-type: none;
+  /* create custom counter and set it to 0 */
+  counter-reset: elementcounter;
+}
+
+#customlist>li:before {
+  /* print out "Section " followed by the current counter value */
+  content: "Section " counter(elementcounter) ":";
+  /* increment counter */
+  counter-increment: elementcounter;
+}
+  
+</style>
+
+
+
+
+
+<link href="data:text/css;charset=utf-8,%3Cstyle%20type%3D%22text%2Fcss%22%3E%0A%0A%0Abody%20%7B%0Afont%2Dfamily%3A%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Amax%2Dwidth%3A%208%2E5in%3B%0Amargin%3A%20auto%3B%0Abackground%3A%20%23FFFFFF%3B%0Apadding%3A%201in%201in%201in%201in%3B%0A%7D%0A%0Ah1%20%7B%0Afont%2Dsize%3A%2050px%3B%0Acolor%3A%20%23000000%3B%0Atext%2Dalign%3Acenter%3B%0Amargin%2Dbottom%3A15px%3B%0A%7D%0Ah1%2Bp%20%7B%0A%0Acolor%3A%20%23000000%3B%0Afont%2Dsize%3A%2020px%3B%0Aline%2Dheight%3A%202em%3B%0Amargin%2Dtop%3A%200%2E5em%3B%0Amargin%2Dbottom%3A%200em%20%21important%3B%0Atext%2Dalign%3A%20center%3B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0A%0Ah2%20%7B%0Acolor%3A%20%23000000%3B%0A%7D%0A%0Adt%20%7B%0Afloat%3A%20left%3B%0Aclear%3A%20left%3B%0Awidth%3A%2017%25%3B%0A%0A%7D%0Add%20%7B%0Amargin%2Dleft%3A%2017%25%3B%0A%7D%0Ap%20%7B%0Amargin%2Dtop%3A0%3B%0Amargin%2Dbottom%3A7px%3B%0A%7D%0A%0Ablockquote%20%7B%0Atext%2Dalign%3A%20left%3B%20%7D%0A%0Aa%20%7B%0Atext%2Ddecoration%3A%20none%3B%0Acolor%3A%20%231D5996%3B%0A%7D%0Aa%3Ahover%2C%20a%3Aactive%20%7B%0Abackground%2Dcolor%3A%20%231D5996%3B%0Acolor%3A%20%23FFFFFF%3B%0Atext%2Ddecoration%3A%20none%3B%0Atext%2Dshadow%3A%201px%201px%201px%20%23333%3B%0A%7D%0A%0Ahr%20%7B%0Acolor%3A%20%23A6A6A6%3B%0A%7D%0Atable%20%7B%0Awidth%3A%20100%25%3B%0Aborder%2Dcollapse%3Acollapse%3B%0Aborder%2Dspacing%3A0%3B%0Adisplay%3Atable%0A%7D%0Atable%2EminimalistBlack%20%7B%0Aborder%3A%203px%20solid%20%23000000%3B%0Awidth%3A%20100%25%3B%0Atext%2Dalign%3A%20left%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%2EminimalistBlack%20td%2C%20table%2EminimalistBlack%20th%20%7B%0Apadding%3A%205px%204px%3B%0A%7D%0Atable%2EminimalistBlack%20tbody%20td%20%7B%0Afont%2Dsize%3A%2015px%3B%0A%7D%0Atable%2EminimalistBlack%20thead%20%7B%0Abackground%3A%20%23CFCFCF%3B%0Abackground%3A%20%2Dmoz%2Dlinear%2Dgradient%28top%2C%20%23dbdbdb%200%25%2C%20%23d3d3d3%2066%25%2C%20%23CFCFCF%20100%25%29%3B%0Abackground%3A%20%2Dwebkit%2Dlinear%2Dgradient%28top%2C%20%23dbdbdb%200%25%2C%20%23d3d3d3%2066%25%2C%20%23CFCFCF%20100%25%29%3B%0Abackground%3A%20linear%2Dgradient%28to%20bottom%2C%20%23dbdbdb%200%25%2C%20%23d3d3d3%2066%25%2C%20%23CFCFCF%20100%25%29%3B%0Aborder%2Dbottom%3A%203px%20solid%20%23000000%3B%0A%7D%0Atable%2EminimalistBlack%20thead%20th%20%7B%0Afont%2Dsize%3A%2015px%3B%0Afont%2Dweight%3A%20bold%3B%0Acolor%3A%20%23000000%3B%0Atext%2Dalign%3A%20left%3B%0A%7D%0Atable%2EminimalistBlack%20tfoot%20%7B%0Afont%2Dsize%3A%2014px%3B%0Afont%2Dweight%3A%20bold%3B%0Acolor%3A%20%23000000%3B%0Aborder%2Dtop%3A%203px%20solid%20%23000000%3B%0A%7D%0Atable%2EminimalistBlack%20tfoot%20td%20%7B%0Afont%2Dsize%3A%2014px%3B%0A%7D%0A%0A%2Eanswer%5Fdiv%20%7B%0Awidth%3A100%25%3B%0Aheight%3A2in%3B%0Afloat%3Aleft%3B%0A%7D%0A%2Elong%5Fanswer%5Fdiv%7B%0Awidth%3A100%25%3B%0Aheight%3A3in%3B%0Afloat%3Aleft%3B%0A%7D%0A%0A%40media%20print%20%7B%0A%2Epagebreak%20%7B%20page%2Dbreak%2Dbefore%3A%20always%3B%20padding%2Dtop%3A1in%3B%0A%7D%20%7D%0Adiv%2Esolutions%20%2A%20%7B%0Acolor%3A%23000099%3B%0A%7D%0A%3C%2Fstyle%3E%0A" rel="stylesheet" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Final project</h1>
+
+
+
+<p>STAT 757 – Section 1001 <br> Instructor: Colin Grudzien<br> Due: 12/14/2019 – 12:00 PM</p>
+<div id="instructions" class="section level2">
+<h2>Instructions:</h2>
+<blockquote>
+You may work with others on this project but you must turn in your own work. You may type your solutions in any way you like (LaTeX, Markdown, Office, etc…) as long as you present your work clearly and in an organized way. Unless otherwise specified, you must hand in a printed copy of your work at the beginning of class. <strong>Whenever plotting:</strong>
+<ul>
+<li>
+Your plot must be clearly labeled in all axes, legends, and the plot must include a clear title.
+</li>
+<li>
+The plot must be sensible and easy to read.
+</li>
+</ul>
+</blockquote>
+<div id="summary" class="section level3">
+<h3>Summary</h3>
+<p>For the final project, you are to revise the work of your midterm project using the more advanced perspective and tools that we have developed by the end of the course. You will once again write a research report in RMarkdown. The report must be uploaded in a PDF format to Webcampus. The report should be <b>around 10-12 pages, including figures</b>, but not including any references or appendices in this page count. Include figures and tables for the most important components of your analysis, and for explanation purposes.</p>
+</div>
+<div id="the-task" class="section level3">
+<h3>The task:</h3>
+You will be expected to perform the following:
+<ol>
+<li>
+Perform diagnostic analysis of your model. You should check for our usual assumptions:
+<ul>
+<li>
+evaluate the structure of the model (e.g., nonlinearity in the relationship, residual versus fitted and partial residual plots);
+</li>
+<li>
+discuss possible correlations in the errors (it goes beyond the scope of our class to estimate the covariance matrix, so a discussion of possible common correlations is sufficient);
+</li>
+<li>
+constant variance of the error (residual versus fitted plots and hypothesis tests);
+</li>
+<li>
+Gaussianity of the error (Q-Q plots and hypothesis tests);
+</li>
+<li>
+identify outliers and evaluate for influential observations changing the fit of the model (studentized residuals, Cook’s distance).
+</li>
+<li>
+Compute the k-fold cross validation RMSE to evaluate a more realistic estimate of predictive performance.
+</li>
+<li>
+Not all of the above may be appropriate, so you should only include in the write-up your relevant and interesting figures. Other non-interesting results can be summarized in words or tables with the corresponding plots and code in the appendix. If a test is not performed, this choice should be justified in the context of the model with quantitative and qualitative reasoning.
+</li>
+</ul>
+<li>
+Revise the model and perform remediation of the issues:
+</li>
+<ul>
+<li>
+if reasonable to do so, handle missing data systematically with methods from class;
+</li>
+<li>
+compare the model selection in the midterm with model instead based upon an information criterion method;
+</li>
+<li>
+if reasonable to do so, consider transformation of scale of the response with e.g., Box-Cox, shifted log, logit or Fisher’s z-transformation;
+</li>
+<li>
+if reasonable to do so, exclude outliers and re-fit the model;
+</li>
+<li>
+if reasonable to do so, perform generalized or weighted least squares (generalized least squares is particularly difficult in most cases, so unless you know the covariance structure of the errors already, don’t worry about estimating it or performing GLS);
+</li>
+<li>
+if reasonable to do so, perform polynomial regression with the degree selected systematically;
+</li>
+<li>
+finally, use the usual diagnostics to determine if the remediation has had an effect on the issues previously noted with using the usual assumptions.
+</li>
+<li>
+Not all of the above will be reasonable to perform with your data. Some of the above remediation (like outlier exclusion) depend on the other remedial steps (like variable transformation) and should be considered simultaneously. You are encouraged to iterate on this several times, but only to summarize your process on how you arrived at your final version of the model, and how (or if) it has addressed the issues noted in the diagnostics.
+</li>
+</ul>
+<li>
+Compare the goodness of fit, uncertainty, explanatory and predictive power of the new model with the model selected in the midterm. The above model evaluations should follow the same guidelines and expectations of the midterm. If you have arrived at the same model, use advanced tools such as partial residual plots to discuss the structural uncertainty of the model. Expand upon the earlier analysis to include comparisons of the effects of parameters based on, e.g., change of scale or exclusion of influential observations. Discuss the differences in predictive power observed with the confidence intervals and with the cross validation RMSE.
+</li>
+<li>
+Make conclusions based on the above comparison. Does it appear that there is a reasonable linear signal in the data? Do these methods perform adequately for actionable prediction or explanation purposes regarding the research question? Does it suggest that other (e.g. nonlinear) methods should be used?
+</li>
+</ol>
+</div>
+<div id="what-to-turn-in" class="section level3">
+<h3>What to turn in:</h3>
+<p>Your corresponding code and work should be included in the final appendix, section 8; I reserve the right to request a copy of the original analysis. If there isn’t sufficient documentation in the appendix and this cannot be provided by the student at request, the midterm will not receive any credit. Cases of plagiarism will be handled furthermore with respect to the policy on academic dishonesty.</p>
+Your report should be written clearly and structured as follows:
+<ul>
+<li>
+<b> Section 1:</b> Introduction. Discuss the data set, your opening research question and why this question is meaningful.
+</li>
+<li>
+<b> Section 2:</b> Summarize the work performed in the midterm, the issues encountered and your plan to address these in this final work. Discuss your (possibly) revised research question and why this is meaningful.
+</li>
+<li>
+<b> Section 3:</b> Discuss the diagnostics of the model constructed for the midterm, what assumptions may not be satisfied, and which seem to be ``OK&quot;.
+</li>
+<li>
+<b> Section 4:</b> Discuss your remediation steps and your process of re-selecting/ fitting/ revising the model and its variables.
+</li>
+<li>
+<b> Section 5:</b> Compare the goodness of fit, uncertainty, predictive and explanatory power of the model when revised according to the diagnostics. How does your view of the predictive and explanatory power change as you revise the model according to the diagnostics and remediation techniques?
+</li>
+<li>
+<b> Section 6:</b> Discuss what conclusions can be made based on this analysis. Is there a reasonable <b>linear</b> signal in the data? How sure can you be of the effects in this data set? What could be performed as future work?
+</li>
+<li>
+<b> Section 7:</b> References to data sets, papers, books or other works consulted.
+</li>
+<li>
+<b> Section 8:</b> An appendix including relevant code and work.
+</li>
+</ul>
+</div>
+<div id="whenever-plotting" class="section level3">
+<h3>Whenever plotting:</h3>
+<ul>
+<li>
+Your plot should be clearly labeled in all axes, legends, and the plot includes a clear title.
+</li>
+<li>
+The plot must be sensible and easy to read.
+</li>
+</ul>
+</div>
+<div id="rubric" class="section level3">
+<h3>Rubric</h3>
+<p>The rubric below describes the necessary work delivered per category and associated points in this assignment for full credit. Reports that do not address all of these points, or give inadequate attention to these points will receive partial credit. Adequate attention is contextual and subjective, based on the problem itself and the overall work performed in the report. <strong>Students are encouraged to discuss their report in a rough draft with the instructor to get feedback on how to better address these points. Additionally, reports that do not follow document outline, do not use clear language, have formatting or writing errors, or unprofessional figures may be penalized for some of the points below.</strong></p>
+<table class="minimalistBlack" style="text-align:center">
+<thead>
+<tr>
+<th>
+Category
+</th>
+<th>
+Expected results
+</th>
+<th>
+Total points
+</th>
+</tr>
+</thead>
+<tr>
+<td style="padding:8px;">
+Research question
+</td>
+<td style="padding:8px;">
+The student effectively discusses their research question. The student clearly describes why this question is relevant and interesting.
+</td>
+<td style="padding:8px;">
+10 points
+</td>
+</tr>
+<tr>
+<td style="padding:8px;">
+Diagnostics
+</td>
+<td style="padding:8px;">
+The student effectively discusses whether the standard regressions hypotheses seem to be satisfied for the midterm model based on statstical and visual tests. Hypotheses that do not seem to be fully satisfied are discussed, and the implications of these hypotheses failing is qualified to the reader in the analysis.
+</td>
+<td style="padding:8px;">
+12 points
+</td>
+</tr>
+<tr>
+<td style="padding:8px;">
+Remediation
+</td>
+<td style="padding:8px;">
+The student discusses what remedial measures have been tried to obtain a better model. Statistical tests such as, e.g., Box-Cox should be used to discuss the rationale for transformation of variables or not. The student uses diagnostics to evaluate if remedial measures have improved the suitability of the model.
+</td>
+<td style="padding:8px;">
+12 points
+</td>
+</tr>
+<tr>
+<td style="padding:8px;">
+Goodness of fit and sources uncertainty
+</td>
+<td style="padding:8px;">
+The student discusses measure of goodness of fit such as adjusted <span class="math inline">\(R^2\)</span> and how this value is interpreted in this problem. Differences between the model from the midterm and the model selected in the final (if any) are discussed and are connected to the research problem. If the model selected is the same, the student discusses if there appears to be an indentifiable linear signal in the data, or if the methods are inconclusive.
+</td>
+<td style="padding:8px;">
+12 points
+</td>
+</tr>
+<tr>
+<td style="padding:8px;">
+Predictive power
+</td>
+<td style="padding:8px;">
+The student discusses differences (if any) between predictions of the model from the midterm and the model in the final exam. The student discusses if the confidence intervals are practical / actionable for the research question. The student discusses the cross validation RMSE of the midterm and the final model, and if there are substantial differences. The student discusses if the confidence intervals for predicting new cases provide similar results to the cross validation RMSE.
+</td>
+<td style="padding:8px;">
+12 points
+</td>
+</tr>
+<tr>
+<td style="padding:8px;">
+Explanatory power
+</td>
+<td style="padding:8px;">
+The student effectively interprets the effects of the predictors on the response variable, in terms of the sign of the parameter, the size of the parameter relative the scales of the variables, and the relative importance of different effects in the model. The student discusses possible confounding variables, effects of correlations between predictors and if the interpretation of parameters is stable across multiple models.
+</td>
+<td style="padding:8px;">
+12 points
+</td>
+</tr>
+<tr>
+<td style="padding:8px;">
+Discussion and Conclusion
+</td>
+<td style="padding:8px;">
+The student effectively summarizes their work in the project and draws final connections between the statistical relationships observed and the research question posed at the beginning. The student discusses how the original research question might be revised and what the research question will be for the final.
+</td>
+<td style="padding:8px;">
+10 points
+</td>
+</tr>
+<tr>
+<td>
+<strong> Grand total</strong>
+<td>
+All of the above
+</td>
+<td>
+80/80 points
+</td>
+</tr>
+</table>
+<p>In addition, reports that fail to follow the instructions of this assignment, the structure for the proposal, or to meet standards of scientific writing may be subject to a loss of points.</p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
