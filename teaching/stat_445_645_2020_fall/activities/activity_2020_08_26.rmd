@@ -1,0 +1,313 @@
+# Activity 08/26/2020
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+### Activity 1: Introduction by the instructor -- questions about technology (10 minutes)
+The instructor will give a brief introduction to the class to follow up on the introduction to R videos.  
+
+
+All students should install the "faraway" and other packages as
+```{r, eval=TRUE }
+install.packages("faraway")
+install.packages("ggplot2")
+install.packages("plyr")
+install.packages("gapminder")
+```
+This can be performed by compiling this RMarkdown activity sheet.  If you wish to stop installing the package when you compile the RMarkdown document, you can remove the set the option in the bracket to ```eval=FALSE```.  For subsequent lines of code, you can remove this line to run the code chunk.  The remaining code chunks will not run automatically and you will have to enable this as described above in the below activities in order to proceed through today's lesson.
+
+
+#### Essential help resources
+If you're having trouble using a function, 9 times out of 10,
+the answers you are seeking have already been answered on
+[Stack Overflow](http://stackoverflow.com/). You can search using
+the `[r]` tag.
+
+If you can't find the answer, there are a few useful functions to
+help you ask a question from your peers:
+
+```{r, eval=FALSE}
+?dput
+```
+
+Will dump the data you're working with into a format so that it can
+be copy and pasted by anyone else into their R session.
+
+```{r, eval=FALSE}
+sessionInfo()
+```
+
+Will print out your current version of R, as well as any packages you
+have loaded. This can be useful for others to help reproduce and debug
+your issue.
+
+
+#### Other ports of call
+
+You can also check out the following resources for general documentation on the R language.
+
+  * [Quick R](http://www.statmethods.net/)
+  * [RStudio cheat sheets](http://www.rstudio.com/resources/cheatsheets/)
+  * [Cookbook for R](http://www.cookbook-r.com/)
+
+
+
+
+
+
+### Activity 2: Exploring the command line interface in R (5 minutes)
+
+There are a few useful commands you can use to interact with the R session.
+
+`ls` will list all of the variables and functions stored in the global environment
+(your working R session):
+
+```{r, eval=FALSE}
+ls()
+```
+
+Notice that there is only an empty character listed if this is a fresh R environment.  Now try the command
+```{r, eval=FALSE}
+x <- 1:5
+ls()
+```
+
+Now we see the variable that we assigned named `x`.
+
+Note here that we didn't give any arguments to `ls`, but we still
+needed to give the parentheses to tell R to call the function.
+
+If we type `ls` by itself, R prints a bunch of code instead of a listing of objects.
+
+```{r, eval=FALSE}
+ls
+```
+
+What's going on here? 
+
+Like everything in R, `ls` is the name of an **object**. 
+
+Entering the name of
+an object by itself prints the contents of the object. The object `x` that we
+created earlier contains `x`:
+
+```{r, eval=FALSE}
+x
+```
+
+The object `ls` contains the R code that makes the `ls` function work! 
+
+#### Discuss the following with your peers:
+
+Do you know what an object is in computing?  What are some other examples of objects in R?
+
+
+### Debrief: discuss the questions (3 minutes)
+We will discuss the questions from activity 2 as a class.
+
+
+### Activity 3: Exploring the command line interface continued (10 minutes)
+
+You can use `rm` to delete objects you no longer need:
+
+```{r, eval=FALSE}
+rm(x)
+```
+
+If you have lots of things in your environment and want to delete all of them,
+you can pass the results of `ls` to the `rm` function:
+
+```{r, eval=FALSE}
+rm(list = ls())
+```
+
+In this case we've combined the two. Like the order of operations, anything
+inside the innermost parentheses is evaluated first, and so on.
+
+In this case we've specified that the results of `ls` should be used for the
+`list` argument in `rm`. When assigning values to arguments by name, you *must*
+use the `=` operator!!
+
+If instead we use `<-`, there will be unintended side effects, or you may get an error message:
+
+```{r, eval=FALSE}
+rm(list <- ls())
+```
+
+#### Question 1
+
+What will be the value of each variable  after each
+statement in the following program?
+
+```{r, eval=FALSE}
+mass <- 47.5
+age <- 122
+mass <- mass * 2.3
+age <- age - 20
+```
+Can you explain why this is in terms of variable assignment rules?
+
+#### Question 2
+
+Run the code from the previous question, and write a command to
+compare mass to age. Is mass larger than age?
+
+
+#### Question 3
+
+Clean up your working environment by deleting the mass and age
+variables.  Can you remove both variables with a single command?
+
+
+### Debrief: discuss the questions (3 minutes)
+We will discuss the questions from activity 3 as a class.
+
+
+
+### Activity 4: a review of data types (10 minutes)
+
+With your group, discuss each of the following questions:
+
+#### Question 1: 
+What do you expect the result of the following to be?
+
+```{r, eval=FALSE}
+1 == TRUE
+```
+Can you explain in terms of types and type coercion why we get this answer?
+
+
+#### Question 2: 
+Look at the help for the `c` function. What kind of vector do you expect you will create if you evaluate each of the following lines of code?
+```{r, eval=FALSE}
+c(1, 2, 3)
+c('d', 'e', 'f')
+c(1, 2, 'f')
+```
+
+
+#### Question 3:
+Consider how we have seen that vector may coerce a logical value to numeric one:
+
+```{r, eval=FALSE}
+c(TRUE, pi)
+```
+
+What do you expect the output of the following expression to be?
+
+```{r, eval=FALSE}
+c(TRUE, 'TRUE')
+```
+
+Can you explain this in terms of the standard coercion rules?  How can you coerce 'TRUE' back into a logical data type?
+
+
+#### Question 4:
+
+
+Is the following expression guaranteed to be "TRUE"?
+
+```{r, eval=FALSE}
+0 == sin(pi)
+```
+Discuss with your peers why this is the case.
+
+
+#### Question 5:
+Consider the following expressions --- what is the final output?  What does this have to do with the slice operator ```:```?
+
+```{r, eval=FALSE}
+x <- 9:25
+y <- 3:4
+x[y]
+```
+
+#### Question 6:
+
+Consider the following expressions --- what is the final output?  Can you think of some instances where a logical index vector would be a valuable way to extract data?  Give an example of another comparison.
+
+```{r, eval=FALSE}
+x <- 9:25
+y <- x > 16
+x[y]
+```
+
+
+#### Question 7:
+
+We have seen that we can apply mathematical operations to numerical vectors. 
+
+What do you expect the output to be of the following statement?  Can you explain the output?
+
+```{r, eval=FALSE}
+c('red', 'blue', 'green') + 2
+```
+
+### Debrief: discuss the questions (3 minutes)
+We will discuss the questions from activity 4 as a class.
+
+
+### Activity 5: A realistic dataframe part I (5 minutes)
+
+Through much of the class, we will call data from different libraries in R. For this lesson, and the homework, we will consider the ``gapminder`` data. We start by importing this from R:
+```{r, eval=FALSE}
+require(gapminder)
+```
+
+When we start looking at new data, best practice is to start interrogating it to see the data types, the number of cases and the different variables in each case.  Try the function below and discuss with your peers what the output means.
+
+```{r, eval=FALSE}
+str(gapminder)
+summary(gapminder)
+```
+
+
+We also often benefit from looking at a sub-slice of the data to "feel" what kind of data we are working with. This is commonly done with the ``head()`` function; this will extract the leading rows of the dataframe for examination:
+```{r, eval=FALSE}
+head(gapminder)
+```
+Similarly, we can use the ``tail()`` function to examine the trailing rows:
+
+```{r, eval=FALSE}
+tail(gapminder)
+```
+
+
+We might be interested in a particular country, let's say India.  Discuss with your peers -- how can you fill in the following code to assign a new variable that only has the data points corresponding to India?  Consider how we used comparisons to make a logical index vector.
+```{r, eval=FALSE}
+india_index <-
+india_dataframe <-  gapminder[india_index, ]
+```
+
+### Debrief: discuss the questions (3 minutes)
+We will discuss the questions from activity 5 as a class.
+
+
+### Activity 6: a realistic dataframe part II (5 minutes)
+
+In the above, we have constructed a logical vector for the purpose of indexing the rows which correspond to India.
+Any row which contains the factor level ``India`` in the ``country`` factor vector will correspond to a ``TRUE`` in the logical vector ``india_index``.  Any row which does not contain the factor level ``India`` will respectively correspond to a ``FALSE``.
+
+
+Here, we will examine the sub-dataframe:
+```{r, eval=FALSE}
+head(india_dataframe)
+```
+
+R has several different kinds of plotting commands and libraries; for simple plots, intended as exploratory analysis, we often will use the "base" R plotting. For more advanced control and formatting, we will typically use a more sophisticated library, such as ``ggplot2``.
+  
+If we want to create a quick exploratory "x-y" plot of some relationship, this can be done with the ``plot()`` function.
+For example, we will plot the change of life expectancy over time in India:
+
+```{r, eval=FALSE}
+plot(india_dataframe$year, india_dataframe$lifeExp) 
+```
+In the last command, we can adjust labels and plot sizes with additional arguments in the plot function; these arguments and "keywords" can be found in the help file for plot, using ``?plot``.
+
+
+### Debrief: discuss the questions (3 minutes)
+We will discuss the questions from activity 6 as a class.
