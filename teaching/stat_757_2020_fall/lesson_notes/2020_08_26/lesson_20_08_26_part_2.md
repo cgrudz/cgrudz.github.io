@@ -14,7 +14,7 @@
 
 An introduction to programming in R -- Part 2
 ========================================================
-date: 08/26/2020
+date: 08/31/2020
 autosize: true
 incremental: true
 width: 1920
@@ -23,138 +23,29 @@ height: 1080
 <h2 style="text-align:left"> Instructions:</h2>
 <p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
 
+<blockquote>
+FAIR USE ACT DISCLAIMER:</br>
+This site is for educational purposes only.  This website may contain copyrighted material, the use of which has not been specifically authorized by the copyright holders. The material is made available on this website as a way to advance teaching, and copyright-protected materials are used to the extent necessary to make this class function in a distance learning environment.  The Fair Use Copyright Disclaimer is under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+</blockquote>
+
+
 ========================================================
 
 <h2>Outline</h2>
 
 * The following topics will be covered in this lecture:
 
- * Variables and data types
- * Dataframes
+ * A review of Dataframes
  * Factors
  * File I/O
  * Basic plotting
 
-* These lectures are based on the materials in [R for Reproducible Scientific Analysis](https://swcarpentry.github.io/r-novice-gapminder/).
 
 
 ========================================================
+<h2>Data structures -- a quick review</h2>
 
-<h2>Data types</h2>
-
-* There are 5 main types in R: 
-
- * double;
-
-
-```r
-typeof(pi)
-```
-
-```
-[1] "double"
-```
-
- * integer;
-
-
-```r
-typeof(1L)
-```
-
-```
-[1] "integer"
-```
- 
- * complex;
-
-
-```r
-typeof(1+1i)
-```
-
-```
-[1] "complex"
-```
-
-========================================================
-<h3>Data types -- continued </h3>
-
-* and non-numeric types:
-
- * logical 
-
-
-```r
-typeof(TRUE)
-```
-
-```
-[1] "logical"
-```
-
- 
- * character
-
-
-```r
-typeof('banana')
-```
-
-```
-[1] "character"
-```
-
-* Understanding data types and the way they are coerced is important because R strictly enforces that data in a vector is of a single type.
-
-* By keeping everything in a column the same, we can make simple assumptions about our data; 
-
-  * if you can interpret one entry in the column as a number, then you can interpret all of them as numbers, so we don’t have to check every time. 
-  
-* This consistency is what people mean when they talk about clean data; 
-
-  * in the long run, strict consistency goes a long way to making our lives easier in R.
-
-
-
-========================================================
-<h3>Type coercion -- continued</h3>
-
-<ul>
-  <li> The coercion rules go: </li>
-  <ol>
-    <li> logical -> integer</li> 
-    <li> integer -> numeric </li>
-    <li> numeric -> complex </li>
-    <li> complex -> character,</li>
-  </ol>
-  <li> where -> can be read as are transformed into.</li> 
-  <li>You can try to force coercion against this flow using the as. functions, e.g.,</li>
-</ul>
-
-
-```r
-as.numeric(c('1', '2', '3'))
-```
-
-```
-[1] 1 2 3
-```
-
-
-
-========================================================
-<h2>Data structures</h2>
-
-* Vectors are one type of data structure that we encounter frequently;
-
-  * however, there are other related (and important) data structures that we will need to manipulate.
-
-* R has an extremely developed tool for handling tabular data, such as comma separated values.
-
-  * in R, this tool is a "dataframe".
-
-* We will explore the functionality of dataframes with some "cat" data in some simple examples:
+* We will start by picking up with the "cats" dataframe we studied in the last activity.
 
 
 ```r

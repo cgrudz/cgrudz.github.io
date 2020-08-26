@@ -12,7 +12,7 @@ The instructor will give a brief introduction to the class to follow up on the i
 
 
 All students should install the "faraway" and other packages as
-```{r, eval=TRUE }
+```{r, eval=FALSE }
 install.packages("faraway")
 install.packages("ggplot2")
 install.packages("plyr")
@@ -106,11 +106,11 @@ The object `ls` contains the R code that makes the `ls` function work!
 Do you know what an object is in computing?  What are some other examples of objects in R?
 
 
-### Debrief: discuss the questions (3 minutes)
+### Debrief: discuss the questions (5 minutes)
 We will discuss the questions from activity 2 as a class.
 
 
-### Activity 3: Exploring the command line interface continued (10 minutes)
+### Activity 3: Exploring the command line interface continued (5 minutes)
 
 You can use `rm` to delete objects you no longer need:
 
@@ -163,7 +163,7 @@ Clean up your working environment by deleting the mass and age
 variables.  Can you remove both variables with a single command?
 
 
-### Debrief: discuss the questions (3 minutes)
+### Debrief: discuss the questions (5 minutes)
 We will discuss the questions from activity 3 as a class.
 
 
@@ -191,7 +191,52 @@ c(1, 2, 'f')
 
 
 #### Question 3:
-Consider how we have seen that vector may coerce a logical value to numeric one:
+
+Before we start the exercise, we should have some additional background. There are 5 main types in R: double;
+
+```{r} 
+typeof(pi)
+```
+
+integer;
+```{r}
+typeof(1L)
+```
+
+complex;
+```{r}
+typeof(1+1i)
+```
+
+and non-numeric types such as logical 
+```{r}
+typeof(TRUE)
+```
+
+and character
+```{r}
+typeof('banana')
+```
+
+Understanding data types and the way they are coerced is important because R strictly enforces that data in a vector is of a single type. By keeping everything in a column the same, we can make simple assumptions about our data;if you can interpret one entry in the column as a number, then you can interpret all of them as numbers, so we don’t have to check every time.   This consistency is one aspect of what people mean when they talk about clean data; in the long run, strict consistency goes a long way to making our lives easier in R.
+
+<ul>
+  <li> The coercion rules go: </li>
+  <ol>
+    <li> logical -> integer</li> 
+    <li> integer -> numeric </li>
+    <li> numeric -> complex </li>
+    <li> complex -> character,</li>
+  </ol>
+  <li> where -> can be read as are transformed into.</li> 
+  <li>You can try to force coercion against this flow using the as. functions, e.g.,</li>
+</ul>
+
+```{r}
+as.numeric(c('1', '2', '3'))
+```  
+
+Consider now how we have seen that vector may coerce a logical value to numeric one:
 
 ```{r, eval=FALSE}
 c(TRUE, pi)
@@ -214,7 +259,7 @@ Is the following expression guaranteed to be "TRUE"?
 ```{r, eval=FALSE}
 0 == sin(pi)
 ```
-Discuss with your peers why this is the case.
+Discuss with your peers why this is the case.  What is a better option for comparing double precision approximations in R?
 
 
 #### Question 5:
@@ -247,67 +292,77 @@ What do you expect the output to be of the following statement?  Can you explain
 c('red', 'blue', 'green') + 2
 ```
 
-### Debrief: discuss the questions (3 minutes)
+### Debrief: discuss the questions (5 minutes)
 We will discuss the questions from activity 4 as a class.
 
 
-### Activity 5: A realistic dataframe part I (5 minutes)
+### Activity 5: A first look at dataframes (10 minutes)
+Vectors are one type of data structure that we encounter frequently; however, there are other related (and important) data structures that we will need to manipulate.  R has an extremely developed tool for handling tabular data, such as comma separated values -- this tool is a "dataframe".  We will explore the functionality of dataframes with some "cat" data in some simple examples:
+```{r eval=FALSE}
+cats <- data.frame(coat = c("calico", "black", "tabby"), 
+                    weight = c(2.1, 5.0, 3.2), 
+                    likes_string = c(1, 0, 1))
+```
+Notice that the arguments of the function "data.frame()" are three expressions associating a name with a vector.
 
-Through much of the class, we will call data from different libraries in R. For this lesson, and the homework, we will consider the ``gapminder`` data. We start by importing this from R:
-```{r, eval=FALSE}
-require(gapminder)
+
+Printing the variable "cats", we see what tabular data looks like in a dataframe:
+```{r eval=FALSE}
+cats
 ```
 
-When we start looking at new data, best practice is to start interrogating it to see the data types, the number of cases and the different variables in each case.  Try the function below and discuss with your peers what the output means.
+The assignment of the vectors to names in the arguments assigned the column names. Each column consists of **a vector of uniform data type**.  If we want to extract a named column from a dataframe, this can be done with the "$" sign and the column name:
+```{r eval=FALSE}
+cats$weight
+```
+Each row, on the other hand, consists of multiple measurements (of different data types) corresponding to one specific case of the data set. We might suppose that the scale used to measure the cats' weights was uniformly off by two kgs in all measurements.  
 
-```{r, eval=FALSE}
-str(gapminder)
-summary(gapminder)
+#### Question 1:
+How can we can re-assign values into the column of weights?  Think about how to make a recursive assignemnt.
+```{r eval=FALSE}
+cats$weight <- cats$weight +  2
+```
+
+* We can verify that the assignment went into the column for weight in "cats",
+
+```{r eval=FALSE}
+cats
 ```
 
 
-We also often benefit from looking at a sub-slice of the data to "feel" what kind of data we are working with. This is commonly done with the ``head()`` function; this will extract the leading rows of the dataframe for examination:
-```{r, eval=FALSE}
-head(gapminder)
-```
-Similarly, we can use the ``tail()`` function to examine the trailing rows:
+#### Question 2:
+A data structure related to vectors are **lists**.  Lists function as containers for heterogeneous data, allowing different types.  Consider the following lines of code, discuss with your peers the differences in the output from the ```list()``` function and the constructor function ```c()```.  What do you think are some of the practical differences between lists and vectors?  Can you identify the types of elements of the list?
 
-```{r, eval=FALSE}
-tail(gapminder)
-```
-
-
-We might be interested in a particular country, let's say India.  Discuss with your peers -- how can you fill in the following code to assign a new variable that only has the data points corresponding to India?  Consider how we used comparisons to make a logical index vector.
-```{r, eval=FALSE}
-india_index <-
-india_dataframe <-  gapminder[india_index, ]
+```{r eval=TRUE}
+list_example <- list(1, "a", TRUE, 1+4i)
+list_example
+vector_example <- c(1, "a", TRUE, 1+4i)
+vector_example
 ```
 
-### Debrief: discuss the questions (3 minutes)
+#### Question 3:
+
+In the last example no type coercion has taken place; 
+```{r eval=FALSE}
+typeof(list_example[[1]])
+typeof(list_example[[2]])
+```
+all of the original types have been respected, but because the data is allowed to be inhomogeneous we can't use vector operations on a list.
+```{r eval=FALSE, error=TRUE}
+list_example + 2
+```
+Here we see an error message because the "+" operator only knows how to operate on numeric arguments, or ones that can be coerced into one.
+
+
+Recall our dataframe cats,
+```{r eval=FALSE}
+cats
+```
+We know that dataframes contain homogeneous data in each <b>column</b>, but each row may be inhomogeneous.
+**Q:** What kind of data structure do you think a dataframe is? Can it be a vector? Why or why not?  How can you test what type of data strcuture our ```cats``` dataframe is?
+
+
+### Debrief: discuss the questions (5 minutes)
 We will discuss the questions from activity 5 as a class.
 
 
-### Activity 6: a realistic dataframe part II (5 minutes)
-
-In the above, we have constructed a logical vector for the purpose of indexing the rows which correspond to India.
-Any row which contains the factor level ``India`` in the ``country`` factor vector will correspond to a ``TRUE`` in the logical vector ``india_index``.  Any row which does not contain the factor level ``India`` will respectively correspond to a ``FALSE``.
-
-
-Here, we will examine the sub-dataframe:
-```{r, eval=FALSE}
-head(india_dataframe)
-```
-
-R has several different kinds of plotting commands and libraries; for simple plots, intended as exploratory analysis, we often will use the "base" R plotting. For more advanced control and formatting, we will typically use a more sophisticated library, such as ``ggplot2``.
-  
-If we want to create a quick exploratory "x-y" plot of some relationship, this can be done with the ``plot()`` function.
-For example, we will plot the change of life expectancy over time in India:
-
-```{r, eval=FALSE}
-plot(india_dataframe$year, india_dataframe$lifeExp) 
-```
-In the last command, we can adjust labels and plot sizes with additional arguments in the plot function; these arguments and "keywords" can be found in the help file for plot, using ``?plot``.
-
-
-### Debrief: discuss the questions (3 minutes)
-We will discuss the questions from activity 6 as a class.
