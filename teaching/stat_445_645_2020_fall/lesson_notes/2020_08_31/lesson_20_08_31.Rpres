@@ -1,0 +1,392 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+
+An introduction to programming in R -- Part 2
+========================================================
+date: 08/31/2020
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+<blockquote>
+FAIR USE ACT DISCLAIMER:</br>
+This site is for educational purposes only.  This website may contain copyrighted material, the use of which has not been specifically authorized by the copyright holders. The material is made available on this website as a way to advance teaching, and copyright-protected materials are used to the extent necessary to make this class function in a distance learning environment.  The Fair Use Copyright Disclaimer is under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+</blockquote>
+
+
+========================================================
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+
+ * A review of Dataframes
+ * Factors
+ * File I/O
+ * Basic plotting
+
+
+
+========================================================
+<h2>Data structures -- a quick review</h2>
+
+* We will start by picking up with the "cats" dataframe we studied in the last activity.
+
+```{r}
+cats <- data.frame(coat = c("calico", "black", "tabby"), 
+                    weight = c(2.1, 5.0, 3.2), 
+                    likes_string = c(1, 0, 1))
+```
+
+* Notice that the arguments of the function "data.frame()" are three expressions associating a name with a vector.
+
+
+========================================================
+<h3>Dataframes</h3>
+
+* Printing the variable "cats", we see what tabular data looks like in a dataframe:
+
+```{r}
+cats
+```
+
+* The assignment of the vectors to names in the arguments assigned the column names.
+
+* Each column consists of <b>a vector of uniform data type</b>.
+
+* If we want to extract a named column from a dataframe, this can be done with the "$" sign and the column name:
+
+```{r}
+cats$weight
+```
+
+* Each row, on the other hand, consists of multiple measurements (of different data types) corresponding to one specific case of the data set.
+
+
+========================================================
+<h3>Dataframes -- continued</h3>
+
+* We might suppose that the scale used to measure the cats' weights was off by two kgs.
+
+* In this case, we can re-assign values into the column weight as follows:
+
+```{r}
+cats$weight
+cats$weight <- cats$weight + 2
+```
+
+* We can verify that the assignment went into the column for weight in "cats",
+
+```{r}
+cats
+```
+
+========================================================
+<h2>Lists </h2>
+
+* A data structure related to vectors are <b>lists</b>.
+
+* Lists function as containers for heterogeneous data, allowing different types:
+
+```{r}
+list_example <- list(1, "a", TRUE, 1+4i)
+list_example
+```
+
+========================================================
+<h3>Lists -- continued </h3>
+
+* In the last example no type coercion has taken place; 
+
+```{r}
+typeof(list_example[[1]])
+typeof(list_example[[2]])
+```
+
+  * all of the original types have been respected, but because the data is allowed to be inhomogeneous we can't use vector operations on a list.
+  
+```{r error=TRUE}
+list_example + 2
+```
+
+* Here we see an error message because the "+" operator only knows how to operate on numeric arguments, or ones that can be coerced into one.
+
+========================================================
+<h3>Lists -- continued </h3>
+
+* Recall our dataframe cats,
+
+```{r}
+cats
+```
+
+* We know that dataframes contain homogeneous data in each <b>column</b>, but each row may be inhomogeneous.
+
+* <b>Q:</b>What kind of data structure do you think a dataframe is? Can it be a vector? Why or why not?
+
+* <b>A:</b> A dataframe cannot be a vector because of coercion rules --- instead it operates as a <b>list of vectors</b>:
+
+```{r}
+typeof(cats)
+typeof(cats$weight)
+```
+
+========================================================
+<h2>Factors</h2>
+
+* Consider now the vector "coat" in the dataframe:
+
+```{r}
+cats$coat
+typeof(cats$coat)
+as.numeric(cats$coat)
+```
+
+* <b>Q:</b> can you hypothesize what the meaning is of this data? What is a level, and why are the coats "integer"?
+
+* <b>A:</b> R likes to treat character strings in dataframes as categorical variables;
+
+  * in this case, the categories are "black", "calico" and "tabby";
+  
+  * each integer value is encoding whether the case (or row) belongs to category 1, 2 or 3, where category labels are sorted alphanumerically.
+
+========================================================
+<h2>Manipulating dataframes</h2>
+
+* Let's suppose that we need to include more information on our cats in our analysis; 
+  
+  * a friend has provided ages of all the cats for us:
+
+```{r}
+age <- c(2, 3, 5)
+```
+
+* We want to combine this into our dataframe, which can be done with "cbind()"
+
+```{r}
+cats <- cbind(cats, age)
+cats
+```
+
+* This function introduces the new vector as an additional column in the dataframe; 
+
+ * the variable name is defined the column name, and we reassign the dataframe to cats recursively.
+
+========================================================
+<h3>Adding columns to dataframes</h3>
+
+
+* <b>Q:</b> can you hypothesize what will be the output if we try to combine the following vector with the dataframe?
+
+```{r eval=FALSE}
+age <- c(2, 3, 5, 8, 9)
+cats <- cbind(cats, age)
+```
+
+* <b>A:</b> dataframes, like matrices, need to have consistent dimensions of the data;
+
+  * this new column is too long, so we will get an error:
+
+```{r error=TRUE}
+age <- c(2, 3, 5, 8, 9)
+cats <- cbind(cats, age)
+```
+
+========================================================
+<h3>Dataframe dimensions</h3>
+
+* We can examine the dimensions of a dataframe with standard functions:
+
+```{r}
+dim(cats)
+```
+
+* In the above we see the standard, matrix style dimensions of the dataframe.
+
+  * these can also be extracted individually with "nrow" and "ncol":
+
+```{r}
+nrow(cats)
+ncol(cats)
+```
+
+========================================================
+<h3>Dataframe indices</h3>
+
+* Entries of dataframes can be accessed directly using matrix indexing:
+
+```{r}
+cats[2,4]
+```
+
+* This can also be performed with slices:
+```{r}
+cats[1:2, 2:3]
+```
+
+========================================================
+<h3>Dataframe indices</h3>
+
+* Additionally, we can use specialized notation for accessing an entire row or column:
+
+```{r}
+cats[,1]
+cats[1,]
+```
+
+* Here, the blank in the place of the index tells R to extract the entire row or column.
+
+========================================================
+<h3>Adding rows to dataframes</h3>
+
+* Let's suppose we have examined a new cat and we want to add a case to our dataframe:
+
+```{r}
+newRow <- list("tortoiseshell", 3.3, TRUE, 9)
+cats <- rbind(cats, newRow)
+cats
+```
+
+* Notice, the "NA" value in the above for the coat of the fourth cat.
+
+  * While the row was added successfully, it produces a "Not Available", missing data entry.
+  
+* Factors, like other vectors, are strict in R;
+
+  * when we attempt to add a value that is not recognized as one of the categories, R treats this as missing data.
+
+
+========================================================
+<h3>Adding levels to factors</h3>
+
+* We can access the levels of a factor vector with the "levels()" function:
+
+```{r}
+levels(cats$coat)
+```
+
+* If we want to re-assign new levels to a factor, we can do so recursively
+
+```{r}
+levels(cats$coat) <- c(levels(cats$coat), "tortoiseshell")
+cats <- rbind(cats, list("tortoiseshell", 3.3, TRUE, 9))
+cats
+```
+
+* Notice, "tortiseshell" was now accepted as a category, but the NA value remains.
+
+========================================================
+<h3>Summarizing dataframes</h3>
+
+* In general, we want to know if a dataframe has missing values, and what kind of variables are in it.
+
+* Several common functions allow this, including
+
+  * "str()" or the structure function:
+
+```{r}
+str(cats)
+```
+
+* This tells us what the dimensions are, the column names are, and what types of variables we are working with.
+
+========================================================
+<h3>Summarizing dataframes -- continued</h3>
+
+* We can also obtain a quick statistical summary of the data with the "summary()" function:
+
+```{r}
+summary(cats)
+```
+
+* The summary furthermore tells us how many missing values are present.
+
+========================================================
+<h3>Removing rows</h3>
+
+* We will often want to remove cases with missing data;
+
+  * this can be performed automatically with "na.omit()"
+  
+```{r}
+na.omit(cats)
+```
+
+========================================================
+<h3>Removing rows or columns</h3>
+
+* We can also remove rows or columns by index, using a "-"
+
+```{r}
+cats[-1,]
+cats[,-1]
+```
+
+
+========================================================
+<h2>File IO</h2>
+
+* Basic file input/ output (IO) can be done with functions such as:
+
+```{r}
+write.csv(x = cats, file = "feline-data.csv", row.names = FALSE)
+cats_from_file <- read.csv(file = "feline-data.csv")
+cats_from_file
+```
+
+
+========================================================
+<h3>File IO -- continued</h3>
+
+* We will suppose that we wish to analyze a new set of cat data that a friend gave us:
+
+```
+coat,   weight,     likes_string
+calico, 2.1,        1
+black,  5.0,        0
+tabby,  3.2,        1
+tabby,  2.3 or 2.4, 1
+```
+
+* Our friend was uncertain about the weight of the last cat and placed two values into the CSV.
+
+* We suppose that this is written in the file "feline-data_v2.csv" which we will read with "read.csv()",
+
+```{r}
+cats_from_file <- read.csv(file="feline-data_v2.csv")
+cats_from_file$weight
+```
+
+* Notice that weight looks much different than before...
+
+========================================================
+<h3>Factors -- continued</h3>
+
+* When R read the inhomogeneous data in the weights column, it first converted the values into character type;
+
+  * when the character vector was seen by R in a dataframe, it then converted it automatically to a factor vector.
+  
+* Converting characters to factors automatically can be suppressed with additional arguments:
+
+```{r}
+cats_from_file <- read.csv(file="feline-data_v2.csv", stringsAsFactors=FALSE)
+cats_from_file$weight
+```
+
+* However, this illustrates in general how erroneously entered data can cause many issues with type conversions.
+
