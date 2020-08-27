@@ -1,0 +1,495 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+Simple linear regression -- part 2
+========================================================
+date: 09/02/2020
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+
+<blockquote>
+FAIR USE ACT DISCLAIMER:</br>
+This site is for educational purposes only.  This website may contain copyrighted material, the use of which has not been specifically authorized by the copyright holders. The material is made available on this website as a way to advance teaching, and copyright-protected materials are used to the extent necessary to make this class function in a distance learning environment.  The Fair Use Copyright Disclaimer is under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+</blockquote>
+
+
+========================================================
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+
+  * Estimating the regression function
+  * The method of least squares
+  * The Gauss-Markov Theorem
+  * Normal equations
+  * Fitted values and residuals
+  * Estimating the error variance
+
+========================================================
+
+<h2>Reveiew -- regression Assumptions</h2>
+
+<ul>
+  <li>Recall our regression equation,
+
+  $$\begin{align}
+  Y_i = \beta_0 + \beta_1 X_i + \epsilon_i.
+  \end{align}$$
+  </li>
+
+  <li> We will make some assumptions about the variation $\epsilon_i$ that appears in the signal:</li>
+  <ol>
+    <li> we suppose that the variation is of mean zero, $\mathbb{E}\left[\epsilon_i\right] = 0$.</li>
+    <ul>
+      <li>If such a linear relationship does exist, we can always take this assumption by adjusting the definition of $\beta_0$ accordingly.</li>
+    </ul>
+    <li> we suppose (for now) that the variation is constant about every case, i.e.,
+    $$
+    \mathbb{E}\left[\epsilon_i^2\right] = \mathbb{E}\left[\epsilon_j^2\right] = \sigma^2
+    $$
+    for every $i,j$.</li>
+    <ul>
+      <li>Later we will look at ways to relax this assumption, leading to <em>weighted least squares</em>.</li>
+    </ul>
+    <li> we suppose (for now) that every pair of distinct cases $i\neq j$ are uncorrelated,
+    $$
+    \mathrm{cov}\left(\epsilon_i \epsilon_j\right) = 0
+    $$</li>
+    <ul>
+      <li> If $\epsilon_i$ is uncorrelated with $\epsilon_j$, this just means that we do not gain information on the variation in the observation of $Y_i$ from the variation in $Y_j$.</li> 
+      <li>Later we will look at ways to relax this as well, leading to <em>generalized least squares</em></em>.</li>
+    </ul>
+  </ol>
+  <li>Notice that we did not assume what kind of distribution $Y_i$ takes -- we only made assumptions about its first two moments.</li>
+</ul>
+
+
+========================================================
+
+<h2>Estimating the regression function</h2>
+
+<ul>
+  <li>Given these assumptions, we can say the following about our response variable $Y$:</li>
+  <ol>
+    <li>For any $Y_i$, we know that it is distributed with mean equal to,
+    $$
+    \mathbb{E}\left[Y_i\right] = \beta_0 + \beta_1 X_i
+    $$
+    </li>
+    <li>The variance of $Y_i$ is $\sigma^2$ for every $i$.</li>
+    <li>Each pair of cases $Y_i$ and $Y_j$ is uncorrelated.</li>
+  </ol>
+  <li>The parameters $\beta_0, \beta_1$ in this framework are unknown values, fixed for all cases $i$.</li>
+  <li>Determining if/ when/ how we can identify these parameters from the data will be the first goal in our regression analysis.</li>
+  <li> Generically, we will suppose that we have a set of data with a response variable $Y$ and an explanatory variable $X$.</li>
+  <li>We will suppose that we have a total of $n$ pairs of data, which we call <b>observations, trials or cases</b>.</li>
+  <ul>
+    <li>Each observation will be of the form $\left(Y_i, X_i\right)$, for $i = 1,\cdots ,n$.</li>
+  </ul>
+</ul>
+
+
+========================================================
+
+<h3>Method of least squares</h3>
+
+<div style="float:left; width:30%">
+<img style="width:100%", src="convex_super_graph.png" alt="Image of the upper region enclosed by a convex function."/><p style="text-align:center"> Courtesy of: Oleg Alexandrov. Public domain, via <a href="https://commons.wikimedia.org/wiki/File:Convex_supergraph.svg" target="blank">Wikimedia Commons</a>.</p>
+</div>
+<div style="float:left; width:70%">
+ 
+<ul> 
+  <li>Supposing that the relationship in simple linear regression is valid, we can create an objective function which measures:</li>
+    <ol>
+      <li>the deviation of the $i$-th observation from the proposed regression equation,
+      $$\left(Y_i - \overline{\beta}_0 - \overline{\beta}_1 X_i\right),$$
+      </li>
+      <li>where the arguments $\overline{\beta}_0,\overline{\beta}_1$ are considered free-variables.</li>
+    </ol>
+  <li>Throughout mathematics, the notion of convexity is a powerful tool, often used in optimization.</li>
+  <li>Particularly, a function is convex if and only if the region above its graph is a convex set.</li>
+  <ul>
+    <li>The convexity of the "epigraph" set means that the function attains a <b>global</b> minimum over its entire domain</li>
+  </ul>
+  </ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>One prototypical convex function is a parabola, e.g.,  $f(x) = x^2$; therefore, we will consider an objective function of the form of a parabaloid:
+  $$J\left(\overline{\beta}_0,\overline{\beta}_1\right) = \sum_{i=1}^n \left(Y_i - \overline{\beta}_0 - \overline{\beta}_1 X_i\right)^2$$</li>
+<li> The minimum of this objective function is the one that, with respect to any choice of $\overline{\beta}_0,\overline{\beta}_1$, minimizes the <b>total deviation</b> of all observations from the predicted mean response.</li>
+</ul>
+</div>
+
+========================================================
+
+<h3>Method of least squares -- continued</h3>
+
+* The process of minimizing the objective function $J\left(\overline{\beta}_0,\overline{\beta}_1\right)$ is known as the "method of least squares".
+
+  * The parameters that minimize the objective function will be denoted $\hat{\beta}_0, \hat{\beta}_1$ as our estimated values.
+  
+* <b>Note:</b> these generally do not equal to the true parameters $\beta_0,\beta_1$;
+
+ * indeed, while we assume that $\beta_0,\beta_1$ are unknown, but fixed, values, the estimated  $\hat{\beta}_0, \hat{\beta}_1$ will depend on a particular random outcome.
+ 
+ * Specifically, $\hat{\beta}_0, \hat{\beta}_1$ depend on the observed realizations of the variation $\epsilon_i$ for each observation.
+ 
+* While the choice of parameters by the method of least squares,  $\hat{\beta}_0, \hat{\beta}_1$, should seem plausible, we have not given any guarantee yet of why they might be "optimal" in any sense.
+
+  * The reason to consider this choice special is the result of the "Gauss-Markov" theorem, which we discuss in further detail in the case of multiple regression.
+  
+  * For the moment, we will only introduce the main statement of the theorem and explain its relevance.
+  
+========================================================
+
+<h3>Gauss-Markov Theorem</h3>
+
+<ul>
+  <li>The statement of the Gauss-Markov theorem can be phrased loosely as follows:</li>
+  <ul>
+      <li>Under the assumptions of the regression model,
+      $$ Y_i = \beta_0 + \beta_1 X_i + \epsilon_i$$
+      where:</li>
+      <ol>
+        <li>$\epsilon_i$ has mean zero for each $i$;</li>
+        <li>$\epsilon_i$ has variance $\sigma^2$ for each $i$;</li>
+        <li>$\epsilon_i$ and $\epsilon_j$ are uncorrelated for every pair $i\neq j$;</li>
+      </ol>
+      <li>the parameters $\hat{\beta}_0,\hat{\beta}_1$ estimated by least squares are <b>unbiased</b> estimates of the true parameters $\beta_0,\beta_1$; and</li>
+      <li> $\hat{\beta}_0,\hat{\beta}_1$ are the <b>minimum varaince</b> estimate among all linear, unbiased estimators of the true relationship described by $\beta_0,\beta_1$.
+    </ul>
+    <li> In the following, we will discuss the meaning of this statement.</li>
+</ul>
+
+========================================================
+
+<h3>Gauss-Markov Theorem -- explained</h3>
+
+<ul>
+  <li><b>Q:</b> what can you hypothesize we mean by the statement, $\hat{\beta}_0,\hat{\beta}_1$ are <b>unbiased</b> estimates of $\beta_0,\beta_1$?</li>
+  <li><b>A:</b> recall, by their construction in terms of the random variables $Y_i$, the estimated $\hat{\beta}_0,\hat{\beta}_1$ are themselves random variables.</li>
+  <li> we mean to say that, if we had infinitely many independent observations of the response associated to the value of the predictor variable, 
+  <ul>
+    <li>i.e., replicated pairs of the form
+    $$\left\{\left(Y_i^k,X_i\right)\right\}_{k=1}^\infty$$
+    for each case $i$,
+    </li>
+    <li> then, the parameters estimated by least squares $\hat{\beta}_0,\hat{\beta}_1$ would, on average, equal the true values $\beta_0, \beta_1$.</li>
+    <li> That is,
+    $$\mathbb{E}\left[\hat{\beta}_j\right] = \beta_j$$
+    for $j=0,1$.</li>
+</ul>
+
+========================================================
+
+<h3>Gauss-Markov Theorem -- explained</h3>
+
+<ul>
+  <li><b>Q:</b> what can you hypothesize we mean by the statement, $\hat{\beta}_0,\hat{\beta}_1$ are the <b>minimum variance</b> estimates of $\beta_0,\beta_1$ among all unbiased estimates?</li>
+  <li><b>A:</b> we consider the definition of variance, in relationship to the mean of $\hat{\beta}_0,\hat{\beta}_1$:
+  $$\mathrm{var}\left(\hat{\beta}_j\right) \triangleq \mathbb{E}\left[\left(\hat{\beta}_j - \beta_j \right)^2\right],$$
+  i.e., we refer to how much the estimates $\hat{\beta}_j$ deviate from $\beta_j$ in the mean square sense for $j=1,2$.</li>
+  <li> Suppose that $\tilde{\beta}_j$ is any other linear estimate of $\beta_j$, which is also unbiased, i.e.,
+  $$\mathbb{E}\left[\tilde{\beta}_j\right] =\beta_j.$$
+  </li>
+  <li> The Gauss-Markov theorem tells us that,
+  $$\mathrm{var}\left(\hat{\beta}_j\right) \leq \mathrm{var}\left(\tilde{\beta}_j\right),$$</li>
+  <li> That is to say, on average, the deviation of the least squares estimate from the true parameters is less than or equal to the deviation of any other linear, unbiased estimate.</li>
+</ul>
+
+========================================================
+
+<h3>Gauss-Markov Theorem -- an addendum</h3>
+
+<ul>
+  <li> The previous two conditions make the solution by least squares the <b>BLUE</b>:</li>
+  <ul>
+    <li><b>B</b>est</li>
+    <li><b>L</b>inear</li>
+    <li><b>U</b>nbiased</li>
+    <li><b>E</b>stimator</li>
+  </ul>
+  <li>One additional statement can be included as an addendum to the statement of the Gauss-Markov theorem.</li.
+  <li> We have not, up to now, made any assumption on the actual distribution of the error/ variation in the signal $\epsilon_i$;</li>
+  <ul>
+    <li>suppose that in addition to all previous assumptions, we also assume that
+    $$\epsilon_i \sim N\left(0, \sigma^2\right),$$
+    i.e., the variation is Gaussian distributed with mean zero and variance $\sigma^2$.</li>
+  </ul>
+  <li>Under the additional assumption of Gaussian error distributions, the estimates by least squares is not just the minimum variance, unbiased estimator;</li>
+  <ul>
+    <li>furthermore, the estimates are the <b>maximum likelihood estimates</b>.</li>
+  </ul>
+  <li>We will discuss the proof of the Gauss-Markov theorem in the case of multiple regression later.</li>
+</ul>
+
+========================================================
+
+<h3>Gauss-Markov Theorem -- a qualification</h3>
+
+<ul>
+  <li> The Gauss–Markov theorem shows that the least squares estimate $\hat{\beta}_0,\hat{\beta}_1$ is a good choice;</li>
+  <ul>
+    <li> however, to be the BLUE, it requires that the errors are uncorrelated and have equal variance.</li>
+  </ul>
+  <li> Moreover, if the errors behave, but are non-Gaussian, then nonlinear or biased estimates may work better.</li>
+  <li>Gauss-Markov does not tell one to use least squares all the time; it just
+strongly suggests using least-squares estimates unless there is some strong reason to do otherwise.</li>
+  <ul>
+    <li>For this reason, least-squares estimates are typically our first choice --- we start simple and introduce complexity when it fails.</li>
+  </ul>
+  <li>Situations where estimators other than ordinary least squares should be considered are:</li>
+  <ol>
+    <li>  When the errors are correlated or have unequal variance, generalized least squares
+should be used.</li>  
+    <li> When the error distribution is long-tailed, then robust estimates might be used.
+Robust estimates are typically not linear in $y$. </li>
+    <li>In multiple regression, when the predictors are highly correlated (collinear), then biased estimators such as ridge regression might be preferable.</li>
+  </ol>
+</ul>
+
+
+
+
+========================================================
+
+<h3>The "normal" equations</h3>
+
+<ul>
+  <li> If we solve the minimization of the objective function analytically, we find that $\hat{\beta}_0,\hat{\beta}_1$ simultaneously satisfy the following equations:
+  $$\begin{align}
+  \sum_{i=1}^n Y_i &= n\hat{\beta}_0 + \hat{\beta}_1 \sum_{i=1}^n X_i \\
+  \sum_{i=1}^n X_i Y_i & =  \sum_{i=1}^n \left(\hat{\beta}_0 X_i +  \hat{\beta}_1 X_i^2\right)
+  \end{align}$$</li>
+  <li>The above equations are called the "normal" equations.</li> 
+  <li> Solving for these simultaneously in the values $\hat{\beta}_0,\hat{\beta}_1$ we recover point estimates for $\beta_0,\beta_1$ as,
+  $$\begin{align}
+  \hat{\beta}_1 &= \frac{\sum_{i=1}^n\left(X_i - \overline{X} \right)\left(Y_i - \overline{Y}\right)}{\sum_{i=1}^n\left(X_i - \overline{X} \right)^2}\\
+  \hat{\beta}_0 &= \frac{1}{n} \left(\sum_{i=1}^n Y_i - \hat{\beta}_1 X_i \right)^2 \\
+  \end{align}$$
+  where $\overline{Y},\overline{X}$ are the means of the observed response and explanatory variables respectively.</li>
+</ul>
+
+
+========================================================
+
+<h2>Point estimation of the mean response</h2>
+
+<ul>
+  <li>Suppose we are given a data set with a response variables $Y$ and explanatory variable $X$, with $i=1,\cdots, n$ cases.</li>
+  <li>We will suppose that, having computed the equations for the least-squares estimates, we have $\hat{\beta}_0,\hat{\beta}_1$ in hand.</li> 
+  <li>With these estimates, we can approximate the "true" regression function,
+  $$\mathbb{E}\left[Y\right] = \beta_0 + \beta_1 X,$$
+  with our estimated version, based on the observed values,
+  $$\hat{Y} = \hat{\beta}_0 + \hat{\beta}_1 X$$</li>
+  <li> The value $\hat{Y}$ is therefore a point estimate of the mean response, as it varies with the explantory variable $X$.</li>
+  <li> For each case $i=1,\cdots, n$, we thus have an estimated value based on the mean response,
+  $$\hat{Y}_i = \hat{\beta}_0 + \hat{\beta}_1 X_i,$$
+  which we denote the "fitted value" for the $i$-th case.</li>
+  <li><b>Note:</b> the fitted value will generally not be equal to the observed value.</li>
+</ul>
+
+========================================================
+
+<h3>Residuals</h3>
+
+<ul>
+  <li>Indeed, the difference between the observed and the fitted value will be of critical importance for our regression analysis.</li>
+  <li> Frequently, we will refer to these values in our analysis to perform "diagnostics";
+  <ul>
+    <li>diagnostics are used to determine if the model is performing as we should expect --- particularly if the assumptions of the model are actually satisfied.</li>
+  </ul>
+  <li>The difference between the $i$-th observed and $i$-th fitted value from our estimate is called the $i$-th <b>residual</b>,
+  $$\hat{\epsilon}_i \triangleq Y_i - \hat{Y}_i$$</li>
+  <li><b>Note:</b> we distinguish as well that $\hat{\epsilon}_i$ generally does not equal $\epsilon_i$.</li>
+  <li>Indeed, the error or variation $\epsilon_i$ is given instead by,
+  $$\epsilon_i = Y_i - \mathbb{E}\left[Y_i\right]$$.</li>
+</ul>
+  
+========================================================
+
+<h3>Properties of the estimated regression function</h3>
+
+<ul>
+  <li>Our estimated regression function, via least squares, has a number of properties that are unique to this type of regression and are worth discussing:</li>
+  <ol>
+    <li>The sum of the residuals is zero, i.e.,
+    $$\sum_{i=1}^n \hat{\epsilon}_i = 0$$</li>
+    <li>The sum of the observed values equals the sum of the fitted values,
+    $$\sum_{i=1}^n Y_i = \sum_{i=1}^n \hat{Y}_i$$</li>
+    <li>The sum of the residuals, weighted by the corresponding predictor variable, is zero,
+    $$\sum_{i=1}^n X_i \hat{\epsilon}_i = 0$$</li>
+    <li>The sum of the residuals, weighted by the corresponding fitted value, is zero,
+    $$\sum_{i=1}^n \hat{Y}_i \hat{\epsilon}_i = 0$$</li>
+    <li>The estimated regression function always passes through the point defined by the means (or the center of mass), $\left(\overline{X},\overline{Y}\right)$.
+    </ol>
+</ul>
+
+
+========================================================
+
+
+<h3>Review of ideas</h3>
+
+<ul>
+  <li>Recall our regression equation,
+  $$\begin{align}
+  Y_i = \beta_0 + \beta_1 X_i + \epsilon_i.
+  \end{align}$$
+  </li>
+  <li> This represents our hypothesis for the form of the signal in the data, i.e., the way we believe the response varies systematically (but with variation) when compared with the explanatory variable.</li>
+  <li> We suppose that the observed cases $Y_i$ are random outcomes which depend on the realizations of the random variable $\epsilon_i$.</li>
+  <li>For every case $Y_i$, we suppose that there is an associated probability distribution from which these outcomes are drawn, with variance $\sigma^2$ and a mean parametrized by
+  $$\mathbb{E}\left[Y\right] = \beta_0 + \beta_1 X$$</li>
+  <li> This model posits the existence of fixed, but unkown parameters $\beta_0,\beta_1$ that describe the mean response above, which we call the regression function.</li>
+  <li> We assume futhermore that each case is uncorrelated, i.e.,
+  $$\mathbb{E}\left[\epsilon_i \epsilon_j\right] = 0 $$
+  for each $i\neq j$.</li>
+  <li>It is under the above conditions that the Gauss-Markov theorem gives a plausible way to estimate the true parameters $\beta_0,\beta_1$ with some guarantees of "how good" the estimates are.</li>
+</ul>
+
+
+========================================================
+
+<h3>Review of ideas -- continued</h3>
+
+<ul>
+  <li>In particular, the Gauss-Markov theorem tells us that the estimate for the true parameters $\beta_0,\beta_1$, given by the least squares estimate $\hat{\beta}_0,\hat{\beta}_1$ are the BLUE:</li>
+  <ul>
+    <li><b>B</b>est</li>
+    <li><b>L</b>inear</li>
+    <li><b>U</b>nbiased</li>
+    <li><b>E</b>stimate</li>  
+  </ul>
+  <li>We denote these parameter, estimated by least squares, $\hat{\beta}_0,\hat{\beta}_1$.</li>
+  <li>These parameters satisfy the normal equations,
+  $$\begin{align}
+  \sum_{i=1}^n Y_i &= n\hat{\beta}_0 + \hat{\beta}_1 \sum_{i=1}^n X_i ,\\
+  \sum_{i=1}^n X_i Y_i & =  \sum_{i=1}^n \left(\hat{\beta}_0 X_i +  \hat{\beta}_1 X_i^2\right),
+  \end{align}$$</li>
+</ul>
+
+========================================================
+
+<h3>Review of ideas -- continued</h3>
+
+<ul>
+  <li> Solving for the normal equations simultaneously in the values $\hat{\beta}_0,\hat{\beta}_1$ we recover point estimates for $\beta_0,\beta_1$ as,
+  $$\begin{align}
+  \hat{\beta}_1 &= \frac{\sum_{i=1}^n\left(X_i - \overline{X} \right)\left(Y_i - \overline{Y}\right)}{\sum_{i=1}^n\left(X_i - \overline{X} \right)^2}\\
+  \hat{\beta}_0 &= \frac{1}{n} \left(\sum_{i=1}^n Y_i - \hat{\beta}_1 X_i \right) \\
+  \end{align}$$
+  where $\overline{Y},\overline{X}$ are the means of the observed response and explanatory variables respectively.</li>
+  <li>With respect to these estimated parameters, we can compute a point estimate of the mean response as
+  $$\hat{Y} = \hat{\beta}_0 + \hat{\beta}_1 X.$$</li>
+  <li>This is a linear, unbiased, minimum variance estimate of the mean of the true relationship,
+  $$\mathbb{E}\left[Y\right]= \beta_0 + \beta_1 X.$$</li>
+  <li>Then for any case $i$, we can compute a "fitted" value that is estimated by least squares,
+  $$\hat{Y}_i = \hat{\beta}_0 + \hat{\beta}_1 X_i;$$</li>
+  <li>The difference between the fitted value and the observed value gives us the "residual", i.e.,
+  $$\hat{\epsilon}_i = Y_i - \hat{Y}_i.$$</li>
+  <li>All of the above concepts are central to regression analysis, and extend directly into multiple regression.</li>
+</ul>
+
+
+========================================================
+
+
+<h2>Estimation of the error variance</h2>
+
+<ul>
+  <li>Notice that our estimates thus far have not relied on an explicit form for the error variance $\sigma^2$, only that it is a constant value for each case $i$.</li>
+  <li>Particularly, we will not assume a priori what the value is;</li>
+  <ul>
+    <li>rather, we will find a method to estimate the value from the data.</li>
+  </ul>  
+  <li>This will also be of critical importance in our analysis in order to quantify the overall variability of the distribution of $Y$ around its mean response.</li>
+  <ul>
+    <li>Particularly for estimating unobserved future cases, we need to understand the possible variability to quantify our confidence in our predictions.</li>
+  </ul>
+  <li>Similarly, this will give us some sense of our "confidence" in our estimated parameters $\hat{\beta}_0,\hat{\beta}_1$.</li>
+</ul>
+
+
+========================================================
+
+
+<h3>Estimation of a sample variance</h3>
+
+<ul>
+  <li>Suppose, we have a generic, independent and identically distributed sample of some distribution $\left\{Y_i\right\}_{i=1}^n$.</li>
+  <li>We suppose that this distribution has an unknown true mean and variance given by $\mu_Y$ and $\sigma^2$ respectively.</li>
+  <li>We can compute the sample-based estimate of the mean of the distribution directly by the arithmetic mean,
+  $$\overline{Y} \triangleq \frac{1}{n}\sum_{i=1}^n Y_i.$$</li>
+  <li>Using the sample-based estimate for the distribution mean, we can also compute a sample-based estimate of the distribution variance.</li>
+  <li>We consider once again the sum of square deviations from the mean,
+  $$\sum_{i=1}^n \left(Y_i - \overline{Y}_i\right)^2;$$</li>
+  <li>However, this sum of square deviations needs a normalization term;</li>
+    <ul>
+      <li>in this case, because we have used up one degree of freedom in the data set by estimating the mean, we need to account for this in the normalization.</li>
+    </ul>
+    <li>Due to this reason, our <b>unbiased</b> estimate of the sample variance is given by,
+    $$s^2 \triangleq \frac{1}{n-1}\sum_{i=1}^n \left(Y_i - \overline{Y}\right)^2.$$
+    </li>
+</ul>
+  
+========================================================
+
+
+<h3>Estimating the regression variance</h3>
+
+<ul>
+  <li>With the same principle as for a sample variance, we will estimate the variance of the observed responses $Y_i$ about the <b>sample estimated mean function</b>,
+  $$\hat{Y} = \hat{\beta}_0 + \hat{\beta}_1 X.$$</li>
+  <li> In this case, we can look once again at the square deviations of the samples from the mean function.</li>
+  <li><b>Q:</b> what quantity, introduced earlier, is equal to the deviation of the sample from the mean function?</li>
+  <li><b>A:</b> this is identically given by the <b>residuals</b>,
+  $$\hat{\epsilon}_i = Y_i - \hat{Y}_i.$$ </li>
+  <li><b>Q:</b> how many degrees of freedom were used already from the data set in estimating the mean function?</b>
+  <li><b>A:</b> recall, we had to provide an estimate for each of $\beta_0,\beta_1$.  Therefore the number of degrees of freedom lost is equal to 2.</li>
+  <li>Generally, we will denote the number of parameters that we estimate to be equal to $p$ --- in this case, $p=2$.</li>
+  <ul>
+    <li>However, when we perform multiple regression, we will generally have $p>2$ parameters to estimate.</li>
+  </ul>
+</ul>
+
+========================================================
+
+
+<h3>Estimating the regression variance -- continued</h3>
+
+<ul>
+  <li>Let us denote the sum of square residuals as,
+  $$\begin{align}RSS &= \sum_{i=1}^n \left(Y_i - \hat{Y}_i\right)^2\\
+  & = \sum_{i=1}^n \hat{\epsilon}_i^2
+  .\end{align}$$</li>
+  <li>Then, the general form for the sample-based estimate of $\mathrm{var}(\epsilon)=\sigma^2$ is given as,
+  $$\hat{\sigma}^2 \triangleq \frac{RSS}{n-p},$$
+  which will extend as well to multiple regression.</li>
+  <ul>
+    <li>In the case of multiple regression, the meaning of the $RSS$ and $n$ will remain the same, only the number of parameters $p$ will change.</li>
+  </ul>
+  <li>Though it is not unbiased, we will typically defer to the square root of $\hat{\sigma}^2$ as the estimate of the standard deviation.</li>
+  <ul>
+    <li>Indeed, as a consequence of concavity of the square root function, we can use Jensen's inequality to demonstrate that $\hat{\sigma}$ estimate will generally underestimate the true standard deviation $\sigma$.</li>
+  </ul>
+  <li>The value $\hat{\sigma}$ is known as the standard error, and it will allow us represent our uncertainty of the the estimated parameter values $\hat{\beta}_0, \hat{\beta}_1$.</li>
+</ul>
