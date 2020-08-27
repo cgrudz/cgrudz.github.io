@@ -1,0 +1,241 @@
+# Activity 08/31/2020
+
+## STAT 757 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+### Activity 1: refreshing statistical concepts 
+
+If we have two random variables $X_1,X_2$ with means $\mu_{X_1}, \mu_{X_2}$ respectively, we denote their covariance as,
+  $$\sigma_{12}^2 = \mathbb{E}\left[\left(X_1 - \mu_{X_1}\right)\left(X_2 - \mu_{X_2}\right)\right]$$
+
+The correlation of the two variables $X_1,X_2$ is thus defined as,
+
+  $$\mathrm{cor}\left(X_1,X_2\right)\triangleq \frac{\sigma_{12}^2}{\sigma_1 \sigma_2}$$
+
+where $\sigma_1$ and $\sigma_2$ is the standard deviation of $X_1$ and $X_2$ respectively.
+The covariance thus measures how much the two variables $X_1$ and $X_2$ co-vary together or oppositely.  Correlation is a measure of how much the variables co-vary, where the range is "normalized" to $[-1,1]$.
+
+
+#### Question 1: 
+
+How can we use the definition of variance,
+ 
+ $$\sigma^2_X = \mathbb{E}\left[ \left( X - \mu_X\right)^2 \right],$$
+ 
+ the definition of covariance,
+ 
+ $$\sigma_{12}^2 = \mathbb{E}\left[\left(X_1 - \mu_{X_1}\right)\left(X_2 - \mu_{X_2}\right)\right],$$
+ 
+ and the definition of correlation,
+ 
+ $$\mathrm{cor}\left(X_1,X_2\right)\triangleq \frac{\sigma_{12}^2}{\sigma_1 \sigma_2},$$
+ 
+ to show that $X_1$ always has correlation 1 with itself?
+
+##### Answer to question 1:
+
+The numerator is equal to the variance by definition, and the standard deviation appears as a squared term in the denominator --- this reduces to one.
+ 
+
+#### Question 2:
+Which of the following models are linear in the parameters, <b>OR</b> can be transformed into a model that is linear in the parameters:
+  <ol>
+    <li>$Y_i = \beta_0 + \beta_1 X_i^2 + \epsilon_i$;</li>
+    <li>$Y_i = \beta_0 + \beta_1 \sqrt{X_i} + \epsilon_i$;</li>
+    <li>$Y_i = \beta_0 X_i^{\beta_1} * \epsilon_i$;</li>
+    <li>$Y_i = \beta_0 + \beta_1 X_i^{\beta_2} + \epsilon_i$.</li>
+  </ol>
+Explain why or why not.
+
+
+#### Question 3:
+
+
+Recall our regression equation,
+
+  $$\begin{align}
+  Y_i = \beta_0 + \beta_1 X_i + \epsilon_i.
+  \end{align}$$
+
+and the standard assumptions about the variation $\epsilon_i$ that appears in the signal:</li>
+  <ol>
+    <li> we suppose that the variation is of mean zero, $\mathbb{E}\left[\epsilon_i\right] = 0$.</li>
+    <li> we suppose that the variation is constant about every case, i.e.,
+    $$
+    \mathbb{E}\left[\epsilon_i^2\right] = \mathbb{E}\left[\epsilon_j^2\right] = \sigma^2
+    $$
+    for every $i,j$.</li>
+    <li> we suppose that every pair of distinct cases $i\neq j$ are uncorrelated,
+    $$
+    \mathrm{cov}\left(\epsilon_i \epsilon_j\right) = 0
+    $$</li>
+  </ol>
+
+There are some important consequences of the above assumptions, among which $Y_i$ must necessarily be a random variable by its definition.
+
+Consider, if $Y_i$ is a random variable, what is the mean of $Y_i$? That is, what does $\mathbb{E}\left[ Y_i\right]$ equal?  Can you explain what is the meaning of the expectation in this context?  What are we taking the mean over?
+
+
+
+#### Question 4:
+
+Recall the definition of the variance of a random variable $X$ with mean $\mu_X$,
+
+  $$\sigma^2_X = \mathbb{E}\left[\left(X - \mu_x\right)^2\right]$$
+
+If we know that $Y_i$ is a random variable, what is its variance?
+
+
+#### Question  5:
+Recall that we assume $\epsilon_i$ and $\epsilon_j$ are uncorrelated,
+  
+  $$\mathbb{E}\left[\epsilon_i \epsilon_j\right] = 0.$$
+  
+Can you use the definition to show that $Y_i$ and $Y_j$ are thus uncorrelated?
+
+
+### Activity 2: more practice with R
+
+We will start by picking up with the "cats" dataframe we studied in the last activity.
+
+```{r eval=FALSE}
+cats <- data.frame(coat = c("calico", "black", "tabby"), 
+                    weight = c(2.1, 5.0, 3.2), 
+                    likes_string = c(1, 0, 1))
+```
+
+Notice that the arguments of the function "data.frame()" are three expressions associating a name with a vector.
+Printing the variable "cats", we see what tabular data looks like in a dataframe:
+```{r eval=FALSE}
+cats
+```
+The assignment of the vectors to names in the arguments assigned the column names.
+Each column consists of <b>a vector of uniform data type</b>.
+If we want to extract a named column from a dataframe, this can be done with the "$" sign and the column name:
+```{r eval=FALSE}
+cats$weight
+```
+Each row, on the other hand, consists of multiple measurements (of different data types) corresponding to one specific case of the data set.
+
+
+#### Question 1:
+Suppose we realize that the scale used to weigh our cats was off by 2 kg in all measurements.  Can you make a recursive assignment to fix the weights measurements in our dataframe?
+
+
+#### Question 2:
+A data structure related to vectors are <b>lists</b>. Lists function as containers for heterogeneous data, allowing different types:
+
+```{r eval=FALSE}
+list_example <- list(1, "a", TRUE, 1+4i)
+list_example
+```
+
+
+How can you verify in the code that no type conversion has taken place?  What could you add to the below code to verify that the types are still respected?
+```{r eval=FALSE}
+list_example[1]
+list_example[2]
+```
+
+
+#### Question 3:
+We know that dataframes contain homogeneous data in each <b>column</b>, but each row may be inhomogeneous. What kind of data structure do you think a dataframe is? Can it be a vector? Why or why not?
+
+
+#### Question 4:
+Consider now the vector "coat" in the dataframe:
+```{r eval=FALSE}
+cats$coat
+typeof(cats$coat)
+as.numeric(cats$coat)
+```
+
+Can you hypothesize what the meaning is of this data? What is a level, and why are the coats "integer"?
+
+
+#### Question 5:
+Let's suppose that we need to include more information on our cats in our analysis; a friend has provided ages of all the cats for us:
+```{r eval=FALSE}
+age <- c(2, 3, 5)
+```
+
+We want to combine this into our dataframe, which can be done with "cbind()"
+```{r eval=FALSE}
+cats <- cbind(cats, age)
+cats
+```
+
+This function introduces the new vector as an additional column in the dataframe;  the variable name is defined the column name, and we reassign the dataframe to cats recursively.
+
+
+Can you hypothesize what will be the output if we try to combine the following vector with the dataframe?
+```{r eval=FALSE}
+age <- c(2, 3, 5, 8, 9)
+cats <- cbind(cats, age)
+```
+
+
+### Activity 3: home reading assignment
+Let's suppose we have examined a new cat and we want to add a case to our dataframe:
+```{r eval=FALSE}
+newRow <- list("tortoiseshell", 3.3, TRUE, 9)
+cats <- rbind(cats, newRow)
+cats
+```
+
+Notice, the "NA" value in the above for the coat of the fourth cat. While the row was added successfully, it produces a "Not Available", missing data entry. Factors, like other vectors, are strict in R; when we attempt to add a value that is not recognized as one of the categories, R treats this as missing data.
+
+
+We can access the levels of a factor vector with the "levels()" function:
+```{r eval=FALSE}
+levels(cats$coat)
+```
+
+If we want to re-assign new levels to a factor, we can do so recursively
+```{r eval=FALSE}
+levels(cats$coat) <- c(levels(cats$coat), "tortoiseshell")
+cats <- rbind(cats, list("tortoiseshell", 3.3, TRUE, 9))
+cats
+```
+
+Notice, "tortiseshell" was now accepted as a category, but the NA value remains.
+In general, we want to know if a dataframe has missing values, and what kind of variables are in it.
+Several common functions allow this, including
+
+"str()" or the structure function:
+```{r eval=FALSE}
+str(cats)
+```
+
+This tells us what the dimensions are, the column names are, and what types of variables we are working with.
+We can also obtain a quick statistical summary of the data with the "summary()" function:
+
+```{r eval=FALSE}
+summary(cats)
+```
+
+The summary furthermore tells us how many missing values are present.
+We will often want to remove cases with missing data; this can be performed automatically with "na.omit()"
+  
+```{r eval=FALSE}
+na.omit(cats)
+```
+
+We can also remove rows or columns by index, using a "-"
+```{r eval=FALSE}
+cats[-1,]
+cats[,-1]
+```
+
+
+Basic file input/ output (IO) can be done with functions such as:
+```{r eval=FALSE}
+write.csv(x = cats, file = "feline-data.csv", row.names = FALSE)
+cats_from_file <- read.csv(file = "feline-data.csv")
+cats_from_file
+```
+
