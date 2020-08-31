@@ -43,7 +43,7 @@ Which of the following models are linear in the parameters, <b>OR</b> can be tra
   <ol>
     <li>$Y_i = \beta_0 + \beta_1 X_i^2 + \epsilon_i$;</li>
     <li>$Y_i = \beta_0 + \beta_1 \sqrt{X_i} + \epsilon_i$;</li>
-    <li>$Y_i = \beta_0 X_i^{\beta_1} * \epsilon_i$;</li>
+    <li>$Y_i = e^{\beta_0} X_i^{\beta_1} * \epsilon_i$;</li>
     <li>$Y_i = \beta_0 + \beta_1 X_i^{\beta_2} + \epsilon_i$.</li>
   </ol>
 Explain why or why not.
