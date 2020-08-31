@@ -19,7 +19,7 @@ tabby,  2.3 or 2.4, 1
 ```
 
 Our friend was uncertain about the weight of the last cat and placed two values into the CSV.
-We suppose that this is written in the file "feline-data_v2.csv" which we will read with "read.csv()". Download the feline-data-v2.csv from this link and then run the following code
+We suppose that this is written in the file "feline-data_v2.csv" which we will read with "read.csv()". Download the feline-data-v2.csv from this <a href="https://cgrudz.github.io/teaching/stat_445_645_2020_fall/activities/feline-data_v2.csv">link</a> and then run the following code
 
 ```{r eval=FALSE}
 cats_from_file <- read.csv(file="feline-data_v2.csv")
@@ -77,7 +77,7 @@ tail(gapminder)
 #### Question 1:
 We might be interested in a particular country, let's say India. Discuss with your peers, how can we create a sub-dataframe based on the cases corresponding to India alone.  Consider how you would fill in the following lines of code to complete this
 ```{r eval=FALSE}
-india_index <- gapminder$country == "India"
+india_index <- 
 india_dataframe = gapminder[india_index,]
 ```
 
