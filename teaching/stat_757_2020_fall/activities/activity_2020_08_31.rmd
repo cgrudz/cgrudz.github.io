@@ -36,9 +36,6 @@ How can we use the definition of variance,
  
  to show that $X_1$ always has correlation 1 with itself?
 
-##### Answer to question 1:
-
-The numerator is equal to the variance by definition, and the standard deviation appears as a squared term in the denominator --- this reduces to one.
  
 
 #### Question 2:
