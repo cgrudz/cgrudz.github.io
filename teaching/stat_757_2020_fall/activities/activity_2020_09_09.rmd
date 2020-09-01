@@ -1,0 +1,59 @@
+# Activity 09/09/2020
+
+## STAT 757 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+### Activity 1: unbiased estimators
+
+
+#### Question 1:
+Recall our assumption that $\mathbb{E}\left[\epsilon_i\right]=0$ for every $i$.  We will define the sample-based mean of the variations as
+$$\begin{align}
+\overline{\epsilon} = \frac{1}{n}\sum_{i=1}^n \epsilon_i.
+\end{align}$$
+
+Discuss with peers: knowing that the mean of the random variable $\epsilon_i$ is zero for every $i$, does this imply that the sample-based mean $\overline{\epsilon}=0$?  Explain why or why not.  Then use the above assumptions to find the expected value of $\overline{\epsilon}$.
+
+
+
+#### Question 2:
+It was mentioned that $\hat{\beta}_0$ and $\hat{\beta}_1$ are unbiased estimators of $\beta_0$ and $\beta_1$ Using the definitions of the point-estimates for the parameters $\beta_0$ and $\beta_1$ by ordinary least squares:
+$$\begin{align}
+  \hat{\beta}_1 &= \frac{\sum_{i=1}^n\left(X_i - \overline{X} \right)\left(Y_i - \overline{Y}\right)}{\sum_{i=1}^n\left(X_i - \overline{X} \right)^2}, \\
+  \hat{\beta}_0 &= \frac{1}{n} \left(\sum_{i=1}^n Y_i - \hat{\beta}_1 X_i \right),
+  \end{align}$$
+let us now prove that this is the case.
+
+
+### Activity 2: Correlation and covariance
+
+#### Question 1:
+
+Using the definition of the estimated parameter values by least squares, can you derive how this coefficient is related to the correlation between $X$ and $Y$?  
+
+
+
+#### Question 2:
+Following the previous question, recall the following facts:
+ 
+ 1. $S_{XY}^2$ is an unbiased estimator of $\mathrm{cov}(X,Y) = \sigma_{XY}^2$
+ 2. By definition, the covariance of two variables $X$ and $Y$ is $\sigma_{XY}^2 = 0$ if and only if the correlation between these variables $\rho_{XY}=0$ is zero.
+
+Let's suppose that the $X_i$ are treated as deterministic constants and the variables $X$ and $Y$ are uncorrelated such that $\rho_{XY}=0$.  Using the definition of the point estimate $\hat{\beta}_1$ and its relationship to the correlation between $X$ and $Y$, what is the implication for $\beta_1$ and the regression function when $X$ and $Y$ are uncorrelated?
+
+
+### Activity 3: Gaussian error distibutions
+
+#### Question 1: 
+We stated in the lectures that it can be demonstrated that linear combinations of Gaussian distributed random variables are also Gaussian.  If the variation in the signal is drawn iid $\epsilon_i \sim N(0,\sigma^2)$, which of the following can we deduce are also Gaussian distributed?
+
+ 1. $X_i$;
+ 2. $Y_i$;
+ 3. $\hat{\beta}_0, \hat{\beta}_1$;
+ 4. $\hat{Y}_i$;
+ 5. $\hat{\epsilon}_i$.
+
