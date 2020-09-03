@@ -10,4 +10,4 @@ I have made some changes to the CSS and site structure for my own purposes.
 
 ## License
 
-Open sourced under the [MIT license](LICENSE.md).
+Open sourced under the [MIT license](LICENSE).
