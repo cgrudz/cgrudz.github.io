@@ -1,0 +1,119 @@
+# Activity 09/02/2020
+
+## STAT 757 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+### Activity 1: Deriving the normal equations
+
+The "normal" equations are derived exactly in terms of the objective function we studied earlier that measures the sum of square deviations of the proposed mean response from the observed cases:
+$$J\left(\overline{\beta}_0,\overline{\beta}_1\right) = \sum_{i=1}^n \left(Y_i - \overline{\beta}_0 - \overline{\beta}_1 X_i\right)^2,$$</li>
+
+
+Note that $\hat{\beta}_0,\hat{\beta}_1$ are **defined** as the unique minimizers of $J$, and are therefore critical values for the function. Use this information to derive the normal equations for $\hat{\beta}_0,\hat{\beta}_1$:
+  $$\begin{align}
+  \sum_{i=1}^n Y_i &= n\hat{\beta}_0 + \hat{\beta}_1 \sum_{i=1}^n X_i \\
+  \sum_{i=1}^n X_i Y_i & =  \sum_{i=1}^n \left(\hat{\beta}_0 X_i +  \hat{\beta}_1 X_i^2\right)
+  \end{align}$$
+  
+  
+#### Solution to activity 1:
+The objective function is convex with a global minimum, and therefore has a single critical point corresponding to this minimum.  In each of the arguments, $\overline{\beta}_0$ and $\overline{\beta}_1$, we can take the partial derivative of the objective function,
+  $$\begin{align}
+  \partial_{\overline{\beta}_0} J &=\sum_{i=0}^n  -2\left(Y_i - \overline{\beta}_0 - \overline{\beta}_1 X_i\right) \\
+  \partial_{\overline{\beta}_1} J &= \sum_{i=0}^n  -2 X_i \left(Y_i - \overline{\beta}_0 - \overline{\beta}_1 X_i\right)
+  \end{align}$$
+  Setting these partial derivatives to zero when evaluated at $\hat{\beta}_0,\hat{\beta}_1$, we find
+    $$\begin{align}
+    \sum_{i=1}^n\left(Y_i\right) - n \hat{\beta}_0 - \sum_{i=1}^n \hat{\beta}_1\left( X_i\right) & = 0 \\
+  \sum_{i=0}^n  \left( X_i Y_i\right) - \hat{\beta}_0 \sum_{i=1}^n \left(X_i\right) - \hat{\beta}_1\sum_{i=1}^n \left( X_i^2\right) & = 0
+  \end{align}$$
+  By re-arranging terms, we find the normal equations,
+  $$\begin{align}
+  \sum_{i=1}^n Y_i &= n\hat{\beta}_0 + \hat{\beta}_1 \sum_{i=1}^n X_i \\
+  \sum_{i=1}^n X_i Y_i & =  \sum_{i=1}^n \left(\hat{\beta}_0 X_i +  \hat{\beta}_1 X_i^2\right)
+  \end{align}$$
+
+
+### Activity 2:
+Use the definition of the normal equations
+  $$\begin{align}
+  \sum_{i=1}^n Y_i &= n\hat{\beta}_0 + \hat{\beta}_1 \sum_{i=1}^n X_i ,\\
+  \sum_{i=1}^n X_i Y_i & =  \sum_{i=1}^n \left(\hat{\beta}_0 X_i +  \hat{\beta}_1 X_i^2\right),
+  \end{align}$$
+  and the definition of the residuals,
+  $$\begin{align} \hat{\epsilon}_i &= Y_i - \hat{Y}_i ,\end{align}$$
+  to prove the following statements:
+  <ol>
+    <li>The sum of the residuals is zero, i.e.,
+    $$\sum_{i=1}^n \hat{\epsilon}_i = 0$$</li>
+    <li>The sum of the observed values equals the sum of the fitted values,
+    $$\sum_{i=1}^n Y_i = \sum_{i=1}^n \hat{Y}_i$$</li>
+    <li>The sum of the residuals, weighted by the corresponding predictor variable, is zero,
+    $$\sum_{i=1}^n X_i \hat{\epsilon}_i = 0$$</li>
+    <li>The sum of the residuals, weighted by the corresponding fitted value, is zero,
+    $$\sum_{i=1}^n \hat{Y}_i \hat{\epsilon}_i = 0$$</li>
+    <li>The estimated regression function always passes through the point defined by the means (or the center of mass), $\left(\overline{X},\overline{Y}\right)$.
+    </ol>
+
+
+
+
+#### Solution:
+Notice that the first of the normal equations gives us
+  $$\begin{align}
+  &\sum_{i=1}^n Y_i = n\hat{\beta}_0 + \hat{\beta}_1 \sum_{i=1}^n X_i\\
+  \Leftrightarrow & 0 = \sum_{i=1}^n \left(Y_i - \hat{\beta}_0 - \hat{\beta}_1 X_i\right)\\
+  \Leftrightarrow & 0 = \sum_{i=1}^n \hat{\epsilon}_i
+  \end{align}$$
+Furthermore, by definition of the residuals, we have
+  $$\begin{align}
+  & \hat{\epsilon}_i = Y_i - \hat{Y}_i \\
+  \Leftrightarrow & Y_i = \hat{Y}_i + \hat{\epsilon}_i\\
+  \Leftrightarrow & \sum_{i=1}^n Y_i = \sum_{i=1}^n \left(\hat{Y}_i + \hat{\epsilon}_i\right),
+  \end{align}$$
+so that the last statement proves the second equation.
+
+To prove the third statement let us recall the normal equation,
+$$\sum_{i=1}^n X_i Y_i = \sum_{i=1}^n \left(\hat{\beta}_0 X_i + \hat{\beta}_1 X_i^2\right).$$
+
+Using the above fact, we will examine the equation,
+$$\begin{align}
+\sum_{i=1}^n X_i \hat{\epsilon}_i &= \sum_{i=1}^n X_i \left( Y_i - \hat{Y}_i \right) \\
+& = \sum_{i=1}^n X_i Y_i - X_i \left(\hat{\beta}_0 + \hat{\beta}_1 X_i\right) \\
+& = \sum_{i=1}^n X_i Y_i - \sum_{i=1}^n \left(\hat{\beta}_0 X_i \hat{\beta}_1 X_i^2\right) \\
+& =0
+\end{align}$$
+by the above relationship.
+
+
+Now, we will use the above relationship in the following, as well as one other relationship,
+$$\sum_{i=1}^n \hat{\epsilon}_i = 0.$$
+
+Consider,
+$$\begin{align}
+\sum_{i=1}^n \hat{Y}_i \hat{\epsilon}_i = & \sum_{i=1}^n \left(\hat{\beta}_0 + \hat{\beta}_1 X_i \right) \hat{\epsilon}_i \\
+& = \hat{\beta}_0 \sum_{i=1}^n \hat{\epsilon}_i + \sum_{i=1}^n X_i \hat{\epsilon}_i \\
+&= 0 + 0,
+\end{align}$$
+by the above properties.
+
+Finally, we will consider that,
+$$Y_i = \hat{Y}_i + \hat{\epsilon}_i, $$
+such that,
+$$\sum_{i=1}^n Y_i = \sum_{i=1}^n \hat{Y}_i.$$
+If we divide both sides by $n$, the number of cases, we obtain,
+$$\overline{Y} = \frac{1}{n}\sum_{i=1}^n \hat{Y}_i .$$
+
+But note that,
+$$\begin{align}
+\frac{1}{n}\sum_{i=1}^n \hat{Y}_i &= \frac{1}{n}\sum_{i=1}^n \left(\hat{\beta}_0 + \hat{\beta}_1 X_i \right) \\
+& = \hat{\beta}_0 + \hat{\beta}_1 \overline{X} \\
+& = \hat{Y}, 
+\end{align}$$
+i.e, the fitted value for the mean of the predictors $\overline{X}$ is given precisely by the mean of the observed responses.  Therefore, the estimated regression function
+passes through the center of mass.
+
