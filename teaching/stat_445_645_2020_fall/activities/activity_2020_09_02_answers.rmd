@@ -70,7 +70,7 @@ Asia: how do we set up an operation to produce a logical vector that
 is `TRUE` for all of the countries in southeast Asia and `FALSE` otherwise?
 
 Suppose you have these data:
-```{r eval=FALSE}
+```{r }
 seAsia <- c("Myanmar","Thailand","Cambodia","Vietnam","Laos")
 require(gapminder)
 ## extract the `country` column from a data frame (we'll see this later);
@@ -83,6 +83,7 @@ There's a wrong way (using only `==`), which will give you a warning;
 a clunky way (using the logical operators `==` and `|`); and
 an elegant way (using `%in%`). See whether you can come up with all three
 and explain how they (don't) work.
+
 
 ##### Solution to question 1
 
