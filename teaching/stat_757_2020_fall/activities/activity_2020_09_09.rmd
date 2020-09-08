@@ -1,4 +1,4 @@
-# Activity 09/09/2020
+# Activity 09/02/2020
 
 ## STAT 757 -- Section 1001 <br> Instructor: Colin Grudzien<br>
 
@@ -7,8 +7,8 @@ We will work through the following series of activities as a group and hold smal
 
 ## Activities:
 
-### Activity 1: unbiased estimators
 
+### Activity 1: sample means
 
 #### Question 1:
 Recall our assumption that $\mathbb{E}\left[\epsilon_i\right]=0$ for every $i$.  We will define the sample-based mean of the variations as
@@ -20,8 +20,14 @@ Discuss with peers: knowing that the mean of the random variable $\epsilon_i$ is
 
 
 
-#### Question 2:
-It was mentioned that $\hat{\beta}_0$ and $\hat{\beta}_1$ are unbiased estimators of $\beta_0$ and $\beta_1$ Using the definitions of the point-estimates for the parameters $\beta_0$ and $\beta_1$ by ordinary least squares:
+### Debrief:
+We will discuss the solution to activity 1 as a class.
+
+
+### Activity 2: unbiased estimators
+
+#### Question 1:
+It was mentioned that $\hat{\beta}_0$ and $\hat{\beta}_1$ are unbiased estimates of $\beta_0$ and $\beta_1$. Using the definitions of the point-estimates for the parameters $\beta_0$ and $\beta_1$ by ordinary least squares:
 $$\begin{align}
   \hat{\beta}_1 &= \frac{\sum_{i=1}^n\left(X_i - \overline{X} \right)\left(Y_i - \overline{Y}\right)}{\sum_{i=1}^n\left(X_i - \overline{X} \right)^2}, \\
   \hat{\beta}_0 &= \frac{1}{n} \left(\sum_{i=1}^n Y_i - \hat{\beta}_1 X_i \right),
@@ -29,11 +35,18 @@ $$\begin{align}
 let us now prove that this is the case.
 
 
-### Activity 2: Correlation and covariance
+### Debrief:
+We will discuss the solution to activity 2 as a class.
+
+### Activity 3: Correlation and covariance
 
 #### Question 1:
 
-Using the definition of the estimated parameter values by least squares, can you derive how this coefficient is related to the correlation between $X$ and $Y$?  
+Using the definition of the estimated parameter value $\hat{\beta}_1$ by least squares above, can you derive how this coefficient is related to 
+$$\begin{align}
+r = \frac{S_{XY}^2}{S_X S_Y},
+\end{align}$$
+the sample-based correlation between $X$ and $Y$?  Recall the definitions of the sample-based covariance and standard deviations.
 
 
 
@@ -46,7 +59,10 @@ Following the previous question, recall the following facts:
 Let's suppose that the $X_i$ are treated as deterministic constants and the variables $X$ and $Y$ are uncorrelated such that $\rho_{XY}=0$.  Using the definition of the point estimate $\hat{\beta}_1$ and its relationship to the correlation between $X$ and $Y$, what is the implication for $\beta_1$ and the regression function when $X$ and $Y$ are uncorrelated?
 
 
-### Activity 3: Gaussian error distibutions
+### Debrief:
+We will discuss the solution to activity 3 as a class.
+
+### Activity 4: Gaussian error distibutions (take home)
 
 #### Question 1: 
 We stated in the lectures that it can be demonstrated that linear combinations of Gaussian distributed random variables are also Gaussian.  If the variation in the signal is drawn iid $\epsilon_i \sim N(0,\sigma^2)$, which of the following can we deduce are also Gaussian distributed?
