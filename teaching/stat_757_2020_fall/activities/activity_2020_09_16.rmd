@@ -1,0 +1,57 @@
+# Activity 09/16/2020
+
+## STAT 757 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+
+### Activity 1: basic properties of matrices
+
+#### Question 1:
+
+In this problem, we will only assume the following: 
+$$n, p \geq 2 $$  
+and let $\mathbf{X}\in \mathbb{R}^{n \times p}$.
+
+Define $\mathbf{X}^\dagger = \left(\mathbf{X}^\mathrm{T} \mathbf{X}\right)^{-1} \mathbf{X}^\mathrm{T}$. Carefully compute the value of the product $\mathbf{X}^\dagger \mathbf{X}.$
+
+
+#### Question 2:
+We discussed that a projection operator $\Pi$ has the property in general that it is idempotent, i.e.,
+$\Pi^2 = \Pi$.
+
+In the special case of the hat matrix,
+$$\mathbf{H}= \mathbf{X}\left(\mathbf{X}^\mathrm{T} \mathbf{X}\right)^{-1} \mathbf{X}^\mathrm{T},$$
+show that $H^2=H$.  Then use this fact to show that for the complementary orthogonal projection
+$$\left(\mathbf{I}-\mathbf{H}\right)^2 = \left(\mathbf{I} - \mathbf{H}\right)$$.
+
+
+#### Question 3:
+Suppose we are given $n=2$ cases of the data $\left\{\left(X_i,Y_i\right)\right\}_{i=1}^2$.  Construct the design matrix for the standard simple regression problem.  Do you anticipate issues with performing regression analysis in this data set?  Explain why or why not.
+
+
+
+### Debrief:
+We will discuss the results of activity 1 as a class.
+
+### Activity 2:
+
+#### Question 1:
+Use the standard model in matrix form and the definition of the least squares estimated parameters,
+$$\begin{align}
+\mathbf{Y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\epsilon} & &
+\hat{\boldsymbol{\beta}} \triangleq \left(\mathbf{X}^\mathrm{T} \mathbf{X} \right)^{-1} \mathbf{X}^\mathrm{T}\mathbf{Y},
+\end{align}$$
+to prove that $\hat{\boldsymbol{\beta}}$ is an unbiased estimate of $\boldsymbol{\beta}$. Furthermore, use the definition of the covariance of a random vector,
+$$\begin{align}
+cov(\mathbf{Y})= \mathbb{E}\left\{\left(\mathbf{Y} - \mathbb{E}\left[\mathbf{Y}\right]\right)\left(\mathbf{Y} - \mathbb{E}\left[\mathbf{Y}\right]\right)^\mathrm{T} \right\},
+\end{align}$$
+to derive the covariance of this estimate.
+
+
+### Debrief:
+We will discuss the results of activity 2 as a class.
+

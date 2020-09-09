@@ -1,0 +1,71 @@
+# Activity 09/14/2020
+
+## STAT 757 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+
+### Activity 1: warmup on ideas from lecture
+
+#### Question 1: 
+Suppose that $X$ is the number of past years of work experience and $Y$ is weekly average income in dollars for full-time, regular workers in the United States in 2019 in a simple regression model.  Suppose that 
+in addition, $X=0$ is within the scope of the model.  Is $\beta_0=0$ a reasonable assumption for the form of the signal? Justify why or why not with the implication for the regression model and, in particular, for the mean response.
+
+
+
+#### Question 2:
+Recall that in the viewing assignment we had shown,
+  $$\begin{align}
+  TSS&= ESS + RSS + 2\sum_{i=1}^n  \left(\hat{Y}_i - \overline{Y}\right)\left(Y_i - \hat{Y}_i \right).
+  \end{align}$$
+
+Recall the following two properties, which we discussed in earlier exercises:
+<ol>
+ <li>The sum  of the residuals is equal to zero $\sum_{i=1}^n \hat{\epsilon}_i = 0$; and</li>
+ <li>The sum  of the residuals, weighted by the corresponding fitted value, is equal to zero $\sum_{i=1}^n \hat{Y}_i \hat{\epsilon}_i=0$.
+</ol>
+
+Use the above two properties to prove that the sum of the cross terms at the top is equal to zero.</li>
+
+
+
+### Debrief from activity 1:
+We will discuss the results of activity 1 as a class.
+
+
+### Activity 2: degrees of freedom and sums of squares
+
+#### Question 1:
+Use the definition of the <b>unbiased, sample-based variance estimate</b> to recover the <b>regression estimate</b> for $\sigma^2$.
+Recall, the denominator must divide by the degrees of freedom remaining after the *estimation of the mean*. Explain what each term corresponds to in the equation and where degrees of freedom are lost.
+
+
+
+
+#### Question 2:
+
+Suppose that the linear model satisfies, $Y_i = \beta_0 + \epsilon_i$,
+but that the other assumptions of the standard model hold. 
+Recall the definitions,
+$$\begin{align}
+RSS = \sum_{i=1}^n \left(Y_i - \hat{Y}_i\right)^2 & &TSS = \sum_{i=1}^n \left(Y_i - \overline{Y}\right)^2
+\end{align}$$
+Derive the values of $\mathbb{E}\left[RSS\right]$ and $\mathbb{E}\left[TSS\right]$.  What is the implication for $R^2$?
+
+
+
+### Debrief:
+We will discuss the results of activity 2 as a class
+
+
+### Activity 3: take home problem
+
+#### Question 1:
+Recall the definition of the $TSS$,
+$$TSS \triangleq \sum_{i=1}^n \left(Y_i - \overline{Y}\right)^2, $$
+such that the $TSS$ is a random variable, defined as a combination of the random variables $Y, \overline{Y}$. What is the value of the expectation of the $TSS$?  Consider using the definition of the regression equation as a substitution for $\overline{Y}$ and $Y_i$.
+
+
