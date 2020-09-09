@@ -1,0 +1,200 @@
+# Activity 09/09/2020
+
+## STAT 757 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+
+### Activity 1: sample means
+
+#### Question 1:
+Recall our assumption that $\mathbb{E}\left[\epsilon_i\right]=0$ for every $i$.  We will define the sample-based mean of the variations as
+$$\begin{align}
+\overline{\epsilon} = \frac{1}{n}\sum_{i=1}^n \epsilon_i.
+\end{align}$$
+
+Discuss with peers: knowing that the mean of the random variable $\epsilon_i$ is zero for every $i$, does this imply that the sample-based mean $\overline{\epsilon}=0$?  Explain why or why not.  Then use the above assumptions to find the expected value of $\overline{\epsilon}$.
+
+
+##### Solution to question 1:
+We note that even if $\epsilon_i$ has a mean zero for all $i$, this does not mean that the sample-based mean of the variations $\overline{\epsilon}$ will be equal to zero for any particular realization.  This is an unbiased estimator for the expected value of the arithmetic mean of the varaitions treated as random variables, but any particular realization of the estimator almost surely won't equal the true value.  This can be considered with the central limit theorem, where we recall
+
+<blockquote>
+<strong>Central limit theorem:</strong>
+Suppose we have a sequence of random variables, $\left\{x_i \right\}_{i=1}^\infty$ which are independent, identically distributed <strong>from any distribution</strong>, such that for all $i$
+ 
+ 1. $\mathbb{E}[x_i] = \mu$; and
+ 2. $\mathrm{var}(x_i) = \sigma^2$, for some finite $\sigma$.
+
+For each $n\geq 1$ define the sample-based mean of the sequence $\left\{x_i \right\}_{i=1}^n$
+$$\begin{align}
+\overline{x}_n \triangleq \frac{1}{n} \sum_{i=1}^n x_i
+\end{align}$$
+
+Then, as the number of random variables $n\rightarrow \infty$, the sample-based means
+  $$\begin{align}
+  \sqrt{n}\left(\overline{x}_n - \mu\right) {\xrightarrow {d}} N(0, \sigma^2)
+  \end{align}$$
+  where the convergence is in distribution.
+  
+Put another way, for $n$ sufficiently large, $\overline{x}_n$ has <b>approximately</b> a $N\left(\mu, \frac{\sigma^2}{n}\right)$ distribution.
+</blockquote>
+In the context of the above, we know that $\epsilon_i$ satisfy the central limit theorem for $\mu=0$.  The central limit theorem thus says that, rather than any particular realization equaling the true mean $\mu$, the sample-based mean will vary around the true value of the mean with a variance that shrinks approximately like $\frac{1}{n}$.
+
+The central limit theorem also guarantees that,
+$\mathbb{E}\left[\overline{\epsilon}\right]=0$, but this can be shown more directly just by using the linearity of the expectation over (finite) sums.
+
+
+### Debrief:
+We will discuss the solution to activity 1 as a class.
+
+
+### Activity 2: unbiased estimators
+
+#### Question 1:
+It was mentioned that $\hat{\beta}_0$ and $\hat{\beta}_1$ are unbiased estimates of $\beta_0$ and $\beta_1$. Using the definitions of the point-estimates for the parameters $\beta_0$ and $\beta_1$ by ordinary least squares:
+$$\begin{align}
+  \hat{\beta}_1 &= \frac{\sum_{i=1}^n\left(X_i - \overline{X} \right)\left(Y_i - \overline{Y}\right)}{\sum_{i=1}^n\left(X_i - \overline{X} \right)^2}, \\
+  \hat{\beta}_0 &= \frac{1}{n} \left(\sum_{i=1}^n Y_i - \hat{\beta}_1 X_i \right),
+  \end{align}$$
+let us now prove that this is the case.
+
+##### Solution to question 1:
+
+We will consider the expectation of the parameter $\hat{\beta}_1$ first.
+We begin by considering the substitution for $Y_i$ in terms of the regression model,
+$Y_i = \beta_0 + \beta_1 X_i + \epsilon_i,$
+with the goal of reducing the equation to $\beta_1$ after taking the expectation.  Specifically,
+
+$$\begin{align}
+\hat{\beta}_1 &= \frac{\sum_{i=1}^n\left(X_i - \overline{X} \right)\left(Y_i - \overline{Y}\right)}{\sum_{i=1}^n\left(X_i - \overline{X} \right)^2}\\
+&= \frac{\sum_{i=1}^n\left(X_i - \overline{X} \right)\left[\beta_0 + \beta_1X_i +\epsilon_i - \frac{1}{n}\left( \sum_{i=1}^n \beta_0 + \beta_1X_i + \epsilon_i\right)\right]}{\sum_{i=1}^n\left(X_i
+ - \overline{X} \right)^2}\\
+&=\frac{\sum_{i=1}^n\left(X_i - \overline{X} \right)\left[\beta_0 + \beta_1X_i +\epsilon_i - \beta_0 -  \beta_1 \overline{X} - \overline{\epsilon}\right]}{\sum_{i=1}^n\left(X_i
+ - \overline{X} \right)^2}\\
+&= \frac{\sum_{i=1}^n\left(X_i - \overline{X} \right)\left[ \beta_1\left(X_i- \overline{X}\right) + \left(\epsilon_i  - \overline{\epsilon}\right)\right]}{\sum_{i=1}^n\left(X_i
+ - \overline{X} \right)^2}
+  \end{align}$$
+where $\overline{\epsilon} = \frac{1}{n}\sum_{i=1}^n \epsilon_i$ is once again the sample-based mean of the variations.
+
+This implies, therefore,
+$$\begin{align}
+\hat{\beta}_1&= \frac{\sum_{i=1}^n \beta_1\left(X_i - \overline{X} \right)^2 + \left(X_i - \overline{X} \right)\left(\epsilon_i  - \overline{\epsilon}\right)}{\sum_{i=1}^n\left(X_i
+ - \overline{X} \right)^2} \\
+&=\beta_1 + \frac{\sum_{i=1}^n  \left(X_i - \overline{X} \right)\left(\epsilon_i  - \overline{\epsilon}\right)}{\sum_{i=1}^n\left(X_i
+ - \overline{X} \right)^2}
+\end{align}$$
+
+If we take the expectation of both sides, we recover,
+$$\begin{align}
+\mathbb{E}\left[\hat{\beta}_1 \right] &=  \mathbb{E}\left[\beta_1\right] + \frac{\sum_{i=1}^n  \left(X_i - \overline{X} \right)\mathbb{E}\left[\left(\epsilon_i  - \overline{\epsilon}\right)\right]}{\sum_{i=1}^n\left(X_i
+ - \overline{X} \right)^2}
+\end{align}$$
+But $\beta_1$ is a deterministic constant meaning $\mathbb{E}\left[\beta_1\right]=\beta_1$, while we have already shown that $\mathbb{E}\left[\overline{\epsilon}\right] = 0$ based on our assumptions.
+
+We will use the fact that $\mathbb{E}\left[\hat{\beta}_1\right] = \beta_1$ now to prove $\mathbb{E}\left[\hat{\beta}_0\right]=\beta_0$.  Consider,
+$$\begin{align}
+\hat{\beta}_0 &=  \frac{1}{n} \left(\sum_{i=1}^n Y_i - \hat{\beta}_1 X_i \right) \\
+&= \overline{Y} - \hat{\beta}_1\overline{X} \\
+&= \beta_0 + \beta_1 \overline{X}  + \overline{\epsilon}  - \hat{\beta}_1 \overline{X}
+\end{align}$$
+taking the expectation of both sides, we readily see that $\mathbb{E}\left[\hat{\beta}_0\right] = \beta_0$.
+
+
+### Debrief:
+We will discuss the solution to activity 2 as a class.
+
+### Activity 3: Correlation and covariance
+
+#### Question 1:
+
+Using the definition of the estimated parameter values by least squares $\hat{\beta}_0,\hat{\beta}_1$ above, can you derive how this coefficient is related to 
+$$\begin{align}
+r = \frac{S_{XY}^2}{S_X S_Y},
+\end{align}$$
+the sample-based correlation between $X$ and $Y$?  Recall the definitions of the sample-based covariance and standard deviations.
+
+
+##### Solution to question 1:
+Let's recall the definition of the point estimate for $\beta_1$,
+$$\begin{align}
+  \hat{\beta}_1 &= \frac{\sum_{i=1}^n\left(X_i - \overline{X} \right)\left(Y_i - \overline{Y}\right)}{\sum_{i=1}^n\left(X_i - \overline{X} \right)^2},
+  \end{align}$$
+
+The definition of the sample-base covariance between $X$ and $Y$ is
+$$\begin{align}
+  s^2_{XY} \triangleq  \frac{\sum_{i=1}^n  \left( X_i - \overline{X}\right) \left( Y_i - \overline{Y}\right) }{n-1}.
+  \end{align}$$
+
+So that we can re-write 
+$$\begin{align}
+ \hat{\beta}_1 &= \frac{\sum_{i=1}^n\left(X_i - \overline{X} \right)\left(Y_i - \overline{Y}\right)}{\sum_{i=1}^n\left(X_i - \overline{X} \right)^2} \\ \\
+ &= \frac{(n-1)S_{XY}^2}{\sum_{i=1}^n\left(X_i - \overline{X} \right)^2} \\ \\
+ &= \frac{S_{XY}^2}{S_X^2} \\ \\
+ &= \left(\frac{S_{XY}^2}{S_X S_Y}\right) \left(\frac{S_Y}{S_X}\right)
+\end{align}$$
+
+Therefore notice, $\left(\frac{S_{XY}^2}{S_X S_Y}\right)$ is just the sample-based correlation between $X$ and $Y$, while $\left(\frac{S_Y}{S_X}\right)$ is the ratio of their sample-based standard deviations. 
+
+#### Question 2:
+Following the previous question, recall the following facts:
+ 
+ 1. $S_{XY}^2$ is an unbiased estimator of $\mathrm{cov}(X,Y) = \sigma_{XY}^2$
+ 2. By definition, the covariance of two variables $X$ and $Y$ is $\sigma_{XY}^2 = 0$ if and only if the correlation between these variables $\rho_{XY}=0$ is zero.
+
+Let's suppose that the $X_i$ are treated as deterministic constants and the variables $X$ and $Y$ are uncorrelated such that $\rho_{XY}=0$.  Using the definition of the point estimate $\hat{\beta}_1$ and its relationship to the correlation between $X$ and $Y$, what is the implication for $\beta_1$ and the regression function when $X$ and $Y$ are uncorrelated?
+
+##### Solution to question 2:
+
+Recall our expression for $\hat{\beta}_1$,
+$$\begin{align}
+\hat{\beta}_1 &= \frac{(n-1)S_{XY}^2}{\sum_{i=1}^n\left(X_i - \overline{X} \right)^2} 
+\end{align}$$
+Thus,
+$$\begin{align}
+\mathbb{E}\left[\hat{\beta}_1\right] &= \frac{(n-1)\mathbb{E}\left[S_{XY}^2\right]}{\sum_{i=1}^n\left(X_i - \overline{X} \right)^2} \\
+&= 0 \\
+\end{align}$$
+But we have shown that $\mathbb{E}\left[\hat{\beta}_1\right] = \beta_1$ such that $\beta_1$ must also equal zero.  The implication is that for our regression equation, if $X$ and $Y$ are uncorrelated, the relationship is expressed by
+$$\begin{align}
+Y_i &= \beta_0 + 0 X_i +\epsilon_i\\
+    &= \beta_0 +\epsilon_i.
+\end{align}$$
+Thus the distribution of $Y_i$ does not actually depend on $X_i$, and it varies randomly about a constant value $\beta_0$, fixed for every $i$.
+
+### Debrief:
+We will discuss the solution to activity 3 as a class.
+
+### Activity 4: Gaussian error distibutions (take home)
+
+#### Question 1: 
+We stated in the lectures that it can be demonstrated that linear combinations of Gaussian distributed random variables are also Gaussian.  If the variation in the signal is drawn iid $\epsilon_i \sim N(0,\sigma^2)$, which of the following can we deduce are also Gaussian distributed?
+
+ 1. $X_i$;
+ 2. $Y_i$;
+ 3. $\hat{\beta}_0, \hat{\beta}_1$;
+ 4. $\hat{Y}_i$;
+ 5. $\hat{\epsilon}_i$.
+
+
+##### Solution :
+
+ 1. $X_i$ -- no, this is generally assumed to be a deterministic value.
+ 2. $Y_i$ -- yes, this is essentially the same proof as showing the variance of $Y_i$ earlier, but where we now have a distribution to associate to $Y_i$. Specifically,
+    $$Y_i \sim N\left(\beta_0 +\beta_1 X_i, \sigma^2\right)$$
+ 3. $\hat{\beta}_0, \hat{\beta}_1$ -- indeed, recall the definitions of the point estimators,
+    $$\begin{align}
+  \hat{\beta}_1 &= \frac{\sum_{i=1}^n\left(X_i - \overline{X} \right)\left(Y_i - \overline{Y}\right)}{\sum_{i=1}^n\left(X_i - \overline{X} \right)}\\
+  \hat{\beta}_0 &= \frac{1}{n} \sum_{i=1}^n\left( Y_i - \hat{\beta}_1 X_i \right).
+  \end{align}$$
+  If the $X_i$ values are deterministic constants, then $\hat{\beta}_1$, and thus $\hat{\beta}_0$, are linear combinations of Gaussian random variables.
+  
+ 4. $\hat{Y}_i$ -- yes, by the definition,
+  $$\hat{Y}_i = \hat{\beta}_0 + \hat{\beta}_1 X_i,$$
+  this is also a linear combination of Gaussian variables.
+ 5. $\hat{\epsilon}_i$ -- yes, once again by definition, and the above,
+  $$\hat{\epsilon}_i = Y_i - \hat{Y}_i $$
+  is a linear combination of Gaussian variables.
