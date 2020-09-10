@@ -19,6 +19,7 @@ and let $\mathbf{X}\in \mathbb{R}^{n \times p}$.
 Define $\mathbf{X}^\dagger = \left(\mathbf{X}^\mathrm{T} \mathbf{X}\right)^{-1} \mathbf{X}^\mathrm{T}$. Carefully compute the value of the product $\mathbf{X}^\dagger \mathbf{X}.$
 
 
+
 #### Question 2:
 We discussed that a projection operator $\Pi$ has the property in general that it is idempotent, i.e.,
 $\Pi^2 = \Pi$.
@@ -29,7 +30,23 @@ show that $H^2=H$.  Then use this fact to show that for the complementary orthog
 $$\left(\mathbf{I}-\mathbf{H}\right)^2 = \left(\mathbf{I} - \mathbf{H}\right)$$.
 
 
-#### Question 3:
+### Debrief:
+We will discuss the result of activity 1 as a class.
+
+### Activity 2:
+
+#### Question 1:
+What is the geometric meaning of the statements
+
+$$\begin{align}
+\sum_{i=1}^n \hat{\epsilon}_i X_i &=  0 \\
+\sum_{i=1}^n \hat{\epsilon}_i\hat{Y}_i &= 0?
+\end{align}$$
+
+How does this relate to the column span of the design matrix?
+
+
+#### Question 2:
 Suppose we are given $n=2$ cases of the data $\left\{\left(X_i,Y_i\right)\right\}_{i=1}^2$.  Construct the design matrix for the standard simple regression problem.  Do you anticipate issues with performing regression analysis in this data set?  Explain why or why not.
 
 
@@ -37,7 +54,7 @@ Suppose we are given $n=2$ cases of the data $\left\{\left(X_i,Y_i\right)\right\
 ### Debrief:
 We will discuss the results of activity 1 as a class.
 
-### Activity 2:
+### Activity 3:
 
 #### Question 1:
 Use the standard model in matrix form and the definition of the least squares estimated parameters,
@@ -50,8 +67,6 @@ $$\begin{align}
 cov(\mathbf{Y})= \mathbb{E}\left\{\left(\mathbf{Y} - \mathbb{E}\left[\mathbf{Y}\right]\right)\left(\mathbf{Y} - \mathbb{E}\left[\mathbf{Y}\right]\right)^\mathrm{T} \right\},
 \end{align}$$
 to derive the covariance of this estimate.
+<div class="solutions">
 
-
-### Debrief:
-We will discuss the results of activity 2 as a class.
 

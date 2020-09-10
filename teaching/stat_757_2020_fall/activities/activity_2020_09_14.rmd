@@ -31,7 +31,6 @@ Recall the following two properties, which we discussed in earlier exercises:
 Use the above two properties to prove that the sum of the cross terms at the top is equal to zero.</li>
 
 
-
 ### Debrief from activity 1:
 We will discuss the results of activity 1 as a class.
 
@@ -44,18 +43,24 @@ Recall, the denominator must divide by the degrees of freedom remaining after th
 
 
 
-
 #### Question 2:
-
-Suppose that the linear model satisfies, $Y_i = \beta_0 + \epsilon_i$,
-but that the other assumptions of the standard model hold. 
+Suppose our estimated parameter value $\hat{\beta}_1=0$, but that the other assumptions of the standard model hold. 
 Recall the definitions,
 $$\begin{align}
 RSS = \sum_{i=1}^n \left(Y_i - \hat{Y}_i\right)^2 & &TSS = \sum_{i=1}^n \left(Y_i - \overline{Y}\right)^2
 \end{align}$$
-Derive the values of $\mathbb{E}\left[RSS\right]$ and $\mathbb{E}\left[TSS\right]$.  What is the implication for $R^2$?
+What is the implication for $R^2$?  
 
+#### Question 3:
+Suppose that the following form of the regression equation is satisfied
+$$\begin{align}
+Y_i = \beta_0 + \epsilon_i.
+\end{align}$$
+Under the above condition, can you compute the expected value of the mean square
 
+$$\begin{align}
+\mathbb{E}\left[ \frac{TSS}{n-1} \right]?
+\end{align}$$
 
 ### Debrief:
 We will discuss the results of activity 2 as a class
@@ -64,8 +69,9 @@ We will discuss the results of activity 2 as a class
 ### Activity 3: take home problem
 
 #### Question 1:
-Recall the definition of the $TSS$,
-$$TSS \triangleq \sum_{i=1}^n \left(Y_i - \overline{Y}\right)^2, $$
-such that the $TSS$ is a random variable, defined as a combination of the random variables $Y, \overline{Y}$. What is the value of the expectation of the $TSS$?  Consider using the definition of the regression equation as a substitution for $\overline{Y}$ and $Y_i$.
-
+Recall again the definition of the $TSS$,
+$$TSS \triangleq \sum_{i=1}^n \left(Y_i - \overline{Y}\right)^2.$$ We will now consider in full generality, what is the value of the expectation of the mean square
+$$\begin{align}
+\mathbb{E}\left[\frac{TSS}{n-1}\right]?
+\end{align}$$  Consider using the standard definition of the regression equation as a substitution for $\overline{Y}$ and $Y_i$.
 
