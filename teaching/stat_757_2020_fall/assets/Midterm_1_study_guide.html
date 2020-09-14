@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Midterm 1 Study Guide</title>
+
+<style type="text/css">
+  
+  /* Whole document - standard notebook size and margins */
+  body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      max-width: 8.5in;
+      margin: auto;
+      background: #FFFFFF;
+      padding: 1in 1in 1in 1in;
+  }
+
+#customlist {
+  /* delete default counter */
+  list-style-type: none;
+  /* create custom counter and set it to 0 */
+  counter-reset: elementcounter;
+}
+
+#customlist>li:before {
+  /* print out "Section " followed by the current counter value */
+  content: "Section " counter(elementcounter) ":";
+  /* increment counter */
+  counter-increment: elementcounter;
+}
+  
+</style>
+
+
+
+
+
+<link href="data:text/css;charset=utf-8,%3Cstyle%20type%3D%22text%2Fcss%22%3E%0A%0A%0Abody%20%7B%0Afont%2Dfamily%3A%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Amax%2Dwidth%3A%208%2E5in%3B%0Amargin%3A%20auto%3B%0Abackground%3A%20%23FFFFFF%3B%0Apadding%3A%201in%201in%201in%201in%3B%0A%7D%0A%0Ah1%20%7B%0Afont%2Dsize%3A%2050px%3B%0Acolor%3A%20%23000000%3B%0Atext%2Dalign%3Acenter%3B%0Amargin%2Dbottom%3A15px%3B%0A%7D%0Ah1%2Bp%20%7B%0A%0Acolor%3A%20%23000000%3B%0Afont%2Dsize%3A%2020px%3B%0Aline%2Dheight%3A%202em%3B%0Amargin%2Dtop%3A%200%2E5em%3B%0Amargin%2Dbottom%3A%200em%20%21important%3B%0Atext%2Dalign%3A%20center%3B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0A%0Ah2%20%7B%0Acolor%3A%20%23000000%3B%0A%7D%0A%0Adt%20%7B%0Afloat%3A%20left%3B%0Aclear%3A%20left%3B%0Awidth%3A%2017%25%3B%0A%0A%7D%0Add%20%7B%0Amargin%2Dleft%3A%2017%25%3B%0A%7D%0Ap%20%7B%0Amargin%2Dtop%3A0%3B%0Amargin%2Dbottom%3A7px%3B%0A%7D%0A%0Ablockquote%20%7B%0Atext%2Dalign%3A%20left%3B%20%7D%0A%0Aa%20%7B%0Atext%2Ddecoration%3A%20none%3B%0Acolor%3A%20%231D5996%3B%0A%7D%0Aa%3Ahover%2C%20a%3Aactive%20%7B%0Abackground%2Dcolor%3A%20%231D5996%3B%0Acolor%3A%20%23FFFFFF%3B%0Atext%2Ddecoration%3A%20none%3B%0Atext%2Dshadow%3A%201px%201px%201px%20%23333%3B%0A%7D%0A%0Ahr%20%7B%0Acolor%3A%20%23A6A6A6%3B%0A%7D%0Atable%20%7B%0Awidth%3A%20100%25%3B%0Aborder%2Dcollapse%3Acollapse%3B%0Aborder%2Dspacing%3A0%3B%0Adisplay%3Atable%0A%7D%0Atable%2EminimalistBlack%20%7B%0Aborder%3A%203px%20solid%20%23000000%3B%0Awidth%3A%20100%25%3B%0Atext%2Dalign%3A%20left%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%2EminimalistBlack%20td%2C%20table%2EminimalistBlack%20th%20%7B%0Apadding%3A%205px%204px%3B%0A%7D%0Atable%2EminimalistBlack%20tbody%20td%20%7B%0Afont%2Dsize%3A%2015px%3B%0A%7D%0Atable%2EminimalistBlack%20thead%20%7B%0Abackground%3A%20%23CFCFCF%3B%0Abackground%3A%20%2Dmoz%2Dlinear%2Dgradient%28top%2C%20%23dbdbdb%200%25%2C%20%23d3d3d3%2066%25%2C%20%23CFCFCF%20100%25%29%3B%0Abackground%3A%20%2Dwebkit%2Dlinear%2Dgradient%28top%2C%20%23dbdbdb%200%25%2C%20%23d3d3d3%2066%25%2C%20%23CFCFCF%20100%25%29%3B%0Abackground%3A%20linear%2Dgradient%28to%20bottom%2C%20%23dbdbdb%200%25%2C%20%23d3d3d3%2066%25%2C%20%23CFCFCF%20100%25%29%3B%0Aborder%2Dbottom%3A%203px%20solid%20%23000000%3B%0A%7D%0Atable%2EminimalistBlack%20thead%20th%20%7B%0Afont%2Dsize%3A%2015px%3B%0Afont%2Dweight%3A%20bold%3B%0Acolor%3A%20%23000000%3B%0Atext%2Dalign%3A%20left%3B%0A%7D%0Atable%2EminimalistBlack%20tfoot%20%7B%0Afont%2Dsize%3A%2014px%3B%0Afont%2Dweight%3A%20bold%3B%0Acolor%3A%20%23000000%3B%0Aborder%2Dtop%3A%203px%20solid%20%23000000%3B%0A%7D%0Atable%2EminimalistBlack%20tfoot%20td%20%7B%0Afont%2Dsize%3A%2014px%3B%0A%7D%0A%0A%2Eanswer%5Fdiv%20%7B%0Awidth%3A100%25%3B%0Aheight%3A2in%3B%0Afloat%3Aleft%3B%0A%7D%0A%2Elong%5Fanswer%5Fdiv%7B%0Awidth%3A100%25%3B%0Aheight%3A3in%3B%0Afloat%3Aleft%3B%0A%7D%0A%0A%40media%20print%20%7B%0A%2Epagebreak%20%7B%20page%2Dbreak%2Dbefore%3A%20always%3B%20padding%2Dtop%3A1in%3B%0A%7D%20%7D%0Adiv%2Esolutions%20%2A%20%7B%0Acolor%3A%23000099%3B%0A%7D%0A%3C%2Fstyle%3E%0A" rel="stylesheet" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Midterm 1 Study Guide</h1>
+
+
+
+<p>STAT 757 – Section 1001 <br> Instructor: Colin Grudzien<br> Midterm Time: 09/23/2020 – 1:00 - 2:15 PM</p>
+<div id="instructions" class="section level2">
+<h2>Instructions</h2>
+<blockquote>
+<p>Midterm 1 will be a proctored exam through Zoom. You are expected to attend the regular class session in Zoom with your camera on with you work space visible to the camera. Canvas will log your browser behavior and you are expected to remain in the Canvas Midterm 1 window at all times during the exam. A record of leaving this page may be considered cheating. <b>You will be allowed to use any hard copies of resources including books, notes and print-outs that you want. No electronic resources will be allowed on the exam except with special approval by the instructor, in order to prevent communication between test takers and others.</b> It is recommended that you take notes from the lectures based on each of the following conceptual questions. In addition, you are recommended to study all of the quiz and and activity questions.</p>
+</blockquote>
+</div>
+<div id="problems" class="section level2">
+<h2>Problems:</h2>
+<div id="problem-1" class="section level3">
+<h3>Problem 1:</h3>
+<p>State the form of the standard linear regression model, either in matrix form or in a scalar equation. State the assumptions of the Gauss-Markov theorem. Identify which parts of the equation are known or unknown, and which are deterministic or random in the standard model. Supposing that we have a case, and maybe some knowledge of the parameters, you should be able to make a simple numeric calculation using the regression equation. You should understand the meaning of the parameters in the simple regression formulation and the implications for the regression function for special values.</p>
+</div>
+<div id="problem-2" class="section level3">
+<h3>Problem 2:</h3>
+<p>Let <span class="math inline">\(\hat{\boldsymbol{\beta}}\)</span> be the vector of parameters estimated by least squares. What is the expected value and the covariance of <span class="math inline">\(\hat{\boldsymbol{\beta}}\)</span>? Explain in what sense the least squares estimated parameters are an optimal estimate.</p>
+</div>
+<div id="problem-3" class="section level3">
+<h3>Problem 3:</h3>
+<p>State the form of the estimated mean function for the standard model. What mathematical quantity describes the difference between the fitted values and the observed cases? What is the expected value of the difference between our fitted values and the observed cases?</p>
+</div>
+<div id="problem-4" class="section level3">
+<h3>Problem 4:</h3>
+<p>We suppose that the errors in the standard model in Problem 1 are also Gaussian. Explain which of the quantities in problems 1 - 3 are also Gaussian random variables. You do not need to include equations, but you should explain why these are Gaussian random variables with simple reasoning.</p>
+</div>
+<div id="problem-5" class="section level3">
+<h3>Problem 5:</h3>
+<p>We suppose that the errors in the standard model in Problem 1 are also Gaussian. What can we state in addition to the Gauss-Markov theorem about the least squares estimated <span class="math inline">\(\hat{\boldsymbol{\beta}}\)</span>? Explain why a Gaussian error approximation might be reasonable, if not always stictly accurate. State the name of a key theorem, and under what conditions it should apply.</p>
+</div>
+<div id="problem-6" class="section level3">
+<h3>Problem 6:</h3>
+<p>Suppose that instead of the standard model in problem 1, we suppose <span class="math inline">\(X,Y\)</span> are jointly Gaussian distributed random variables. Explain in what sense we can create a linear regression model in this context. Specifically, what does the estimated mean function represent in this context?</p>
+</div>
+<div id="problem-7" class="section level3">
+<h3>Problem 7:</h3>
+Explain the meaning of each of the <span class="math inline">\(RSS\)</span>, <span class="math inline">\(TSS\)</span> and <span class="math inline">\(ESS\)</span>. What is (broadly speaking) the implication for our regression analysis if
+<ul>
+<li>
+the <span class="math inline">\(RSS\)</span> is large or the <span class="math inline">\(RSS\)</span> is small;
+</li>
+<li>
+the <span class="math inline">\(TSS\)</span> is large or the <span class="math inline">\(TSS\)</span> is small;
+</li>
+<li>
+the <span class="math inline">\(ESS\)</span> is large or the <span class="math inline">\(ESS\)</span> is small?
+</li>
+</ul>
+</div>
+<div id="problem-8" class="section level3">
+<h3>Problem 8:</h3>
+<p>What is <span class="math inline">\(R^2\)</span>? What is its possible range of values and what does each end correspond to in terms of goodness of fit and / or the relationship to <span class="math inline">\(RSS/TSS/ESS\)</span>?</p>
+</div>
+<div id="problem-9" class="section level3">
+<h3>Problem 9:</h3>
+<p>Explain how many degrees of freedom are available in a <b>simple</b> regression model with <span class="math inline">\(n\)</span> observations. Where do the constraints come from?</p>
+</div>
+<div id="problem-10" class="section level3">
+<h3>Problem 10:</h3>
+<p>Suppose we have <span class="math inline">\(n=3\)</span> cases of data <span class="math inline">\(\left\{ \left(Y_i, X_i\right)\right\}_{i=1}^3\)</span>. Construct the design matrix and explain what each column corresponds to.</p>
+</div>
+<div id="problem-11" class="section level3">
+<h3>Problem 11:</h3>
+<p>What issues do we encounter in regression analysis if the number of cases <span class="math inline">\(n\)</span> is equal to the number of parameters <span class="math inline">\(p\)</span>? What is (potentially) the behavior of the fitted values?</p>
+</div>
+<div id="problem-12" class="section level3">
+<h3>Problem 12:</h3>
+<p>You should be familiar with some basic matrix algebra. You should be familiar with the difference between an inner product and an outer product of vectors, the covariance matrix, the norm of a vector and how these quantities relate to our regression formulation in vectors and matrices.</p>
+</div>
+<div id="problem-13" class="section level3">
+<h3>Problem 13:</h3>
+<p>Explain the concept of orthogonality and how it arises in our regression formulation in matrices. You should be able to identify different orthogonal quantities by our assumptions and you should have a working understanding of projection operators and their properties.</p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
