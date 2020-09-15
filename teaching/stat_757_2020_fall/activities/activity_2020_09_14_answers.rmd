@@ -1,0 +1,186 @@
+# Activity 09/14/2020
+
+## STAT 757 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+
+### Activity 1: warmup on ideas from lecture
+
+#### Question 1: 
+Suppose that $X$ is the number of past years of work experience and $Y$ is weekly average income in dollars for full-time, regular workers in the United States in 2019 in a simple regression model.  Suppose that 
+in addition, $X=0$ is within the scope of the model.  Is $\beta_0=0$ a reasonable assumption for the form of the signal? Justify why or why not with the implication for the regression model and, in particular, for the mean response.
+
+#### Solution to question 1:
+If $\beta_0=0$ this means that our estimated mean function will pass through the point $(0,0)$.  In particular, this would imply that we expect a regular, full-time worker in 2019 with zero years of past work experience earns zero USD per week.  In this case, assuming that $\beta_0$ is not well justified because we do not expect that a regular, full-time worker will be working without payment.
+
+
+
+#### Question 2:
+Recall that in the viewing assignment we had shown,
+  $$\begin{align}
+  TSS&= ESS + RSS + 2\sum_{i=1}^n  \left(\hat{Y}_i - \overline{Y}\right)\left(Y_i - \hat{Y}_i \right).
+  \end{align}$$
+
+Recall the following two properties, which we discussed in earlier exercises:
+<ol>
+ <li>The sum  of the residuals is equal to zero $\sum_{i=1}^n \hat{\epsilon}_i = 0$; and</li>
+ <li>The sum  of the residuals, weighted by the corresponding fitted value, is equal to zero $\sum_{i=1}^n \hat{Y}_i \hat{\epsilon}_i=0$.
+</ol>
+
+Use the above two properties to prove that the sum of the cross terms at the top is equal to zero.</li>
+
+
+##### Solution to question 2:
+We note that by definition, we recover
+  $$\begin{align}
+  \sum_{i=1}^n  \left(\hat{Y}_i - \overline{Y}\right)\left(Y_i - \hat{Y}_i \right)& = \sum_{i=1}^n  \left(\hat{Y}_i - \overline{Y}\right)\hat{\epsilon}_i.
+  \end{align}$$
+  
+If we distribute the terms in the product, we can thus recover two sums of the form,
+  $$\begin{align}
+  \sum_{i=1}^n  \left(\hat{Y}_i - \overline{Y}\right)\left(Y_i - \hat{Y}_i \right)& = \sum_{i=1}^n \hat{Y}_i \hat{\epsilon}_i - \overline{Y}\sum_{i=1}^n \hat{\epsilon}_i;
+  \end{align}$$
+Therefore, the two earlier proven properties of the residuals proves that the sum of cross terms vanishes.
+
+### Debrief from activity 1:
+We will discuss the results of activity 1 as a class.
+
+
+### Activity 2: degrees of freedom and sums of squares
+
+#### Question 1:
+Use the definition of the <b>unbiased, sample-based variance estimate</b> to recover the <b>regression estimate</b> for $\sigma^2$.
+Recall, the denominator must divide by the degrees of freedom remaining after the *estimation of the mean*. Explain what each term corresponds to in the equation and where degrees of freedom are lost.
+
+
+#### Solution:
+
+The unbiased, sample-based estimate of the variance is given by the sum of square deviations of samples from the estimated mean, divided by the number of degrees of freedom.  In particular,
+our estimated mean for each sample $Y_i$ is given by the fitted value $\hat{Y}_i$.  Thus we find,
+$$\begin{align}
+\hat{\sigma}^2 = \frac{\sum_{i=1}^n \left(Y_i - \hat{Y}_i\right)^2}{n-p}
+\end{align}$$
+where $n$ is the number of cases and $p$ is the number of parameters used in the regression model to estimate the mean function.  In simple regression, $p=2$.
+
+
+
+#### Question 2:
+Suppose our estimated parameter value $\hat{\beta}_1=0$, but that the other assumptions of the standard model hold. 
+Recall the definitions,
+$$\begin{align}
+RSS = \sum_{i=1}^n \left(Y_i - \hat{Y}_i\right)^2 & &TSS = \sum_{i=1}^n \left(Y_i - \overline{Y}\right)^2
+\end{align}$$
+What is the implication for $R^2$?  
+
+##### Solution to question 2:
+
+We see
+$$\begin{align}
+RSS &= \sum_{i=1}^n \left(Y_i - \hat{Y}_i\right)^2\\
+&= \sum_{i=1}^n \left(Y_i - \overline{Y}\right)^2,
+\end{align}$$
+because the fitted value for every $i$ will be given by,
+$$\begin{align}
+\hat{Y}_i = \hat{\beta}_0 = \overline{Y}
+\end{align}$$
+when $\hat{\beta}_1=0$.  Thus the $RSS= TSS$, meaning that 
+$$\begin{align} 
+R^2 = 1 - \frac{RSS}{TSS} =  0. 
+\end{align}$$
+
+#### Question 3:
+Suppose that the following form of the regression equation is satisfied
+$$\begin{align}
+Y_i = \beta_0 + \epsilon_i.
+\end{align}$$
+Under the above condition, can you compute the expected value of the mean square
+
+$$\begin{align}
+\mathbb{E}\left[ \frac{TSS}{n-1} \right]?
+\end{align}$$
+
+##### Solution to question 3:
+We will notice that by substitution, we obtain
+$$\begin{align}
+TSS &= \sum_{i=1}^n \left(Y_i - \overline{Y}\right)^2 \\
+    &= \sum_{i=1}^n \left(\beta_0 + \epsilon_i - \frac{1}{n}\left(\sum_{i=1}^n \beta_0 + \epsilon_i\right)\right)^2 \\
+    &= \sum_{i=1}^n \left(\epsilon_i - \overline{\epsilon}\right)^2
+\end{align}$$
+The above is once again a standard sum of squares, and diving by the number of degrees of freedom gives the unbiased estimator for the variance of $\epsilon_i$.  Therefore,
+$$\begin{align}
+\mathbb{E}\left[\frac{TSS}{n-1}\right]&= \mathbb{E}\left[ \frac{1}{n-1} \sum_{i=1}^n \left(\epsilon_i - \overline{\epsilon}\right)^2\right] \\
+&= \sigma^2
+\end{align}$$
+
+### Debrief:
+We will discuss the results of activity 2 as a class
+
+
+### Activity 3: take home problem
+
+#### Question 1:
+Recall the definition of the $TSS$,
+$$TSS \triangleq \sum_{i=1}^n \left(Y_i - \overline{Y}\right)^2, $$
+such that the $TSS$ is a random variable, defined as a combination of the random variables $Y, \overline{Y}$. What is the value of the expectation of the mean square
+$$\begin{align}
+\mathbb{E}\left[\frac{TSS}{n-1}\right]?
+\end{align}$$  Consider using the definition of the regression equation as a substitution for $\overline{Y}$ and $Y_i$.
+
+
+#### Solution:
+To begin, we will
+consider a substitution into the definition as follows,
+$$\begin{align}
+TSS &= \sum_{i=1}^n \left( Y_i  - \overline{Y}\right)^2 \\
+& = \sum_{i=1}^n \left(\beta_0 + \beta_1 X_i - \left[\frac{1}{n} \sum_{j=1}^n \beta_0 + \beta_1 X_j + \epsilon_j\right] \right)^2 \\
+& = \sum_{i=1}^n \left(\beta_0 + \beta_1 X_i - \beta_0 - \beta_1 \overline{X} + \overline{\epsilon}\right)^2 \\
+& = \sum_{i=1}^n \left( \beta_1 \left[X_i - \overline{X}\right] + \left[\epsilon_i - \overline{\epsilon}\right]\right)^2
+\end{align}$$
+
+
+In the above, we define $\overline{\epsilon} \triangleq \frac{1}{n} \sum_{j=1}^n \epsilon_j$ as the empirical, sample-based mean of the realized $\epsilon_j$.  
+Consider the following property of $\overline{\epsilon}$,
+$$\begin{align}
+\mathbb{E}\left[ \overline{\epsilon}\right] &= \mathbb{E}\left[\frac{1}{n} \sum_{j=1}^n \epsilon_j\right] \\
+& = \frac{1}{n} \sum_{j=1}^n \mathbb{E}\left[ \epsilon_j\right] \\
+&= 0
+\end{align}$$
+due to the usual mean zero assumption on $\epsilon_i$.  Similarly $\mathbb{E} \left[ \epsilon_i - \overline{\epsilon}\right] = 0$.
+
+If we treat $\beta_1, X_i, \overline{X}$ as deterministic constants, then these can be treated essentially as scalar weights for the expectation, which we may
+pass through the expectation without issue.  Therefore, we consider
+$$\begin{align}
+\mathbb{E}\left[ -2 \left(X_i - \overline{X}\right) \left(\epsilon_i - \overline{\epsilon}\right) \right] &=  -2 \left(X_i - \overline{X}\right) \mathbb{E}\left[ \left(\epsilon_i - \overline{\epsilon}\right) \right] \\
+& = 0
+\end{align}$$
+By the above property, and by distributing the square, we find,
+$$\begin{align}
+\mathbb{E}\left[ TSS\right] & = \mathbb{E}\left[ \sum_{i=1}^n \left( \beta_1 \left[X_i - \overline{X}\right] + \left[\epsilon_i - \overline{\epsilon}\right]\right)^2\right] \\
+& = \beta_1^2 \sum_{i=1}^n \left( X_i - \overline{X}\right)^2 + \mathbb{E} \left[ \sum_{i=1}^n \left( \epsilon_i - \overline{\epsilon}\right)^2\right]
+\end{align}$$
+due to the above stated properties.
+
+From the last problem, we have
+$$\begin{align}
+& \mathbb{E}\left[ \frac{1}{n-1}\sum_{i=1}^n \left( \epsilon_i - \overline{\epsilon}\right)^2 \right] = \sigma^2\\ 
+\Leftrightarrow & \mathbb{E} \left[ \sum_{i=1}^n \left( \epsilon_i - \overline{\epsilon}\right)^2\right] = \sigma^2 ( n-1)
+\end{align}$$
+
+This tells us that the $\mathbb{E}\left[TSS\right]$ can be written as
+$$(n-1) \sigma^2 + \beta_1^2 \sum_{i=1}^n \left( X_i - \overline{X}\right)^2. $$
+Now consider the definition of the sample-based variance of $X$,
+$$\begin{align}
+s^2_X = \frac{1}{n-1} \sum_{i=1}^n \left( X_i - \overline{X}\right)^2.
+\end{align}$$
+
+Therefore, a final simplification can be written as,
+$$\begin{align}
+\mathbb{E}\left[ \frac{TSS}{n-1}\right] =  \sigma^2 + \beta_1^2 s^2_X
+\end{align}$$
+
+The main points to practice in this problem are to remember how we compute the sample-based variance, the sample-based mean and the definition
+of the regression model; we have seen all these pieces already, the challenge is putting all of the pieces together.  One of the keys in this problem is understanding how the mean squares and their expectations can be understood in relationship to the degrees of freedom in the problem.  This kind of derivation is beyond the scope of an exam problem, but all of the above described elements of the problem should be familiar to you at this point.
