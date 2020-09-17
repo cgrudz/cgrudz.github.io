@@ -1,0 +1,143 @@
+# Activity 09/16/2020
+
+## STAT 757 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+
+### Activity 1: basic properties of matrices
+
+#### Question 1:
+
+In this problem, we will only assume the following: 
+$$n, p \geq 2 $$  
+and let $\mathbf{X}\in \mathbb{R}^{n \times p}$.
+
+Define $\mathbf{X}^\dagger = \left(\mathbf{X}^\mathrm{T} \mathbf{X}\right)^{-1} \mathbf{X}^\mathrm{T}$. Carefully compute the value of the product $\mathbf{X}^\dagger \mathbf{X}.$
+
+
+##### Solution to question 1:
+We remark, while we assume that $\left(\mathbf{X}^\mathrm{T} \mathbf{X}\right)^{-1}$ exists, we do not assume that $\mathbf{X}$ has any well defined inverse.   Indeed,
+if $p\neq n$, then $\mathbf{X}$ will not even be square.
+
+Let us define the following matrix $\mathbf{A}\triangleq \left( \mathbf{X}^\mathrm{T} \mathbf{X}\right) \in \mathbb{R}^{p \times p}$.  Then by substitution, we find
+$$\begin{align}
+\mathbf{X}^\dagger \mathbf{X} & = \left( \mathbf{X}^\mathrm{T} \mathbf{X}\right)^{-1} \mathbf{X}^\mathrm{T} \mathbf{X} \\
+& = \mathbf{A}^{-1} \mathbf{A} \\
+& = \mathbf{I} \in \mathbb{R}^{p \times p}.
+\end{align}$$
+by the associativity of matrix multiplication.
+
+In particular, we have verified one of the properties of the <b>left pseudo-inverse</b>.  These aren't the focus of the course, but they will come up, and it is good exposure
+to be aware of these objects.  They are extremely useful in applied mathematics and statistics for some reasons we will see in upcoming lectures.
+
+#### Question 2:
+We discussed that a projection operator $\Pi$ has the property in general that it is idempotent, i.e.,
+$\Pi^2 = \Pi$.
+
+In the special case of the hat matrix,
+$$\mathbf{H}= \mathbf{X}\left(\mathbf{X}^\mathrm{T} \mathbf{X}\right)^{-1} \mathbf{X}^\mathrm{T},$$
+show that $H^2=H$.  Then use this fact to show that for the complementary orthogonal projection
+$$\left(\mathbf{I}-\mathbf{H}\right)^2 = \left(\mathbf{I} - \mathbf{H}\right)$$.
+
+##### Solution:
+We must take similar care as in the last problem about the existence of inverses.  Specifically, we can write
+$$\begin{align}
+\mathbf{H}^2 &= \left[\mathbf{X}\left(\mathbf{X}^\mathrm{T} \mathbf{X}\right)^{-1} \mathbf{X}^\mathrm{T}\right] \left[ \mathbf{X}\left(\mathbf{X}^\mathrm{T} \mathbf{X}\right)^{-1} \mathbf{X}^\mathrm{T}\right] \\
+&= \mathbf{X} \left(\mathbf{X}^\mathrm{T} \mathbf{X}\right)^{-1} \left(\mathbf{X}^\mathrm{T} \mathbf{X}\right)\left(\mathbf{X}^\mathrm{T} \mathbf{X}\right)^{-1} \mathbf{X}^\mathrm{T}
+\end{align}$$
+by the associativity of matrix multiplication. Cancelling terms, we recover the definition of the hat matrix directly.
+
+Now, we can say
+$$\begin{align}
+\left(\mathbf{I}-\mathbf{H}\right)^2 &= \left(\mathbf{I} - \mathbf{H}\right) \left(\mathbf{I} -\mathbf{H}\right) \\
+&=\mathbf{I}^2 - \mathbf{I}\mathbf{H} - \mathbf{H} \mathbf{I} + \mathbf{H}^2 \\
+&= \mathbf{I} - \mathbf{H}
+\end{align}$$
+using the property above and the properties of the identity.
+
+
+### Debrief:
+We will discuss the result of activity 1 as a class.
+
+### Activity 2:
+
+#### Question 1:
+What is the geometric meaning of the statements
+
+$$\begin{align}
+\sum_{i=1}^n \hat{\epsilon}_i X_i &=  0 \\
+\sum_{i=1}^n \hat{\epsilon}_i\hat{Y}_i &= 0?
+\end{align}$$
+
+How does this relate to the column span of the design matrix?
+
+##### Solution to question 1:
+Both of these are statements of orthogonality.  Specifically, the residuals are defined as the difference between $\mathbf{Y}$ and the orthogonal projection of $\mathbf{Y}$ into the column span of $\mathbf{X}$, denoted by the fitted values $\hat{\mathbf{Y}}$.  The residuals can be written in the form
+$$\hat{\boldsymbol{\epsilon}} = \left(\mathbf{I} - \mathbf{H}\right)\mathbf{Y}$$
+so that they are given precisely by the components of $\mathbf{Y}$ that are orthogonal to the design space.  The inner product of $\hat{\boldsymbol{\epsilon}}$ with any vector in the column span of $\mathbf{X}$ must equal to zero by this construction.
+
+Because $\hat{\mathbf{Y}}$ lies within the column span of $\mathbf{X}$ by its definition, 
+$$\hat{\mathbf{Y}} = \mathbf{X} \hat{\boldsymbol{\beta}},$$
+$\hat{\boldsymbol{\epsilon}}$ must be orthogonal to this vector, as well as the vector of predictor values.
+
+#### Question 2:
+Suppose we are given $n=2$ cases of the data $\left\{\left(X_i,Y_i\right)\right\}_{i=1}^2$.  Construct the design matrix for the standard simple regression problem.  Do you anticipate issues with performing regression analysis in this data set?  Explain why or why not.
+
+##### Solution to question 2:
+
+If we are given two cases of data, our design matrix is given as
+$$\begin{align}
+\mathbf{X} = 
+\begin{pmatrix}
+1 & X_1 \\
+1 & X_2
+\end{pmatrix}
+\end{align}$$
+where the first column corresponds to the intercept term.  This situation is troubling because we have $n=2$ cases of data and $p=2$ parameters to estimate.  This means that we will not have
+an estimate for the variance $\sigma^2$ and we are running a risk of overfitting the data.
+</div>
+
+
+### Debrief:
+We will discuss the results of activity 1 as a class.
+
+### Activity 3:
+
+#### Question 1:
+Use the standard model in matrix form and the definition of the least squares estimated parameters,
+$$\begin{align}
+\mathbf{Y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\epsilon} & &
+\hat{\boldsymbol{\beta}} \triangleq \left(\mathbf{X}^\mathrm{T} \mathbf{X} \right)^{-1} \mathbf{X}^\mathrm{T}\mathbf{Y},
+\end{align}$$
+to prove that $\hat{\boldsymbol{\beta}}$ is an unbiased estimate of $\boldsymbol{\beta}$. Furthermore, use the definition of the covariance of a random vector,
+$$\begin{align}
+cov(\mathbf{Y})= \mathbb{E}\left\{\left(\mathbf{Y} - \mathbb{E}\left[\mathbf{Y}\right]\right)\left(\mathbf{Y} - \mathbb{E}\left[\mathbf{Y}\right]\right)^\mathrm{T} \right\},
+\end{align}$$
+to derive the covariance of this estimate.
+<div class="solutions">
+#### Solution:
+
+We note that by definition,
+$$\begin{align}
+\mathbb{E}\left[ \hat{\boldsymbol{\beta}}\right] &= \mathbb{E}\left[\left(\mathbf{X}^\mathrm{T}\mathbf{X}\right)^{-1}\mathbf{X}^\mathrm{T} \mathbf{X} \boldsymbol{\beta} +\left(\mathbf{X}^\mathrm{T}\mathbf{X}\right)^{-1}\mathbf{X}^\mathrm{T}\boldsymbol{\epsilon}\right] \\
+& = \mathbb{E}\left[ \mathbf{I} \boldsymbol{\beta} \right] + \mathbb{E}\left[ \left(\mathbf{X}^\mathrm{T}\mathbf{X}\right)^{-1}\mathbf{X}^\mathrm{T}\boldsymbol{\epsilon}\right] \\
+&= \boldsymbol{\beta}
+\end{align}$$
+as $\boldsymbol{\epsilon}$ is mean zero.
+
+Using the above fact, we can write,
+$$\begin{align}
+cov\left(\hat{\boldsymbol{\beta}}\right) &= \mathbb{E}\left[ \left( \hat{\boldsymbol{\beta}} - \boldsymbol{\beta}\right)\left( \hat{\boldsymbol{\beta}} - \boldsymbol{\beta}\right)^\mathrm{T}\right] \\
+&= \mathbb{E}\left[\left\{ \boldsymbol{\beta} - \boldsymbol{\beta} + \left(\mathbf{X}^\mathrm{T}\mathbf{X}\right)^{-1}\mathbf{X}^\mathrm{T}\boldsymbol{\epsilon} \right\}
+\left\{ \boldsymbol{\beta} - \boldsymbol{\beta} + \left(\mathbf{X}^\mathrm{T}\mathbf{X}\right)^{-1}\mathbf{X}^\mathrm{T}\boldsymbol{\epsilon} \right\}^\mathrm{T}\right] \\
+&= \mathbb{E}\left[\left(\mathbf{X}^\mathrm{T}\mathbf{X}\right)^{-1}\mathbf{X}^\mathrm{T}\boldsymbol{\epsilon}\boldsymbol{\epsilon}^\mathrm{T} \mathbf{X} \left(\mathbf{X}^\mathrm{T}\mathbf{X}\right)^{-1}\right]\\
+&= \left(\mathbf{X}^\mathrm{T}\mathbf{X}\right)^{-1}\mathbf{X}^\mathrm{T}\left(\sigma^2\mathbf{I}\right)\mathbf{X} \left(\mathbf{X}^\mathrm{T}\mathbf{X}\right)^{-1} \\
+&= \sigma^2 \left(\mathbf{X}^\mathrm{T}\mathbf{X}\right)^{-1}
+\end{align}$$
+by canceling terms in the final line, and passing the scalar in front of the equation.
+
+
