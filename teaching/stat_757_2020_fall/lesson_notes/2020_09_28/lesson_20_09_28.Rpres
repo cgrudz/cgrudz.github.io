@@ -1,0 +1,251 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+Identifiability and linear dependence
+========================================================
+date: 09/28/2020
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+
+<blockquote>
+FAIR USE ACT DISCLAIMER:</br>
+This site is for educational purposes only.  This website may contain copyrighted material, the use of which has not been specifically authorized by the copyright holders. The material is made available on this website as a way to advance teaching, and copyright-protected materials are used to the extent necessary to make this class function in a distance learning environment.  The Fair Use Copyright Disclaimer is under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+</blockquote>
+  
+========================================================
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+  * Multiple regression in R
+  * Identifiability
+  * Linear dependence
+  
+========================================================
+<h2>Multiple regression in R</h2>
+
+* We have now covered the basic theory that will structure the course.</li>
+
+* We will now look at a concrete example of multiple regression from the Faraway package "gala" data set.
+
+```{r}
+library(faraway)
+str(gala)
+```
+
+* <b>Q:</b> how many observations $n$ do we have in this data set, and what is the largest $p$ number of parameters can we put into a model?
+
+* <b>A:</b> there are $n=30$ observations, and the largest number is $p=6 +1$ parameters (including an intercept and minus one for the response).
+
+========================================================
+<h3>Moving into multiple regression -- an example</h3>
+
+
+* In this case, there are 30 islands in the Galápagos with 7 variables -- each observation corresponds to a particular island:
+
+```{r}
+row.names(gala)
+```
+
+========================================================
+
+<h3>Multiple regression in R -- an example</h3>
+
+* Recall, We can see some basic summary statistics with "summary"
+
+```{r}
+summary(gala)
+```
+
+========================================================
+
+<h3>Multiple regression in R -- an example</h3>
+
+```{r}
+head(gala)
+```
+
+* The meaning of different variables can be found in the help file for the "gala" data using the command ```?gala```.
+
+* Species -- number of species found on the island
+* Endemics -- number of endemic species
+* Area -- the area of the island in km^2
+* Elevation -- the highest elevation of the island
+* Nearest -- the distance from the nearest island
+* Scruz --- the distance from Santa Cruz island
+* Adjacent -- the area of the adjacent island
+
+========================================================
+
+<h3>Creating a linear model in R</h3>
+
+* We will create a linear model now from scratch with the funciton ```lm()```
+
+```{r}
+lmod <- lm(Species ~ Area + Elevation + Nearest + Scruz + Adjacent,data=gala)
+```
+
+* Notice the code syntax:
+  - The first argument is the "Species", indicating that we have the number of species as our response variable $\mathbf{Y}$
+  - The ~ here separates the response variables from the explanatory variables.
+  - Finally, the keyword argument "data" indicates to the function to draw these variables all from the variable "gala"
+  - This is designed to resemble our  mathematical form for the model, where we may write,
+  
+  $$\begin{align}
+  \mathbf{Y}_{\mathrm{species}} = \beta_0 + \beta_{\mathrm{Area}}\mathbf{X}_{\mathrm{Area}} + 
+  \beta_{\mathrm{Elevation}}\mathbf{X}_{\mathrm{Elevation}} + \beta_{\mathrm{Nearest}}\mathbf{X}_{\mathrm{Nearest}} + \beta_{\mathrm{Scruz}}\mathbf{X}_{\mathrm{Scruz}} + \beta_{\mathrm{Adjacent}}\mathbf{X}_{\mathrm{Adjacent}}
+  \end{align}$$
+
+* Like in the simple regression model, we can see exactly how (for all other variables held fixed) the increase in, e.g., $\mathbf{X}_\mathrm{Area}$ by 1 $\mathrm{km}^2$  corresponds to an increase in the predicted mean function by $\beta_{\mathrm{Area}}$;
+
+  - Thus the $\beta$ values in multiple regression correspond again to the slope due to increase in a particular predictor.
+
+========================================================
+
+<h3>Examining a linear model in R</h3>
+
+  
+* What does our linear model look like?
+
+```{r}
+summary(lmod)
+```
+
+* The model summary contains a great deal of information, which we will become familiar with.
+
+========================================================
+
+<h3>Examining a linear model in R</h3>
+
+* For instance, we can obtain quantities of interest from the "lmod"
+```{r}
+names(lmod)
+lmod$coefficients
+lmod$residuals
+```
+
+========================================================
+
+<h3>Examining a linear model in R</h3>
+
+* However, linear models can be far from perfect
+
+```{r}
+predicted_Y <- lmod$fitted.values
+print(predicted_Y)
+```
+
+* <b>Q:</b> what appears to be at issue with our model?
+
+* <b>A:</b> in this example, the predicted values are un-physical, including negative numbers of species.
+
+* In practice, a great deal of the work will be identifying when the assupmtions of the Gauss-Markov theorem fail to hold;
+
+  * when they fail to hold in practice, we will look for transformations of variables and alternative models for which the new system is better conditioned.
+
+
+========================================================
+  
+<h2> Identifiability </h2>
+
+<ul>
+  <li> As within the context of the Gauss-Markov theorem, we will be interested in when functions are estimable or not.</li>
+  <li> Consider the normal equations in matrix form,
+$$\begin{align}
+\mathbf{X}^\mathrm{T}\mathbf{X} \hat{\boldsymbol{\beta}} = \mathbf{X}^\mathrm{T} \mathbf{Y}
+\end{align}$$
+for $\mathbf{X} \in \mathbb{R}^{n \times p}$. </li>
+  <li>If $n>p$ and the columns of $\mathbf{X}$ are linearly independent, then $\left(\mathbf{X}^\mathrm{T}\mathbf{X}\right)$ will have an inverse that is defined.</li>
+  <li>Particularly, this allows us to construct the estimate of the true parameters by least squares,
+  $$\hat{\boldsymbol{\beta}} = \left(\mathbf{X}^\mathrm{T}\mathbf{X}\right)^{-1}\mathbf{X}^\mathrm{T}\mathbf{Y}.$$</li>
+</ul>  
+
+========================================================
+  
+<h3> Identifiability </h3>
+
+<ul>
+  <li>In the case when $\left(\mathbf{X}^\mathrm{T}\mathbf{X}\right)$ is not invertible, this has an important consequence for the normal equation,
+  $$\begin{align}
+  \mathbf{X}^\mathrm{T}\mathbf{X} \hat{\boldsymbol{\beta}} = \mathbf{X}^\mathrm{T} \mathbf{Y}.
+  \end{align}$$</li>
+  <li>In this case there are infinitely many solutions for $\hat{\boldsymbol{\beta}}$, as the system of equations is under-constrained.</li>
+  <li> Importantly, this means that $\hat{\boldsymbol{\beta}}$ is at least in part, "unidentifiable", as there is no unique solution.</li>
+  <li> Typically, this will occur in practice by an oversight in the data collection or in our modeling, e.g.:</li>
+  <ul>
+    <li> A person’s weight could be measured both in pounds and kilos and both variables are
+entered into the model. One variable is just a multiple of the other. </li>
+    <li> For each individual in a data set we have:</li>
+    <ol>
+      <li> $X_1=$ the number of years of pre-university education,</li>
+      <li> $X_2=$ the number of years of university education</li>
+      <li> $X_3=$ the total number of years of education and put all three variables into the model. </li>
+    </ol>
+    <li> In this case, there is an exact linear relation among the variables $X_1 +X_2 =X_3$.</li>
+     <li> We will also have a dependence relationship when have more variables than cases, that is, the model is supersaturated $p > n$.</li>  
+  <li> Such models are considered in large-scale screening experiments used in product design and manufacture and in bioinformatics;</li>
+  <li> for example, there are more genes than individuals tested, but there is no hope of uniquely estimating all the parameters in such a model. 
+</li>
+</ul>
+
+
+
+========================================================
+
+<h3> A computational example -- linear dependence </h3>
+
+* We will add a new column to the Gala data that is a linear combination of the existing columns
+```{r}
+library(faraway)
+gala$Adiff <- gala$Area -gala$Adjacent
+str(gala)
+```
+
+========================================================
+
+<h3> A computational example -- linear dependence </h3>
+
+
+* Now if we try to fit the model based on these variables
+
+```{r}
+lmod <- lm(Species ~ Area+Elevation+Nearest+Scruz+Adjacent +Adiff, gala)
+sumary(lmod)
+```
+
+* The default behavior in the R language is to neglect any variables in the design matrix that are clearly linearly dependent to others.
+
+* Here, the ```Adiff``` variable, which is included last, has been neglected from the model.
+
+========================================================
+
+<h3> A computational example -- linear dependence </h3>
+
+* When there is actually linear dependence between the variables, it is possible to rectify this by methods of data compression, e.g. singular value decomposition, among other techniques.
+
+* What is more problematic is when the columns are <b>very close to being dependent</b>, and it isn't clear if this is due to noise.
+
+```{R}
+set.seed(123)
+Adiffe <- gala$Adiff+0.001*(runif(30)-0.5)
+lmod <- lm(Species ~ Area+Elevation+Nearest+Scruz +Adjacent+Adiffe, gala)
+sumary(lmod)
+```
+
+* Here it is possible to fit a model, but the standard error is extremely large.
+
