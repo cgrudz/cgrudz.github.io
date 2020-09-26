@@ -1,0 +1,77 @@
+# Activity 09/28/2020
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+
+### Activity 1: Set relationships
+
+#### Question 1:
+Suppose we are given the following sets.
+
+```{r}
+A <- c(1, 2, 3, 4)
+B <- c(3, 4, 5, 6, 7)
+```
+
+Can you compute the following?
+
+ 1. $A\cap B$
+ 2. $A\cup B$
+
+
+
+#### Question 2:
+
+Based on the previous question, what is the probability of randomly selecting an odd number from $A\capB$ and $A \cup B$?
+
+
+#### Question 3:
+
+Suppose that our total space of outcomes is given by $\Omega = \{1, 2, 3, 4, 5, 6, 7, 8, 9, 10\}$ and we have a random trial in which we select one of these numbers with equal probability.
+Using our probability relationships, what is the probability of selecting a number in $A$ given that it is a number in $B$?
+
+
+### Activity 2: Binomial trials
+
+#### Question 1:
+
+Suppose that an urn contains 4 red marbles and 6 blue marbles.  Suppose that we consider a trial successful when we draw a blue marble from the urn and we proceed to take 8 draws from the urn with replacement.
+
+What is the probability of selecting 3 or more blue marbles in the 8 draws?
+
+
+#### Question 2:
+
+Can you plot the full probability distribution for the last experiment?  Try to include appropriate labels for this plot in the axes and in the title.
+
+
+
+#### Question 3:
+Can you perform the same but instead for the cumulative distribution?
+
+
+
+### Activity 3: Poisson trials
+
+#### Question 1:
+
+Suppose that we are modelling the number of calls that arrive in an hour at a call center.  Suppose that the number of calls in one hour is independent from any other hour and the mean number of any calls in an hour is constant, equal to 15.
+
+What is the probability of receiving 10 or less calls in a given hour?
+
+
+
+#### Question 2:
+
+Can you plot the probability distribution for the last experiment, up to 50 possible calls?  Try to include appropriate labels for this plot in the axes and in the title.
+
+
+
+#### Question 3:
+Can you perform the same but instead for the cumulative distribution?
+
