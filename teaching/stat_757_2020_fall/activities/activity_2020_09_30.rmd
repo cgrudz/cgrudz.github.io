@@ -1,0 +1,49 @@
+# Activity 09/30/2020
+
+## STAT 757 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+```{r}
+require("faraway")
+```
+
+### Activity 1:
+
+Thirty samples of cheddar cheese were analyzed for their content of acetic acid,
+hydrogen sulfide and lactic acid. Each sample was tasted and scored by a panel of
+judges and the average taste score produced. Use the `cheddar` data to answer the
+following:
+
+1. Fit a regression model with taste as the response and the three chemical contents as predictors. Report the values of the regression coefficients.
+
+2. Compute the correlation between the fitted values and the response. Square it.
+Identify where this value appears in the regression output.
+
+3. Fit the same regression model but without an intercept term. What is the value
+of $R^2$reported in the output? Compute a more reasonable measure of the goodness of fit for this example.
+
+4. How does the significance of the explanatory variables change between the model with and without intercept?
+
+
+### Activity 2:
+
+An experiment was conducted to determine the effect of four factors on the resistivity of a semiconductor wafer. The data is found in wafer where each of the four factors is coded as − or + depending on whether the low or the high setting for that factor was used. Fit the linear model `resist ∼ x1 + x2 + x3 + x4.`
+
+1. Extract the X matrix using the model.matrix function. Examine this to determine how the low and high levels have been coded in the model.
+
+2. Compute the correlation in the X matrix. Why are there some missing values
+in the matrix?
+
+3. What difference in resistance is expected when moving from the low to the
+high level of x1?
+
+4. Refit the model without x4 and examine the regression coefficients and standard errors? What stayed the the same as the original fit and what changed?
+
+5. Explain how the change in the regression coefficients is related to the correlation matrix of X.
+
+
+

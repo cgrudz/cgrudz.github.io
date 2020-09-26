@@ -1,0 +1,57 @@
+# Activity 09/28/2020
+
+## STAT 757 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+```{r}
+require("faraway")
+```
+
+### Activity 1:
+
+The dataset ```teengamb``` concerns a study of teenage gambling in Britain. Fit a
+regression model with the expenditure on gambling as the response and the sex,
+status, income and verbal score as predictors.  Then consider the following questions.
+
+1. What percentage of variation in the response is explained by these predictors?
+2. Which observation has the largest (positive) residual? Give the case number.
+3. Compute the mean and median of the residuals.
+4. Compute the correlation of the residuals with the fitted values and the correlation of the residuals with the income.
+5. Which variables are statistically significant at the $5\%$ level?
+6. For all other predictors held constant, what would be the difference in predicted
+expenditure on gambling for a male compared to a female?  What does this say about the effect of gender on this model in the predicted mean response?
+7. Regarding the above question, how does your interpretation change if we fit two separate models, one for women and one for men respectively?
+
+
+
+
+### Activity 2:
+
+The dataset ```uswages``` is drawn as a sample from the Current Population Survey in
+1988. Fit a model with weekly wages as the response and years of education and
+experience as predictors. 
+
+ 1. Report and give a simple interpretation to the regression coefficients for years of education, experience and the intercept. 
+
+ 2. Now fit the same model but with log-scale weekly wages. Give an interpretation to the regression coefficient for years of education, experience and the intercept in terms of the original scale for the response.  Which scale for the response variable in the linear model seems more reasonable? 
+
+ 3. Now include the `race` variable in the log-scale weekly wages model.  Interpret how this variable affects the model and compare the effect when we subset based on the two categories and fit two different models.
+ 
+ 
+
+
+### Activity 3:
+
+The dataset ```prostate``` comes from a study on 97 men with prostate cancer who
+were due to receive a radical prostatectomy. Fit a model with ```lpsa``` as the response
+and ```lcavol``` as the predictor. Record the residual standard error and the $R^2$ . Now
+add ```lweight```, ```svi```, ```lbph```, ```age```, ```lcp```, ```pgg45``` and ```gleason``` to the model one at a time. For each model record the residual standard error and the $R^2$. For credit you should:
+
+ 1. Plot the trends in these two statistics. 
+
+ 2. Discuss what you notice about the trends as we add more predictors to the model.
+
