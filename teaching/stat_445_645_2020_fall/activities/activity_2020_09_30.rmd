@@ -1,0 +1,39 @@
+# Activity 09/30/2020
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+
+### Activity 1: Uniform distribution and normal distribution
+
+#### Question 1:
+Find the probability of $X$ taking a random outcome that lies in the range $(3, 4]$  given that $X\sim U(0,10)$ by using the cumulative distribution function.  Can you deduce the answer directly by the associated area under the density function?
+
+
+
+#### Question 2:
+We noted earlier that we can generate an arbitrary random variable using randomly generated samples of the uniform and the quantile function of another distribution.  Using the quantile function of the normal, generate a histogram of a normally distributed random sample with 1000 observations.  Try converting this from a fequency plot to a relative frequency plot, to model the density curve.  Include appropriate labels and title.  How does the histogram change as we take 100,000 observations?
+
+
+
+### Activity 2: Chi-square distribution
+We noted in the video lecture that the Chi-square distribution becomes more bell-shaped as the number of degrees of freedom increases.  Using the probability density function and the `seq` function for setting a range of values, create a plot that depends on the number of degrees of freedom. Vary the number of degrees of freedom between $n=3, 15, 25, 50, 100, 200$ and discuss with your group how the pattern changes.  Can you wrap the plotting in a `for` loop to produce all the lines together?  Can you also produce a legend with matching colors between the lines and the degrees of freedom?
+
+You may want to use:
+
+```{r eval=FALSE}
+require("RColorBrewer")
+```
+
+
+
+
+### Activity 3: Student's t-distribution
+
+We noted in the video lecture that the student's t-distribution becomes closer to the normal distribution as the number of degrees of freedom increases.  Using the probability density function, create a plot that depends on the number of degrees of freedom.  Vary the number of degrees of freedom between $n=3, 15, 25, 50, 100, 200$ and discuss with your group how the pattern changes. Can you wrap the plotting in a `for` loop to produce all the lines together?  Can you also produce a legend with matching colors between the lines and the degrees of freedom?
+
+Plot this versus the standard normal where you differentiate the colors.
