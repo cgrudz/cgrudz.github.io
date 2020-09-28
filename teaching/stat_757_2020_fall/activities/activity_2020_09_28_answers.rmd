@@ -1,0 +1,281 @@
+# Activity 09/16/2020
+
+## STAT 757 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+```{r}
+require("faraway")
+```
+
+### Activity 1:
+
+The dataset ```teengamb``` concerns a study of teenage gambling in Britain. Fit a
+regression model with the expenditure on gambling as the response and the sex,
+status, income and verbal score as predictors.  Then consider the following questions.
+
+1. What percentage of variation in the response is explained by these predictors?
+2. Which observation has the largest (positive) residual? Give the case number.
+3. Compute the mean and median of the residuals.
+4. Compute the correlation of the residuals with the fitted values and the correlation of the residuals with the income.
+5. Which variables are statistically significant at the $5\%$ level?
+6. For all other predictors held constant, what would be the difference in predicted
+expenditure on gambling for a male compared to a female?  What does this say about the effect of gender on this model in the predicted mean response?
+7. Regarding the above question, how does your interpretation change if we fit two separate models, one for women and one for men respectively?
+
+
+### Solutions:
+
+```{r}
+require(faraway)
+```
+
+#### Activity 1.1 
+
+```{r}
+lgamble <- lm(gamble ~ sex + status + income + verbal, data=teengamb)
+gm_sum <- summary(lgamble)
+gm_sum
+```
+
+ Note that the percentage of variation explained is equal to the "Multiple $R^2$" coefficient in the model summary.  Thus, we find the percentage of variation explained is equal to approximately .5267.
+
+#### Activity 1.2 
+We can find the largest residual as follows:
+
+```{r}
+gm_res <- gm_sum$residuals
+max(gm_res)
+```
+With the value in mind, we use the "match" function to find the appropriate index:
+```{r}
+match(max(gm_res),gm_res)
+```
+
+Thus the observation with the largest positive residual is number 24.
+
+#### Activity 1.3 
+
+```{r}
+mean(gm_sum$residuals)
+median(gm_sum$residual)
+```
+Notice in the above, the mean of the residuals are at "numerical zero".  Due to small errors in the calculations, this is represented by a number here at order $10^{-16}$ which can be treated effectively zero for computations.
+
+#### Activity 1.4
+
+```{r}
+cor(gm_sum$residuals, lgamble$fitted.values)
+cor(gm_sum$residuals, teengamb$income)
+```
+
+#### Activity 1.5
+From the summary, we can see that `income` and `sex` are siginificant at the $5\%$ level.
+
+
+#### Activity 1.6
+
+In this case, as `sex` is a binary variable in the data with `0=male`, `1=female`, we say that for all other explanatory variables held equal, the difference in the response for the expected expenditure on gambling is the coefficient for $\boldsymbol{\beta}_{sex}=-22.11833$ found in the summary.  The effect when a case is `1=female` is to lower the predicted mean amount of gambling by about 22 British pounds.
+
+#### Activity 1.7
+Let's suppose that we now subset the `teengamb` data as follows:
+
+```{r}
+male_gamb <- teengamb[teengamb$sex == "0", ]
+female_gamb <- teengamb[teengamb$sex == "1", ]
+```
+
+Looking at the model summaries of each,
+```{r}
+summary(lm(gamble ~ sex + status + income + verbal, male_gamb))
+summary(lm(gamble ~ sex + status + income + verbal, female_gamb))
+```
+
+We see that for the male-based model, income is a significant predictor while for the female-based model, the null hypothesis may be more appropriate.
+
+We will plot the relationship between weekly income and gambling expenditures, but separate out the values by the reported sex.  To do this, we should convert the "sex" column into a factor vector with levels associated to the labels "Male" and "Female", which are coded as integers in the data.  We use the package "plyr" to use the function "revalue" for this purpose.
+```{r}
+require(plyr)
+require(ggplot2)
+tg_sex <- as.factor(teengamb$sex)
+tg_sex <- revalue(tg_sex, c("0"="Male", "1"="Female"))
+teengamb$sex <- tg_sex
+ggplot(data=teengamb, aes(x=income, y=gamble, color=sex)) + geom_point() + geom_smooth(method='lm') + facet_wrap(~ sex) +
+  labs(
+    x="Income - pounds per week",
+    y="Gambling expenditure - pounds per year",
+    title="Teen gambling expenditures in the UK",
+    color="Sex"
+  )
+```
+
+We note that when we separate out the reported sex, there is a trend between increasing income and increasing gambling expenditures for men.  However, for women the relationship between wages and gambling expenditure is basically flat.
+
+
+### Activity 2:
+
+The dataset ```uswages``` is drawn as a sample from the Current Population Survey in
+1988. Fit a model with weekly wages as the response and years of education and
+experience as predictors. 
+
+ 1. Report and give a simple interpretation to the regression coefficients for years of education, experience and the intercept. 
+
+ 2. Now fit the same model but with log-scale weekly wages. Give an interpretation to the regression coefficient for years of education, experience and the intercept in terms of the original scale for the response.  Which scale for the response variable in the linear model seems more reasonable? 
+
+ 3. Now include the `race` variable in the log-scale weekly wages model.  Interpret how this variable affects the model and compare the effect when we subset based on the two categories and fit two different models.
+ 
+ 
+### Solutions:
+
+#### Activity 2.1
+
+We start by fitting the model for weekly wages as the response and years of education and
+experience as explanatory variables, i.e.,
+```{r}
+lwages <- lm(wage ~ educ + exper, data=uswages)
+lwage_sum <- summary(lwages)
+lwage_sum
+```
+According to this model fit, we say that the impact of education is much higher than the impact of experience in explaning the weeky wages.  Particularly, a one year increase in a person's eduction would correspond to about 51 dollars of increased weekly wages versus one year of experience giving only about 9.77 dollars of increased weekly wages, on average.
+
+#### Activity 2.2
+
+Now we fit a similar model, but take the log of the response variable to fit our relationship.  That is,
+```{r}
+log_wage_m <- lm(log(wage) ~ educ + exper, data=uswages)
+log_wage_sum <- summary(log_wage_m)
+log_wage_sum
+```
+In this case, education has a stronger impact than experience on the logged weekly wages, similarly to the case with the linear scale for the weekly wages.  However, we note that due to the log scale in the response variables, the form of the regression function back in linear scale takes the form,
+$$\begin{align}
+& \log(Y_{wages}) = \beta_0 + \beta_{educ} X_{educ} + \beta_{exper}X_{exper} + \epsilon \\
+\Leftrightarrow & Y_{wages} = e^{\beta_0} * e^{\left( \beta_{educ} X_{educ} + \beta_{exper}X_{exper}\right)}*e^\epsilon
+\end{align}$$
+Therefore, a change of $d_x$ in education or experience corresponds to an increase of approximately $e^{0.09 d_x}$ for education or $e^{0.018 d_x}$ respectively.
+
+This interpretation can be seen as more natural due to the differences in the standard error for the two models with the linear scale being much higher.  As well, for zero years of experience and zero years of education, the linear scale will give negative weekly wages which is "unphysical" for the activity.  Indeed, zero years of education and experience are in the scope of this model,
+
+```{r}
+summary(uswages)
+```
+
+though we should believe that there are some errors in the data due to the negative years of experience.
+
+#### Activity 2.3
+
+```{r}
+log_wage_m <- lm(log(wage) ~ educ + exper + race, data=uswages)
+log_wage_sum <- summary(log_wage_m)
+log_wage_sum
+```
+
+
+```{r}
+african_american_wages <- uswages[uswages$race == 1,] 
+caucasian_wages <- uswages[uswages$race == 0,]
+summary(lm(log(wage) ~ educ + exper, data=african_american_wages))
+summary(lm(log(wage) ~ educ + exper, data=caucasian_wages))
+```
+
+Here we find that there is still significance to the predictors `educ` and `exper` in all models, and that the effect of each is similar across each model, varying only slightly.  The intercept in each model changes, however, by about the same magnitude of the effect of `race` in the model with the binary variable included.  That is, with all other factors held equal, in each model the wages of African Americans in 1988 tended to be lower than their otherwise identical Caucasian counterparts.  This effect is approximately by rescaling the same wages by the constant
+```{r}
+exp(-0.228602)
+```
+in effect giving about $80\%$ of the income.
+
+### Activity 3:
+
+The dataset ```prostate``` comes from a study on 97 men with prostate cancer who
+were due to receive a radical prostatectomy. Fit a model with ```lpsa``` as the response
+and ```lcavol``` as the predictor. Record the residual standard error and the $R^2$ . Now
+add ```lweight```, ```svi```, ```lbph```, ```age```, ```lcp```, ```pgg45``` and ```gleason``` to the model one at a time. For each model record the residual standard error and the $R^2$. For credit you should:
+
+ 1. Plot the trends in these two statistics. 
+
+ 2. Discuss what you notice about the trends as we add more predictors to the model.
+
+### Solutions:
+
+
+We will fit a model for "lpsa" as a response variable, and "lcavol" as the explanatory only variable, record $R^2$ and then introduce the explanatory variables "lweight", "svi", "lbph", "age", "lcp", "pgg45" and "gleason" one at a time, recording these models' $R^2$ values.
+
+We note that we will create 8 different models, and create a vector for storage of the 8 residual standard error values and the 8 $R^2$ values:
+
+```{r}
+Rstd_err_storage <- c(0,0,0,0,0,0,0,0)
+Rsqr_storage <- c(0,0,0,0,0,0,0,0)
+```
+
+Then we assemble the models and store the values
+```{r}
+tmp <- summary(lm(lpsa ~ lcavol, data = prostate))
+Rstd_err_storage[1] <- tmp$sigma
+Rsqr_storage[1] <- tmp$r.squared
+
+tmp <- summary(lm(lpsa ~ lcavol + lweight, data = prostate))
+Rstd_err_storage[2] <- tmp$sigma
+Rsqr_storage[2] <- tmp$r.squared
+
+tmp <- summary(lm(lpsa ~ lcavol + lweight + svi, data = prostate))
+Rstd_err_storage[3] <- tmp$sigma
+Rsqr_storage[3] <- tmp$r.squared
+
+tmp <- summary(lm(lpsa ~ lcavol + lweight + svi + lbph, data = prostate))
+Rstd_err_storage[4] <- tmp$sigma
+Rsqr_storage[4] <- tmp$r.squared
+
+tmp <- summary(lm(lpsa ~ lcavol + lweight + svi + lbph + age, data = prostate))
+Rstd_err_storage[5] <- tmp$sigma
+Rsqr_storage[5] <- tmp$r.squared
+
+tmp <- summary(lm(lpsa ~ lcavol + lweight + svi + lbph + age + lcp, data = prostate))
+Rstd_err_storage[6] <- tmp$sigma
+Rsqr_storage[6] <- tmp$r.squared
+
+tmp <- summary(lm(lpsa ~ lcavol + lweight + svi + lbph + age + lcp + pgg45, data = prostate))
+Rstd_err_storage[7] <- tmp$sigma
+Rsqr_storage[7] <- tmp$r.squared
+
+tmp <- summary(lm(lpsa ~ lcavol + lweight + svi + lbph + age + lcp + pgg45 + gleason, data = prostate))
+Rstd_err_storage[8] <- tmp$sigma
+Rsqr_storage[8] <- tmp$r.squared
+```
+
+#### Activity 3.1
+
+We load "ggplot2" 
+```{r}
+library(ggplot2)
+```
+and create a dataframe for plotting
+```{r}
+plt_range <- c(1,2,3,4,5,6,7,8)
+prost_analysis <- data.frame(plt_range, Rstd_err_storage, Rsqr_storage)
+```
+
+```{r}
+ggplot(data=prost_analysis, aes(x=plt_range, y=Rstd_err_storage)) + geom_point() + labs(
+   x = "Number of explanatory variables", 
+   y = "Residual standard error",   
+   title = "Residual standard error versus number of explanatory variables"
+)
+```
+
+
+```{r}
+ggplot(data=prost_analysis, aes(x=plt_range, y=Rsqr_storage)) + geom_point() + labs(
+   x = "Number of explanatory variables", 
+   y = "R square value",   
+   title = "R square value versus number of explanatory variables"
+)
+```
+
+
+#### Activity 3.2
+
+We should notice that the $R^2$ value is monotonically increasing in the number of predictors.  This would indicate that the model only improves when including more predictors.  However, we have earlier discussed that there is an issue of overfitting when we include too many variables.  We have not formally discussed why $R^2$ may not be the best way to select a model, but this would indicate that including more variables is always favored by $R^2$.  On the other hand, the trend of the RSS is to go down as we include additional predictors.  However, this is not always monotonic, as indicated by the profile.
+
+
