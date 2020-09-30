@@ -1,0 +1,74 @@
+# Activity 09/30/2020
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+
+### Activity 1: Uniform distribution and normal distribution
+
+#### Question 1:
+Find the probability of $X$ taking a random outcome that lies in the range $(3, 4]$  given that $X\sim U(0,10)$ by using the cumulative distribution function.  Can you deduce the answer directly by the associated area under the density function?
+
+##### Solution:
+
+```{r}
+punif(4, min=0, max=10) - punif(3, min=0, max=10)
+```
+
+Observing that the height of the distribution function is $0.1$ in the range between $[0,10]$, we can thus easily deduce that the area is the width of $1$ times the height of $0.1$.
+
+#### Question 2:
+We noted earlier that we can generate an arbitrary random variable using randomly generated samples of the uniform and the quantile function of another distribution.  Using the quantile function of the normal, generate a histogram of a normally distributed random sample with 1000 observations.  Try converting this from a fequency plot to a relative frequency plot, to model the density curve.  Include appropriate labels and title.  How does the histogram change as we take 100,000 observations?
+
+##### Solution:
+
+Note that we have
+
+```{r}
+set.seed(0)
+sample_size = 100000
+histogram <- hist(qnorm(runif(n=sample_size)), main=paste("Histogram of standard normal sample size ", sample_size), xlab="X value", ylab="Relative frequency", probability=TRUE)
+histogram
+```
+
+### Activity 2: Chi-square distribution
+We noted in the video lecture that the Chi-square distribution becomes more bell-shaped as the number of degrees of freedom increases.  Using the probability density function and the `seq` function for setting a range of values, create a plot that depends on the number of degrees of freedom. Vary the number of degrees of freedom between $n=3, 15, 25, 50, 100, 200$ and discuss with your group how the pattern changes.  Can you wrap the plotting in a `for` loop to produce all the lines together?  Can you also produce a legend with matching colors between the lines and the degrees of freedom?
+
+You may want to use:
+
+```{r}
+require("RColorBrewer")
+```
+
+
+#### Solution:
+
+```{r}
+n = c(3, 15, 25, 50, 100, 200)
+cols<-brewer.pal(n=6,name="Dark2")
+x = seq(0, 250, by=0.1)
+plot(x, dchisq(x, df=n[1]), type = "l", main ="Chi-square distribution", xlab = "x", ylab = "Prob.", col=cols[1])
+for (i in 2:6) {lines(x, dchisq(x, df=n[i]), col=cols[i])}
+legend(x="topright", legend=paste("n=", as.character(n)), text.col=cols)
+```
+
+
+### Activity 3: Student's t-distribution
+
+We noted in the video lecture that the student's t-distribution becomes closer to the normal distribution as the number of degrees of freedom increases.  Using the probability density function, create a plot that depends on the number of degrees of freedom.  Vary the number of degrees of freedom between $n=3, 15, 25, 50, 100, 200$ and discuss with your group how the pattern changes. Can you wrap the plotting in a `for` loop to produce all the lines together?  Can you also produce a legend with matching colors between the lines and the degrees of freedom?
+
+Plot this versus the standard normal where you differentiate the colors.
+
+```{r}
+n = c(3, 15, 25, 50, 100, 200)
+cols<-brewer.pal(n=7,name="Dark2")
+x = seq(-10, 10, by=0.1)
+plot(x, dt(x, df=n[1]), type = "l", main = "Student's t versus standard normal", xlab = "x", ylab = "Prob.", col=cols[1])
+for (i in 2:6) {lines(x, dt(x, df=n[i]), col=cols[i])}
+lines(x, dnorm(x), col=cols[7])
+legend(x="topright", legend=c(paste("n=", as.character(n)), "Standard normal"), text.col=cols)
+```

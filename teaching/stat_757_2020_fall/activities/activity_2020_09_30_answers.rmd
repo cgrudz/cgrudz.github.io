@@ -1,0 +1,143 @@
+# Activity 09/30/2020
+
+## STAT 757 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+```{r}
+require("faraway")
+```
+
+### Activity 1:
+
+Thirty samples of cheddar cheese were analyzed for their content of acetic acid,
+hydrogen sulfide and lactic acid. Each sample was tasted and scored by a panel of
+judges and the average taste score produced. Use the `cheddar` data to answer the
+following:
+
+1. Fit a regression model with taste as the response and the three chemical contents as predictors. Report the values of the regression coefficients.
+
+2. Compute the correlation between the fitted values and the response. Square it.
+Identify where this value appears in the regression output.
+
+3. Fit the same regression model but without an intercept term. What is the value
+of $R^2$reported in the output? Compute a more reasonable measure of the goodness of fit for this example.
+
+4. How does the significance of the explanatory variables change between the model with and without intercept?
+
+### Solutions:
+
+#### Activity 1.1
+ 
+We fit a regression model for taste as the response with the three chemicals as the explanatory variables, and report the coefficients:
+
+```{r}
+lm_cheddar <- lm(taste ~ Acetic + H2S + Lactic, data=cheddar)
+coefficients(lm_cheddar)
+```
+
+#### Activity 1.2 
+
+We then compute the correlation of the fitted values and the response variables, squared:
+
+```{r}
+cor(lm_cheddar$fitted.values, cheddar$taste)^2
+```
+
+We note that this is (approximately) equal to the value for multiple $R^2$ in the summary of lm_cheddar,
+
+```{r}
+summary(lm_cheddar)
+```
+
+#### Activity 1.3
+
+In order to supress the intercept term in the linear model, we use the following -1 command in the first entry
+
+```{r}
+lm_cheddar_no_intercept <- lm(taste ~ -1 + Acetic + H2S + Lactic, data=cheddar)
+summary(lm_cheddar_no_intercept)
+```
+
+We note that the value for $R^2$ is rather high in this case, and in particular, the language R will defer to the intercept version of the $R^2$ formula <b>even when there is no intercept</b>.  For this reason, we need to compute this via the correlation squared defintion. I.e.,
+
+```{r}
+cor(lm_cheddar_no_intercept$fitted.values, cheddar$taste)^2
+```
+
+We indeed find a more reasonable $R^2$ value.
+
+
+#### Activity 1.4:
+
+We can note that the significance of the predictors has improved without the intercept term in the model.  However, unless we actually have reason to believe that the taste-scale should pass through zero, this is an artificial effect of inflating the significance of other parameters when removing one, due to the correlations between the estimates.
+
+
+### Activity 2:
+
+An experiment was conducted to determine the effect of four factors on the resistivity of a semiconductor wafer. The data is found in wafer where each of the four factors is coded as − or + depending on whether the low or the high setting for that factor was used. Fit the linear model `resist ∼ x1 + x2 + x3 + x4.`
+
+1. Extract the X matrix using the model.matrix function. Examine this to determine how the low and high levels have been coded in the model.
+
+2. Compute the correlation in the X matrix. Why are there some missing values
+in the matrix?
+
+3. What difference in resistance is expected when moving from the low to the
+high level of x1?
+
+4. Refit the model without x4 and examine the regression coefficients and standard errors? What stayed the the same as the original fit and what changed?
+
+5. Explain how the change in the regression coefficients is related to the correlation matrix of X.
+
+
+#### Solutions:
+
+We will fit the linear model from the data "wafer" as follows
+
+```{r}
+wafer_lm <- lm(resist ~ x1 + x2 + x3 + x4, data=wafer)
+```
+
+##### Activity 2.1:
+We will inspect how the values have been encoded in the model, particularly,
+```{r}
+head(wafer)
+```
+and
+```{r}
+X_mat <- model.matrix(wafer_lm)
+X_mat
+```
+Zero corresponds to "-" and one corresponds to "+".
+
+#### Activity 2.2
+
+We compute the correlation of the $X$ matrix as follows:
+```{r}
+cor(X_mat)
+```
+
+We notice that the correlation of the intercept with the explanatory variables is not available; we should understand this because the mean of the intercept term is just equal to 1.  Therefore, the anomalies of the intercept will be given by the vector of zeros.  If there is zero variance of this term, we cannot compute the correlations.
+
+##### Activity 2.3
+Moving to the high level of $x_1$ from the low level acts as a switch, where the value $\hat{\boldsymbol{\beta}}_1$ is included in the response.  In particular, we find
+```{r}
+summary(wafer_lm)
+```
+the response changes by a reduction of 25.76, due to the encoding of the variable.
+
+##### Activity 2.4
+We now re-fit the model without $x_4$ and we find the following summary,
+```{r}
+wafer_lm_new <-  lm(resist ~ x1 + x2 + x3, data=wafer)
+summary(wafer_lm_new)
+```
+We notice that the values for the remaining parameters $\hat{\boldsymbol{\beta}}_i$ don't change for $i=1,2,3$, but the standard errors and the intercept term slightly change.
+
+
+##### Activity 2.5
+The above preservation of the $\hat{\boldsymbol{\beta}}_i$ is expected as the correlation (or covariance) between the explanatory variables is zero.
+
