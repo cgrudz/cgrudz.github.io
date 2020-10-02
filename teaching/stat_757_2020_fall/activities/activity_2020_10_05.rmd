@@ -1,0 +1,79 @@
+# Activity 10/05/2020
+
+## STAT 757 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+```{r}
+require("faraway")
+```
+
+### Activity 1: mixed effects of binary variables
+We will note in the following how we can construct a mixed effect model from a binary variable.  The syntax in R is to use a `*` symbol instead of a `+` to introduce a mixed effect that can change the slope of the trend.  This refers mathematically to the following idea in a simple regression model:
+
+Let $Z$ be the binary predictor that takes the values as follows:
+$$\begin{align}
+Z = 
+\begin{cases}
+1 & \text{ category 1} \\
+0 & \text{ category 2}
+\end{cases}
+\end{align}$$
+The variable $X$ will represent some standard, continuous scale predictor.
+
+The resulting equation for the mixed effect model is
+$$\begin{align}
+Y = \beta_0 + \beta_1 X + \beta_2 Z + \beta_3 Z * X + \epsilon
+\end{align}$$
+
+
+#### Question 1:
+Using this the above formula, derive how the mixed effect model changes the slope and intercept simultaneously when we shift between the two categories.
+
+
+
+#### Question 2:
+
+Construct the standard multiple regression model in which `gamble` is the response for all other variables as predictors in the `teengamb` data.  Then construct the mixed effect model with `sex * (status + income + verbal)`.  Examining the model summaries, what do you think about the mixed effects?  Can you construct a reduced size, mixed effect model that gets at the most important aspects?  Note, you should not remove the binary variable if there are significant mixed effects that depend on it.
+
+
+#### Question 3:
+Using the final model in the last question, produce an F test to determine if we favor a mixed effect model versus the simple encoding of the binary adjustment to the intercept.
+
+
+### Activity 2
+
+#### Question 1:
+Using the same mixed effect technique as in the last activity, try to systematically construct a mixed effect model in terms of `log(wage) ~ race * (educ + exper)`.  What do you notice?
+
+
+
+#### Question 2:
+
+Using an F test with the mixed effect model in `log(wage) ~ race * (educ + exper)`, what do you conclude about using the mixed effect here?
+
+
+### Activity 3:
+
+We will re-use our cheddar model in the following:
+```{r}
+lm_cheddar <- lm(taste ~ Acetic + H2S + Lactic, data = cheddar)
+summary(lm_cheddar)
+```
+
+
+#### Question 1:
+Now fit a second model, where we convert Acetic and H2S to linear scale, instead of using the log of these values.  Examine the model summary and how it changes between the two forms of the model.
+
+
+
+#### Question 2:
+Can we use the F-test to compare the two models?  What other ways might we compare the two forms of the model for the goodness of fit and overall appropriateness?
+
+
+#### Question 3:
+If we wish to measure the change HS2 in the linear scale corresponding to the change of 0.01 in the log scale, what would this value be?
+

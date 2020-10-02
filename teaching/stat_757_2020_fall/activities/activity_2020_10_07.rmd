@@ -1,0 +1,51 @@
+# Activity 10/07/2020
+
+## STAT 757 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+```{r}
+require("faraway")
+require(ellipse)
+```
+
+### Activity 1:
+For the `prostate` data, fit a model with `lpsa` as the response and the other variables as predictors.  Then answer the following:
+
+  1. Compute 90 and 95% CIs for the parameter associated with age. Using just these intervals, what could we have deduced about the p-value for age in the regression summary?
+  2. Compute and display a 95% joint confidence region for the parameters associated with age and lbph. Plot the origin on this display. The location of the origin on the display tells us the outcome of a certain hypothesis test. State that
+test and its outcome.
+
+
+
+### Activity 2:
+Using the `sat` data:
+
+  1. Fit a model with total sat score as the response and `expend`, `ratio` and `salary` as predictors. Test the hypothesis that $\beta_{salary} = 0.$ 
+  2. Test the hypothesis that $\beta_{salary} = \beta_{ratio} = \beta_{expend} = 0$.
+  3. Do any of these predictors have an effect on the response?
+  4. Now add takers to the model. Test the hypothesis that $\beta_{takers} = 0$. Compare this model to the previous one using an F-test. Demonstrate that the F-test and t-test here are equivalent.
+
+
+
+### Activity 3:
+
+
+In the punting data, we find the average distance punted and hang times of 10
+punts of an American football as related to various measures of leg strength for
+13 volunteers.
+
+  1. Fit a regression model with Distance as the response and the right and left leg strengths and flexibilities as predictors. Which predictors are significant at the 5% level?
+  2. Use an F-test to determine whether collectively these four predictors have a
+relationship to the response.
+  3. Relative to the model in (1), test whether the right and left leg strengths have
+the same effect.
+  4. Construct a 95% confidence region for $(\beta_{RStr} , \beta_{LStr} )$. Explain how the test in (3) relates to this region.
+  5. Fit a model to test the hypothesis that it is total leg strength defined by adding the right and left leg strengths that is sufficient to predict the response in comparison to using individual left and right leg strengths.
+  6.  Relative to the model in (1), test whether the right and left leg flexibilities have the same effect.
+  7. Test for left–right symmetry by performing the tests in (3) and (6) simultaneously.
+  8. Fit a model with Hang as the response and the same four predictors. Can we make a test to compare this model to that used in (1)? Explain.
+
