@@ -1,0 +1,63 @@
+# Activity 10/07/2020
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+```{r}
+require("faraway")
+require("EnvStats")
+require("stats")
+```
+
+
+
+### Activity 1: Hypothesis testing and confidence intervals for simulated data
+
+#### Question 1:
+In the following we will simulate data from the standard normal and run hypothesis tests and confidence intervals for its mean and variance.  We will pretend that we do not know what distribution that this comes from and we should thus justify the test for variance by inspecting for normality with the density plot and with the Shapiro-Wilk test.  In order to see how these hypothesis tests change with the sample size, we will run this  over the following sample sizes, setting a seed and a helper variable for the number of iterations:
+
+```{r}
+set.seed(1000)
+n <- c(3, 5, 10, 50,  100)
+num_iter <- length(n)
+```
+
+Write a `for` loop to make a hypothesis test on a sample of each size in `n` above.  First make a visual inspection of the data with a density plot.  Follow this with tests for normality,for the mean and for the variance.  You can include the hypothesis test as an argument of the `print` function to output the values in the loop.  In which of these cases do we make a type I error?  When is it appropriate to test for the variance in each of these cases?  When is it appropriate to test for the mean?
+
+
+### Activity 2:
+
+We will now look at the `pima` data from the `faraway` library.  The `pima` data is from the National Institute of Diabetes and Digestive and Kidney Diseases conducted a study on 768 adult female Pima Indians living near Phoenix. Analyze the variables `bmi` and `age` for normality.  Determine if it is appropriate to test for the variance and the mean and, if so, run the appropriate test.
+
+
+
+### Activity 3: Testing the distance between two distributions
+
+#### Question 1:
+In the following we will use the data `globwarm` containing the average Northern Hemisphere temperature from 1856-2000 and eight climate proxies from 1000-2000AD.  First we must remove the missing values before there are reliable temperature records.  Then let's subset the data according to the following:
+ 
+ 1. one subset contains the data from 1856 - 1940
+ 2. one subset contains the data from 1941 - 2000
+
+Use the Shapiro-Wilk test and visual inspection to determine if it is appropriate to test the variance of each of these data subsets.
+
+
+
+
+##### Question 2:
+Visual inspection suggest that the mean temperature in the second half of the data is higher than in the first half, and that the distribution tends to be non-normally right skewed. To produce a two sample test for the mean to compare if the means are equal, we would like to have the two samples drawn from normal distributions.  This is not a good test in this case. 
+
+The Kolmogorov–Smirnov test measures the distance between two possible, aribrary distributions. If the distance is large enough between the empirical CDFs of the two samples, the distributions are regarded as different. In R, the package stats implements the Kolmogorov–Smirnov test.
+
+The Kolmogorov–Smirnov test determines whether two distributions $F$ and $G$ are significantly different:
+$$\begin{align}
+H_0: F = G & & H1 : F\neq G.
+\end{align}$$
+The underlying idea of this test is to measure the so-called Kolmogorov–Smirnov distance between two distributions, under the restriction that both functions are continuous. The measure for the distance is the supremum of the absolute difference between the two CDFs.
+
+Use the  Kolmogorov–Smirnov test to determine if the two distributions of mean annual temperature appear to be significantly different at the $5\%$ significance level.
+
