@@ -1,0 +1,176 @@
+# Activity 10/05/2020
+
+## STAT 757 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+```{r}
+require("faraway")
+```
+
+### Activity 1: mixed effects of binary variables
+We will note in the following how we can construct a mixed effect model from a binary variable.  The syntax in R is to use a `*` symbol instead of a `+` to introduce a mixed effect that can change the slope of the trend.  This refers mathematically to the following idea in a simple regression model:
+
+Let $Z$ be the binary predictor that takes the values as follows:
+$$\begin{align}
+Z = 
+\begin{cases}
+1 & \text{ category 1} \\
+0 & \text{ category 2}
+\end{cases}
+\end{align}$$
+The variable $X$ will represent some standard, continuous scale predictor.
+
+The resulting equation for the mixed effect model is
+$$\begin{align}
+Y = \beta_0 + \beta_1 X + \beta_2 Z + \beta_3 Z * X + \epsilon
+\end{align}$$
+
+
+#### Question 1:
+Using this the above formula, derive how the mixed effect model changes the slope and intercept simultaneously when we shift between the two categories.
+
+##### Solution:
+Notice that if $Z=0$ we have the following model
+$$\begin{align}
+Y = \beta_0 + \beta_1 X + \epsilon.
+\end{align}$$
+
+On the other hand, if $Z=1$ we have the following model
+$$\begin{align}
+&Y = (\beta_0 +\beta_2)  + (\beta_1 + \beta_3) X  +\epsilon   \\
+\Leftrightarrow & Y = \tilde{\beta}_0  + \tilde{\beta}_1 X + \epsilon
+\end{align}$$
+where we have now adjusted both the slope and intercept for the case of category 1, relative to category 0.
+
+
+#### Question 2:
+
+Construct the standard multiple regression model in which `gamble` is the response for all other variables as predictors in the `teengamb` data.  Then construct the mixed effect model with `sex * (status + income + verbal)`.  Examining the model summaries, what do you think about the mixed effects?  Can you construct a reduced size, mixed effect model that gets at the most important aspects?  Note, you should not remove the binary variable if there are significant mixed effects that depend on it.
+
+##### Solution:
+
+```{r}
+lm_gamb <- lm(gamble ~ sex + status + income + verbal, teengamb)
+lm_mixed <- lm(gamble ~ sex * (status + income + verbal), teengamb)
+summary(lm_gamb)
+summary(lm_mixed)
+lm_mixed <- lm(gamble ~ sex * (income + verbal), teengamb)
+summary(lm_mixed)
+lm_gamb_mixed <- lm(gamble  ~ sex * income, teengamb)
+summary(lm_gamb_mixed)
+```
+
+
+#### Question 3:
+Using the final model in the last question, produce an F test to determine if we favor a mixed effect model versus the simple encoding of the binary adjustment to the intercept.
+
+##### Solution:
+
+```{r}
+lm_gamb <- lm(gamble ~ sex + income, teengamb)
+anova(lm_gamb,lm_gamb_mixed)
+```
+
+With the p-value on the order of $10^{-3}$ we favor the mixed effect model.
+
+### Activity 2
+
+#### Question 1:
+Using the same mixed effect technique as in the last activity, try to systematically construct a mixed effect model in terms of `log(wage) ~ race * (educ + exper)`.  What do you notice?
+
+##### Solution:
+
+```{r}
+lm_wages <- lm(log(wage) ~ educ + exper + race, uswages)
+summary(lm_wages)
+lm_wages_mixed <- lm(log(wage) ~ race * (educ + exper), uswages)
+summary(lm_wages_mixed)
+lm_wages_mixed <- lm(log(wage) ~ race * exper + educ, uswages)
+summary(lm_wages_mixed)
+```
+
+If we remove the last insignificant mixed effect, we will arrive at the same model as before with the standard binary encoding.
+
+#### Question 2:
+
+Using an F test with the mixed effect model in `log(wage) ~ race * (educ + exper)`, what do you conclude about using the mixed effect here?
+
+
+##### Solution:
+
+```{r}
+lm_wages_mixed <- lm(log(wage) ~ race * (educ + exper), uswages)
+anova(lm_wages, lm_wages_mixed)
+```
+
+We favor the model in which there is no mixed effect.
+
+### Activity 3:
+
+We will re-use our cheddar model in the following:
+```{r}
+lm_cheddar <- lm(taste ~ Acetic + H2S + Lactic, data = cheddar)
+summary(lm_cheddar)
+```
+
+
+#### Question 1:
+Now fit a second model, where we convert Acetic and H2S to linear scale, instead of using the log of these values.  Examine the model summary and how it changes between the two forms of the model.
+
+
+#### Solution:
+This will be performed as follows:
+```{r}
+lm_cheddar_linear <- lm(taste ~ exp(Acetic) + exp(H2S) + Lactic, data = cheddar)
+summary(lm_cheddar_linear)
+```
+
+In this case,  it is only the variable Lactic that is statistically significant at $5\%$.
+
+#### Question 2:
+Can we use the F-test to compare the two models?  What other ways might we compare the two forms of the model for the goodness of fit and overall appropriateness?
+
+##### Solution:
+
+We cannot use the F-test in this sittuation to compare the two models as this requires that the models are nested, and the explanatory variables of one are within the linear span of the other.  In particular, the exponential (or its inverse the log) transformation of the variables is quite nonlinear and it wouldn't be appropriate.   This can be verified by taking the anova table of the two models,
+```{r}
+anova(lm_cheddar,lm_cheddar_linear)
+```
+where there is no p-value for the F-test.
+
+We can otherwise make a comparison of the two models qualitatively, based on the fact that:
+
+* The residual standard error of the model with the log scale for Acetic and HS2 is smaller;
+* the $R^2$ value is higher for the model with log scale for Acetic and HS2;
+* the p-value for the F-statsitic where we exclude all variables as the null hypothesis is an order of magnitude smaller for the log scale model, than the linear scale;
+* and there are more individually significant variables at $5\%$ significance in the log scale model.
+
+The above facts suggest qualtiatively that the log scale for Acetic and HS2 performs better, though we have not given a direct hypothesis test to compare the two models.
+
+
+#### Question 3:
+If we wish to measure the change HS2 in the linear scale corresponding to the change of 0.01 in the log scale, what would this value be?
+
+##### Solution:
+We can consider that any amount $x^\ast$ of H2S on log scale corresponds to some $z^\ast$ for which
+$$\begin{align}
+& & log(z^\ast)  & = x^\ast \\
+\Leftrightarrow & &  z^\ast & = e^{x^\ast}
+\end{align}$$
+Thus given $\tilde{z}=e^{x^\ast + 0.01}$,  we can show what the value is relative to the value $z^\ast = e^{x^\ast}$  This is computed directly as follows,
+$$\begin{align}
+&  \tilde{z}  = e^{x^\ast + 0.01}\\
+\Leftrightarrow&\frac{\tilde{z}}{z^\ast} = e^{x^\ast + 0.01} * e^{- x^\ast} \\
+\Leftrightarrow & \tilde{z} = e^{0.01}z^\ast
+\end{align}$$
+or approximately, a change of 0.01 in the log scale corresponds to a
+```{r}
+exp(0.01) * 100
+```
+percent change of the original value in the linear scale.
+
+
