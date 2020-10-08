@@ -1,0 +1,216 @@
+# Activity 10/07/2020
+
+## STAT 757 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+```{r}
+require("faraway")
+require(ellipse)
+```
+
+### Activity 1:
+For the `prostate` data, fit a model with `lpsa` as the response and the other variables as predictors.  Then answer the following:
+
+  1. Compute 90 and 95% CIs for the parameter associated with age. Using just these intervals, what could we have deduced about the p-value for age in the regression summary?
+  2. Compute and display a 95% joint confidence region for the parameters associated with age and lbph. Plot the origin on this display. The location of the origin on the display tells us the outcome of a certain hypothesis test. State that
+test and its outcome.
+
+
+#### Solutions:
+For the prostate data, we  fit a model with lpsa as the response and the other variables as predictors
+
+```{r}
+lm_prostate <- lm(lpsa ~ lcavol + lweight + age + lbph + svi + lcp + gleason + pgg45, data=prostate)
+summary(lm_prostate)
+```
+
+We will compute the $90\%$ and $95\%$ confidence intervals for the parameter age, using the string "age" as a keyword argument:
+```{r}
+confint(lm_prostate, level=0.90, parm="age")
+confint(lm_prostate, parm="age")
+```
+From the above, we can infer that the p-value for the parameter for age is between $5\%$ and $10\%$.  This is clear, because the $90\%$ confidence interval excludes zero, while the $95\%$ confidence interval includes it. Because the confidence is dual to the significance, we can conclude that we reject the null hypothesis
+$$\begin{align}
+\beta_{age} = 0
+\end{align}$$
+at $10\%$ significance, while on the other hand we fail to reject the null hypothesis at $5\%$ significance.  Indeed, by inspection of the summary, we see the p-value for age is $\approx 8.2\%$.
+
+
+We now wish to plot the $95\%$ <b>confidence region</b> associated to values of lbph and age simultaneously.
+
+```{r}
+plot(ellipse(lm_prostate, c(4,5)), type="l", main = "95% confidence region")
+points(coef(lm_prostate)[4], coef(lm_prostate)[5], pch=4)
+points(0, 0, pch=19)
+```
+
+We plot the values of $\left(\hat{\boldsymbol{\beta}}_{age}, \hat{\boldsymbol{\beta}}_{lbph}\right)$ with an $\times$.  A black circle is plotted at the origin.  Because of the duality with hypothesis tests and confidence intervals, we can conlcude the following test with $\alpha=5\%$ significance:
+$$\begin{align}
+H_0 &: \boldsymbol{\beta}_{age} = \boldsymbol{\beta}_{lbph} = 0 \\
+H_1 &: \boldsymbol{\beta}_i \neq 0 \text{ for each } i=0, \cdots, 8
+\end{align}$$
+Noticing that the origin lies within the confidence region, we <b>fail to reject the null hypothesis $H_0$</b>.
+
+
+### Activity 2:
+Using the `sat` data:
+
+  1. Fit a model with total sat score as the response and `expend`, `ratio` and `salary` as predictors. Test the hypothesis that $\beta_{salary} = 0.$ 
+  2. Test the hypothesis that $\beta_{salary} = \beta_{ratio} = \beta_{expend} = 0$.
+  3. Do any of these predictors have an effect on the response?
+  4. Now add takers to the model. Test the hypothesis that $\beta_{takers} = 0$. Compare this model to the previous one using an F-test. Demonstrate that the F-test and t-test here are equivalent.
+
+
+#### Solutions:
+We will fit a model for the total average score on the SAT for schools in terms of expend, ratio and salary as explanatory variables:
+```{r}
+lm_sat <- lm(total ~ expend + ratio + salary, data=sat)
+summary(lm_sat)
+```
+We note that the model summary has the following hypothesis tests:
+$$\begin{align}
+H_0&: \boldsymbol{\beta}_{salary} = 0 \\
+H_1&: \boldsymbol{\beta}_i \neq 0 \text{ for each } i=0,\cdots, 3
+\end{align}$$
+This is displayed in the form of the p-value for salary in terms of the two-sided t-test.  In particular, we see that the p-value for salary is greater than $6\%$, and we fail to reject the null hypothesis at $5\%$ significance.
+
+Likewise, the F-test for the following:
+$$\begin{align}
+H_0&: \boldsymbol{\beta}_{i} = 0  \text{ for each } i=0,\cdots, 3\\
+H_1&: \boldsymbol{\beta}_i \neq 0 \text{ for each } i=0,\cdots, 3
+\end{align}$$
+is displayed as the F-statistic.  The p-value in particular is given $<5\%$, so we conclude that at least one explanatory variable is statistically significant at $5\%$.
+
+
+We will re-fit the model with takers as an additional explanatory variable.
+```{r}
+lm_sat_alt <- lm(total ~ expend + ratio + salary + takers, data=sat)
+summary(lm_sat_alt)
+```
+We find that takers is statistically significant at effectively $0\%$ significance.  We will demonstrate that the F-test and the t-test are equivalent by noting that the p-value of the F-test
+```{r}
+anova(lm_sat,lm_sat_alt)
+```
+is equal to the p-value for the t-test for takers at numerical precision.
+
+### Activity 3:
+
+Load the punting data, and form a model for the distance in terms of L/R leg strength and flexibility:
+```{r}
+lm_punting <- lm(Distance ~ RStr + LStr + RFlex + LFlex, data=punting)
+summary(lm_punting)
+```
+
+
+In the punting data, we find the average distance punted and hang times of 10
+punts of an American football as related to various measures of leg strength for
+13 volunteers.
+
+  1. Fit a regression model with Distance as the response and the right and left leg strengths and flexibilities as predictors. Which predictors are significant at the 5% level?
+  2. Use an F-test to determine whether collectively these four predictors have a
+relationship to the response.
+  3. Relative to the model in (1), test whether the right and left leg strengths have
+the same effect.
+  4. Construct a 95% confidence region for $(\beta_{RStr} , \beta_{LStr} )$. Explain how the test in (3) relates to this region.
+  5. Fit a model to test the hypothesis that it is total leg strength defined by adding the right and left leg strengths that is sufficient to predict the response in comparison to using individual left and right leg strengths.
+  6.  Relative to the model in (1), test whether the right and left leg flexibilities have the same effect.
+  7. Test for left–right symmetry by performing the tests in (3) and (6) simultaneously.
+  8. Fit a model with Hang as the response and the same four predictors. Can we make a test to compare this model to that used in (1)? Explain.
+
+
+#### Solutions:
+
+##### Q1.
+
+From the model summary, we note that none of the variables are statistically significant at the $5\%$ level.
+
+##### Q2.
+
+The F-test in the model summary shows that collectively, at least one predictor (or some combination therein) is statistically significant over the null model
+$$\begin{align}
+\mathbf{Y} = \mu_Y \mathbf{1}+ \boldsymbol{\epsilon}
+\end{align}$$
+at $5\%$.
+
+##### Q3.
+To test for symmetry of  the legs' strengths, we compute the model in terms of the hypothesis that their parameter is the same:
+```{r}
+lm_punting_symmetric_str <- lm(Distance ~ I(RStr + LStr) + RFlex + LFlex, data=punting)
+summary(lm_punting_symmetric_str)
+anova(lm_punting_symmetric_str,lm_punting)
+```
+
+In this case, we cannot reject the null hypothesis of the smaller model in favor the larger model where the effect of the two variables are distinct.
+
+##### Q4.
+In the following, we plot the joint confidence region along with the individual confidence intervals for the parameters $\boldsymbol{\beta}_{LStr}$ and $\boldsymbol{\beta}_{RStr}$.
+
+```{r}
+plot(ellipse(lm_punting, c(2,3)), type="l", main = "Left/ right leg strength confidence region", xlim = c(-2,2), ylim = c(-2,2), asp=1)
+points(coef(lm_punting)[2], coef(lm_punting)[3], pch=4)
+points(0, 0, pch=19)
+lines(c(-2,2),c(-2,2))
+```
+
+Here we plot the least-squares value for $(\hat{\boldsymbol{\beta}}_{RStr}, \hat{\boldsymbol{\beta}}_{LStr})$ with an $\times$, the origin with a black dot.
+
+However, in spite of the F-test in part (3), we see a different pattern emerge in the joint confidence region. Plotting the line that corresponds to the values $\boldsymbol{\beta}_{RStr}=\boldsymbol{\beta}_{LStr}$, we notice that the subspace that this corresponds to is actually almost orthogonal to the principle axis of joint confidence region.  Given the confidence region, we may conclude that it is more plausible that there is an asymmetric trade-off between the right and left leg strength.  That is,
+
+  1. When the right leg strength has a strong positve effect, this most plausibly corresponds to a negative effect of the left leg strength; and
+  
+  2. When the left leg strength has a strong positive effect, this most plausibly corresponds to a negative effect of the right leg strength.
+
+##### Q5.
+
+In the following, we re-fit the model where we will take the combined left and right leg strengths in place of either individually as an explanatory variable.  In particular, we add a column to a new dataframe as follows:
+```{r}
+punting_alt <- punting
+punting_alt$combined <- punting$LStr + punting$RStr
+punting_alt
+```
+
+Now, we fit a new model in terms of the combined variable while neglecting the individual strengths:
+
+```{r}
+lm_punting_combined <- lm(Distance ~ combined + RFlex + LFlex, data=punting_alt)
+summary(lm_punting_combined)
+```
+
+We note that the p-value for the combined variable is the same as for the model in part (3), as indeed, these are two different representations of the same model.
+
+##### Q6.
+We repeat the test of part (3) but with respect to the combined variable for the two leg flexibilities:
+```{r}
+lm_punting_symmetric_flx <- lm(Distance ~ RStr + LStr + I(RFlex + LFlex), data=punting)
+summary(lm_punting_symmetric_flx)
+anova(lm_punting_symmetric_flx,lm_punting)
+```
+
+In this case, we cannot reject the null hypothesis of the smaller model in favor the larger model where the effect of the two variables is distinct.
+
+##### Q7.
+
+Here we attempt to fit the model with the left/right strength/flexiblity modeled respectively as combined variables simultaneously.
+
+```{r}
+lm_punting_symmetric <- lm(Distance ~ I(RStr + LStr) + I(RFlex + LFlex), data=punting)
+summary(lm_punting_symmetric)
+anova(lm_punting_symmetric,lm_punting)
+```
+
+We find that once again, we fail to reject the null hypothesis of the small model versus the larger model.
+
+##### Q8.
+
+Finally, we will fit a model for the variable "Hang" using the same explanatory variables as in part (a).
+
+```{r}
+lm_punting_hang <- lm(Hang ~ RStr + LStr + RFlex + LFlex, data=punting)
+summary(lm_punting)
+```
+
+We note that we cannot compare the signifcance of two models with tools we have learned so far, as the response variable differs in each of them.
