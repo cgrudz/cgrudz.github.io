@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Midterm 2 Study Guide  STAT 445/645, Fall 2020</title>
+
+<style type="text/css">
+  
+  /* Whole document - standard notebook size and margins */
+  body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      max-width: 8.5in;
+      margin: auto;
+      background: #FFFFFF;
+      padding: 1in 1in 1in 1in;
+  }
+
+#customlist {
+  /* delete default counter */
+  list-style-type: none;
+  /* create custom counter and set it to 0 */
+  counter-reset: elementcounter;
+}
+
+#customlist>li:before {
+  /* print out "Section " followed by the current counter value */
+  content: "Section " counter(elementcounter) ":";
+  /* increment counter */
+  counter-increment: elementcounter;
+}
+  
+</style>
+
+
+
+
+
+<link href="data:text/css;charset=utf-8,%3Cstyle%20type%3D%22text%2Fcss%22%3E%0A%0A%0Abody%20%7B%0Afont%2Dfamily%3A%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Amax%2Dwidth%3A%208%2E5in%3B%0Amargin%3A%20auto%3B%0Abackground%3A%20%23FFFFFF%3B%0Apadding%3A%201in%201in%201in%201in%3B%0A%7D%0A%0Ah1%20%7B%0Afont%2Dsize%3A%2050px%3B%0Acolor%3A%20%23000000%3B%0Atext%2Dalign%3Acenter%3B%0Amargin%2Dbottom%3A15px%3B%0A%7D%0Ah1%2Bp%20%7B%0A%0Acolor%3A%20%23000000%3B%0Afont%2Dsize%3A%2020px%3B%0Aline%2Dheight%3A%202em%3B%0Amargin%2Dtop%3A%200%2E5em%3B%0Amargin%2Dbottom%3A%200em%20%21important%3B%0Atext%2Dalign%3A%20center%3B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0A%0Ah2%20%7B%0Acolor%3A%20%23000000%3B%0A%7D%0A%0Adt%20%7B%0Afloat%3A%20left%3B%0Aclear%3A%20left%3B%0Awidth%3A%2017%25%3B%0A%0A%7D%0Add%20%7B%0Amargin%2Dleft%3A%2017%25%3B%0A%7D%0Ap%20%7B%0Amargin%2Dtop%3A0%3B%0Amargin%2Dbottom%3A7px%3B%0A%7D%0A%0Ablockquote%20%7B%0Atext%2Dalign%3A%20left%3B%20%7D%0A%0Aa%20%7B%0Atext%2Ddecoration%3A%20none%3B%0Acolor%3A%20%231D5996%3B%0A%7D%0Aa%3Ahover%2C%20a%3Aactive%20%7B%0Abackground%2Dcolor%3A%20%231D5996%3B%0Acolor%3A%20%23FFFFFF%3B%0Atext%2Ddecoration%3A%20none%3B%0Atext%2Dshadow%3A%201px%201px%201px%20%23333%3B%0A%7D%0A%0Ahr%20%7B%0Acolor%3A%20%23A6A6A6%3B%0A%7D%0Atable%20%7B%0Awidth%3A%20100%25%3B%0Aborder%2Dcollapse%3Acollapse%3B%0Aborder%2Dspacing%3A0%3B%0Adisplay%3Atable%0A%7D%0Atable%2EminimalistBlack%20%7B%0Aborder%3A%203px%20solid%20%23000000%3B%0Awidth%3A%20100%25%3B%0Atext%2Dalign%3A%20left%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%2EminimalistBlack%20td%2C%20table%2EminimalistBlack%20th%20%7B%0Apadding%3A%205px%204px%3B%0A%7D%0Atable%2EminimalistBlack%20tbody%20td%20%7B%0Afont%2Dsize%3A%2015px%3B%0A%7D%0Atable%2EminimalistBlack%20thead%20%7B%0Abackground%3A%20%23CFCFCF%3B%0Abackground%3A%20%2Dmoz%2Dlinear%2Dgradient%28top%2C%20%23dbdbdb%200%25%2C%20%23d3d3d3%2066%25%2C%20%23CFCFCF%20100%25%29%3B%0Abackground%3A%20%2Dwebkit%2Dlinear%2Dgradient%28top%2C%20%23dbdbdb%200%25%2C%20%23d3d3d3%2066%25%2C%20%23CFCFCF%20100%25%29%3B%0Abackground%3A%20linear%2Dgradient%28to%20bottom%2C%20%23dbdbdb%200%25%2C%20%23d3d3d3%2066%25%2C%20%23CFCFCF%20100%25%29%3B%0Aborder%2Dbottom%3A%203px%20solid%20%23000000%3B%0A%7D%0Atable%2EminimalistBlack%20thead%20th%20%7B%0Afont%2Dsize%3A%2015px%3B%0Afont%2Dweight%3A%20bold%3B%0Acolor%3A%20%23000000%3B%0Atext%2Dalign%3A%20left%3B%0A%7D%0Atable%2EminimalistBlack%20tfoot%20%7B%0Afont%2Dsize%3A%2014px%3B%0Afont%2Dweight%3A%20bold%3B%0Acolor%3A%20%23000000%3B%0Aborder%2Dtop%3A%203px%20solid%20%23000000%3B%0A%7D%0Atable%2EminimalistBlack%20tfoot%20td%20%7B%0Afont%2Dsize%3A%2014px%3B%0A%7D%0A%0A%2Eshort%5Fanswer%5Fdiv%20%7B%0Awidth%3A100%25%3B%0Aheight%3A1%2E5in%3B%0Afloat%3Aleft%3B%0A%7D%0A%2Eanswer%5Fdiv%20%7B%0Awidth%3A100%25%3B%0Aheight%3A2in%3B%0Afloat%3Aleft%3B%0A%7D%0A%2Elong%5Fanswer%5Fdiv%7B%0Awidth%3A100%25%3B%0Aheight%3A3in%3B%0Afloat%3Aleft%3B%0A%7D%0A%0A%40media%20print%20%7B%0A%2Epagebreak%20%7B%20page%2Dbreak%2Dbefore%3A%20always%3B%20padding%2Dtop%3A1in%3B%0A%7D%20%7D%0Adiv%2Esolutions%20%2A%20%7B%0Acolor%3A%23000099%3B%0A%7D%0A%3C%2Fstyle%3E%0A" rel="stylesheet" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Midterm 2 Study Guide<br> STAT 445/645, Fall 2020</h1>
+
+
+
+<p>Instructor: Colin Grudzien<br></p>
+<div id="midterm-2-instructions" class="section level2">
+<h2>Midterm 2 Instructions:</h2>
+<p>Midterm 2 will be taken in class 2:30 - 3:45 on Wednesday October 14. This will be a proctored exam in our Zoom classroom. Everyone is expected to keep their webcam on their work space during the examination. Everyone will be expected to present either a student or government ID to verify your identity before the test begins. This is a necessary step for the accreditation of our class to verify that everyone is responsible for their own work. Every student will be assigned an individual Zoom breakout room for privacy from others, but the instructor will be monitoring the rooms throughout the exam. This is an open-book, open-note exam and it is to be expected to use the R console to calculate some results. Communication of any kind except with the instructor during the exam is considered a breach of academic integrity. The Zoom classroom will open at 2:15 approximately and you are encouraged to sign in early as I will ask everyone to verify their ID during this session, and you are welcome to verify your ID before the start of the exam.</p>
+<div id="exam-structure" class="section level3">
+<h3>Exam structure</h3>
+<p>There will be a mix of numerical questions, some short answer questions, some true / false or multiple choice style questions. There are 12 questions for 75 minutes, giving about 6.25 minutes to work on each question. Some questions should be very short, while some others longer, and you will have the ability to skip backwards and forwards in the exam. You should pre-load the following libraries to be prepared for the exam time</p>
+<ol style="list-style-type: decimal">
+<li><code>faraway</code></li>
+<li><code>stats</code></li>
+<li><code>EnvStats</code></li>
+</ol>
+</div>
+<div id="examination-material" class="section level3">
+<h3>Examination material</h3>
+<div id="finite-probability-space-and-discrete-distributions" class="section level4">
+<h4>Finite probability space and discrete distributions</h4>
+<ul>
+<li>You should be able to compute a basic set theoretical probability question using some combination of unions and intersections.</li>
+<li>You should be able to identify the parameters for either a binomial or a Poisson distribution from a word problem, and compute the probability of some range of possible observed outcomes. This should involve, e.g., the <code>pbinom</code> / <code>ppois</code> functions.</li>
+</ul>
+</div>
+<div id="continuous-distributions" class="section level4">
+<h4>Continuous distributions</h4>
+<ul>
+<li>You should know how the normal, t, Chi-squared and F distributions are related to each other.</li>
+<li>You should be able to compute the probability of observing some outcome in a range of possible values for any of the above, using the cdf.</li>
+<li>You should be able to identify a theoretical quantile from any of the above using the inverse cdf.</li>
+<li>You should understand some basic properties of the above distributions in terms of their symmetry and / or skewness.</li>
+<li>You should be able to draw a random sample from any of the above distributions with a prespecified random seed.</li>
+</ul>
+</div>
+<div id="hypothesis-testing-and-confidence-intervals" class="section level4">
+<h4>Hypothesis testing and confidence intervals</h4>
+<ul>
+<li>You should be comfortable with running the t.test, varTest, and the shapiro.test and interpreting the results for the p-value. This includes understanding whether it is appropriate to use such a test due to the large sample size and/or the normality of the data, and when it is not.<br />
+</li>
+<li>You should know how to specify a different alternative hypothesis, e.g., for the t.test to run a one-sided test with its keyword arguments, and for a mean different than zero.<br />
+</li>
+<li>You will be asked to compute the p-value for some such test as above and possibly to interpret the result.<br />
+</li>
+<li>The ks.test will be included in the midterm and you should be comfortable subsetting some data across a binary variable and testing if the distributions for another variable are similar or not across the sub-populations.</li>
+</ul>
+</div>
+</div>
+<div id="how-to-prepare" class="section level3">
+<h3>How to prepare</h3>
+<p>It is recommended that you study the midterm 2 practice exam before our review session on Monday October 12. You should also study our old quizzes and activity solutions that cover the above topics. Take good notes for reference as you may use these reference notes on the quiz.</p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
