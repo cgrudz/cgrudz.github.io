@@ -1,0 +1,95 @@
+# Activity 10/12/2020
+
+## STAT 757 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+```{r}
+require("faraway")
+```
+
+### Activity 1: Autoregression and recursive prediction
+
+
+The dataset ```mdeaths``` reports the number of deaths from lung diseases for men in the UK from 1974 to 1979.
+
+```{r}
+plot(mdeaths)
+```
+This is a timeseries dataset, with special properties for certain analyses.  In the following, it will be convenient to change the format of ```mdeaths``` into a regular dataframe from the timeseries format in which it is given.   If we attempt to load the vector into a dataframe directly...
+```{r}
+mdeaths
+data.frame(mdeaths)
+```
+we run into substantial issues.
+
+Rather, we will first load the vector into a shape resembling the printed form, and then apply the correct column names and row names, and convert to a dataframe:
+```{r}
+m_deaths_df <- matrix(mdeaths, ncol=12, byrow = TRUE)
+month_names <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+colnames(m_deaths_df) <- month_names
+row.names(m_deaths_df) <- c("1974", "1975", "1976", "1977", "1978", "1979")
+m_deaths_df <- data.frame(m_deaths_df)
+m_deaths_df
+```
+
+Now solve the following.
+
+1. Make an appropriate plot of the data. At what time of year are deaths most
+likely to occur?
+
+2. Fit an autoregressive model of the same form used for the ```airline``` data in terms of the lagged variables using an embed function as follows. 
+```{r}
+lag_df <- embed(mdeaths, 14)
+colnames(lag_df) <- c("y",paste0("lag",1:13))
+lag_df <- data.frame(lag_df)
+```
+   Verify the matching of the lag variables with how they should be represented in the model.
+```{r}
+lag_df[length(lag_df$y), ]
+m_deaths_df[c(5:6), ]
+```
+  Use the model summary to systematically select for a model in which all of the predictors are significant at the $5\%$ level.
+
+3. Use the model to predict the number of deaths in January 1980 along with a
+95% prediction interval.
+
+4. Use your answer from the previous question to compute a prediction and interval for February 1980.
+
+5.  Compute the fitted values. Plot these against the observed values. Note that
+you will need to select the appropriate observed values. Do you think the
+accuracy of predictions will be the same for all months of the year?
+
+
+
+
+### Activity 2: Explanation
+
+Consider the `teengamb` data with `gamble` as the response and our model including mixed effects of the form
+```{r}
+lm_gamble <- lm(gamble ~ sex * income, teengamb)
+summary(lm_gamble)
+```
+
+Let's look at another approach for explaining the effect of the binary variable `sex` on the response.  Using the `Matching` package, we will try to find matches of similar income levels and see if the treatement `sex` has a significant impact on the response variable.
+
+Examine the output of the following code and answer the following:
+```{r}
+require("Matching")
+set.seed(123)
+mm <- GenMatch(teengamb$sex, teengamb$income, ties=FALSE, caliper=0.2, pop.size=1000)
+summary.Match(mm)
+plot(gamble ~ income, teengamb, pch=sex+1)
+with(teengamb,segments(income[mm$match[,1]],gamble[mm$match[,1]],income[
+mm$match[,2]],gamble[mm$match[,2]]))
+```
+  
+  
+  1. How many matched pairs were found? How many cases were not matched?
+  2. Compute the differences in gamble for the matched pairs. Is there a significant non-zero difference?
+  3. Do the conclusions from the linear model and the matched pair approach agree?  What might be a limitation of matching in this case?
+
+
