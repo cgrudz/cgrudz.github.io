@@ -1,0 +1,205 @@
+# Activity 10/12/2020
+
+## STAT 757 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+```{r}
+require("faraway")
+```
+
+### Activity 1:
+
+
+For the ```prostate``` data, fit a model with ```lpsa``` as the response and the other variables as predictors.
+
+1. Suppose a new patient with the following values arrives:
+
+```
+lcavol lweight age lbph svi lcp
+1.44692 3.62301 65.00000 0.30010 0.00000 -0.79851
+gleason pgg45
+7.00000 15.00000
+```
+Predict the ```lpsa``` for this patient along with an appropriate 95% confidence interval (CI).
+
+2.  Repeat the last question for a patient with the same values except that he is ```age``` 20. Explain why the CI is wider.
+
+3. For the model of the previous question, systematically select predictors so that all the predictors remaining are significant at the 5% level. You should consider using the `update()` function for linear models to update the model equation.  Test this model versus the original model with an ANOVA. Now recompute the predictions of the previous question. Are the CIs wider or narrower? Which predictions would you prefer?
+Explain.
+
+
+#### Solutions:
+
+##### Problem 1.1
+
+###### Q1:
+
+We begin by creating the model and outputting a summary.
+
+```{r}
+lm_prostate <- lm(lpsa ~ ., data=prostate)
+summary(lm_prostate)
+```
+
+
+Here we suppose that we need to predict a <b>future observation</b> for a future patient.  In particular, we want to create the dataframe for the hypothetical patient as follows:
+```{r}
+new_obs <- c(1.44692, 3.62301, 65.00000, 0.30010, 0.00000, -0.79851, 7.00000, 15.00000)
+new_obs <- t(data.frame(new_obs))
+colnames(new_obs) <- c('lcavol', 'lweight','age', 'lbph', 'svi', 'lcp', 'gleason', 'pgg45')
+```
+Now, we construct a <b> $95\%$ prediction</b> interval for the new patient given their characteristics,
+```{r}
+predict(lm_prostate, new=data.frame(new_obs), interval="prediction")
+```
+
+###### Q2
+
+Modifying the patient data so that all other variables are held constant, but the age is given as 20 years,
+```{r}
+new_obs_alt <- new_obs
+new_obs_alt[3] <- 20
+```
+we repeat the prediction interval for the individual with equal characteristics except for age,
+```{r}
+predict(lm_prostate, new=data.frame(new_obs_alt), interval="prediction")
+```
+We note that the prediction interval is substantially wider. The histogram of the ages of the participants in our existing data is pictured as
+```{r}
+hist(prostate$age, xlab = "Past participant ages", main="Age of participants histogram")
+```
+
+such that the age 20 is entirely out of our previous experience.  In this case, the uncertainty grows substantially due to the high level of extrapolation in this prediction.
+
+###### Q3 
+
+We systematically find a model in which all predictors have $5\%$ significance by backwards selection:
+```{r}
+summary(lm_prostate)
+lm_prostate <- update(lm_prostate, . ~ . -gleason)
+summary(lm_prostate)
+lm_prostate <- update(lm_prostate, . ~ . -lcp)
+summary(lm_prostate)
+lm_prostate <- update(lm_prostate, . ~ . -pgg45)
+summary(lm_prostate)
+lm_prostate <- update(lm_prostate, . ~ . -age)
+summary(lm_prostate)
+lm_prostate <- update(lm_prostate, . ~ . - lbph)
+summary(lm_prostate)
+```
+
+We now compute an ANOVA versus the saturated model,
+```{r}
+anova(lm_prostate, lm(lpsa ~ ., prostate)) 
+```
+We fail to reject the null hypothesis of the simple model being favorable.
+
+With respect to the simple model, we perform an additional prediction for the patient with the same values as before (excluding the non-relevant variables in the model)
+```{r}
+new_obs <- c(1.44692, 3.62301, 0.00000)
+new_obs <- t(data.frame(new_obs))
+colnames(new_obs) <- c('lcavol', 'lweight', 'svi')
+predict(lm_prostate, new=data.frame(new_obs), interval="prediction")
+```
+
+We note that the two prediction intervals are given by
+$$\begin{align}
+(0.9646584, 3.813447) &--- \text{Big model}\\
+(0.9383436, 3.806724) &--- \text{Small model}
+\end{align}$$
+so that the confidence interval for the new prediction is slightly wider.  We should favor this model due to the failure to reject the null hypothesis in the ANOVA, for the practical value of needing fewer measurments, despite the slight loss of precision in this case.
+
+
+### Activity 2:
+
+Using the ```teengamb``` data,  we fit the following model:
+```{r}
+lm_gamb <- lm(gamble ~ sex * income, data = teengamb)
+summary(lm_gamb)
+```
+
+1. Predict the amount that a male with average ```income``` for this subpopulation would gamble along with an appropriate 95% CI.
+
+2. Repeat the prediction for a male with maximal value of
+```income```. Which CI is wider and why is this result expected?
+
+3. Fit a model with ```sqrt(gamble)``` and ```log(gamble)``` as the response but with the same predictors.  Explain which of these is possible and why.
+Now use a working model with transformed response predict the response and give a 95% prediction interval for the individual in part 1. Take care to give your answer in the original units of the response.
+
+4. Repeat the prediction for the model in 3 for a female with
+```income=1```. Comment on the credibility of the result.
+
+
+#### Solutions:
+
+##### Q1
+
+
+
+We will first construct a hypothetical example for a male individual that has the mean values for income.  Firstly, subset the sex variable to zero for male and take the resulting mean values:
+```{r}
+male_gamb <- teengamb[teengamb$sex == 0, ]
+mean_income <- mean(male_gamb$income)
+mean_male <- c("sex" = 0, "income" = mean_income)
+mean_male
+```
+With respect to the mean obs, male participant, we find the following prediction,
+```{r}
+predict(lm_gamb, new=data.frame(t(mean_male)), interval="prediction")
+```
+
+##### Q2
+
+We repeat the process, but for a male with the maximal valus for other variables attained over the dataset,
+```{r}
+max_income <- max(male_gamb$income)
+max_male <- c("sex"=0, "income"= max_income)
+max_male
+```
+With respect to the mean obs, male participant, we find the following prediction,
+```{r}
+predict(lm_gamb, new=data.frame(t(max_male)), interval="prediction")
+```
+
+In this case, the prediction intervals are wider, which is expected due to the high level of extrapolation in this prediction.
+
+##### Q3
+
+We will consider the summary of the data,
+```{r}
+summary(teengamb)
+```
+Clearly the response variable contains zeros so it will  not be feasible to write a log transform.
+
+We thus fit the model in square root scale for the response,
+```{r}
+lm_gamb_sqrt <- lm(sqrt(gamble) ~ sex * income, data = teengamb)
+summary(lm_gamb_sqrt)
+```
+We make the same prediction, but with the model having the response in square root scale, and rescale the prediction interval to linear scale
+```{r}
+predict(lm_gamb_sqrt, new=data.frame(t(mean_male)), interval="prediction")^2
+```
+
+##### Q4
+
+Using the same square root scale response model, we will perform an additional prediction for the following hypothetical observation:
+```{r}
+female_obs <- c("sex"=1, "income"=1)
+```
+The prediction is given as,
+```{r}
+predict(lm_gamb_sqrt, new=data.frame(t(female_obs)), interval="prediction")^2
+```
+and we note that the lower bound of the prediction interval is greater than the fitted value.
+
+This is due to the fact that before the square, the lower bound was negative
+```{r}
+predict(lm_gamb_sqrt, new=data.frame(t(female_obs)), interval="prediction")
+```
+In this case, it appears that we lose some of the prediction power with this model because of the issue with the change of scale.  Particularly, the function $f(x)= x^{0.5}$ must be defined in terms of complex (imaginary) numbers for negative values of $x$.  Because the prediction intervals for female individuals can extend to both positive and negative values simultaneously, this change of scale isn't strictly invertible, and it appears inappropriate for these predictions.
+
