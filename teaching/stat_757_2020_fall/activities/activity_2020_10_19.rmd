@@ -1,0 +1,68 @@
+# Activity 10/19/2020
+
+## STAT 757 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+```{r}
+require("faraway")
+require("EnvStats")
+require("stats")
+```
+
+### Activity 1: Testing the Gaussian error assumption
+Note, that when performing exploratory analysis, histograms should not be used to check the Gaussianity of various distributions.  One of the central weaknesses about histograms is that they do not have a unique choice of bin-sizes, and generally the convergence of a histogram to the true density function $f$ of some distribution is very slow in the sample size $n$.  Q-Q plots are more robust than most other visualization for testing Gaussianity and these are preferred when testing versus this null hypothesis.
+
+However, for exploratory purposes, we can improve the convergence of histograms by using a kernel density estimator.  This type of plot has the syntax
+```{r eval=FALSE}
+plot(density(some_data, kernel= "some_kernel"))
+```
+where different kernels give different kinds of weights to the nearby points to observations, unlike histograms which give even weight within specified bins.
+
+#### Question 1:
+
+Using the `gala` data set, perform exploratory analysis on each of the explanatory variables and the response variable in the model:
+Comment on the differences you notice between the histogram of the various variables and the density plots when using the "gaussian" kernel.  Do the variable appear to Gaussian distributed? Verify your intuition numerically with the Shapiro-Wilk test.
+
+
+#### Question 2:
+
+Now, perform the same exploratory analysis on the residuals of the model
+```{r}
+lmod <- lm(Species ~ Area + Nearest + Scruz + Adjacent, gala)
+```
+Does it appear that the Gaussian error distribution is a viable assumption?  Try systematically reducing the model above into one for which all of the predictors are significant.  Does this model appear to satisfy the Gaussian error assumption?  Can we get by with a Gaussian approximation by the central limit theorem?
+
+
+### Activity 2: Testing the distance between two distributions
+
+
+
+#### Question 1:
+In the following we will use the data `globwarm` containing the average Northern Hemisphere temperature from 1856-2000 and eight climate proxies from 1000-2000AD.  First we must remove the missing values before there are reliable temperature records.  Then let's subset the data according to the following:
+ 
+ 1. one subset contains the data from 1856 - 1940
+ 2. one subset contains the data from 1941 - 2000
+
+The $\chi^2$ test for variance can be applied to data assuming that it is sufficiently normal to find confidence intervals for the variance.  Similarly, the F-test for variance can be used to compare the variances of two data subsets for equality, provided that the underlying original data is sufficiently normal.  These two test in R are as,
+`varTest`for a single sample, from the `EnvStats` library and `var.test` for two samples in `stats` library. We would like to examine if we can study the variances individually tested, or using a two-sample test, seem to agree between the two data subsets. 
+
+Use the Shapiro-Wilk test and visual inspection to determine if it is appropriate to test the variance of each of these data subsets.
+
+
+
+##### Question 2:
+Visual inspection suggest that the mean temperature in the second half of the data is higher than in the first half, and that the distribution tends to be non-normally right skewed. To produce tests of the variances, we would like to have the two samples drawn from normal distributions.  This is not a good test in this case. 
+
+The Kolmogorov–Smirnov test measures the distance between two possible, arbitrary distributions. If the distance is large enough between the empirical CDFs of the two samples, the distributions are regarded as different. In R, the package stats implements the Kolmogorov–Smirnov test.
+
+The Kolmogorov–Smirnov test determines whether two distributions $F$ and $G$ are significantly different:
+$$\begin{align}
+H_0: F = G & & H1 : F\neq G.
+\end{align}$$
+The underlying idea of this test is to measure the so-called Kolmogorov–Smirnov distance between two distributions, under the restriction that both functions are continuous. The measure for the distance is the supremum of the absolute difference between the two CDFs.
+
+Use the  Kolmogorov–Smirnov test to determine if the two distributions of mean annual temperature appear to be significantly different at the $5\%$ significance level.
