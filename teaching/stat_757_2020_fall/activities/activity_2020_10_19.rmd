@@ -24,7 +24,7 @@ where different kernels give different kinds of weights to the nearby points to 
 
 #### Question 1:
 
-Using the `gala` data set, perform exploratory analysis on each of the explanatory variables and the response variable in the model:
+Using the `gala` data set, perform exploratory analysis on each of the explanatory variables and the response variable in the model: use the histogram, density plot and Q-Q plot to observe the empirical distribtuion of the sample.
 Comment on the differences you notice between the histogram of the various variables and the density plots when using the "gaussian" kernel.  Do the variable appear to Gaussian distributed? Verify your intuition numerically with the Shapiro-Wilk test.
 
 
@@ -50,7 +50,7 @@ In the following we will use the data `globwarm` containing the average Northern
 The $\chi^2$ test for variance can be applied to data assuming that it is sufficiently normal to find confidence intervals for the variance.  Similarly, the F-test for variance can be used to compare the variances of two data subsets for equality, provided that the underlying original data is sufficiently normal.  These two test in R are as,
 `varTest`for a single sample, from the `EnvStats` library and `var.test` for two samples in `stats` library. We would like to examine if we can study the variances individually tested, or using a two-sample test, seem to agree between the two data subsets. 
 
-Use the Shapiro-Wilk test and visual inspection to determine if it is appropriate to test the variance of each of these data subsets.
+Use a Q-Q plot and the Shapiro-Wilk test and visual inspection to determine if it is appropriate to test the variance of each of these data subsets.
 
 
 
@@ -66,3 +66,4 @@ H_0: F = G & & H1 : F\neq G.
 The underlying idea of this test is to measure the so-called Kolmogorov–Smirnov distance between two distributions, under the restriction that both functions are continuous. The measure for the distance is the supremum of the absolute difference between the two CDFs.
 
 Use the  Kolmogorov–Smirnov test to determine if the two distributions of mean annual temperature appear to be significantly different at the $5\%$ significance level.
+
