@@ -1,0 +1,41 @@
+# Activity 10/21/2020
+
+## STAT 757 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+```{r}
+require("faraway")
+```
+
+
+### Activity 1:
+
+Recall in the `teengamble` data, we earlier studied a form of the model as follows:
+```{r}
+lmod <- lm(gamble ~ sex*income, teengamb)
+```
+
+#### Question 1:
+Plot the residuals versus fitted values for `lmod` as above.  Plot the Gaussian kernel density of the residuals. Also run the q-q plot.  What do you notice from these diagnostic plots?  What is the implication of these two plots for the solution by least squares?
+
+
+#### Question 2:
+Subset the residuals into male and female cases.  We would like to see if the it will be appropriate to test for the differences in the variance of the residuals between these two subsets.  Using q-q plots and the Shapiro-Wilk test, is it appropriate to make a test for variances?
+
+#### Question 3:
+
+Refit the model as follows:
+
+```{r}
+lmod <- lm(sqrt(gamble) ~ sex*income, teengamb)
+```
+Re-run the analysis of the residuals versus fitted to examine the effect of the scale transformation.
+
+
+
+#### Question 4:
+Re-subset and determine if we are in a position appropriate to use the two sample test for variances based on these subsets.
+
