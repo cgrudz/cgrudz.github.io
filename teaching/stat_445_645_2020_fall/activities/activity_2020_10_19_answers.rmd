@@ -1,0 +1,140 @@
+# Activity 10/19/2020
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+To perform some matrix operations, it can be helpful to use some non-base functions designed for this.  We will require the library `matlab`
+
+```{r}
+require("matlab")
+```
+
+
+### Activity 1: Diagonalization
+
+Suppose we are given the following matrix
+```{r}
+A <- matrix(seq(3, 27, by=3), nrow=3, ncol=3)
+```
+
+#### Question 1:
+Compute the rank of the matrix `A` . Then compute the eigen values of the matrix `A`.  How is the rank related to the eigenvalues of the matrix?
+
+##### Solution:
+
+We compute the rank as follows:
+```{r}
+qr(A)$rank
+```
+
+The eigen decomposition is computed as:
+```{r}
+eigen(A)
+```
+
+We see that the rank of the matrix `A` is 2, and that it has exactly 2 non-zero eigenvalues.
+
+#### Question 2:
+Use the  eigen decomposition as follows: extract the matrix of the eigenvectors by calling the variable `$vectors` and assign these vectors to a matrix called `C`.  Check if it is possible to invert this matrix and if so, define the inverse `C_inv`.  Explain why this is possible or why not.
+
+
+##### Solution:
+
+We define the eigen decompostion and the matrix `C` as follows.
+```{r}
+e_decomp <- eigen(A)
+C <- e_decomp$vectors
+```
+
+Notice,
+```{r}
+det(C)
+```
+so that it is invertible.  We may look instead at
+```{r}
+eigen(C)
+```
+to notice that this has complex, non-zero eigenvalues.
+
+Therefore, we assign `C_inv` as follows:
+```{r}
+C_inv <- solve(C)
+```
+
+
+#### Question 3: 
+Now try the following, multiply `A` by `C_inv` on the left and `C` on the right.  What do you notice about the values off diagonal? 
+
+Try using the following comparison to see how close the elements are to the value zero,
+```{r, eval=FALSE}
+abs(product) <= ones(3) * 10e-14
+```
+
+Take the diagonal elements of the product above and find the absolute difference of these from the eigenvalues of `A`. What do you notice about the result.
+
+##### Solution:
+
+```{r}
+product <- C_inv %*% A %*% C
+product
+abs(product) <= ones(3) * 10e-14
+```
+This is numerically a diagonal matrix, with a zero also in the last diagonal position.
+
+If we take the absolute difference of the diagonal with the eigenvalues, we get
+```{r}
+abs(diag(product) - e_decomp$values)
+```
+We see that these are indeed the eigenvalues.  Multiplying on the left and right as above gave a change of coordinates to the diagonal form of the transformation represented by `A`.
+
+
+
+### Activity 2: Linear inverse problem
+
+#### Question 1:
+Suppose this matrix `A` from activity 1 defines a linear inverse problem for an unknown vector $\mathbf{x}$ and an observed vector,
+```{r}
+b <- zeros(3,1)
+b
+```
+
+Is there any vector $\mathbf{x}$ that satisfies,
+$$\mathbf{A} \mathbf{x} = \mathbf{b}?$$
+Why does such a choice exist or why not?
+
+##### Solution:
+Note that in this case, even though an inverse of `A` does not exist, the zero eigen value of `A` means that any scalar times this eigenvector is a solution:
+```{r}
+A %*% e_decomp$vectors[,3]
+```
+
+#### Question 2:
+Set a random seed to be equal to zero and generate a 4-by-4 dimension matrix with entries given by a sample size $n=16$ from the standard normal.  Suppose that this defines the relationship between the observed variable
+```{r}
+b <- ones(4,1)
+```
+and an unknown vector $\mathbf{x}$ as,
+$$\mathbf{A}\mathbf{x}= \mathbf{b}.$$
+
+Does any `x` as above exist?  If one does find the solution.  Explain why the solution exists or not due to the eigenvalues of the matrix.
+
+
+##### Solution:
+```{r}
+set.seed(0)
+A <- matrix(rnorm(16), nrow=4, ncol=4)
+det(A)
+```
+Notice, the determinant is non-zero and therefore the eigenvalues,
+```{r}
+eigen(A)
+```
+are all non-zero. Therefore an inverse exits and we can compute
+```{r}
+solve(A, b)
+```
+
