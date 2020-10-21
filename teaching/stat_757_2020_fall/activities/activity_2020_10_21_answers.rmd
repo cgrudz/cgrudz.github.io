@@ -1,0 +1,125 @@
+# Activity 10/21/2020
+
+## STAT 757 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+```{r}
+require("faraway")
+```
+
+
+### Activity 1:
+
+Recall in the `teengamble` data, we earlier studied a form of the model as follows:
+```{r}
+lmod <- lm(gamble ~ sex*income, teengamb)
+```
+
+#### Question 1:
+Plot the residuals versus fitted values for `lmod` as above.  Plot the Gaussian kernel density of the residuals. Also run the q-q plot.  What do you notice from these diagnostic plots?  What is the implication of these two plots for the solution by least squares?
+
+##### Solution:
+```{r}
+res <- residuals(lmod)
+fitted <- lmod$fitted
+plot(fitted, res, main="Fitted versus residuals in teengamb data", xlab="Fitted value Y-hat", ylab="Residual value")
+```
+
+This gives a clear indication of increasing variance in the residuals versus the fitted values, i.e., for larger gambling expenditure, the variation in the signal appears to be increasing.  This can also be seen in our earlier plot of the data,
+```{r}
+require(plyr)
+require(ggplot2)
+require(data.table)
+teengamb_alt <- copy(teengamb)
+tg_sex <- as.factor(teengamb$sex)
+tg_sex <- revalue(tg_sex, c("0"="Male", "1"="Female"))
+teengamb_alt$sex <- tg_sex
+ggplot(data=teengamb_alt, aes(x=income, y=gamble, color=sex)) + geom_point() + geom_smooth(method='lm') + facet_wrap(~ sex) +
+  labs(
+    x="Income - pounds per week",
+    y="Gambling expenditure - pounds per year",
+    title="Teen gambling expenditures in the UK",
+    color="Sex"
+  )
+```
+
+where especially among male participants, the gambling expenditure of an individual appears to have increasing variation in the cases with respect to the income.
+
+```{r}
+plot(density(res, kernel="gaussian"), main="Gaussian kernel density of model residuals")
+qqnorm(scale(res))
+qqline(scale(res))
+```
+
+The q-q plot above indicates very heavy tails, so that the Gaussian error assumption is not appropriate.
+
+#### Question 2:
+Subset the residuals into male and female cases.  We would like to see if the it will be appropriate to test for the differences in the variance of the residuals between these two subsets.  Using q-q plots and the Shapiro-Wilk test, is it appropriate to make a test for variances?
+
+#### Solution:
+```{r}
+male_res <- res[teengamb$sex == 0]
+female_res <- res[teengamb$sex == 1]
+qqnorm(scale(male_res))
+qqline(scale(male_res))
+qqnorm(scale(female_res))
+qqline(scale(female_res))
+```
+
+Notice that although we might better condition the male residuals by removing the extreme outlier on the right tail, the female subset is generally right skewed.  It will not be appropriate in this case to run a test on the comparison of variances.
+
+#### Question 3:
+
+Refit the model as follows:
+
+```{r}
+lmod <- lm(sqrt(gamble) ~ sex*income, teengamb)
+```
+Re-run the analysis of the residuals versus fitted to examine the effect of the scale transformation.
+
+
+##### Solution:
+Using the below, we re-analyze the residuals:
+
+```{r}
+res <- residuals(lmod)
+fitted <- lmod$fitted
+plot(fitted, res, main="Fitted versus residuals in teengamb data", xlab="Fitted value Y-hat", ylab="Residual value")
+plot(density(res, kernel="gaussian"), main="Gaussian kernel density of model residuals")
+qqnorm(scale(res))
+qqline(scale(res))
+```
+
+Notice that the scale transformation has largely fixed the overall issues in the model of non-constant variance in cases and the non-Gaussian error assumption.  We validate this as follows:
+```{r}
+shapiro.test(res)
+```
+
+#### Question 4:
+Re-subset and determine if we are in a position appropriate to use the two sample test for variances based on these subsets.
+
+#### Solution:
+```{r}
+male_res <- res[teengamb$sex == 0]
+female_res <- res[teengamb$sex == 1]
+qqnorm(scale(male_res))
+qqline(scale(male_res))
+shapiro.test(male_res)
+```
+In the above, we fail to reject the Gaussian error hypothesis.
+
+
+```{r}
+qqnorm(scale(female_res))
+qqline(scale(female_res))
+shapiro.test(female_res)
+```
+
+In the above, this is not as nicely behaved in the model as the male subjects due to the presence of some skewness of the data.  We should be cautious about reading too much into the test due to the apparent skewness, but we fail to reject the null hypothesis of Gaussian error distributions once again.  We run the two sample test of variances as,
+```{r}
+var.test(male_res,female_res)
+```
+and we notice that there is a significant presence of increased variance in the male cases versus the female cases.  This suggests a more appropriate approach may yet be to use weighted least squares, taking into account the variances of the respective sub-populations. We will return to this later in the course, and re-run our diagnostics to determine if this has the effect of better conditioning the model. 
