@@ -1,0 +1,171 @@
+# Activity 10/26/2020
+
+## STAT 757 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+```{r}
+require("faraway")
+```
+
+### Activity 1:
+
+#### Question 1:
+We will construct the following model on the `fat` data:
+```{r}
+lmod <- lm(brozek ~ age + weight + height + neck + chest + abdom + hip + thigh + knee + ankle + biceps + forearm + wrist, data=fat)
+summary(lmod)
+```
+
+We want to use the `plot` funtion on the model as well as our hypothesis testing to examine the hypotheses of Gaussian error distributions, non-constant variances and nonlinearity in the structure. Using the plot function, furthermore, what do you notice about the leverages and influence of various observations?  Does it appear that there is an erroneous piece of data of high leverage?  Why?
+
+##### Solution:
+We examine the model plot:
+```{r}
+plot(lmod)
+```
+
+By the residuals versus fitted values plots, we do not have strong evidence at the moment of nonlinearity or non-constant variances.
+
+By the Q-Q plot, we do not have strong evidence to reject the Gaussian error distribution assumption, which we formalize with the Shapiro-Wilk test:
+```{r}
+shapiro.test(residuals(lmod))
+```
+
+The influence plot, however, of residuals versus leverage give some indication that there are a few influential points, as well as a point of extremely high leverage.  We examine the extremely high leverage case as:
+```{r}
+hat_vals <- hatvalues(lmod)
+fat[hat_vals == max(hat_vals),]
+```
+and note that the value appears to be erroneous, as the height is listed as under 30 inches with weight over 200 lbs.
+
+### Question 2:
+Create a copy of the `fat` data with the obviously erroneous data removed.  Refit the model and repeat the diagnostics.  What do you notice about the flagged value for the largest Cook's distance in the influence plot?
+
+#### Solution:
+```{r}
+indx <- which(fat$height == min(fat$height))
+new_fat <- fat[-indx,]
+lmod <- lm(brozek ~ age + weight + height + neck + chest + abdom + hip + thigh + knee + ankle + biceps + forearm + wrist, data=new_fat)
+summary(lmod)
+plot(lmod)
+```
+
+```{r}
+summary(new_fat)
+new_fat[rownames(new_fat) =="39",]
+```
+
+This case in particular has very extreme values in the weight and associated variables.  
+
+### Question 3:
+We may consider that this very extreme case falls outside of the scope of our model, as we may be interested in more typical cases in the population when estimating the percent body fat. We will remove the very extreme case above and examine once again the cases that seem unrealistic.  Recall the meaning of the response variable -- is there anything concerning about the range of the values?  Remove the problematic case and repeat the diagnostics.
+
+
+
+#### Solution:
+
+```{r}
+new_fat <- new_fat[-39,]
+summary(new_fat)
+new_fat[new_fat$brozek <= 0.05,]
+```
+Here we also find an observation corresponding to $0\%$ bodyfat, which is unphysical for a living human.  We should probably also remove this observation.
+
+```{r}
+new_fat <- new_fat[new_fat$brozek != 0,]
+summary(new_fat)
+lmod <- lm(brozek ~ age + weight + height + neck + chest + abdom + hip + thigh + knee + ankle + biceps + forearm + wrist, data=new_fat)
+summary(lmod)
+plot(lmod)
+```
+
+Overall, this has better conditioned the residuals of the model where now there is slight evidence of a short-tailed distribution in the Q-Q plot, but it doesn't pose a serious issue for our hypothesis testing by the central limit theorem, and because,
+```{r}
+shapiro.test(residuals(lmod))
+```
+
+we do not have evidence of a strong departure from the Gaussian error assumption.
+
+### Question 4:
+Now systematically reduce the model into one in which all variables are significant.  Repeat the diagnostics.
+
+
+#### Solution
+```{r}
+summary(lmod)
+lmod <- update(lmod, . ~ . - weight)
+summary(lmod)
+lmod <- update(lmod, . ~ . - knee)
+summary(lmod)
+lmod <- update(lmod, . ~ . - ankle)
+summary(lmod)
+lmod <- update(lmod, . ~ . - biceps)
+summary(lmod)
+lmod <- update(lmod, . ~ . - hip)
+summary(lmod)
+lmod <- update(lmod, . ~ . - thigh)
+summary(lmod)
+lmod <- update(lmod, . ~ . - neck)
+summary(lmod)
+lmod <- update(lmod, . ~ . - forearm)
+summary(lmod)
+lmod <- update(lmod, . ~ . - chest)
+summary(lmod)
+plot(lmod)
+shapiro.test(residuals(lmod))
+```
+
+We note that in this case, we reject the hypothesis of Gaussian error distributions by the Shapiro-Wilk test.  However, given the sample size and the light-tailed nature of the residuals, we say we can cautiously put some faith in the hypothesis tests and confidence intervals as being good approximations.
+
+
+### Question 5:
+Use the `dfbeta` function to plot the changes of the parameter estimates with respect to excluding a single case -- do these parameter estimates evidence strong sensitivity to a single observation?
+
+##### Solution:
+
+```{r}
+summary(lmod)
+beta_sensitivity <- dfbeta(lmod)
+for (i in 1:length(beta_sensitivity[1,])) {
+  var_names <- colnames(beta_sensitivity)
+  plot(beta_sensitivity[,i], ylab=paste("Change in", var_names[i], "coef") )
+  abline(h=0)
+}
+```
+
+In this model, and with the erroneous values removed, the parameter estimates are fairly stable with respect to the magnitude of the effect.
+
+
+#### Question 6:
+Compute the sutdentized residuals and perform the hypothesis test for outliers using the t-test with each of:
+ 1. the usual $\alpha=5\%$ significance level for each test; and
+ 2. the Bonferroni corrected individual signficance level for each test.
+ 
+What do you notice about the difference between the results?
+
+##### Solution:
+
+The standard significance level is used below:
+
+```{r}
+stud <- rstudent(lmod)
+crit <- qt(.05, lmod$df.residual - 1)
+stud[abs(stud)  >= abs(crit)]
+```
+
+The Bonferroni corrected significance level is used below:
+
+```{r}
+stud <- rstudent(lmod)
+crit <- qt(.05/(length(new_fat[,1]) *2), lmod$df.residual - 1)
+stud[abs(stud)  >= abs(crit)]
+```
+
+We notice that in this problem, with a large number of observations, the standard significance level flags many observations as outliers due to the multiple hypothesis testing.  The Bonferroni corrected significance level does not flag any observation as an outlier, but this may also be overly conservative as with the high number of cases, the corrected individual significance level is
+```{r}
+.05/(length(new_fat[,1]) *2)
+```
+which is extremely small.
