@@ -1,0 +1,92 @@
+# Miderm 3
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+The solutions of this activity will give you the answers for the Midterm 3 assignment in Canvas. You will be given instructions in Canvas how to submit your answers to the below.  You may consult outside resources, but everyone is responsible for their own submission in Canvas and is expected to work independently.
+
+
+## Due: 11/13/2020 11:59 PM
+
+```{r}
+require("numDeriv")
+```
+
+## Section 1:
+
+Code Newton's method in multiple variables in R.
+
+Recall, Newton's method in multiple variables is given as follows:
+
+* Step 0: Identify the objective function $\mathbf{f}$ and the root value we are solving for, possibly redefining $\tilde{\mathbf{f}}(\mathbf{x}) = \mathbf{f}(\mathbf{x}) - \mathbf{b}$.  Here, $\mathbf{f}(\mathbf{x}),$ $\mathbf{x}$ and $\mathbf{b}$ all refer to vector values in $\mathbb{R}^n$.
+* Step 1: Set an initial guess `x_0`, a maximum number of iterations `max_iter` and an error tolerance `tol`.
+* Step 2: Compute each of $\tilde{\mathbf{f}}(\mathbf{x}_0)$ and $\nabla \tilde{\mathbf{f}}(\mathbf{x}_0)$.  **Note:** We should add a check in here if we have found a root already, and if there is no need to continue. I.e., if $$\parallel \tilde{\mathbf{f}}(\mathbf{x}_0) \parallel \leq tol,$$ break the function and return the root.
+* Step 3: Determine if $\nabla \tilde{\mathbf{f}}(\mathbf{x}_0)$ has an inverse matrix. Break the function and throw an error message if this is not the case; if an inverse is defined set $\mathbf{x}_1 = \mathbf{x}_0 - \left(\nabla \tilde{\mathbf{f}}(x_0)\right)^{-1}\tilde{\mathbf{f}}(\mathbf{x}_0)$
+* Step 4: If the number of iterations has exceeded `max_iter` or 
+$$\parallel \tilde{\mathbf{f}}(x_1) \parallel \leq tol,$$ 
+break the function and print the reason for completion, including the number of iterations spent.  Else, repeat steps 2 through 4 with $\mathbf{x}_0 = \mathbf{x}_1$.
+
+### Question 1:
+
+Provide your commented code so that it takes the arguments `x_0`, `max_iter` and `tol` as described above, such that it will return error and / or completion messages, along with the final value of `x_1` and the Euclidean norm 
+$$\parallel \tilde{\mathbf{f}}(\mathbf{x}_1)\parallel$$ 
+if the algorithm is successful.  Set default arguments for `max_iter = 100` and `tol=10e-14`.  Use the package `numDeriv` and *the appropriate kind of derivative $\nabla \mathbf{f}$ for this problem*.  This will strongly resemble the one-dimensional case but you need to bear in mind the slight differences.  Note, the Euclidean norm of a generic vector $\mathbf{v}$ can be calculated mathematically as 
+$$\parallel \mathbf{v}\parallel = \sqrt{\mathbf{\mathbf{v}}^\mathrm{T}\mathbf{\mathbf{v}}} = \sqrt{\sum_{i=1}^n \mathbf{v}_i^2}.$$
+You will have to include this step appropriately -- it is recommended to use the matrix multiplication / transpose version of this definition as this will work fairly generally with simple code.
+
+
+
+
+
+
+### Question 2:
+
+Define the following function $\mathbf{f}(x_1,x_2) = \begin{pmatrix}\cos(x_1)^2 \\  \sin(x_2)^2\end{pmatrix}$.  Use the following initial guesses with your code and output the messages.  The guesses are given as the columns of the following matrix for convenience.
+```{r}
+initial_conditions <- matrix(c(0, 0, 2, 2, (pi/2), pi, -pi, pi), nrow=2, ncol=4, byrow=FALSE)
+initial_conditions
+```
+
+
+
+
+## Section 2:
+
+Code a simple algorithm for Newton descent in R.  We will avoid many of the technicalities of the method and only focus on the main ideas, as they arise as an extension of the Newton's root finding method.
+
+Recall, the Newton descent method is given approximately as follows:
+
+* Step 1: Set an initial guess `x_0`, a maximum number of iterations `max_iter` and an error tolerance `tol`.
+* Step 2: Compute each of $\nabla f(\mathbf{x}_0)$ and $\mathbf{H}_f(\mathbf{x}_0)$.
+* Step 3: Determine if $\mathbf{H}_f(\mathbf{x}_0)$ has all positive eigenvalues.  You should compare these values versus a small positive value, `tol` will work here for simplicity. Break the function and throw an error message if this is not the case as there is not a guaranteed descent direction; if there are all positive eigenvalues then set $\mathbf{x}_1 = \mathbf{x}_0 - \left(\mathbf{H}_f(\mathbf{x}_0)\right)^{-1} \nabla f(\mathbf{x}_0)$.
+* Step 4: If the number of iterations has exceeded `max_iter` or if 
+ $$\parallel \mathbf{x}_1 - \mathbf{x}_2 \parallel \leq tol,$$ 
+ break the function. 
+* Print the reason for completion, including the number of iterations spent, and the estimated minimum point $\mathbf{x}^\ast$ as well as the value $f(\mathbf{x}^\ast)$ if possible -- these respectively give the point at which $f$ attains a local minimum and what the local minimum value of $f$ actually is.  Else, repeat steps 2 through 4 with $\mathbf{x}_0 = \mathbf{x}_1$.
+
+Note, it is recommended that you define the quantity, `delta <- x_1 - x_0`.  With this quantity, you can again evaluate the condition of the Euclidean norm
+$$\parallel \mathbf{x}_1 - \mathbf{x}_2 \parallel = \parallel \boldsymbol{\delta} \parallel \leq tol.$$ 
+This condition indicates that further steps don't make very much difference in the change of the estimated minimum point.  *We are not targeting a known value with this method* as we did in Newton's root finding method.  In the root finding method, we have a known $\mathbf{b}$ that we want to solve for (possibly $\mathbf{b} = \boldsymbol{0}$).  However, in finding a local minimum, we are searching for what this value might be, so we do not have a value to compare against here by default.
+
+### Question 3:
+
+Provide your commented code so that it takes the arguments `x_0`, `max_iter` and `tol` as described above, such that it will return error and / or completion messages, along with the final value of `x_1` and the Euclidean norm of 
+$$\parallel \mathbf{x}_1 - \mathbf{x}_0 \parallel = \parallel \delta \parallel $$ 
+if the algorithm is successful.  Set default arguments for `max_iter = 100` and `tol=10e-7`.  Use the package `numDeriv` and *the appropriate kind of derivative $\nabla f$ and $\mathbf{H}_f$ for this problem*.  This will strongly resemble Newton root finding but you need to bear in mind the slight differences.
+
+
+### Question 4:
+
+Define the scalar valued function of two variables,
+$$f(x_1,x_2) = \cos(x_1) + \sin(x_2)$$
+
+Use the following initial guesses with your code and output the messages.  The guesses are given as the columns of the following matrix for convenience.
+```{r}
+initial_conditions <- matrix(c(0, 0, 2, 2, 9, 4.5, -3, -1.5), nrow=2, ncol=4, byrow=FALSE)
+initial_conditions
+```
+
+
+
+### Question 5:
+Analytically compute the Hessian for the function in problem 4.  Use this to derive the regions in which the function is locally convex in terms of the eigenvalues of the Hessian.  Explain how this relates to the outputs in problem 4.
