@@ -23,7 +23,7 @@ Recall, Newton's method in multiple variables is given as follows:
 * Step 2: Compute each of $\tilde{\mathbf{f}}(\mathbf{x}_0)$ and $\nabla \tilde{\mathbf{f}}(\mathbf{x}_0)$.  **Note:** We should add a check in here if we have found a root already, and if there is no need to continue. I.e., if $$\parallel \tilde{\mathbf{f}}(\mathbf{x}_0) \parallel \leq tol,$$ break the function and return the root.
 * Step 3: Determine if $\nabla \tilde{\mathbf{f}}(\mathbf{x}_0)$ has an inverse matrix. Break the function and throw an error message if this is not the case; if an inverse is defined set $\mathbf{x}_1 = \mathbf{x}_0 - \left(\nabla \tilde{\mathbf{f}}(x_0)\right)^{-1}\tilde{\mathbf{f}}(\mathbf{x}_0)$
 * Step 4: If the number of iterations has exceeded `max_iter` or 
-$$\parallel \tilde{\mathbf{f}}(x_1) \parallel \leq tol,$$ 
+$$\parallel \tilde{\mathbf{f}}(\mathbf{x}_1) \parallel \leq tol,$$ 
 break the function and print the reason for completion, including the number of iterations spent.  Else, repeat steps 2 through 4 with $\mathbf{x}_0 = \mathbf{x}_1$.
 
 ### Question 1:
@@ -60,12 +60,12 @@ Recall, the Newton descent method is given approximately as follows:
 * Step 2: Compute each of $\nabla f(\mathbf{x}_0)$ and $\mathbf{H}_f(\mathbf{x}_0)$.
 * Step 3: Determine if $\mathbf{H}_f(\mathbf{x}_0)$ has all positive eigenvalues.  You should compare these values versus a small positive value, `tol` will work here for simplicity. Break the function and throw an error message if this is not the case as there is not a guaranteed descent direction; if there are all positive eigenvalues then set $\mathbf{x}_1 = \mathbf{x}_0 - \left(\mathbf{H}_f(\mathbf{x}_0)\right)^{-1} \nabla f(\mathbf{x}_0)$.
 * Step 4: If the number of iterations has exceeded `max_iter` or if 
- $$\parallel \mathbf{x}_1 - \mathbf{x}_2 \parallel \leq tol,$$ 
+ $$\parallel \mathbf{x}_1 - \mathbf{x}_0 \parallel \leq tol,$$ 
  break the function. 
 * Print the reason for completion, including the number of iterations spent, and the estimated minimum point $\mathbf{x}^\ast$ as well as the value $f(\mathbf{x}^\ast)$ if possible -- these respectively give the point at which $f$ attains a local minimum and what the local minimum value of $f$ actually is.  Else, repeat steps 2 through 4 with $\mathbf{x}_0 = \mathbf{x}_1$.
 
 Note, it is recommended that you define the quantity, `delta <- x_1 - x_0`.  With this quantity, you can again evaluate the condition of the Euclidean norm
-$$\parallel \mathbf{x}_1 - \mathbf{x}_2 \parallel = \parallel \boldsymbol{\delta} \parallel \leq tol.$$ 
+$$\parallel \mathbf{x}_1 - \mathbf{x}_0 \parallel = \parallel \boldsymbol{\delta} \parallel \leq tol.$$ 
 This condition indicates that further steps don't make very much difference in the change of the estimated minimum point.  *We are not targeting a known value with this method* as we did in Newton's root finding method.  In the root finding method, we have a known $\mathbf{b}$ that we want to solve for (possibly $\mathbf{b} = \boldsymbol{0}$).  However, in finding a local minimum, we are searching for what this value might be, so we do not have a value to compare against here by default.
 
 ### Question 3:
