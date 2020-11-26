@@ -145,12 +145,13 @@ x <- rnorm(n)
 ```
 Note, you will need to define your negative Gaussian log-likelihood function with the above code included directly in the function body as the first step in order to supply the sample to the method.  Specifically this should be a function like:
 ```{r eval=FALSE}
-neg_gauss_log_like <- function(mu){
+neg_gauss_log_like <- function(params){
   # for convenience, we will simply load the sample in the function itself
   set.seed(0)
   n <- 20
   x <- rnorm(n)
-  mu <- mu[1]
+  mu <- params[1]
+  sigma <- pamam[2]
   
   # define the negative log-likelihood of this sample in here and return the output below
 
