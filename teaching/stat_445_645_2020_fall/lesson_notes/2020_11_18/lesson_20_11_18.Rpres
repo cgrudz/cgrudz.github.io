@@ -1,0 +1,679 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+
+Regression part 1
+========================================================
+date: 11/18/2020
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+<blockquote>
+FAIR USE ACT DISCLAIMER:</br>
+This site is for educational purposes only.  This website may contain copyrighted material, the use of which has not been specifically authorized by the copyright holders. The material is made available on this website as a way to advance teaching, and copyright-protected materials are used to the extent necessary to make this class function in a distance learning environment.  The Fair Use Copyright Disclaimer is under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+</blockquote>
+
+
+========================================================
+
+<h2>Outline</h2>
+
+<ul>
+  <li>The following topics will be covered in this lecture:</li>
+  <ul>
+    <li>An introduction to regression</li>
+    <li>Simple linear regression</li>
+    <li>Multiple linear regression</li>
+    <li>Least squares solution</li>
+    <li>Basic hypothesis testing</li>
+    <li>Multiple regression in R</li>
+    <li>Goodness of fit</li>
+    </ul>
+</ul>
+
+========================================================
+## Introduction to regression
+
+* Regression models are extremely important in describing relationships between variables. 
+
+* Linear regression is a simple, but powerful tool in investigating linear dependencies. 
+
+  * It relies, however, on strict distributional assumptions in terms of how the relationship varies with respect to the regressors.
+  
+* Nonparametric regression models are widely used, because fewer assumptions about the data at hand are necessary. 
+
+* At the beginning of every empirical analysis, it is better to look at the data without assumptions about the family of distributions. 
+
+* Nonparametric techniques allow describing the observations and finding suitable models, when the sample size is sufficiently large and representative to explain the true population.
+
+
+========================================================
+### Introduction to regression
+
+* Regression models aim to find the most likely values of a dependent variable $Y$ for a set of possible values $\{x_i\}_{i = 1}^n$  of the explanatory variable $X$.
+
+* We write a proposal for how the variables $Y$ and $X$ vary together as
+
+  $$\begin{align}
+  Y = g(X) + \epsilon & & \epsilon \sim F_\epsilon ,
+  \end{align}$$
+
+* where $g(X)= \mathbb{E}\left[Y \vert X =x \right]$ is an arbitrary function. 
+
+* The $g(X)$ is included in the model with the intention of capturing the mean of the process that corresponds to a particular value of $X=x$.
+
+  * If we believed that $Y$ had no dependency on the value of $X=x$, we could simply model this with respect to the average of the measured $Y$.
+
+* The $\epsilon$ is a random noise term, representing variation around the deterministic part of the relationship.
+
+* The natural aim is to keep the values of the $\epsilon$ as small as possible;
+
+  * that is to reduce the overall variation around the signal so that $g(X)$, the systematic part, explains as much of the relationship as possible.
+  
+* Parametric models assume that the dependence of $Y$ on $X$ can be fully explained by a finite set of parameters and that $F_\epsilon$ has a prespecified form with parameters to be estimated.
+
+
+========================================================
+### Introduction to regression
+
+* Nonparametric methods do not assume any form: 
+
+  * neither for $g(X)$ nor for $F_\epsilon$, which makes them more flexible than the parametric methods. 
+  
+* The fact that nonparametric techniques can be applied where parametric ones are inappropriate prevents the nonparametric user from employing a wrong method. 
+
+* These methods are particularly useful in fields like quantitative finance, where the underlying distribution is in fact unknown. 
+
+* However, as fewer assumptions can be exploited, this flexibility comes with the need for more data.
+
+* Particularly, nonparametric methods can be of high variance in how they estimate the trend in the data.
+  
+  * This can leave the methods susceptible to overfitting when the sample size is not large enough to differentiate the noise due to sampling error versus the true population level trend.  
+
+
+========================================================
+
+<h2>Introducing linear models</h2>
+
+<div style="float:left; width:50%">
+<img style="width:100%", src="linear_model_1.png" alt="Image of 2-dimensional plot with one data point."/>
+</div>
+<div style="float:left; width:50%">
+<ul>
+  <li> In past mathematics courses, we have seen many examples of linear models.</li>
+  <li> Suppose that we wish to model a relationship between two variables, $x$ and $y$ to the left.</li>
+  <li> We will call $y$ a <b>dependent variable</b>, or the <b>response variable</b>.</li>
+  <li> On the other hand, we will call $x$ an <b>independent variable</b>, an <b>explanatory variable</b> or a <b>predictor variable</b> for the response.</li>
+  <li><b>Q:</b> can you propose a valid linear model for the relationship between the response and the predictor?</li>
+</ul>
+</div>
+
+========================================================
+
+<h3>Introducing linear models -- continued</h3>
+
+<div style="float:left; width:50%">
+<img style="width:100%", src="linear_model_1_b.png" alt="Image of 2-dimensional plot with one data point."/>
+</div>
+<div style="float:left; width:50%">
+<ul>
+  <li><b>A:</b> actually, any line that passes through the point is a valid linear model.</li>
+  <li>Particularly, this relationship is underconstrained and there exists infinitely many choices of linear models;</li>
+  <ul>
+    <li>given the current data, any choice is as valid as any other.</li>
+  </ul>
+</ul>
+</div>
+
+========================================================
+
+<h3>Introducing linear models -- continued</h3>
+
+<div style="float:left; width:50%">
+<img style="width:100%", src="linear_model_2.png" alt="Image of 2-dimensional plot with two data points."/>
+</div>
+<div style="float:left; width:50%">
+<ul>
+  <li><b>Q:</b> given the data on the left, can you propose a valid linear model for the relationship between $x$ and $y$?</li>
+</ul>
+</div>
+
+
+========================================================
+
+<h3>Introducing linear models -- continued</h3>
+
+<div style="float:left; width:50%">
+<img style="width:100%", src="linear_model_2_b.png" alt="Image of 2-dimensional plot with one data points with line connecting them."/>
+</div>
+<div style="float:left; width:50%">
+<ul>
+  <li><b>A:</b> given the data, there exists a unique choice of a linear model that describes the relationship between $x$ and $y$.</li>
+  <li> Suppose the points have the Cartesian coordinates $(x_1,y_1)$ and $(x_2,y_2)$.</li>
+  <li> Then we can write the change in $y$ from $y_1$ to $y_2$ over the interval $x_1$ to $x_2$ as,
+    $$\begin{align}
+    m \triangleq \frac{\left(y_2 - y_1\right)}{\left(x_2 - x_1\right)}.
+    \end{align}$$</li>
+  <li>Then suppose we want to predict the response $y$ at an unobserved value $x$ for the explanatory variable;</li>
+  <ul>
+    <li>our model for the response variable can be written as,
+      $$\begin{align}
+      & m = \frac{\left(y - y_1\right)}{\left(x - x_1\right)} \\
+      \Leftrightarrow & y = m*x + \left(y_1 - m * x_1\right)
+      \end{align}$$
+  </ul>
+</ul>
+</div>
+
+========================================================
+
+<h3>Introducing linear models -- continued</h3>
+
+<div style="float:left; width:50%">
+<img style="width:100%", src="linear_model_3.png" alt="Image of 2-dimensional plot with three data points."/>
+</div>
+<div style="float:left; width:50%">
+<ul>
+  <li>Let's suppose that we are given the observed data on the left, with two values of the response $y$ observed with the same value of the explanatory variable $x$.</li>
+  <li>Let's suppose that we know there is measurement error in the response variable $y$, but we have the same level of confidence (or inversely, the same level of uncertainty) in each measurement.</li>
+  <li><b>Q:</b> given the data, can you propose a linear model that describes the relationship between $x$ and $y$?</li>
+</ul>
+</div>
+
+========================================================
+
+<h3>Introducing linear models -- continued</h3>
+
+<div style="float:left; width:50%">
+<img style="width:100%", src="linear_model_3_b.png" alt="Image of 2-dimensional plot with three data points and line fit with least-squares."/>
+</div>
+<div style="float:left; width:50%">
+<ul>
+  <li><b>A:</b> given the data, if the relationship is purely deterministic, there is no possible linear model to define;</li>
+  <ul>
+    <li>indeed, in a deterministic setting, this represents an overconstrained model for which there is no solution.</li>
+  </ul>
+  <li>However, because we know that there is <b>random error</b>, one reasonable choice may be to "fit" a line that passes equi-distant between the two observed values of $y$ for the single value of $x$.</li>
+<li> If we were to take many replicates (repeated measurements) of $y$ at the same point $x$, we would expect that <b>on average</b> we would recover the "true" relationship without error fitting the line this way.</li>
+<li>This underlies the fundamental motivation for simple linear regression.</li>
+</ul>
+</div>
+
+========================================================
+
+<h3>Introducing linear models -- continued</h3>
+
+<div style="float:left; width:50%">
+<img style="width:100%", src="scatter_plot.png" alt="Image of 2-dimenssional scatter plot of year-end evaluation score versus midyear evaluation."/><p style="text-align:center"> Courtesy of: Kutner, M. et al. Applied Linear Statistical Models 5th Edition</p>
+</div>
+<div style="float:left; width:50%">
+<ul>
+  <li>More generally we might suppose that, instead of measurement errors, the relationship itself is not deterministic.</li>
+  <ul>
+    <li>We will suppose that there is some systematic way in which two variables $x$ and $y$ change together, but this is a relationship with natural variability.</li>
+  </ul>
+  <li>In the (hypothetical) example on the left, we plot the year-end performance evaluation of employees at a company, versus their midyear evaluation.</li>
+<li> We see that there is a general "tendency" in the plot, where higher midyear evaluations tend to correspond to higher year-end evaluations.</li>
+<li>However, we do not believe that the relationship is causal; </li>
+  <ul>
+    <li>indeed, one would only need to work half of the year to recieve good year-end evaluations if this were the case.</li>
+  </ul>
+</ul>
+</div>
+
+========================================================
+
+<h3>Introducing linear models -- continued</h3>
+
+<div style="float:left; width:50%">
+<img style="width:100%", src="simple_regression.png" alt="Image of probability distribution for year-end evaluation score varying versus midyear evaluation."/><p style="text-align:center"> Courtesy of: Kutner, M. et al. Applied Linear Statistical Models 5th Edition</p>
+</div>
+<div style="float:left; width:50%">
+<ul>
+  <li>In order to model the observed tendency, we can approach the problem as before:</li>
+  <ul>
+    <li>we can "fit" a line to the data which will be drawn to a particular observation more or less strongly depending on the uncertainty of the data, or the natural variability.</li>
+  </ul>
+  <li>The line thus represents a statistical relationship, which describes the general tendency of the relationship between $x$ and $y$ in the data.</li>
+  <li> We will not suppose that $x$ causes the value of the response $y$, but that $x$ is useful for explaining or predicting a value of $y$ based on our model, with some level of uncertainty.</li>
+</ul>
+</div>
+
+
+========================================================
+
+<h3>Introducing linear models -- continued</h3>
+
+
+<div style="float:left; width:50%">
+<img style="width:100%", src="simple_regression_2.png" alt="Image of probability distribution for year-end evaluation score varying versus midyear evaluation."/><p style="text-align:center"> Courtesy of: Kutner, M. et al. Applied Linear Statistical Models 5th Edition</p>
+</div>
+<div style="float:left; width:50%">
+<ul>
+  <li>Formally, this postulates that:
+  <ol>
+    <li>  there is a probability distribution for the response variable $Y$ at each value of $X=x$;</li>
+    <li> and that the means of these probability distributions vary systematically with the value of $x$.</li>
+  </ol>
+  <li>The systematic part of this relationship is called the <b>regression function of $Y$ on $X$, or the regression curve</b>.</li>
+  <li><b>Note:</b> generally, we can extend this notion into higher dimensions.
+  <li>Also, while we will focus on normal distributions, this can be formulated for a variety of other distributions parameterized by regression function.</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li> With two predictors, $X$ and $Z$, the regression function describes how $Y$ varies systematically in response to two variables $X$ and $Z$ simultaneously.</li>
+  <li> In this case, we will postulate that there is a distribution for $y$ that has a mean which varies systematically in the $X-Z$ plane.</li>
+  <li> Will call a regression function with one predictor <b>simple regression</b>;
+  <ul>
+    <li>if the regression function includes more than one predictor, we call this a <b>multiple regression</b>.
+  </ul>
+</ul>
+</div>
+
+========================================================
+## Multiple linear regression
+
+* Considering again the general regression model,
+
+  $$\begin{align}
+  Y = g(X) + \epsilon & & \epsilon \sim F_\epsilon .
+  \end{align}$$
+
+* Our simplest relationship we can propose between quantitative variables: 
+  1. an explained variable $Y$; and 
+  2. explanatory variables $X_1 , \cdots , X_{p-1}$; 
+  
+* is the linear one. 
+  
+* This is to say namely the function $g(·)$ is linear.
+
+* It is of interest to study how Y varies with changes in the explanatory variables $X_1 , \cdots , X_{p-1}$, using individual observed measurements $\{y_i\}_{i=1}^n$ and $\{x_{ij} \vert i=1,\cdots,n; j=1,\cdots,p-1\}$.
+
+* The model, which is assumed to hold in the population, is written as
+
+  $$\begin{align}
+  Y = \beta_0 + \beta_1 X_1 + \cdots + \beta_{p-1} X_{p-1} + \epsilon
+  \end{align}$$
+  for some true and deterministic, but unknown collection of parameters $\{\beta_i\}_{i=0}^{p-1}$.
+
+* The variable $\epsilon$ is called the error term and represents all factors other than $X_1 ,\cdots , X_{p-1}$ that affect $Y$.
+
+* Generically, it is assumed that $\mathbb{E}\left[ \epsilon\right] = 0$ so that the mean of the random variable $Y$ is described conditionally as $\mathbb{E}\left[Y \vert X_1, \cdots, X_p \right] = \beta_0 + \beta_1 X_1 + \cdots + \beta_{p-1} X_{p-1}$.
+
+========================================================
+### Multiple linear regression
+
+* Let $\mathbf{Y} = \{y_i\}_{i=1}^n$  be a vector of observations of the response variables and
+
+  $$\begin{align}
+  \mathbf{X} = \{ x_{ij}\vert i=1,\cdots, n; j=1,\cdots p-1\}
+  \end{align}$$
+  be a matrix of tabular data, which we will associate with a data frame.
+  
+* That is, we will consider the rows of the matrix $\mathbf{X}$ to correspond to individual cases where $Y$ is observed associated to corresponding values of the $X_1, \cdots, X_{p-1}$.
+
+* The columns of the matrix $\mathbf{X}$ will thus correspond to the distinct explanatory variables $X_j$ that are observed in conjunction with the response variable.
+
+* In most cases, a constant is included by introducing a column of dummy variables $x_{i0} = 1$ for all rows $i$ in this matrix. 
+
+* The resulting data or design matrix, with the $0$-th column index vector of constant values $1$, is thus of shape $\mathbf{X}\in\mathbb{R}^{n\times p}$
+
+* The aim is to find a good linear approximation of $\mathbf{Y}$ using linear combinations of covariates
+
+ $$\begin{align}
+ \mathbf{Y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\epsilon}
+ \end{align}$$
+ where the above represents a matrix transformation of a vector of parameters $\boldsymbol{\beta}$ into the response variable, with error.
+
+========================================================
+### Multiple linear regression
+
+* With the values of $\{\beta_i\}_{i=0}^{p-1}$ unknown, this implies the need to choose some possible values to describe the relationship with some criterion for optimality.
+
+* For a particular choice of parameter vector $\hat{\boldsymbol{\beta}}$, we describe the estimated values of $\mathbf{Y}$ by the matrix equation
+
+  $$\begin{align}
+  \hat{\mathbf{Y}} = \mathbf{X} \hat{\boldsymbol{\beta}}
+  \end{align}$$
+
+* Let $y_i$ be a particular observed value, in the $i$-th row of the vector $\mathbf{Y}$.
+
+* By row-column multiplication, the above relationship describes the following estimate
+
+  $$\begin{align}
+  y_i \approx \hat{y}_i = \hat{\beta}_0 \times 1 + \hat{\beta}_1 \times x_{i,1} + \cdots + \hat{\beta}_{p-1} \times x_{i,p-1}
+  \end{align}$$
+  
+* This gives the estimated value of $y_i$ precisely as a linear combination of the observed values of the predictors, plus a constant adjustment term $\beta_0$ acting like the intercept of the simple regression model.
+
+* We suppose that the true relationship for this case is described as,
+
+  $$\begin{align}
+  y_i = \beta_0 \times 1 + \beta_1 \times x_{i,1} + \cdots + \beta_{p-1} \times x_{i,p-1} + \epsilon_i
+  \end{align}$$
+  where $\epsilon_i$ represents the particular variation that was observed in the process when we obtained the measurement $y_i$.
+  
+* Again, assuming that the random variable $\epsilon_i$ satisfies$\mathbb{E}\left[ \epsilon_i\right] = 0$, it can be understood that
+  
+  $$\begin{align}
+  \mathbb{E}\left[Y_i\vert X_{i,j}=x_{i,j}\right] = \beta_0 + \beta_1 x_{i,1} + \cdots + \beta_{p-1} x_{i,p-1}
+  \end{align}$$
+
+
+
+========================================================
+### Multiple linear regression
+
+* To estimate the appropriate parameters $\boldsymbol{\beta}$, the following least-squares optimization must be solved:
+
+  $$\begin{align}
+  \hat{\boldsymbol{\beta}} &= \mathrm{min}_{\boldsymbol{\beta}}f(\boldsymbol{\beta})\text{ where} \\ 
+  f(\boldsymbol{\beta}) &= \left(\mathbf{Y} - \mathbf{X}\boldsymbol{\beta}\right)^\mathrm{T} \left(\mathbf{Y}-\mathbf{X}\boldsymbol{\beta}\right) =  \left( \mathbf{Y} - \hat{\mathbf{Y}}\right)^\mathrm{T} \left(\mathbf{Y} - \hat{\mathbf{Y}}\right)= \hat{\boldsymbol{\epsilon}}^\mathrm{T}\hat{\boldsymbol{\epsilon}}
+  \end{align}$$
+  
+* In the above, like in optimization, we refer to 
+  
+  $$\hat{\boldsymbol{\epsilon}} = \mathbf{r}(\boldsymbol{\beta}) = \mathbf{Y} - \hat{\mathbf{Y}}$$ 
+  as the residual, measuring the difference between the observed reality and the prediction given the choice of the free variables.
+  
+* We saw, when discussing unconstrained optimization, that this problem is globally convex problem that has a unique solution given by the normal equations:
+
+  $$\begin{align}
+  \hat{\boldsymbol{\beta}} = \left(\mathbf{X}^\mathrm{T} \mathbf{X}\right)^{-1} \mathbf{X}^\mathrm{T} \mathbf{Y}
+  \end{align}$$
+  provided the column rank of $\mathbf{X}$ is of full dimension.
+  
+* Here, similar but different to the optimization approach, we are treating the observed explanatory variables $\mathbf{X}$ as the relationship that transmits the parameter values $\boldsymbol{\beta}$ as free variables into the prediction $\hat{\boldsymbol{Y}}$.
+
+* These approaches are deeply interrelated, and simply require slightly different interpretations based on the problem.
+
+* When the residual function, and the relationship between the free parameters and the prediction, is nonlinear, we must again consider iterative optimization procedures like Gauss-Newton.
+
+========================================================
+### Multiple linear regression
+
+  
+* The solution to the linear least squares problem 
+  
+  $$\begin{align}
+  \hat{\boldsymbol{\beta}} &= \mathrm{min}_{\boldsymbol{\beta}}f(\boldsymbol{\beta})\text{ where} \\ 
+  f(\boldsymbol{\beta}) &= \left(\mathbf{Y} - \mathbf{X}\boldsymbol{\beta}\right)^\mathrm{T} \left(\mathbf{Y}-\mathbf{X}\boldsymbol{\beta}\right) =  \left( \mathbf{Y} - \hat{\mathbf{Y}}\right)^\mathrm{T} \left(\mathbf{Y} - \hat{\mathbf{Y}}\right)= \hat{\boldsymbol{\epsilon}}^\mathrm{T}\hat{\boldsymbol{\epsilon}}
+  \end{align}$$
+  is called the (ordinary) least squares (OLS) estimator. 
+
+* Under the following conditions, the OLS estimator $\hat{\boldsymbol{\beta}}$ is by the Gauss–Markov theorem the best linear unbiased estimator (BLUE):
+
+  * $\mathbb{E}\left[\boldsymbol{\epsilon}\right] = \boldsymbol{0}$; and
+  * $\mathrm{cov}(\boldsymbol{\epsilon}) = \sigma^2 \mathbf{I}_n$.
+
+* By unbiased, we mean to say that $\hat{\boldsymbol{\beta}}$ is a random vector, that depends on the particular realization of $\boldsymbol{\epsilon}$;
+
+  * this being an unbiased estimator is thus $\mathbb{E}\left[\hat{\boldsymbol{\beta}} \right] = \boldsymbol{\beta}$.
+
+* Being the best estimator, is in the sense that for any other possible solution $\tilde{\boldsymbol{\beta}}$ for which $\mathbb{E}\left[\tilde{\boldsymbol{\beta}}\right]=\boldsymbol{\beta}$,
+  
+  $$\begin{align}
+  \mathrm{var}\left(\hat{\boldsymbol{\beta}}_i\right) \leq \mathrm{var}\left(\tilde{\boldsymbol{\beta}}_i\right)
+  \end{align}$$
+  so that it is the minimum variance estimator, among all linear unbiased estimators.
+
+* Practically, this means that, with respect to resampling, $\hat{\boldsymbol{\beta}}$ is the most precise estimate, that varies the least from the true values of $\boldsymbol{\beta}$.
+
+========================================================
+### Multiple linear regression
+
+* We noted that the least squares solution is the BLUE when
+
+  * $\mathbb{E}\left[\boldsymbol{\epsilon}\right] = \boldsymbol{0}$; and
+  * $\mathrm{cov}(\boldsymbol{\epsilon}) = \sigma^2 \mathbf{I}_n$.
+
+
+* The covariance of the estimator $\hat{\boldsymbol{\beta}}$ is shown to equal
+  $$\mathrm{cov}\left( \hat{\boldsymbol{\beta}}\right) = \sigma^2 \left(\mathbf{X}^\mathrm{T}\mathbf{X}\right)^{-1},$$
+  where $\sigma$ is the standard deviation of the error $\epsilon$.
+  
+* Additional assumptions are required to develop further inferences about $\hat{\boldsymbol{\beta}}$. 
+
+* Under a normality assumption, $\epsilon \sim  N(0, \sigma^2)$, the estimator $\hat{\boldsymbol{\beta}}$ has a normal distribution, i.e. 
+
+  $$\begin{align}
+  \hat{\boldsymbol{\beta}} \sim N\left(\boldsymbol{\beta}, \sigma^2 \left(\mathbf{X}^\mathrm{T}\mathbf{X}\right)^{-1}\right).
+  \end{align}$$
+  
+* However, even without normality of the error, the central limit theorem tells us that this is the asymptotic distribution in large sample sizes $n$.
+
+========================================================
+## Basic hypothesis testing
+
+* In practice, the error variance $\sigma^2$ is often unknown, but can be estimated by
+
+  $$\begin{align}
+  \hat{\sigma}^2 = \frac{\hat{\boldsymbol{\epsilon}}^\mathrm{T} \hat{\boldsymbol{\epsilon}}}{n-p}
+  \end{align}$$
+  
+* It can be shown that this estimate is independent of the parameter estimates $\hat{\boldsymbol{\beta}}$, and thus together
+
+  $$\begin{align}
+  \mathrm{cov}\left(\hat{\boldsymbol{\beta}}\right) \approx \hat{\sigma}^2 \left(\mathbf{X}^\mathrm{T}\mathbf{X}\right)^{-1}
+  \end{align}$$
+  is known as the standard error estimate, which can be used to describe how far $\hat{\boldsymbol{\beta}}$ tends to vary from its true mean value $\boldsymbol{\beta}$.
+  
+* Also, under a normal error assumption or asymptotically with the central limit theorem, this allows us to make hypothesis tests for the estimated parameters $\hat{\boldsymbol{\beta}}$.
+
+* Particularly, we are interested if $\beta_i$ may be equal to zero, rendering the response variable independent of the explanatory variable $X_i$.
+
+* Using the (possibly asymptotic) normal distribution of $\hat{\beta}_i$, we can create a t-test using the test statistic
+
+  $$\begin{align}
+  t_i = \frac{\hat{\beta}_i}{\hat{\sigma}_i} \sim t_{n-p}
+  \end{align}$$
+  under the null hypothesis, where $\hat{\sigma}_i$ is the $i$-th diagonal entry of the covariance matrix.
+  
+
+
+========================================================
+### Basic hypothesis testing
+
+* The t-test above is a simple and effective means to identify the usefulness of a particular variable $X_i$ in describing the trend in $Y$ as $X_i$ varies.
+
+  * However, the parameter estimate for $X_i$ will depend on the presence of the other variables $X_j$ in the model in general.
+
+* If we are interested in testing for several variables simultaneously, i.e.,
+
+  $$\begin{align}
+  H_0 :& \beta_{q} = \beta_{q+1}= \cdots = \beta_{p-1}=0  \\
+  H_1 :& \beta_0, \cdots, \beta_{p-1} \neq 0
+  \end{align}$$
+  we must use an F-test or an ANOVA to determine the simultaneous hypothesis test -- the individual t-test p-values cannot be combined to perform this test.
+  
+* Particularly, we can derive a test statistic of the form,
+
+  $$\begin{align}
+  F = \frac{\left(\hat{\boldsymbol{\epsilon}}^\mathrm{T}_\text{reduced model} \hat{\boldsymbol{\epsilon}}_\text{reduced model} - \hat{\boldsymbol{\epsilon}}^\mathrm{T}_\text{full model}\hat{\boldsymbol{\epsilon}}_\text{full model}\right)/\left(p-q\right)}{\left(n-p\right) / \left(n-q\right)}
+  \end{align}$$
+
+
+* We will look at an example of this with the `lm` function in R and the model summary.
+
+========================================================
+<h2>Multiple regression in R</h2>
+
+* We will now look at a concrete example of multiple regression from the Faraway package "gala" data set.
+
+```{r}
+library(faraway)
+str(gala)
+```
+
+* <b>Q:</b> how many observations $n$ do we have in this data set, and what is the largest $p$ number of parameters can we put into a model?
+
+* <b>A:</b> there are $n=30$ observations, and the largest number is $p=6 +1$ parameters (including an intercept and minus one for the response).
+
+========================================================
+### Multiple regression in R
+
+
+* In this case, there are 30 islands in the Galápagos with 7 variables -- each observation corresponds to a particular island:
+
+```{r}
+row.names(gala)
+```
+
+========================================================
+### Multiple regression in R
+
+* Recall, We can see some basic summary statistics with "summary"
+
+```{r}
+summary(gala)
+```
+
+========================================================
+### Multiple regression in R
+
+```{r}
+head(gala)
+```
+
+* The meaning of different variables can be found in the help file for the "gala" data using the command ```?gala```.
+
+* Species -- number of species found on the island
+* Endemics -- number of endemic species
+* Area -- the area of the island in km^2
+* Elevation -- the highest elevation of the island
+* Nearest -- the distance from the nearest island
+* Scruz --- the distance from Santa Cruz island
+* Adjacent -- the area of the adjacent island
+
+========================================================
+### Multiple regression in R
+
+* We will create a linear model now from scratch with the funciton ```lm()```
+
+```{r}
+lmod <- lm(Species ~ Area + Elevation + Nearest + Scruz + Adjacent,data=gala)
+```
+
+* Notice the code syntax:
+  - The first argument is the "Species", indicating that we have the number of species as our response variable $\mathbf{Y}$
+  - The ~ here separates the response variables from the explanatory variables.
+  - Finally, the keyword argument "data" indicates to the function to draw these variables all from the variable "gala"
+  - This is designed to resemble our  mathematical form for the model, where we may write,
+  
+  $$\begin{align}
+  \mathbf{Y}_{\mathrm{species}} = \beta_0 + \beta_{\mathrm{Area}}\mathbf{X}_{\mathrm{Area}} + 
+  \beta_{\mathrm{Elevation}}\mathbf{X}_{\mathrm{Elevation}} + \beta_{\mathrm{Nearest}}\mathbf{X}_{\mathrm{Nearest}} + \beta_{\mathrm{Scruz}}\mathbf{X}_{\mathrm{Scruz}} + \beta_{\mathrm{Adjacent}}\mathbf{X}_{\mathrm{Adjacent}}
+  \end{align}$$
+
+* Like in the simple regression model, we can see exactly how (for all other variables held fixed) the increase in, e.g., $\mathbf{X}_\mathrm{Area}$ by 1 $\mathrm{km}^2$  corresponds to an increase in the predicted mean function by $\beta_{\mathrm{Area}}$;
+
+  - Thus the $\beta$ values in multiple regression correspond again to the slope due to increase in a particular predictor.
+
+========================================================
+
+### Multiple regression in R
+
+  
+* What does our linear model look like?
+
+```{r}
+summary(lmod)
+```
+
+* The model summary contains the univariate t-test statistics in the left, and the F statistic for all parameters in the bottom.
+
+========================================================
+
+### Multiple regression in R
+
+* We can suppose we take a smaller version of the last model, only in terms of the area of the island, and we compare it with the larger model with a multiple parameter F test
+
+```{r}
+lm_simple <-  lm(Species ~ Area,data=gala)
+anova(lm_simple, lmod)
+```
+
+* Because the p-value for the F statistic is below $\alpha=5\%$, we have reason to reject the null hypothesis;
+
+  * that is, we have reason to believe that at least on of the additional variables (or some combination of them) gives more information about the trend in the number of species.
+
+========================================================
+
+### Multiple regression in R
+
+* We can obtain quantities of interest from the "lmod"
+```{r}
+names(lmod)
+lmod$coefficients
+lmod$residuals
+```
+
+========================================================
+
+### Multiple regression in R
+
+* However, linear models can be far from perfect
+
+```{r}
+predicted_Y <- lmod$fitted.values
+print(predicted_Y)
+```
+
+* <b>Q:</b> what appears to be at issue with our model?
+
+* <b>A:</b> in this example, the predicted values are un-physical, including negative numbers of species.
+
+* In practice, a great deal of the work will be identifying when the assumptions of the Gauss-Markov theorem fail to hold;
+
+  * when they fail to hold in practice, we will look for transformations of variables and alternative models for which the new system is better conditioned.
+
+
+========================================================
+## Goodness of fit
+
+* Even in the case of well-fitted models, it is not an easy task to select the best model from a set of alternatives. 
+
+* Often, a first consideration is the coefficient of determination $R^2$ or adjusted $R^2$. 
+
+* These values measure the ‘goodness of fit’ of the regression equation.
+
+* They represent the percentage of the total variation of the data explained by the fitted linear model. 
+
+* Consequently, higher values closer to 1 indicate a ‘better fit’ of the model, while low values closer to 0 may indicate a poor model.
+
+* It is important to know, that $R^2$ always increases with the number of explanatory variables added to the model even if they are irrelevant.
+
+* The adjusted $R^2$ is a modification using a penalty term on the number of explanatory variables used, and is given by
+
+  $$\begin{align}
+  R^2_a = 1 - \left(1 - R^2\right)\frac{n-1}{n-p}
+  \end{align}$$
+  
+* The penalty in the above helps prevent against overfitting because new parameters introduced to the model that do not contribute substantially to the fit of the model will reduce the adjusted $R^2$.
+
+========================================================
+### Goodness of fit
+
+* Noting again the model summary, we see the (multiple) $R^2$ is higher than the adjusted:
+
+```{r}
+summary(lmod)
+```
+
+* This can be useful to help determine a better choice among models, which we will discuss in the next part.
