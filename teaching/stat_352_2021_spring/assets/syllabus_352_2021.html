@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Introduction to Probability and Statistics</title>
+
+<style type="text/css">
+  
+  /* Whole document - standard notebook size and margins */
+  body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      max-width: 8.5in;
+      margin: auto;
+      background: #FFFFFF;
+      padding: 1in 1in 1in 1in;
+  }
+
+#customlist {
+  /* delete default counter */
+  list-style-type: none;
+  /* create custom counter and set it to 0 */
+  counter-reset: elementcounter;
+}
+
+#customlist>li:before {
+  /* print out "Section " followed by the current counter value */
+  content: "Section " counter(elementcounter) ":";
+  /* increment counter */
+  counter-increment: elementcounter;
+}
+  
+</style>
+
+
+
+
+
+<link href="data:text/css;charset=utf-8,%3Cstyle%20type%3D%22text%2Fcss%22%3E%0A%0A%0Abody%20%7B%0Afont%2Dfamily%3A%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Amax%2Dwidth%3A%208%2E5in%3B%0Amargin%3A%20auto%3B%0Abackground%3A%20%23FFFFFF%3B%0Apadding%3A%201in%201in%201in%201in%3B%0A%7D%0A%0Ah1%20%7B%0Afont%2Dsize%3A%2050px%3B%0Acolor%3A%20%23000000%3B%0Atext%2Dalign%3Acenter%3B%0Amargin%2Dbottom%3A15px%3B%0A%7D%0Ah1%2Bp%20%7B%0A%0Acolor%3A%20%23000000%3B%0Afont%2Dsize%3A%2020px%3B%0Aline%2Dheight%3A%202em%3B%0Amargin%2Dtop%3A%200%2E5em%3B%0Amargin%2Dbottom%3A%200em%20%21important%3B%0Atext%2Dalign%3A%20center%3B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0A%0Ah2%20%7B%0Acolor%3A%20%23000000%3B%0A%7D%0A%0Adt%20%7B%0Afloat%3A%20left%3B%0Aclear%3A%20left%3B%0Awidth%3A%2017%25%3B%0A%0A%7D%0Add%20%7B%0Amargin%2Dleft%3A%2017%25%3B%0A%7D%0Ap%20%7B%0Amargin%2Dtop%3A0%3B%0Amargin%2Dbottom%3A7px%3B%0A%7D%0A%0Ablockquote%20%7B%0Atext%2Dalign%3A%20left%3B%20%7D%0A%0Aa%20%7B%0Atext%2Ddecoration%3A%20none%3B%0Acolor%3A%20%231D5996%3B%0A%7D%0Aa%3Ahover%2C%20a%3Aactive%20%7B%0Abackground%2Dcolor%3A%20%231D5996%3B%0Acolor%3A%20%23FFFFFF%3B%0Atext%2Ddecoration%3A%20none%3B%0Atext%2Dshadow%3A%201px%201px%201px%20%23333%3B%0A%7D%0A%0Ahr%20%7B%0Acolor%3A%20%23A6A6A6%3B%0A%7D%0Atable%20%7B%0Awidth%3A%20100%25%3B%0Aborder%2Dcollapse%3Acollapse%3B%0Aborder%2Dspacing%3A0%3B%0Adisplay%3Atable%0A%7D%0Atable%2EminimalistBlack%20%7B%0Aborder%3A%203px%20solid%20%23000000%3B%0Awidth%3A%20100%25%3B%0Atext%2Dalign%3A%20left%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%2EminimalistBlack%20td%2C%20table%2EminimalistBlack%20th%20%7B%0Apadding%3A%205px%204px%3B%0A%7D%0Atable%2EminimalistBlack%20tbody%20td%20%7B%0Afont%2Dsize%3A%2015px%3B%0A%7D%0Atable%2EminimalistBlack%20thead%20%7B%0Abackground%3A%20%23CFCFCF%3B%0Abackground%3A%20%2Dmoz%2Dlinear%2Dgradient%28top%2C%20%23dbdbdb%200%25%2C%20%23d3d3d3%2066%25%2C%20%23CFCFCF%20100%25%29%3B%0Abackground%3A%20%2Dwebkit%2Dlinear%2Dgradient%28top%2C%20%23dbdbdb%200%25%2C%20%23d3d3d3%2066%25%2C%20%23CFCFCF%20100%25%29%3B%0Abackground%3A%20linear%2Dgradient%28to%20bottom%2C%20%23dbdbdb%200%25%2C%20%23d3d3d3%2066%25%2C%20%23CFCFCF%20100%25%29%3B%0Aborder%2Dbottom%3A%203px%20solid%20%23000000%3B%0A%7D%0Atable%2EminimalistBlack%20thead%20th%20%7B%0Afont%2Dsize%3A%2015px%3B%0Afont%2Dweight%3A%20bold%3B%0Acolor%3A%20%23000000%3B%0Atext%2Dalign%3A%20left%3B%0A%7D%0Atable%2EminimalistBlack%20tfoot%20%7B%0Afont%2Dsize%3A%2014px%3B%0Afont%2Dweight%3A%20bold%3B%0Acolor%3A%20%23000000%3B%0Aborder%2Dtop%3A%203px%20solid%20%23000000%3B%0A%7D%0Atable%2EminimalistBlack%20tfoot%20td%20%7B%0Afont%2Dsize%3A%2014px%3B%0A%7D%0A%0A%2Eanswer%5Fdiv%20%7B%0Awidth%3A100%25%3B%0Aheight%3A2in%3B%0Afloat%3Aleft%3B%0A%7D%0A%2Elong%5Fanswer%5Fdiv%7B%0Awidth%3A100%25%3B%0Aheight%3A3in%3B%0Afloat%3Aleft%3B%0A%7D%0A%0A%40media%20print%20%7B%0A%2Epagebreak%20%7B%20page%2Dbreak%2Dbefore%3A%20always%3B%20padding%2Dtop%3A1in%3B%0A%7D%20%7D%0Adiv%2Esolutions%20%2A%20%7B%0Acolor%3A%23000099%3B%0A%7D%0A%3C%2Fstyle%3E%0A" rel="stylesheet" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Introduction to Probability and Statistics</h1>
+
+
+
+<p>STAT 352 – Section 1002 <br> Instructor: Colin Grudzien</p>
+<div id="class-information" class="section level2">
+<h2>Class Information:</h2>
+<div id="class-times-spring-2021-monwed-400-pm---515-pm" class="section level3">
+<h3>Class times: Spring 2021 – MonWed 4:00 PM - 5:15 PM</h3>
+</div>
+<div id="final-project-due-monday-may-10-430-pm" class="section level3">
+<h3>Final project due: Monday May 10, 4:30 PM</h3>
+</div>
+</div>
+<div id="instructor-information" class="section level2">
+<h2>Instructor information:</h2>
+<table class="minimalistBlack">
+<thead>
+<tr>
+<th>
+Contact
+</th>
+<th>
+Office
+</th>
+<th>
+Office Hours
+</th>
+</tr>
+</thead>
+<tr>
+<td>
+<a href="mailto:CGrudzien@unr.edu" class="email">CGrudzien@unr.edu</a>
+</td>
+<td>
+DMSC 218
+</td>
+<td>
+MonWed 5:15 - 6:00 PM on Zoom
+</td>
+</tr>
+<tr>
+<td>
+<ol start="775" style="list-style-type: decimal">
+<li>784-7554
+</td>
+<td>
+</td>
+<td>
+or by appointment
+</td>
+</tr>
+</table></li>
+</ol>
+</div>
+<div id="communication" class="section level2">
+<h2>Communication</h2>
+<p>Announcements and course updates will be posted in <a href="https://unr.canvaslms.com/login/canvas" target="blank">Webcampus</a>. Students are expected to keep up-to-date on the course by reading these announcements for important information on assignments, midterms, etc.</p>
+<div id="health-and-safety-updates" class="section level3">
+<h3>Health and safety updates</h3>
+<p>The University of Nevada, Reno publishes it’s information for students including important policy updates and forms in <a href="https://www.unr.edu/coronavirus/students" target="blank">this page</a>. Students are expected to keep up-to-date with official communications from the university regarding health and safety, and university policies.</p>
+</div>
+<div id="help-questions" class="section level3">
+<h3>Help &amp; Questions</h3>
+<p>The best way to contact the instructor is via email or message within Webcampus. Messages received before 16:00 during business days will usually get a response the same day. Emails received after 16:00 or during the weekend are not guaranteed a same-day response. Longer questions will not be answered by email and will be directed to appointments or office hours.</p>
+<p>The instructor will be <strong>available on Mondays and Wednesdays from 5:15 - 6:00 for public office hours and questions</strong>. If you cannot attend office hours or if you need to discuss something privately you can set an appointment with the instructor directly.</p>
+</div>
+<div id="netiquette" class="section level3">
+<h3>Netiquette</h3>
+<p>When communicating online, you should always:</p>
+<ul>
+<li><p>Treat your instructor and peers with respect, even in email or in any other online communication.</p></li>
+<li><p>Use clear and concise language. Be respective of readers’ time and attention.</p></li>
+<li><p>Remember that all college level communication should have correct spelling and grammar.</p></li>
+<li><p>Avoid slang terms and texting abbreviations.</p></li>
+<li><p>Use standard fonts that are optimized for online reading (e.g., sans serif) along with a consistent and readable size (12 or 14 pt.)</p></li>
+<li><p>Avoid using the caps lock feature AS IT CAN BE INTERPRETED AS YELLING.</p></li>
+<li><p>Limit and possibly avoid the use of emoticons. Not everyone knows how to interpret them.</p></li>
+<li><p>Be cautious when using humor or sarcasm as tone is sometimes lost in an email or written communication. Your message might be taken literally or offensively.</p></li>
+<li><p>Be careful sharing personal information online (both yours and other’s).</p></li>
+<li><p>Always be respectful of others’ opinions even when they differ from your own. When you disagree with someone, you should express your differing opinion in a respectful, non-critical way. (Corollary: Do not make personal or insulting remarks.)</p></li>
+<li><p>Be patient with yourself and others. Most people are facing unusual and difficult circumstances currently and everyone deserves some extra consideration.</p></li>
+</ul>
+</div>
+</div>
+<div id="course-description" class="section level2">
+<h2>Course description</h2>
+<div id="content" class="section level3">
+<h3>Content</h3>
+<p>This course is an introduction to the theory and practice of probability and statistics. The emphasis is on the language of probability statistics, including its essential ideas and concepts. We will discuss the foundations of probability theory, basic descriptive statistics, graphical representation of data, point and interval estimation, hypothesis testing, correlation, and regression analyses. Working with the R language will give you an opportunity to see how the concepts discussed in class are applied to the real data sets.</p>
+</div>
+<div id="catalog-description" class="section level3">
+<h3>Catalog description</h3>
+<p>Probability experiments; sample spaces, conditional probabilities, random variables, mathematical expectation, variance, Central Limit Theorem, confidence intervals, hypothesis testing and linear regression.</p>
+</div>
+<div id="prerequisites" class="section level3">
+<h3>Prerequisites</h3>
+<p>MATH 182 with a “C-” or better.</p>
+<div class="pagebreak">
+
+</div>
+</div>
+<div id="learning-outcomes" class="section level3">
+<h3>Learning outcomes</h3>
+<p>Upon completion of this course, students will be able to:</p>
+<ul>
+<li>Perform basic statistical analysis of a given data set, including summary statistics and plots, point estimation, confidence interval computation, and hypothesis testing.<br />
+</li>
+<li>Perform basic probability analyses using conditional probabilities, Bayes theorem, and Central Limit Theorem in a variety of practical situations.</li>
+<li>Construct and estimate models using correlation and linear regression techniques.</li>
+<li>Perform statistical analyses using a professional software package and prepare illustrated technical reports.</li>
+</ul>
+</div>
+<div id="structure-for-online-learning" class="section level3">
+<h3>Structure for online learning</h3>
+<p>Lectures will be delivered live in Zoom during our class times MonWed 4:00 - 5:15 PM. Recordings of lectures will be available to watch later in Zoom. Lecture notes will be available on the course archive, with links in Canvas modules. Book homework, quizzes and exams will be administered online through Canvas with the WileyPLUS package. DataCamp homework will be administered online through their site, but certificates of completion must be submitted to the Canvas assignment. One exam will require the use of Proctorio discussed below. Other Exams will be proctored through Zoom.</p>
+</div>
+</div>
+<div id="books-software-and-technology" class="section level2">
+<h2>Books, software and technology</h2>
+<div id="required-textbook" class="section level3">
+<h3>Required textbook</h3>
+<p><strong>Montgomery &amp; Runger, <i>Applied Statistics and Probability for Engineers</i>, 8th Edition.</strong></p>
+<p>To complete the assignments and to access course materials, you should access WileyPLUS, which is a digital learning platform integrated into Canvas. Please watch the <a href="https://players.brightcove.net/4931690914001/default_default/index.html?videoId=6177746485001">tutorial video</a> on how to register your WileyPLUS course in Canvas. You can also purchase a WileyPLUS package from bookstore. A physical copy of the textbook is not required in this course. The online textbook comes free with any purchase option of WileyPLUS.</p>
+</div>
+<div id="required-software" class="section level3">
+<h3>Required software</h3>
+<p>In the first two weeks of class students must obtain a free educational license of <a href="https://www.datacamp.com/">DataCamp</a>, with instructions sent in an announcement by the instructor. DataCamp assignments will be used for extra credit in the course and are not required. However, <strong>the free license is only available in the first two weeks of class</strong>.</p>
+You will also need to install the following software for class assignments involving real data:
+<ul>
+<li>
+R is required for the class. Students can get an installation file from <a href="https://www.r-project.org/" target="blank">the R project (free and open source software)</a>.
+</li>
+<li>
+Students are required to install the editor <a href="https://rstudio.com/products/rstudio/download/" target="blank">RStudio Free Desktop Edition</a> for some class assignments.
+</li>
+<li>
+Students are also required to install <a href="https://www.latex-project.org/" target="blank">LaTeX (free typesetting language)</a>. This is required to compile R Markdown, and is the standard for writing mathematical and statistical reports and publications.
+</li>
+</ul>
+</div>
+<div id="technology" class="section level3">
+<h3>Technology</h3>
+By signing up for this class you acknowledge the responsibility to have access to:
+<ul>
+<li>
+A home desktop or home laptop computer that you can use for homework, quizzes exams, and that you <strong>can install statistical software on and download data to</strong>.
+</li>
+<li>
+A reliable internet connection to consistently attend class sessions, to access online class content or examination.
+</li>
+</ul>
+</div>
+</div>
+<div id="electronic-resources" class="section level2">
+<h2>Electronic resources</h2>
+<div id="web-campus" class="section level3">
+<h3><a href="https://wcl.unr.edu">Web Campus</a></h3>
+<p>Students are responsible for checking their email accounts and Web Campus for announcements. Students are assumed to be aware of all information posted to these sources prior to each meeting. <strong>Announcements, homework and grades will be posted in Web Campus.</strong></p>
+</div>
+<div id="course-archive-page" class="section level3">
+<h3><a href="https://cgrudz.github.io/teaching/stat_352_2021_spring/">Course archive page</a></h3>
+<p>This page includes an archive of lecture notes from the class, along with the current schedule for the semester.</p>
+</div>
+</div>
+<div id="assignments-and-grading" class="section level2">
+<h2>Assignments and grading</h2>
+<div id="book-homework" class="section level3">
+<h3>Book Homework</h3>
+<p>WileyPLUS homework assignments will be posted on Canvas each week and must be submitted online by the following week on Wednesday at 11:59 pm. At the end of the semester, two lowest book homework scores will be dropped.</p>
+</div>
+<div id="datacamp-homework" class="section level3">
+<h3>Datacamp Homework</h3>
+<p>DataCamp homework will be due every two weeks in the semester. These assignments will prepare you for using the R language and RStudio for our real-data assignments including the final project. This homework is graded by completion and you must submit your certificates of module completion to the assignment pages in Canvas.</p>
+</div>
+<div id="practice-quizzes" class="section level3">
+<h3>Practice Quizzes</h3>
+<p>Most weeks will include practice quizzes in which you will be asked questions that will resemble the questions presented in our midterms. These quizzes are not graded, but are meant to give you practice both with the content of the course and with the Canvas interface for the exams. You should treat these quizzes like they were real exams and use them as skill checks to see what areas you might need to improve on for the exams.</p>
+</div>
+<div id="midterms" class="section level3">
+<h3>Midterms</h3>
+<p>Compliance with the university policy for student identity verification in online courses, we have proctored exams. In this course, you will be required to complete the first test using the remote proctoring service, Proctorio. Proctorio gives you the flexibility to schedule exams at your convenience and take them whenever you want within the exam availability window. Students will be required to show identification in order to enter the exam and allow for the recording of the testing area via webcam and microphone. More information on setting up your proctored exam with Proctorio will be provided later. Visit UNR’s <a href="https://www.unr.edu/tlt/instructional-design/instructional-technology-resources/online-test-proctoring">Proctorio webpage</a> to learn more about using Proctorio.</p>
+<p>A standard scientific calculator and handwritten notes will be allowed on the exams. No other resources will be allowed on the exams and the user-session in Canvas will be monitored for leaving the exam window. Indications of using any electronic resources or communication with anyone but the instructor during the exams may be treated as a breach of the academic code of conduct.</p>
+</div>
+<div id="final-project-policy" class="section level3">
+<h3><a id="exam_policy"></a> Final project policy</h3>
+<p>The final project will involve solving problems in an R Markdown worksheet and submitting the worksheet with your work and your answers to a Canvas quiz. This project will be open-book, open-notes, but communication between a student an any other individual but the instructor about the project is prohibited. Any indications that a student has communicated about the project with anyone but the instructor may be treated as a breach of the academic code of conduct.</p>
+</div>
+</div>
+<div id="final-grades" class="section level2">
+<h2>Final grades</h2>
+<p>Final grades will be calculated according to the following: <br></p>
+<table class="minimalistBlack">
+<thead>
+<tr>
+<th>
+Category
+</th>
+<th>
+Percent of final grade
+</th>
+</tr>
+</thead>
+<tr>
+<td>
+DataCamp Homework Average
+</td>
+<td>
+<span class="math inline">\(20\%\)</span>
+</td>
+</tr>
+<tr>
+<td>
+Book Homework average
+</td>
+<td>
+<span class="math inline">\(20\%\)</span>
+</td>
+<tr>
+<td>
+Midterm 1
+</td>
+<td>
+<span class="math inline">\(20\%\)</span>
+</td>
+</tr>
+<tr>
+<td>
+Midterm 2
+</td>
+<td>
+<span class="math inline">\(20\%\)</span>
+</td>
+</tr>
+<tr>
+<td>
+Final Project
+</td>
+<td>
+<span class="math inline">\(20\%\)</span>
+</td>
+</tr>
+</table>
+<p><br> The final letter grade will be assigned according to the weighted score as in the following table:</p>
+<table class="minimalistBlack">
+<thead>
+<tr>
+<th>
+Weighted score <span class="math inline">\(x\)</span>
+</th>
+<th>
+Final letter grade
+</th>
+</tr>
+</thead>
+<tr>
+<td>
+<span class="math inline">\(93\% \leq x \leq 100\%\)</span>
+</td>
+<td>
+A
+</td>
+</tr>
+<tr>
+<td>
+<span class="math inline">\(90\% \leq x &lt; 93 \%\)</span>
+</td>
+<td>
+-A
+</td>
+</tr>
+<tr>
+<td>
+<span class="math inline">\(87\% \leq x &lt; 90\%\)</span>
+</td>
+<td>
+B+
+</td>
+</tr>
+<tr>
+<td>
+<span class="math inline">\(83\% \leq x &lt; 87\%\)</span>
+</td>
+<td>
+B
+</td>
+</tr>
+<tr>
+<td>
+<span class="math inline">\(80\% \leq x &lt; 83\%\)</span>
+</td>
+<td>
+B-
+</td>
+</tr>
+<tr>
+<td>
+<span class="math inline">\(77\% \leq x &lt; 80\%\)</span>
+</td>
+<td>
+C+
+</td>
+</tr>
+<tr>
+<td>
+<span class="math inline">\(73\% \leq x &lt; 77\%\)</span>
+</td>
+<td>
+C
+</td>
+</tr>
+<tr>
+<td>
+<span class="math inline">\(70\% \leq x &lt; 73\%\)</span>
+</td>
+<td>
+C-
+</td>
+</tr>
+<tr>
+<td>
+<span class="math inline">\(67\% \leq x &lt; 70\%\)</span>
+</td>
+<td>
+D+
+</td>
+</tr>
+<tr>
+<td>
+<span class="math inline">\(63\% \leq x &lt; 67\%\)</span>
+</td>
+<td>
+D
+</td>
+</tr>
+<tr>
+<td>
+<span class="math inline">\(60\% \leq x &lt; 63\%\)</span>
+</td>
+<td>
+D-
+</td>
+</tr>
+<tr>
+<td>
+<span class="math inline">\(0 \% \leq x &lt; 60\%\)</span>
+</td>
+<td>
+F
+</td>
+</tr>
+</table>
+</div>
+<div id="important-dates" class="section level2">
+<h2>Important dates</h2>
+<p>Please see the <a href="https://www.unr.edu/academic-central/academic-resources/academic-calendar##Spring%202020">UNR Academic Calendar</a> for important dates in the semester.</p>
+</div>
+<div id="late-policy-and-exceptions" class="section level2">
+<h2>Late policy and exceptions</h2>
+<p>There are no makeups for exams or homework except for university recognized activities or exceptional circumstances, as per university policy. To accommodate unforeseen circumstances, <strong>the lowest two book homework scores will be dropped from the final grade calculation</strong>.</p>
+<p>If a student needs to miss class due to participation in official university activities or a religious observance, they <strong>must make arrangements with the instructor at least one week prior to the date in question – the absence will not be given consideration without this advanced notice</strong>. In cases of absences due to extended illness, family emergency, bereavement, or other compelling reason, students should notify the instructor as soon as possible and <strong>within one week of the start of the absence</strong>. The instructor has the right to request formal, written documentation in such cases as they deem appropriate. Please see the <a href="https://www.unr.edu/administrative-manual/3000-3999-students/3020-class-absence-policy">full policy statement on absences</a>.</p>
+</div>
+<div id="extra-credit" class="section level2">
+<h2>Extra credit</h2>
+<p>No extra work will be given to earn extra points at any point during the semester. Do not email the instructor to request for extra work for extra credit.</p>
+</div>
+<div id="diversity-statement" class="section level2">
+<h2>Diversity statement</h2>
+<p>The University of Nevada, Reno is committed to providing a safe learning and work environment for all. Students are expected to treat each other and the instructor with respect. No form of harassment, discrimination or bullying will be tolerated. If you believe you have experienced discrimination, sexual harassment, sexual assault, domestic/dating violence, or stalking, whether on or off campus, or need information related to immigration concerns, please contact the University’s Equal Opportunity &amp; Title IX Office at (775) 784-1547. Resources and interim measures are available to assist you. For more information, please visit the <a href="https://www.unr.edu/equal-opportunity-title-ix">Title IX website for UNR</a></p>
+</div>
+<div id="disability-services" class="section level2">
+<h2>Disability services</h2>
+<p>Any student with a disability needing academic adjustments or accommodations is requested to speak with the Disability Resource Center (Pennington Student Achievement Center, Suite 230) as soon as possible to arrange for appropriate accommodations. More information can be found at the <a href="https://www.unr.edu/drc">DRC website</a>.</p>
+</div>
+<div id="academic-conduct" class="section level2">
+<h2>Academic conduct</h2>
+<p>No laptops, cell phones, mp3 players, or other electronics are to be used for personal reasons in class. If you are being disruptive during class you will be asked to leave. Disruptions in this context include inadequate participation. Please see our official <a href="https://www.unr.edu/student-conduct">Student Code of Conduct</a>.</p>
+</div>
+<div id="academic-success-services" class="section level2">
+<h2>Academic success services</h2>
+<p>A common habit among successful students is to seek help outside of the classroom. Your student fees cover use of the <a href="https://www.unr.edu/mathcenter">Math Center</a> (784-4433), <a href="https://www.%20unr.edu/tutoring-center">Tutoring Center</a> (784-6801), and <a href="https://www.unr.edu/writing-center">University Writing Center</a> (784-6030). These centers support your classroom learning; it is your responsibility to take advantage of their services.</p>
+</div>
+<div id="statement-on-audio-and-video-recording" class="section level2">
+<h2>Statement on Audio and Video Recording</h2>
+<p>Zoom meetings will generally be recorded and you will be asked for consent to be recorded to participate in these meetings. Surreptitious or covert video-taping of class or unauthorized audio recording of class is prohibited by law and by Board of Regents policy. This class may be videotaped or audio recorded only with the written permission of the instructor. In order to accommodate students with disabilities, some students may be given permission to record class lectures and discussions. Therefore, students should understand that their comments during class may be recorded.</p>
+</div>
+<div id="academic-dishonesty" class="section level2">
+<h2>Academic dishonesty</h2>
+<p>Cheating, plagiarism, or otherwise obtaining grades under false pretenses constitutes academic dishonesty according to the code of this university. Academic dishonesty will not be tolerated and penalties can include canceling a students enrollment without a grade or giving an F for the assignment or for the entire course. For more details, see the University of Nevada, Reno general catalog. The University Academic Standards Policy defines academic dishonesty, and mandates specific sanctions for violations. See the <a href="https://www.unr.edu/administrative-manual/6000-6999-curricula-teaching-research/instruction-research-procedures/6502-academic-standards">University Academic Standards policy: UAM 6,502</a>.</p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
