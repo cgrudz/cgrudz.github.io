@@ -1,0 +1,391 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+<!-- foo 
+Highlighting
+bold
+strong
+orange <b style="color:#d95f02"> text </b>
+green  <b style="color:#1b9e77"> text </b>
+purple <b style="color:#d24693"> text </b>
+red    <b style="color:#FF0000"> text </b>
+blue   <b style="color:#0000FF"> text </b>
+-->
+
+Sample spaces and events
+========================================================
+date: 01/27/2021
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+<blockquote>
+FAIR USE ACT DISCLAIMER:</br>
+This site is for educational purposes only.  This website may contain copyrighted material, the use of which has not been specifically authorized by the copyright holders. The material is made available on this website as a way to advance teaching, and copyright-protected materials are used to the extent necessary to make this class function in a distance learning environment.  The Fair Use Copyright Disclaimer is under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+</blockquote>
+
+
+========================================================
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+
+  * Random experiments 
+  * Discrete and Continuous Sample Spaces
+  * Events and set notation
+  * Permutations and combinatinos
+  
+========================================================
+## Random experiments
+
+<div style="float:left; width:60%"> 
+<ul>
+   <li>Suppose we conducting an experiment: measure the current in a thin copper wire.</li>
+   <li>The measurements can differ slightly because of small variations in variables that are not controlled in our experiment, e.g.:
+   </li>
+   <ul>
+     <li>changes in ambient temperatures;</li>
+     <li>slight variations in the gauge;</li>
+     <li>impurities in the chemical composition of the wire;</li>
+     <li>current source drifts; and/or</li>
+     <li>measurement errors.</li>
+   </ul>
+   <li>No matter how carefully an experiment is designed and conducted, the variation is almost always present</li>
+</ul>
+</div>
+
+<div style="float:right; width:40%; text-align:center" class="fragment">
+<img src="radom_experiment.png" style="width:100%" alt="Noise variables affect the transformation of inputs to outputs">
+<p style="text-align:center">
+Courtesy of Montgomery & Runger, <em>Applied Statistics and Probability for Engineers</em>, 7th edition
+</p>
+</div>
+
+<div style="float:left; width:80%; padding-left:10%">
+<ul style="list-style-type:none;">
+<p style="border:3px; border-style:solid; border-color:#287EC7; padding: 1em;" class="fragment">
+Our goal is to understand, quantify, and model the type of variations that we often encounter.
+</p>
+</ul>
+</div>
+
+<div style="float:left; width:100%"> 
+<ul>
+   <li>Ours models incorporate uncontrollable inputs (<b>noise</b>) that combine with the controllable inputs to produce the output of our system.</li>
+   <li>Because of the uncontrollable inputs, the same settings for the controllable inputs do not result in identical outputs every time the system is measured.</li>
+   </ul>
+</div>   
+
+========================================================
+### Random experiments 
+   
+<div style="float:left; width:100%"> 
+<ul style="list-style-type:none;">  
+<blockquote><b>Random experiment:</b>
+an experiment that can result in different outcomes, even though it is repeated in the same manner every time.
+</blockquote>
+</ul>
+</div>
+
+<div style="float:left; width:100%"> 
+<ul>
+<li>Example: in the design of a communication system, such as a voice
+communication network, the information capacity available to serve individuals using the network is an important design consideration.</li>
+<li>For voice communication, sufficient external lines need to be available to meet the requirements of a business.</li>
+<ul>
+   <li>Assuming each line can carry only a single conversation, how many lines should be purchased?</li>
+</ul>
+<li>If too <i>few lines</i> are purchased, calls can be
+<i>delayed or lost</i>.</li>
+<li>The purchase of too many lines increases costs.</li>
+<li>Increasingly, design and product development is required to meet customer requirements at a <i>competitive cost.</i></li>
+<li>In the design of the voice communication system, a model is needed for the number of
+calls and the duration of calls.</li>
+<li>Even knowing that, on average, calls occur every five minutes
+and that they last five minutes is not sufficient.</li>
+<ul>
+   <li>If calls arrived precisely at five-minute intervals and lasted for precisely five minutes, one phone line would be sufficient.</li>
+   <li>However, the <strong>slightest variation</strong> in call number or duration would result in some calls being blocked by others.</li>
+</ul>
+<li>A system designed without considering variation will be woefully inadequate for practical use.</li> 
+<li>Our model for the number and duration of calls <b>needs to include variation</b> as an integral component.</li>
+</ul>
+</div>
+
+
+========================================================
+### Sample spaces
+
+<blockquote>The set of all possible outcomes of a random experiment is called the <b>sample space</b> of the experiment. The sample space is denoted as $S$.
+</blockquote>
+
+* Consider an experiment that selects a cell phone camera and records the recycle time of a flash (the time taken to ready the camera for another flash).
+
+* Because the time is positive, it is convenient to define the sample space as simply the positive real line
+$$S=R^+ = \{x|\: x>0 \}$$
+
+* If it is known that all recycle times are between 1.5 and 5 seconds, the sample space can be
+$$S = \{x|\: 1.5 < x < 5 \}$$
+
+* If the objective of the analysis is to consider only whether the recycle time is low, medium, or high
+$$S=\{low,\:medium,\:high \}$$
+
+* If the objective is only to evaluate whether or not a particular camera conforms to a minimum recycle-time specification
+$$S=\{yes,\:no \}$$
+
+* The sample space $S$ depends on the kinds of measurements we are taking as above.
+
+========================================================
+### Discrete and Continuous Sample Spaces
+
+* A sample space is <b style="color:#1b9e77">continuous</b> if it contains an interval (either finite or infinite) of real
+numbers.
+
+  * Recall the camera flash example, $S = R^+$ is an example of a <b style="color:#1b9e77">continuous</b> sample space.
+  
+  * The <strong>unit of measurement</strong> can be arbitrarily sub-divided (seconds, miliseconds, etc.) and the measurement still makes sense.
+
+* A sample space is <b style="color:#d95f02">discrete</b> if it consists of a finite or countable infinite set of outcomes.
+
+  * Recall the camera flash example, $S = \{yes,\: no\}$ is a <b style="color:#d95f02">discrete</b> sample space.
+  
+  * The unit of measurement above <strong>cannot be arbitrarily sub-divided</strong> making the sample space discrete.
+
+* <b>The best choice of a sample space depends on the objectives of the study.</b>
+
+========================================================
+### Discrete and Continuous Sample Spaces
+
+
+* Suppose that the recycle times of <b>two</b> cameras are recorded.
+
+* The extension of the positive real line $R$ is to take the sample space to be the positive quadrant of the plane
+$$S=R^+ \times R^+$$
+
+* Measurements would come in pairs of time units, one piece of data for each camera.
+
+* If the objective of the analysis is to consider only whether
+or not the cameras conform to the manufacturing specifications, either camera may:
+
+  * (<i>yes=y</i>) conform; or 
+  
+  * may not conform (<i>no=n</i>) 
+
+* Then the sample space can be represented by the four outcomes:
+$$S=\{yy,yn,ny,nn\}$$
+
+* If we are interested only in the number of conforming cameras in the sample, then the sample space can be 
+$$S=\{0,1,2\}$$
+
+
+========================================================
+### Tree diagrams
+
+<div style="float:left; width:100%"> 
+<ul>
+<li>Consider an experiment in which cameras are tested until the flash recycle time fails to meet
+the specifications. The sample space can be represented as
+$$S=\{n, yn, yyn, yyyn, yyyyn, \text{and so forth}\}$$
+</li>
+<li>Sample spaces can also be described graphically with <strong>tree diagrams</strong> when a sample space can be constructed in several steps or stages.
+</li>
+<li>Each of the $n_1$ ways of completing the first step as a branch of a tree. 
+</li>
+<li>Each of the ways of completing the second step can be represented as $n_2$ branches <em>starting from the ends of the original branches</em>, and so forth.
+</li>
+<li><strong>EXAMPLE</strong>: messages in a communication system are classified as to whether they are received within the time specified by the system design. The following
+a tree diagram represents the sample space of possible outcomes for three messages.
+</li>
+</ul>
+</div>
+
+<div style="float:left; width:50%; text-align:center" class="fragment">
+<img src="tree_diagram.png" style="width:100%" alt="Tree diagram for three messages">
+<p style="text-align:center">
+Courtesy of Montgomery & Runger, <em>Applied Statistics and Probability for Engineers</em>, 7th edition
+</p>
+</div>
+
+<div style="float:left; width:50%"> 
+<ul>
+<li>Each message can be received either on time or late </li>
+<li>Stage 1: message 1 </li>
+<ul style="list-style-type:none;"><li>$n_1=2$ ways of completing message </li></ul>
+<li>Stage 2: message 2 </li>
+<ul style="list-style-type:none;"><li>$n_2=2$ ways of completing message </li></ul>
+<li>Stage 3: message 3 </li>
+<ul style="list-style-type:none;"><li>$n_3=2$ ways of completing message </li></ul>
+</ul>
+</div>
+
+
+
+========================================================
+### Events
+
+<div style="float:left; width:100%"> 
+<ul>
+<li><blockquote>An <b>event</b> is a subset of the sample space of a random experiment. </blockquote> </li>
+<li>Events are subsets, we can use basic set operations </li>
+<li>We can use <strong>Venn diagrams</strong> to represent a sample
+space and events in a sample space.</li>
+</ul>
+</div>
+
+<div style="float:left; width:33%; text-align:center" class="fragment">
+<b>Union</b> of two events is the event that consists of all outcomes that are contained in either of the two events.</br> Denoted $A \cup B$
+<img src="union.png" style="width:100%" alt="Venn diagram of two sets' union">
+</div>
+
+<div style="float:left; width:33%; text-align:center" class="fragment">
+<b>Intersection</b> of two events is the event that consists of all outcomes that are contained in both of the two events.</br>Denoted $A \cap B$
+<img src="intersection.png" style="width:100%" alt="Venn diagram of two sets' intersection">
+</div>
+
+<div style="float:left; width:33%; text-align:center" class="fragment">
+<b>Complement</b> of an event in a sample space is the set of outcomes in the sample space that are not in the event. </br>Denoted $A'$ or $A^c$
+<img src="complement.png" style="width:100%" alt="Venn diagram of complement set">
+</div>
+
+========================================================
+### Camera flash events
+
+<div style="float:left; width:100%"> 
+<ul>
+<li>Recall the camera flash example with sample space $S=\{yy,yn,ny,nn\}$.</li>
+<li>Suppose that the subset of outcomes for which at least one camera conforms is denoted as $E_1$
+$$E_1 = \{yy, yn, ny\}$$</li>
+<li>When the cameras do not conform, denote as event $E_2$, contains only the single outcome, $$E_2 = \{nn\}$$</li>
+<li>Other events are 
+   <ul>
+   <li>$E_3 = \emptyset$, the null set </li> 
+   <li>$E_4 = S$, the sample space </li> 
+   <li><b>Question:</b> If $E_5 = \{yn, ny, nn\}$, what is ...</li>
+      <ul>
+      <li>$E_1 \cup E_5 =$?</li> 
+      <ul>
+         <li>$E_1 \cup E_5 =S$</li>
+      </ul>
+      <li>$E_1 \cap E_5 =$?</li> 
+      <ul>
+         <li>$E_1 \cap E_5 =\{yn,ny\}$</li>
+      </ul>
+      <li>$E_1' =$?</li> 
+      <ul>
+         <li>$E_1' =\{nn\}$</li>
+      </ul>
+      <ul>
+   </ul>
+</li>
+</ul>
+</div>
+
+
+========================================================
+### Hospital Emergency Events
+
+<div style="float:left; width:45%; text-align:center" class="fragment">
+<img src="hospital_example.png" style="width:100%" alt="Chart of hospital emergency visits">
+<p style="text-align:center">
+Courtesy of Montgomery & Runger, <em>Applied Statistics and Probability for Engineers</em>, 7th edition
+</p>
+</div>
+
+<div style="float:left; width:55%"> 
+<ul>
+<li> <strong>EXAMPLE</strong>: the table on the left summarizes visits to emergency departments at four hospitals in Arizona;</li>
+<ul>
+   <li>people may leave without being seen by a physician, and those visits are denoted as <b>LWBS</b>.</li>
+</ul>
+<li>The remaining visits are serviced at the emergency department, and the visitor may or may not be admitted for a stay in the hospital.</li>
+<li>Let $A$ denote the event that a visit is to <b>hospital 1</b>, and let $B$ denote the event that the result of the visit is <b>LWBS</b>.</li>
+<li>Let's calculate the number of outcomes in $A\cap B$, $A'$, and $A \cup B$
+</li>
+</ul>
+</div>
+
+<div style="float:left; width:100%"> 
+<ul>
+<li><b>Q:</b> what is $A\cap B$?</li>
+<ul>
+<li>The event $A \cap B$ consists of the 195 visits to hospital 1 that
+result in LWBS. </li>
+</ul>
+<li><b>Q:</b> what is $A'$?</li>
+<ul>
+<li>The event $A'$ consists of the visits to hospitals
+2, 3, and 4 and contains 6991 + 5640 + 4329 = 16,960 visits.</li>
+</ul>
+<li><b>Q:</b> what is $A\cup B$?</li>
+<ul>
+<li> The event $A \cup B$ consists of the visits to hospital 1 or the
+visits that result in LWBS, or both, and contains 5292 + 270 +
+246 + 242 = 6050 visits.
+</ul>
+</li>
+<li>Notice that the last result can also be calculated as the number of visits in $A$ plus the number of visits
+in $B$ minus the number of visits $A \cap B$ (<strong>that would otherwise
+be counted twice</strong>) = 5292 + 953 − 195 = 6050.
+</li>
+</ul>
+</div>
+
+
+========================================================
+### Mutually Exclusive Events
+
+<div style="float:left; width:30%; text-align:center" class="fragment">
+<img src="mutually_exclusive.png" style="width:100%" alt="Venn diagram of mutually exclusive events">
+<p style="text-align:center">
+Courtesy of Montgomery & Runger, <em>Applied Statistics and Probability for Engineers</em>, 7th edition
+</p>
+</div>
+
+<div style="float:left; width:70%"> 
+<ul>
+<li> Two events, denoted as $E_1$ and $E_2$ , such that
+$$E_1 \cap E_2 = \emptyset$$
+are said to be <strong>mutually exclusive</strong>.
+</li>
+<li> This is visualized in the Venn diagram when there is no overlap between the events.</li>
+<li>Notice, if $E_1 \cap E_2 = \emptyset$, the issue of double-counting the intersection in $E_1\cup E_2$ no-long applies.</li>
+<ul>
+   <li>E.g., if $E_1$ represents all patients admitted to hospital 1 and $E_2$ represents all patients admitted to hospital 2, $E_1 \cup E_2$ can be counted by all the patients admitted to hospitals 1 and 2.</li>
+</ul>
+</ul>
+</div>
+
+<div style="float:left; width:100%"> 
+<ul>
+<li>Other properties of sets apply
+   <ul>
+   <li>Complement properties $$(E')' = E$$
+   </li>
+   <li>Commutative laws
+   $$A\cap B = B \cup A \;\;\text{and}\;\; A\cup B = B \cup A$$
+   </li>
+   <li>The distributive laws
+   $$(A\cup B)\cap C = (A\cap C) \cup (B\cap C) \;\;\text{and}\;\; (A\cap B)\cup C = (A\cup C) \cap (B\cup C)$$
+   </li>
+   <li>DeMorgan’s laws
+   $$(A\cup B)' = A'\cap B'\;\;\text{and}\;\;(A\cap B)'=A'\cup B'$$
+   </li>
+   </ul>
+</li>
+</ul>
+</div>
+
