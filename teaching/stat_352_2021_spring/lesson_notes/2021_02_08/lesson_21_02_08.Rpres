@@ -1,0 +1,478 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+<!-- foo 
+Highlighting
+bold
+strong
+orange <b style="color:#d95f02"> text </b>
+green  <b style="color:#1b9e77"> text </b>
+purple <b style="color:#d24693"> text </b>
+red    <b style="color:#FF0000"> text </b>
+blue   <b style="color:#0000FF"> text </b>
+-->
+
+Independence and Bayes' theorem
+========================================================
+date: 02/08/2021
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+<blockquote>
+FAIR USE ACT DISCLAIMER:</br>
+This site is for educational purposes only.  This website may contain copyrighted material, the use of which has not been specifically authorized by the copyright holders. The material is made available on this website as a way to advance teaching, and copyright-protected materials are used to the extent necessary to make this class function in a distance learning environment.  The Fair Use Copyright Disclaimer is under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+</blockquote>
+
+
+========================================================
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+
+  * Multiplication Rule
+  * Total Probability Rule 
+  * Independence
+  * Bayes' theorem
+
+
+========================================================
+## Intersections of Events and Multiplication Rule
+
+* Recall that last time we discussed the probability of the intersection of two events.
+* Let us suppose that $A$ and $B$ are events for which $P(A)\neq 0$ and $P(B)\neq 0$.</li>
+* Using the definition of conditional probability $$P(B|A)=\frac{P(A\cap B)}{P(A)}$$
+* We can solve for the intersection of events $$P(A \cap B) = P(B\vert A) P(A)$$</li>
+* Similarly, from the same definition of conditional probability we have 
+$$P(A|B)=\frac{P(A\cap B)}{P(B)}$$
+* which implies that $$P(A \cap B) = P(A\vert B) P(B)$$
+* We can provide a formula known as the <strong>multiplication rule</strong>
+<blockquote><b>Probability of an Intersection:</b>
+$$P(A \cap B) = P(B\vert A) P(A) = P(A\vert B) P(B) $$
+</blockquote>
+    
+========================================================
+## Intersections of Events -- example
+
+* <strong>EXAMPLE:</strong> The probability that the first stage of a numerically controlled machining operation for high-rpm pistons meets specifications
+is 0.90. 
+
+* Failures are due to metal variations, fixture alignment,
+cutting blade condition, vibration, and ambient environmental conditions. 
+
+* Given that the first stage meets specifications, the probability that a second stage of machining meets specifications is 0.95.
+
+* <b>Question:</b> Using the multiplication rule, 
+
+  $$P(A \cap B) = P(B\vert A) P(A) = P(A\vert B) P(B) $$
+  what is the probability that both stages meet specifications?
+
+  * Let the events be $A=$"first stage meets specifications" and $B=$"second stage meets specifications".
+  * The probability requested is $P(A \text{ and }B)$
+    * where $P(A)=0.90$
+    * and $P(B|A)=0.95$
+  * Using the <strong>multiplication rule</strong>, we get 
+    $$\begin{align}
+    P(A \cap B) &= P(B\vert A) P(A) \\
+                &= 0.95(0.90) = 0.855 
+      \end{align}$$
+      
+  * <em>Note:</em> although it is also true that $P(A \cap B) = P(A | B)P(B)$, the information provided in the problem does not match this second formulation.    
+
+
+========================================================
+## Total Probability Rule
+
+<div style="float:left; width:100%">
+<ul>
+  <li>So far we have described probabilities of events in terms of the probabilities of union or intersections of events, i.e.:</li>
+  <ul>
+    <li><b>Addition rule:</b> $P(A\cup B) = P(A) + P(B) - P(A\cap  B)$;</li>
+    <li><b>Conditional probability:</b> $P(A\vert B) = \frac{P(A\cap B)}{P(B)}$; and the</li>
+    <li><b>Multiplication rule:</b> $P(A\cap B) = P(A\vert B)P(B)$.</li>
+  </ul>
+  <li>What if we want to recover the probability of single event $P(B)$ given several conditions?</li>
+</ul>
+</div>
+
+<div style="float:left; width:35%"; class="fragment">
+<img src="total_prob.png" style="width:100%"  alt="Partitioning an event into two mutually exclusive subsets">
+<p style="text-align:center">
+Courtesy of Montgomery & Runger, <em>Applied Statistics and Probability for Engineers</em>, 7th edition
+</p>
+</div>
+
+<div style="float:left; width:65%">
+<ul>
+  <li>For any event $B$, we can write $B$ as the union of the part of $B$ in $A$ and
+the part of $B$ in $A′$. That is $$B=(A\cap B)\cup(A'\cap B)$$</li>
+  <li>Because $A$ and $A′$ are mutually exclusive</li>
+  <ul>
+    <li>$A \cap B$ and $A' \cap B$ are mutually exclusive</li>
+  </ul>
+  <li>So we can use the <strong>addition rule</strong> for mutually exclusive events as
+  $$\begin{align}
+  P(B)&=P((A\cap B)\cup(A'\cap B))\\
+      &=P(A\cap B)+P(A'\cap B)\end{align}$$</li>
+  <li>Using the <strong>multiplication rule</strong> on each term of $P(B)$ we get
+  $$P(B)=P(B|A)P(A)+P(B|A')P(A')$$</li>    
+</ul>
+</div>
+
+<div style="float:left; width:100%">
+<ul>
+  <li style="list-style-type:none"><blockquote style="width:100%" class="fragment">
+  <b>Total Probability Rule (Two Events)</b>
+  For any two events $A$ and $B$ 
+  <li style="list-style-type:none">$$\begin{align}
+  P(B)=P(B\cap A)+P(B\cap A')=P(B|A)P(A)+P(B|A')P(A')
+  \end{align}$$</li>
+  </blockquote></li>
+</ul>
+</div>
+
+========================================================
+## Total Probability Rule -- example
+
+<div style="float:left; width:40%"; class="fragment">
+<img src="example_contamination.png" style="width:100%"  alt="chip contamination example">
+<p style="text-align:center">
+Courtesy of Montgomery & Runger, <em>Applied Statistics and Probability for Engineers</em>, 7th edition
+</p>
+</div>
+
+<div style="float:left; width:60%">
+<ul>
+  <li>Suppose that in semiconductor manufacturing, the probability is 0.10 that a chip subjected to high levels of contamination during manufacturing has a product failure.</li>
+  <li>The probability is 0.005 that a chip <b>not subjected to high contamination levels</b> during manufacturing has a product failure.</li>
+  <li>In a particular production run, 20% of the chips are subject to high levels of contamination.</li>
+  <li><b>Question:</b> using the total probability rule
+  $$\begin{align}
+  P(B)=P(B\cap A)+P(B\cap A')=P(B|A)P(A)+P(B|A')P(A'),
+  \end{align}$$</li>
+</ul>
+</div>
+
+<div style="float:left; width:100%">
+<ul>
+  <li> what is the <b>total probability</b> of a <strong>chip failure</strong>?</li>
+  <li>Lets denote the events be $F=$"product fails" and $H=$"chip is exposed to high levels of contamination".</li>
+  <li>From the table we can extract some pieces of information</li>
+  <ul>
+    <li>$P(H)=0.2$ and $P(H')=0.8$</li>
+    <li>$P(F|H)=0.10$ and $P(F|H')=0.005$</li>
+  </ul>
+  <li>We can use the total probability rule on $P(F)$ in terms of conditional probabilities
+  $$P(F)=P(F|H)P(H)+P(F|H')P(H')$$</li>
+  <li>Then the probability that a product fails is
+  $$P(F)=0.10(0.20)+0.005(0.80)=0.024$$</li>
+</ul>
+</div>
+
+========================================================
+## Total Probability Rule (Multiple Events)
+
+<div style="float:left; width:50%">
+<img src="total_prob_multiple.png" style="width:100%"  alt="Partitioning an event into several mutually exclusive subsets">
+<p style="text-align:center">
+Courtesy of Montgomery & Runger, <em>Applied Statistics and Probability for Engineers</em>, 7th edition
+</p>
+</div>
+
+<div style="float:left; width:50%">
+<ul>
+  <li>In general, a collection of sets $E_1, E_2, \dots , E_k$ such that
+$$E_1 \cup E_2 \cup \dots \cup E_k = S$$ 
+  is said to be <b>exhaustive.</b></li>
+  <li>The left figure pictures a partitioning an event $B$ among a collection of <strong>mutually exclusive</strong> and <b>exhaustive</b> events.</li>
+  <li>We can  generalize the total probability rule for multiple events.</li>
+  <li>We will repeatedly apply the addition rule for mutually exclusive events
+  $$\begin{align}
+  P(A \cap B) = \emptyset &&\Rightarrow && P(A\cup B) = P(A) + P(B).
+  \end{align}$$
+  </li>
+  <li>Then we will repeatedly apply the multiplication rule on the intersections,
+  $$\begin{align}
+  P(A\cap B) = P(A\vert B) P(B)
+  \end{align}$$</li>
+</ul>
+</div>
+
+<div style="float:left; width:100%">
+  <li style="list-style-type:none"><blockquote>
+  <b>Total Probability Rule (Multiple Events)</b>
+  Assume $E_1, E_2, \dots , E_k$ are $k$ mutually exclusive and exhaustive sets. Then </br>
+  $$\begin{align}
+  P(B)&=P(B\cap E_1)+P(B\cap E_2)+\dots+P(B\cap E_k)\\
+      &=P(B|E_1)P(E_1)+P(B|E_2)P(E_2)+\dots+P(B|E_k)P(E_k)
+  \end{align}$$</blockquote></li>
+</ul>
+</div>  
+
+
+<!-- 2.7 -->
+
+========================================================
+## Independence
+
+<!-- From 152 on 02/03/2020 -->
+
+<ul>
+  <li>Closely related notions to the conditional probability are <b>independence</b> and <b>dependence</b> of events.</li>
+  <ul>
+    <li> <b>Dependence</b> -- two events are said to be <b>dependent</b> if the outcome of one event <strong>directly affects the probability of the other</strong>.</li>
+    <ul>
+      <li>In the earlier example, $A=$"snow in the Sierra" and $B=$"rain in my garden" are dependent events, because <strong>one occurring would affect the chance the other occurred</strong>.</li>
+      <li>However, <b>dependence</b> between events $A$ and $B$ <strong>does not mean that $A$ causes $B$ or vice versa</strong>.</li>
+      <li>Rain in my garden does not cause snow in the Sierra, but the probability of snow in the Sierra is larger if there is rain in my garden.</li>
+    </ul>
+    <li><b>Independence</b> -- two events are said to be <b>independent</b> if the outcome of either event has <strong>no impact on the probability of the other</strong>.</li>
+    <ul>
+      <li>When we think of events being <b>independent</b> we should think of events that are not related to each other</li>
+      <li>For example, if our random experiment is "what happens today?", $A=$"snow in the Sierra" and $B=$"coin flip heads" are <b>independent</b>, because <strong>neither outcome affects the other</strong>.</li>
+    </ul>
+  </ul>
+  <li>Mathematically, we can see the meaning of independence clearly by stating, <b>$A$ and $B$ are independent</b> by definition <strong>if and only if both of the following hold</strong>,
+  $$\begin{matrix}
+  P(A\vert B) = P(A) & \text{and}  & P(B\vert A) = P(B). 
+  \end{matrix}$$</li>
+  <li>In plain English, the above says
+  <blockquote>The probability of event $A$ does not change in the presence of $B$ and vice versa.</blockquote></li>
+  <li>Particularly, the outcome of $A$ or $B$ does not affect the other.</li> 
+</ul> 
+
+========================================================
+
+### Redundancy and the multiplication rule
+
+<ul>
+  <li>Machine systems in engineering are often designed with multiple, redundant safety features.</li>
+  <li>Particularly, if there are <strong>multiple, independent</strong> safety checks, we can reduce the probability of a catastrophic failure substantially.</li>
+  <li><strong>EXAMPLE</strong>: the Airbus 310 twin-engine airliner has <strong>three independent hydraulic systems</strong>  so that if one fails, another system can step in and maintain flight control.</li>
+  <li>For sake of example, we will assume that the <strong>probability of a randomly selected hydraulic system failing is $0.002$</strong>.</li>
+  <li><b>Question:</b> if the airplane had only one hydraulic system, what would be the probability that an airplane would be able to maintain control for the flight?</li>
+  <ul>
+    <li>Let event $A=$"hydraulic system fails" so that $A'=$"airplane maintains control".</li>
+    <li>We can then state,
+    $$P(A') = 1 - P(A) = 1 - 0.002 = 0.998.$$</li>
+  </ul>
+  <li><b>Question:</b> what is the probability that an airplane would be able to <strong>maintain control with the three independent hydraulic systems</strong>?
+  <ul>
+    <li>Let us denote $A_1=$"hydraulic system $1$ fails", $A_2=$"hydraulic system $2$ fails" and $A_3=$"hydraulic system $3$ fails".</li>
+    <li>The event where all hydraulic systems fail is given by,
+    $$\left(A_1\text{ and } A_2\text{ and } A_3\right)$$  
+    so that the airplane is able to maintain control in the complement of the above event:
+    $$\left(A_1\text{ and } A_2\text{ and } A_3\right)'.$$
+  </ul>
+</ul>
+
+
+========================================================
+
+### Redundancy and the multiplication rule continued
+
+<ul>
+  <li>We recall, the probability that a randomly selected hydraulic system fails is $0.002$ and the three systems are <b>independent</b>.</li>
+  <li>Therefore, we can use the multiplication rule as,
+  $$\begin{align}
+  P\left(A_1\text{ and } A_2\text{ and } A_3\right) &= P(A_1\text{ and } A_2\vert A_3) \times P(A_3)\\
+  &=P(A_1\text{ and } A_2) \times P(A_3) \\
+  &= P(A_1 \vert A_2) \times P(A_2) \times P(A_3) \\
+  & = P(A_1)\times P(A_2) \times P(A_3)
+  \end{align}$$
+  because <strong>each of the events are independent</strong>.</li>
+  <li>Finally, we can write,
+  $$P\left(\left(A_1\text{ and } A_2\text{ and } A_3\right)'\right) = 1 - P(A_1)\times P(A_2) \times P(A_3)= 1-0.002^3=0.999999998$$ </li>
+  <li>This shows how including <strong>multiple independent systems</strong> greatly improves the probability of success.</li>
+</ul>
+
+
+========================================================
+
+### Another way of writing independence
+
+<ul>
+  <li>What we saw in the last slide,
+  $$P(A_1 \text{ and } A_2 \text{ and } A_3) = P(A_1) \times P(A_2) \times P(A_3)$$
+  actually <strong>holds generally</strong> for <b>independent events</b>.</li>
+  <li>Let's suppose that $A$ and $B$ are <b>independent events</b> such that
+  $$\begin{align}
+  P(A\vert B) = P(A) && P(B\vert A) = P(B).
+  \end{align}$$</li>
+  <li>Consider the multiplication rule for the two <b>independent events</b> $A$ and $B$,
+  $$\begin{align}
+  P( A \text { and } B) &= P(A \vert B) \times P(B) \\
+  &=P(A) \times P(B),
+  \end{align}$$
+  using the independence assumption.</li>
+  <li>In fact, we can show that this <strong>holds for any number of independent events</strong>, re-using the argument above.</li>
+  <li>Let $A_1$, $A_2$, $A_3,$ $\cdots$ $A_n$ be any <strong>arbitrary list</strong> of <b>mutually independent events</b>.</li>  
+  <li>Then using the argument above $n$ times, we can show that,
+  $$P(A_1 \text{ and } \cdots \text{ and } A_n) = P(A_1) \times \cdots \times P(A_n).$$</li>
+  <li>The intuition of the following statement for independence
+   $$\begin{align}
+  P(A\vert B) = P(A) && P(B\vert A) = P(B)
+  \end{align}$$
+  is usually easier to interpret,</li>
+  <li>however, in practice, we will usually describe independence as 
+  <blockquote><b>Independence (multiple events)</b></br>
+  The events $A_1 , A_2 , ... , A_n$ are independent if and only if for any subset of these events
+  $$P(A_1 \cap \cdots \cap A_n) = P(A_1) \times \cdots \times P(A_n).$$</li>
+  <li>These two notions are in fact equivalent by the argument above.</blockquote></li>
+</ul>
+
+
+========================================================
+
+## Review of key concepts
+
+<ul>
+  <li>The most important concepts covered here are:</li>
+  <ul>
+    <li>how to join events $A$ and $B$ with our two operations,</li>
+    <ol>
+      <li><b>$A$  "or" $B$ / $A\cup B$</b> -- the case that $A$, $B$ or both $A$ and $B$ occur; and </li>
+      <li><b>$A$  "and" $B$ / $A \cap B$</b> -- the case that both $A$ and $B$ occur;</li>
+    </ol>
+    <li>how to take complements of events, and how the probabilities are related, e.g.,
+    $$P(A) + P\left(A'\right) = 1;$$</li>
+    <li>how to use the probability rules,
+    <ol>
+      <li><b>Addition rule</b> -- for the event $A$ <b>or</b> $B$,
+      $$P(A\cup B)= P(A) + P(B) - P(A \cap B);$$</li>
+      <li><b>Conditional probability</b> -- for the event $A$ given $B$,
+      $$P(A\vert B) = \frac{P(A\cap B)}{P(B)};$$</li>
+      <li><b>Multiplication rule</b> -- for the event $A$ <b>and</b> $B$,
+      $$P(A\cap B) = P(B\vert A) \times P(A);$$</li>
+    </ol>
+    <li>the notion of <b>independence</b> between events $A$ and $B$,
+    $$\begin{align}
+    P(A\vert B) = P(A) & & P(B\vert A) = P(B).
+    \end{align}$$
+    </li>
+    <li>and the <b>product rule for mutually independent events</b>:
+    <ul>
+    <li>let $A_1$, $A_2$, $A_3,$ $\cdots$ $A_n$ be any <strong>arbitrary list</strong> of <b>mutually independent events</b>, then
+  $$P(A_1 \text{ and } \cdots \text{ and } A_n) = P(A_1) \times \cdots \times P(A_n).$$</li>
+    </ul>
+  </ul>
+</ul>
+
+
+<!-- 2.8 -->
+
+========================================================
+## Bayes’ Theorem
+
+<ul>
+  <li>Let us suppose that $A$ and $B$ are events for which $P(A)\neq 0$ and $P(B)\neq 0$.</li>
+  <li>Consider the statement of the multiplication rule,
+  $$P(A \cap B) = P(A\vert B) P(B); $$
+  </li>
+  <li>yet it is also true that,
+  $$P(B \cap A) = P(B \vert A) P(A); $$</li>
+  <li>and $P( A \cap B) = P(B \cap A)$ by definition.</li>  
+  <li>Putting these statements together, we obtain,
+  $$\begin{align}
+  &P(A\vert B) P(B) = P(B \vert A ) P(A)\\
+  \Leftrightarrow & P(A \vert B) = \frac{P(B\vert A) P(A)}{ P(B)}  
+  \end{align}$$</li>
+  <li style="list-style-type:none"><blockquote>The statement that 
+  $$ P(A \vert B) = \frac{P(B\vert A) P(A)}{ P(B)} $$
+  is known as <b>Bayes' theorem</b> for $P(B)>0$.</blockquote></li>
+  <li>This is nothing more than re-writing the multiplication rule as discussed above, but the result is <em>extremely powerful.</em></li>
+  <li>Bayes' theorem wasn't widely used in statistics for hundreds of years, until advances in digital computers.</li>
+  <li>When digital computers became available, many tools became available using Bayes' theorem as the basis.</li>
+</ul>
+
+
+========================================================
+## Bayes' theorem continued
+
+<ul>
+  <li>Often, Bayes 
+  $$ P(A \vert B) = \frac{P(B\vert A) P(A)}{ P(B)} $$
+  is used as a way to <b>update the probability of $A$</b> when you have <strong>new information $B$</strong>.</li>
+  <ul>
+    <li>For example, let the events $A=$"it snows in the Sierra" and $B=$"it rains in my garden".</li>
+    <li>I might think there is a $P(A)$ <b>prior probability</b> for snow, without knowing any other information.</li>
+    <li>$P(A\vert B)$ is the <b>posterior probability</b> of snow in the Sierra given rain in my garden.</li>
+    <li>If I found out later in the day that there was rain in my garden, I could <strong>update $P(A)$ to $P(A\vert B)$</strong> by multiplying
+    $$P(A\vert B) = P(A) \times \left(\frac{P(B\vert A)}{P(B)}\right)$$
+    directly.</li>
+    <li>Although this is a simplistic example, this logic is the basis of many weather prediction techniques.</li>  
+  </ul>
+
+
+========================================================
+### Bayes' theorem example 1
+
+* <strong>EXAMPLE</strong>: suppose that 20% of email messages are spam. The word free occurs in 60% of the spam messages. 13% of the overall messages contain the word free.
+
+* <b>Question:</b> How can we use Bayes' theorem,
+  
+  $$P(A\vert B) = \frac{P(B\vert A) P(A)}{P(B)}$$
+  to compute the <b>probability of a message being spam</b>, <strong>given that it includes the word "free"</strong>?
+  
+  * Let the events be 
+    * $S=$ "message is spam" $$P(S)=0.2$$
+    * $F=$ "message contains the word free" $$P(F)=0.13$$
+  * We are looking for $P(S|F)$
+  * The probability of a message that has free in it <em>given</em> that is spam is $$P(F|S)=0.6$$
+  * From Bayes' theorem 
+    $$P(S|F)=\frac{P(F|S)P(S)}{P(F)}$$
+  * $$P(S|F)=\frac{0.6(0.2)}{0.13}=0.923$$
+ 
+========================================================
+
+### Bayes' theorem example 2
+
+<div style="float:left; width:40%"; class="fragment">
+<img src="example_contamination.png" style="width:100%"  alt="Table of high contamination levels during chip manufacturing">
+<p style="text-align:center">
+Courtesy of Montgomery & Runger, <em>Applied Statistics and Probability for Engineers</em>, 7th edition
+</p>
+</div>
+
+<div style="float:left; width:60%">
+<ul>
+  <li><strong>EXAMPLE</strong>: recall the chips subject to high levels of contamination. The information is summarized in  the table on the left.
+  <li><b>Question</b>: How can we use Bayes' theorem,
+  
+  $$P(A\vert B) = \frac{P(B\vert A) P(A)}{P(B)}$$ 
+  to find the conditional probability of a <b>high level of contamination present</b>, <strong>given that a failure occurred</strong>?</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <ul>
+    <li> Let the events be </li>
+    <ul>
+      <li>$H=$"chip is exposed to high levels of contamination" $$P(H)=0.20$$
+      <li>$F=$"product fails"</li>
+      <li>Earlier we computed $P(F)$ using the total probability rule as
+  $$P(F)=P(F|H)P(H)+P(F|H')P(H')=0.024$$ with 
+  $$P(F|H)=0.10 \text{ and } P(F\vert H') = 0.005$$</li>
+    </ul>
+    <li>The probability of $P(H | F)$ is determined from Bayes' theorem
+    $$\begin{align}
+    P(H|F)&=\frac{P(F|H)P(H)}{P(F)}
+          =\frac{0.10(0.20)}{0.024}=0.83\end{align}$$</li>
+  </ul>
+</ul>
+</div>
+    
