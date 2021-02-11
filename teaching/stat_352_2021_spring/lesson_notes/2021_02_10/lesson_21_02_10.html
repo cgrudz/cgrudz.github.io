@@ -1121,7 +1121,7 @@ Courtesy of Montgomery & Runger, <em>Applied Statistics and Probability for Engi
 
 <div style="float:left; width:60%">
 <ul>
-  <li class="fragment">The table on the left describes the sample space for the experiment and associated probabilities.</li>
+  <li class="fragment">The table on the right describes the sample space for the experiment and associated probabilities.</li>
   <li class="fragment">The random variable \( X \) denotes the number of cameras that pass the test.</li>
   <li class="fragment">The last column of the table shows the values of \( X \) assigned to each outcome of the experiment</li>
 </ul>
@@ -1214,67 +1214,6 @@ Courtesy of Montgomery & Runger, <em>Applied Statistics and Probability for Engi
   \end{cases}
   \end{align} \]</li>
   <li class="fragment">The <b style="color:orange">input</b> of the <b>probability mass function</b> is a <b style="color:orange">possible outcome for the random variable</b>, and the <b style="color:green">output is its associated probability</b>.</li>
-</ul>
-</div>
-
-</div>
-
-</section>
-<section data-transition="linear" data-transition-speed="default">
-
-<div class="slideContent noTitle" >
-<h3 class="fragment">Probability Mass function &ndash; example</h3>
-
-<div style="float:left; width:100%">
-<ul>
-  <li class="fragment"><strong>EXAMPLE</strong>: Let the random variable \( X \) denote the <b>number of semiconductor wafers</b> that need to be analyzed in order to detect a large particle of contamination.</li>
-  <li class="fragment">This is to say, we will examine wafers randomly and stop when we find one which has the contamination.</li>
-  <li class="fragment">Assume that the probability that a wafer contains a large particle is 0.01 and that the wafers are independent. </li>
-  <li class="fragment">Let&rsquo;s determine the probability distribution of \( X \).</li>
-  <ul>
-    <li class="fragment">Let \( p \) denote a wafer in which a large particle is present, and let \( a \) denote a wafer in which it is absent.</li> 
-    <li class="fragment">The sample space of the experiment is <b style="color:#1b9e77">infinite</b>, and it can be represented as all possible sequences that start with a string of \( a \)’s and end with \( p \).
-  </li>
-    <li class="fragment">That is \[ s = \{p, ap, aap, aaap, aaaap, aaaaap, \text{and so forth}\} \]</li>
-    <li class="fragment">Consider a few special cases. We have \[ P(X = 1) = P(p) = 0.01 \]</li> 
-    <li class="fragment">Also, using the independence assumption
-        \[ P(X = 2) = P(ap) = 0.99(0.01) = 0.0099 \]</li>
-    <li class="fragment">Similarly \[ \hspace{5cm}P(X = 3) = P(aap) = 0.99(0.99)(0.01) = 0.99^2(0.01) \]</li>
-    <li class="fragment">A general formula is 
-     \[ \begin{align}
-     P(X = x) &= P(\underbrace{aa\dots a}_{(x-1)a's}p)\\
-     P(X = x) &= 0.99^{x-1}(0.01), \text{for } x= 1,2,3,\dots
-     \end{align} \]</li>
-   </ul>
-</ul>
-</div>
-
-</div>
-
-</section>
-<section data-transition="linear" data-transition-speed="default">
-
-<div class="slideContent noTitle" >
-<h3 class="fragment">Probability distribution &ndash; example continued</h3>
-
-<div style="float:left; width:100%">
-<ul>  
-  <ul>
-    <li class="fragment">Our formula for the mass function is \( f(x_i)=P(X=x_i)=0.99^{x_i-1}(0.01) \)</li>
-    <li class="fragment">Clearly \( f (x_i) \geq 0 \).</li>
-    <li class="fragment">Lets check the sum of probabilities on our sample space 
-    \[ \sum_{i=1}^\infty f(x_i)=\lim_{x_i \rightarrow \infty} \sum_{x_i=1}^n  0.99^{x_i-1}(0.01) \]</li>
-    <li class="fragment">Set \( r=0.99 \). The series on the right-hand side is a geometric series (<b style="color:#d95f02">Calc 2</b>)
-    \[ \begin{align}
-    \sum_{i=1}^\infty f(x_i)&= (0.01) \sum_{x_i=1}^\infty r^{x_i-1}
-    \end{align} \] where \( |r|<1 \)</li>
-    <li class="fragment">The sum converges as \( x_i\rightarrow\infty \) 
-    \[ \begin{align}
-    \sum_{i=1}^\infty f(x_i)&= (0.01) \frac{1}{1-r} = (0.01)\frac{1}{1 - 0.99} =1 \end{align} \]</li>
-    <li class="fragment"><em>Practical Interpretation</em>: The random experiment here has an unbounded number of outcomes, but it can still be conveniently modeled with a discrete random variable with a (countably) infinite range.</li>
-    <li class="fragment">Likewise, if we take the union of all events that make up the sample space, \( s = \{p, ap, aap, aaap, aaaap, aaaaap, \text{and so forth}\} \),
-    \[ P(s) = \sum_{A \in s} P(A) =  \sum_{i=1}^\infty f(x_i)= (0.01) \sum_{x_i=1}^\infty r^{x_i-1} = 1 \]
-  </ul>
 </ul>
 </div>
 
