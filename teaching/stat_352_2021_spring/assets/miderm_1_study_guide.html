@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Midterm 1 Study Guide</title>
+
+<style type="text/css">
+  
+  /* Whole document - standard notebook size and margins */
+  body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      max-width: 8.5in;
+      margin: auto;
+      background: #FFFFFF;
+      padding: 1in 1in 1in 1in;
+  }
+
+#customlist {
+  /* delete default counter */
+  list-style-type: none;
+  /* create custom counter and set it to 0 */
+  counter-reset: elementcounter;
+}
+
+#customlist>li:before {
+  /* print out "Section " followed by the current counter value */
+  content: "Section " counter(elementcounter) ":";
+  /* increment counter */
+  counter-increment: elementcounter;
+}
+  
+</style>
+
+
+
+
+
+<link href="data:text/css;charset=utf-8,%3Cstyle%20type%3D%22text%2Fcss%22%3E%0A%0A%0Abody%20%7B%0Afont%2Dfamily%3A%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Amax%2Dwidth%3A%208%2E5in%3B%0Amargin%3A%20auto%3B%0Abackground%3A%20%23FFFFFF%3B%0Apadding%3A%201in%201in%201in%201in%3B%0A%7D%0A%0Ah1%20%7B%0Afont%2Dsize%3A%2050px%3B%0Acolor%3A%20%23000000%3B%0Atext%2Dalign%3Acenter%3B%0Amargin%2Dbottom%3A15px%3B%0A%7D%0Ah1%2Bp%20%7B%0A%0Acolor%3A%20%23000000%3B%0Afont%2Dsize%3A%2020px%3B%0Aline%2Dheight%3A%202em%3B%0Amargin%2Dtop%3A%200%2E5em%3B%0Amargin%2Dbottom%3A%200em%20%21important%3B%0Atext%2Dalign%3A%20center%3B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0A%0Ah2%20%7B%0Acolor%3A%20%23000000%3B%0A%7D%0A%0Adt%20%7B%0Afloat%3A%20left%3B%0Aclear%3A%20left%3B%0Awidth%3A%2017%25%3B%0A%0A%7D%0Add%20%7B%0Amargin%2Dleft%3A%2017%25%3B%0A%7D%0Ap%20%7B%0Amargin%2Dtop%3A0%3B%0Amargin%2Dbottom%3A7px%3B%0A%7D%0A%0Ablockquote%20%7B%0Atext%2Dalign%3A%20left%3B%20%7D%0A%0Aa%20%7B%0Atext%2Ddecoration%3A%20none%3B%0Acolor%3A%20%231D5996%3B%0A%7D%0Aa%3Ahover%2C%20a%3Aactive%20%7B%0Abackground%2Dcolor%3A%20%231D5996%3B%0Acolor%3A%20%23FFFFFF%3B%0Atext%2Ddecoration%3A%20none%3B%0Atext%2Dshadow%3A%201px%201px%201px%20%23333%3B%0A%7D%0A%0Ahr%20%7B%0Acolor%3A%20%23A6A6A6%3B%0A%7D%0Atable%20%7B%0Awidth%3A%20100%25%3B%0Aborder%2Dcollapse%3Acollapse%3B%0Aborder%2Dspacing%3A0%3B%0Adisplay%3Atable%0A%7D%0Atable%2EminimalistBlack%20%7B%0Aborder%3A%203px%20solid%20%23000000%3B%0Awidth%3A%20100%25%3B%0Atext%2Dalign%3A%20left%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%2EminimalistBlack%20td%2C%20table%2EminimalistBlack%20th%20%7B%0Apadding%3A%205px%204px%3B%0A%7D%0Atable%2EminimalistBlack%20tbody%20td%20%7B%0Afont%2Dsize%3A%2015px%3B%0A%7D%0Atable%2EminimalistBlack%20thead%20%7B%0Abackground%3A%20%23CFCFCF%3B%0Abackground%3A%20%2Dmoz%2Dlinear%2Dgradient%28top%2C%20%23dbdbdb%200%25%2C%20%23d3d3d3%2066%25%2C%20%23CFCFCF%20100%25%29%3B%0Abackground%3A%20%2Dwebkit%2Dlinear%2Dgradient%28top%2C%20%23dbdbdb%200%25%2C%20%23d3d3d3%2066%25%2C%20%23CFCFCF%20100%25%29%3B%0Abackground%3A%20linear%2Dgradient%28to%20bottom%2C%20%23dbdbdb%200%25%2C%20%23d3d3d3%2066%25%2C%20%23CFCFCF%20100%25%29%3B%0Aborder%2Dbottom%3A%203px%20solid%20%23000000%3B%0A%7D%0Atable%2EminimalistBlack%20thead%20th%20%7B%0Afont%2Dsize%3A%2015px%3B%0Afont%2Dweight%3A%20bold%3B%0Acolor%3A%20%23000000%3B%0Atext%2Dalign%3A%20left%3B%0A%7D%0Atable%2EminimalistBlack%20tfoot%20%7B%0Afont%2Dsize%3A%2014px%3B%0Afont%2Dweight%3A%20bold%3B%0Acolor%3A%20%23000000%3B%0Aborder%2Dtop%3A%203px%20solid%20%23000000%3B%0A%7D%0Atable%2EminimalistBlack%20tfoot%20td%20%7B%0Afont%2Dsize%3A%2014px%3B%0A%7D%0A%0A%2Eanswer%5Fdiv%20%7B%0Awidth%3A100%25%3B%0Aheight%3A2in%3B%0Afloat%3Aleft%3B%0A%7D%0A%2Elong%5Fanswer%5Fdiv%7B%0Awidth%3A100%25%3B%0Aheight%3A3in%3B%0Afloat%3Aleft%3B%0A%7D%0A%0A%40media%20print%20%7B%0A%2Epagebreak%20%7B%20page%2Dbreak%2Dbefore%3A%20always%3B%20padding%2Dtop%3A1in%3B%0A%7D%20%7D%0Adiv%2Esolutions%20%2A%20%7B%0Acolor%3A%23000099%3B%0A%7D%0A%3C%2Fstyle%3E%0A" rel="stylesheet" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Midterm 1 Study Guide</h1>
+
+
+
+<p>STAT 352 – Section 1002 <br> Instructor: Colin Grudzien</p>
+<div id="date-wednesday-feb.-24" class="section level3">
+<h3>Date: Wednesday Feb. 24</h3>
+</div>
+<div id="time-beginning-at-400-pm-75-minutes-long" class="section level3">
+<h3>Time: Beginning at 4:00 PM, 75 minutes long</h3>
+</div>
+<div id="general-midterm-information" class="section level2">
+<h2>General midterm information:</h2>
+<div id="exam-period" class="section level3">
+<h3>Exam period</h3>
+<p>The midterm will open at 3:50 PM on Wednesday Feb. 24. The default time allowed will be 75 minutes, you can start the midterm as soon as 3:50 PM. If you are running late, you will still be able to start the midterm after 4:00 PM, but you may have less than the full 75 minutes remaining. If you have a university recognized exception for a longer exam period, you will be granted the allotted extended time, but you are recommended to start your exam by 4:00 to avoid technical issues.</p>
+</div>
+<div id="proctoring" class="section level3">
+<h3>Proctoring</h3>
+<p>The midterm will be proctored through Proctorio, where you will need to use the Chrome Plugin in your browser as instructed on <a href="https://www.unr.edu/tlt/instructional-design/instructional-technology-resources/online-test-proctoring">UNR’s Proctorio webpage</a>. You have only one attempt for the test. During the exam, Proctorio records your screen activities and your physical movements. Proctorio will also restrict some browser functionality during the test. Functionality that can be restricted includes:</p>
+<ul>
+<li>Block downloads</li>
+<li>Disable printing</li>
+<li>No new browser tabs once test has begun</li>
+<li>Close any other open browser tabs</li>
+<li>Disable clipboard</li>
+<li>Disable right-click</li>
+</ul>
+</div>
+<div id="allowed-resources" class="section level3">
+<h3>Allowed resources</h3>
+<p>A standard scientific calculator and handwritten or printed notes will be allowed on the exam. No other resources will be allowed on the exam and the user-session in Canvas will be monitored for leaving the exam window. Indications of using any electronic resources or communication with anyone but the instructor during the exam may be treated as a breach of the academic code of conduct.</p>
+</div>
+<div id="communication" class="section level3">
+<h3>Communication</h3>
+<p>Communication between a test taker and anyone but the instructor is expressly prohibited during the exam time.</p>
+</div>
+<div id="exam-structure-and-sections" class="section level3">
+<h3>Exam structure and sections:</h3>
+<p>You will be given a single attempt on the exam, but you may change your answers while you are still working on the exam before it is submitted. You will be given no feedback on the answers until after the exam. There will be approximately 16 questions in total. Some questions have multiple parts. Questions are either multiple choice or short answer questions that you need to enter numerical answers. Round your answers to the correct decimal places as indicated in the questions.</p>
+<p>This exam will cover content from the following sections:</p>
+<ul>
+<li>1.1 - 1.2</li>
+<li>2.1 - 2.9</li>
+<li>3.1 - 3.2</li>
+</ul>
+<p>There will be a focus on the following topics:</p>
+<ul>
+<li>Determining if data comes from an observational study, a retrospective study or a designed experiment.</li>
+<li>Identifying a sample space for a random experiment.</li>
+<li>Making a counting argument with the multiplication rule, permutations or combinations.</li>
+<li>Use of probability basics: complements, unions, intersections, and computing their probability on simple examples.</li>
+<li>Computing abstract probabilities with the multiplication rule, the addition rule, conditional probability and Bayes’ rule</li>
+<li>The meaning of mutually exclusive and independent events. Computing probabilities for these special events.</li>
+<li>The total probability rule, when decomposing an event over a partition.</li>
+<li>Sampling with and without replacement, and computing the associated probability.</li>
+<li>Using any of the above rules to compute a probability from a table of data.</li>
+<li>The definition of probability mass functions, cumulative density functions, and computing probabilities from these functions.</li>
+</ul>
+</div>
+<div id="preparing-for-the-exam" class="section level3">
+<h3>Preparing for the exam</h3>
+<p>There are practice questions available in Canvas. We will have a review session during our class session on Monday Feb. 22 to go over questions about the practice questions or anything else related to the exam.</p>
+<p>The Math Center will also hold a review session online using Zoom. It will take place in the same Zoom call that the rest of the Math Center operates through. The review session will also be recorded and uploaded to their <a href="https://www.youtube.com/channel/UCNhoFo3oZ9Z8E6vv8-M4EsA" target="blank">YouTube channel</a>.</p>
+<p>The date for the review is as follows:</p>
+<ul>
+<li>2/23/21, TUESDAY @ 9 - 10:30am</li>
+<li>URL: <a href="https://unr.zoom.us/j/163238689" class="uri">https://unr.zoom.us/j/163238689</a></li>
+</ul>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
