@@ -410,7 +410,7 @@ Courtesy of Montgomery & Runger, <em>Applied Statistics and Probability for Engi
   $$\begin{align}
   F(x)&= \begin{cases}
        0.0 & x \in(-\infty, 4.9)\\
-       5.0\left(x - 4.9\right) & x \in[4.9, 5.0]\\
+       5.0\left(x - 4.9\right) & x \in[4.9, 5.1]\\
        1.0 & x \in (5.0,\infty)
        \end{cases}
   \end{align}$$</li>
@@ -474,7 +474,7 @@ Courtesy of Montgomery & Runger, <em>Applied Statistics and Probability for Engi
 
   $$\begin{align}
   \mu &= \int_{4.9}^{5.1} x f(x) \mathrm{d}x  \\
-      &= \int{4.9}^{5.1} 5.0x\mathrm{d}x \\
+      &= \int_{4.9}^{5.1} 5.0x\mathrm{d}x \\
       &= \frac{5.0}{2.0}x^2 \vert_{4.9}^{5.1} \\
       &= 2.5(5.1)^2 - 2.5(4.9)^2 =5.0 
   \end{align}$$
@@ -566,7 +566,7 @@ Courtesy of Montgomery & Runger, <em>Applied Statistics and Probability for Engi
 </tr>
 </table>
 
-* Due to the diffrence between discrete measurements and continuous measurements (where we can arbitrarily sub-divide units) <strong>the probability of measuring a single value of a continuous random variable always has probability zero</strong>.
+* Due to the difference between discrete measurements and continuous measurements (where we can arbitrarily sub-divide units) <strong>the probability of measuring a single value of a continuous random variable always has probability zero</strong>.
 
 * Particularly, with continuous random variables, we always define probabilities over ranges of values, assuming some kind of truncation approximation.
 
