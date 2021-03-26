@@ -1,0 +1,662 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+<!-- foo 
+Highlighting
+bold
+strong
+orange <b style="color:#d95f02"> text </b>
+green  <b style="color:#1b9e77"> text </b>
+purple <b style="color:#d24693"> text </b>
+red    <b style="color:#FF0000"> text </b>
+blue   <b style="color:#0000FF"> text </b>
+-->
+
+A review of probability distributions in R and Reporting
+========================================================
+date: 03/29/2021
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+<blockquote>
+FAIR USE ACT DISCLAIMER:</br>
+This site is for educational purposes only.  This website may contain copyrighted material, the use of which has not been specifically authorized by the copyright holders. The material is made available on this website as a way to advance teaching, and copyright-protected materials are used to the extent necessary to make this class function in a distance learning environment.  The Fair Use Copyright Disclaimer is under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+</blockquote>
+
+
+========================================================
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+
+  * The binomial distribution in R
+  * The uniform distribution in R
+  * The normal distribution in R
+  * Data analysis reports in RMarkdown
+  * Typesetting in Markdown
+  * Using code in RMarkdown
+  * Resources on RMarkdown
+
+========================================================
+## Motivation
+
+* We have now learned about the fundamentals of theoretical <b style="color:#1b9e77">probabilistic models</b>.
+
+* Particularly, we have learned about the:
+ 
+ * <b>probability distribution</b>;
+ * <b>probability mass / density function</b>; and
+ * <b>cumulative probability distribution function</b>;
+
+* for discrete and continuous random variables. 
+
+* We have also learned about several <strong>fundamental probability distributions</strong>:
+
+ * the <b>binomial</b>;
+ * the <b>uniform</b>; and
+ * the <b>normal</b>.
+ 
+* We will begin to combine these <b style="color:#1b9e77">models</b> with <b style="color:#d95f02">data</b> to produce <b>statistical inference</b>.
+
+* Our goal in this course is to use <b style="color:#d95f02">statistics</b> from a <b style="color:#d95f02">small, representative sample</b> to say something <b style="color:#1b9e77">general</b> about the <b style="color:#1b9e77">larger, unobservable population or phenomena</b>.
+
+* The process of saying something general from the smaller representative sample, while <strong>qualifying our uncertainty</strong>, is what we mean by <b>statistical inference</b>.
+
+========================================================
+### Motivation continued
+
+* Classical statistics used technology like z-scores and z-score tables to simplify this complex analysis.
+
+* Z-scores, while fundamental to our understanding, are also <strong>just a piece of technology</strong>;
+
+  * we also these days have access to powerful computational technology in the form of <b>free and open source software (FOSS)</b> such as the R language.
+
+* For most basic statistical analysis, any standard consumer laptop is sufficient; 
+  
+  * with free and open source software like R, this puts the <strong>tools of modern statistical analysis in the reach of all students</strong>.
+
+* At this point in the course, we will begin to emphasize more of the applied aspects of statistics, utilizing the R language.
+
+* This will build on the R language exercises seen in DataCamp, but will focus more on the mathematics and <strong>using R as a calculator</strong>, rather than doing formal programming.
+
+* <strong>Formal programming and numerical method development</strong> can be seen instead in, e.g., my <b>STAT 445 / 645 Fall 2021</b>.
+
+* In this lecture, we will review the theoretical ideas so-far encountered, but with <b>R as a calculator</b>.
+
+* Secondly, we will introduce concepts of <b>descriptive statistics using R</b>.
+
+  
+
+========================================================
+### Binomial random variables
+
+* The R  language has <strong>generic functions</strong> for the <b>binomial distribution</b>.
+
+  * `dbinom(x, size, prob)` is the <b>probability mass</b> function of the binomial; that is to say, 
+    * for `x` being some number of successes, 
+    * with `size=n` total trials and 
+    * probability of success `prob=p`, 
+    * we have `dbinom(x, size, prob)` is equal to
+     
+  $$\begin{align}
+  P(X=x) = \frac{n!}{(n-x)!x!} p^x q^{n-x}
+  \end{align}$$
+    
+  * For two coin flips of a fair coin, $X$ being the number of heads,
+
+```{r}
+dbinom(0, size=2, prob=0.5)
+dbinom(1, size=2, prob=0.5)
+dbinom(2, size=2, prob=0.5)
+```
+
+
+========================================================
+### Binomial random variables
+    
+  * `pbinom(q, size, prob)` is the <b>cumulative probability</b> function of the binomial.
+    
+    * We have `pbinom(x, size, prob)` is equal to
+    
+  $$\begin{align}
+  P(X\leq x) = \sum_{k=0}^xP(X=x) = \sum_{k=0}^x\frac{n!}{(n-k)!k!} p^x q^{n-k}
+  \end{align}$$
+  
+```{r}
+pbinom(0, size=2, prob=0.5)
+pbinom(1, size=2, prob=0.5)
+pbinom(2, size=2, prob=0.5)
+```
+
+========================================================
+### Binomial random variables
+
+* Finally, a key tool for computational statistics is that we can also <strong>simulate the random variable</strong> $X$.
+  * `rbinom(n, size, prob)` randomly generates a <b>sample</b> of size `n` from the binomial.
+  * This can be considered to create a <strong>`n` total independent replications of a binomial experiment</strong> with a fixed probability of success `p`;
+  * For example, if $X$ is the number of heads from a fair coin flip, 
+    * then `rbinom(n=10, size=2, prob=0.5)` <b>replicates the 2 coin flips 10 times</b>.
+  
+```{r}
+rbinom(10, size=2, prob=0.5)
+```
+
+  * because they are random trials, each time we run the function will almost surely give a different output:
+```{r}
+rbinom(10, size=2, prob=0.5)
+```
+
+========================================================
+### Binomial random variables
+
+
+* We can fix an output by setting a "pseudo-random seed"
+
+```{r}
+set.seed(123)
+rbinom(10, size=2, prob=0.5)
+set.seed(123)
+rbinom(10, size=2, prob=0.5)
+```
+
+* This causes a <strong>non-random output to be generated</strong>, but one which <b>looks "close-to-random"</b> while generating a reproducible simulation.
+
+
+========================================================
+### Binomial random variables
+
+* We can plot the entire probability distribution as a histogram as in the following:
+
+```{r fig.width=24, fig.height=6}
+par(cex = 2.0, mar = c(5, 4, 4, 2) + 0.3)
+f = dbinom(x=-1:11, size=10, prob=0.2)
+plot(x=-1:11, f, type = "s", main = "n=10   p=0.2", xlab = "x", ylab = "Prob.", xlim=c(0,10))
+```
+
+
+* Here, we set the number of successes as a vector, so that the output will be the vector of probability mass values for each possible number of successes.
+
+========================================================
+### Binomial random variables
+
+* Notice how the histogram of the probability changes for different values of of the probability of success:
+
+```{r fig.width=24, fig.height=6}
+par(cex = 2.0, mar = c(5, 4, 4, 2) + 0.3)
+f = dbinom(x=-1:11, size=10, prob=0.5)
+plot(x=-1:11, f, type = "s", main = "n=10   p=0.5", xlab = "x", ylab = "Prob.", xlim=c(0,10))
+```
+
+* While the distribution was skewed in the case that the probability of success was lower than the probability of failure, when they are equal we recover a symmetric distribution.
+
+
+========================================================
+### Binomial random variables
+
+* This can be understood again as this corresponds to the area under the mass curve for $n=10$ for either $p=0.2$ or $p=0.6$:
+
+```{r fig.width=24, fig.height=5.5, echo=FALSE}
+par(cex = 2.0, mar = c(5, 4, 4, 2) + 0.3)
+f = dbinom(x=-1:11, size=10, prob=0.2)
+plot(x=-1:11, f, type = "s", main = "n=10   p=0.2", xlab = "x", ylab = "Prob.", xlim=c(0,10))
+```
+
+```{r fig.width=24, fig.height=5.5, echo=FALSE}
+par(cex = 2.0, mar = c(5, 4, 4, 2) + 0.3)
+f = dbinom(x=-1:11, size=10, prob=0.6)
+plot(x=-1:11, f, type = "s", main = "n=10   p=0.6", xlab = "x", ylab = "Prob.", xlim=c(0,10))
+```
+
+
+========================================================
+### Binomial random variables
+
+* We note that the earlier pictures plotted the  <b style="color:#1b9e77">theoretical values of the probability mass function</b>.
+
+* This differs from plotting the <b style="color:#d95f02">observational data from an experiment</b>.
+
+* Let's suppose we draw a random sample, of size `10`,
+
+* i.e., we have replicated a binomial experiment 10 times and recorded the results.
+
+
+```{r}
+sample_10 = rbinom(10, size=10, prob=0.6)
+sample_10
+```
+
+
+========================================================
+### Binomial random variables
+
+* If we compare the density plot of the observations versus the probability mass function we see:
+
+
+```{r fig.width=24, fig.height=5.5, echo=FALSE}
+par(cex = 2.0, mar = c(5, 4, 4, 2) + 0.3)
+f = dbinom(x=-1:11, size=10, prob=0.6)
+plot(x=-1:11, f, type = "s", main = "n=10   p=0.6", xlab = "x", ylab = "Prob.", xlim=c(0,10))
+hist(sample_10, main = "n=10   p=0.6", xlab = "x", probability=TRUE, ylab = "Density", breaks=c(0:10))
+```
+
+========================================================
+### Binomial random variables
+
+* Let's suppose instead we draw a random sample, of size `100000`,
+
+* i.e., we have replicated a binomial experiment one-hundred-thousand times and recorded the results.
+
+
+```{r}
+sample_100000 = rbinom(100000, size=10, prob=0.6)
+sample_100000
+```
+
+
+========================================================
+### Binomial random variables
+
+* If we compare the density plot of the observations versus the probability mass function we see:
+
+
+```{r fig.width=24, fig.height=5.5, echo=FALSE}
+par(cex = 2.0, mar = c(5, 4, 4, 2) + 0.3)
+plot(x=-1:11, f, type = "s", main = "n=10   p=0.6", xlab = "x", ylab = "Prob.", xlim=c(0,10))
+hist(sample_100000, main = "n=10   p=0.6", xlab = "x", probability=TRUE, ylab = "Density", nclass=12, breaks=c(0:10))
+```
+
+* This demonstrates the idea that if we were to take the number of replications of the experiment to infinity, <strong>the density plot would converge to the theoretical probability mass / density plot</strong>.
+
+========================================================
+## The uniform distribution
+
+
+* Recall that the <b>uniform distribution</b> $U(a, b)$ is defined such that all <strong>intervals of the same length on the distribution’s support are equally probable</strong>. 
+
+* Suppose $a=0$ and $b=1$, we will use the `dunif` function to plot the <b>probability density function</b> similarly to earlier examples:
+
+```{r fig.width=24, fig.height=5.5}
+par(cex = 2.0, mar = c(5, 4, 4, 2) + 0.3)
+f = dunif(x=seq(-1,2,by=0.01), min=0, max=1)
+plot(x=seq(-1,2,by=0.01), f, type = "s", main = "Uniform distribution on [0,1]", xlab = "x", ylab = "Density")
+```
+
+========================================================
+### The uniform distribution
+
+* In R the <strong>generic functions</strong> for the <b>uniform distribution</b> are the following:
+
+  * `dunif(x, min, max)` is the <b>probability density</b> function of the uniform.
+  * `punif(q, min, max)` is the <b>cumulative density</b> function of the uniform.
+  * `runif(n, min, max)` randomly generates a <b>sample</b> of size n from the uniform
+
+* These concepts mirror what we showed with the binomial distribution exactly, up to the differences of the discrete versus continuous random variables.
+
+* For instance, let's simulate a sample from the uniform distribution over the support $[0,1]$;
+
+  * recall, as a <b>continuous random variable</b> $X$ can take values to an arbitrary decimal place over $[0,1]$:
+
+```{r}
+sample_10 = runif(10, min=0, max=1)
+sample_10
+```
+
+========================================================
+### The uniform distribution
+
+* If we make a histogram of the sample, we find
+
+```{r fig.width=24, fig.height=5.5, echo=FALSE}
+par(cex = 2.0, mar = c(5, 4, 4, 2) + 0.3)
+hist(sample_10, main = "Uniform on 0 to 1", xlab = "x", probability=TRUE, ylab = "Density", breaks=0.1*c(0:10))
+```
+
+* Now, similarly, if we take large sample of uniformly distributed measurements,
+
+```{r}
+sample_100000 = runif(100000, min=0, max=1)
+sample_100000
+```
+
+========================================================
+### The uniform distribution
+
+* If we make a histogram of the sample, we find
+
+```{r fig.width=24, fig.height=5.5, echo=FALSE}
+par(cex = 2.0, mar = c(5, 4, 4, 2) + 0.3)
+hist(sample_100000, main = "Uniform on 0 to 1", xlab = "x", probability=TRUE, ylab = "Density", breaks=0.1*c(0:10))
+```
+
+
+* Again, we see that as we take the number of replicated measurements approaching infinity,
+
+  * the <b style="color:#d95f02">sample-based empirical density</b> gives a better representation of the <b style="color:#1b9e77">theoretical density</b>
+
+
+========================================================
+## The uniform distribution
+
+
+* Similarly to the earlier plots, we will also demonstrate the cumulative distribution function
+
+```{r fig.width=24, fig.height=5.5}
+par(cex = 2.0, mar = c(5, 4, 4, 2) + 0.3)
+f = punif(seq(-1,2,by=0.01), min=0, max=1)
+plot(x=seq(-1,2,by=0.01), f, type = "s", main = "Uniform distribution on [0,1]", xlab = "x", ylab = "Cumulative probabilty")
+```
+
+
+========================================================
+## The normal distribution
+
+* In R, we also have a variety of tools for working with the normal distribution:
+
+```{r fig.width=24, fig.height=5.5}
+par(cex = 2.0, mar = c(5, 4, 4, 2) + 0.3)
+f = dnorm(x=seq(-5,5,by=0.01), mean=0, sd=1)
+plot(x=seq(-5,5,by=0.01), f, type = "s", main = "Standard normal density curve", xlab = "x", ylab = "Prob.")
+```
+
+========================================================
+## The normal distribution
+
+* In R, there are similarly standard functions like the binomial and the uniform that are used for the <b>normal distribution</b>: 
+
+  * `dnorm(x, mean, sd)` for the density function; 
+  * `pnorm(q, mean, sd)` for the cumulative distribution function; 
+  * `rnorm(n, mean, sd)` for generating random normally distributed samples. 
+
+* We will generate a sample from the standard normal and plot this with histogram as follows:
+
+```{r fig.width=24, fig.height=5.5}
+sample_10 = rnorm(10)
+par(cex = 2.0, mar = c(5, 4, 4, 2) + 0.3)
+hist(sample_10, main = "Standard normal", xlab = "x", probability=TRUE, ylab = "Density")
+```
+
+
+========================================================
+## The normal distribution
+
+* Similarly, if we increase the sample size, we begin to see the classic bell shape
+```{r fig.width=24, fig.height=5.5}
+sample_100000 = rnorm(100000)
+par(cex = 2.0, mar = c(5, 4, 4, 2) + 0.3)
+hist(sample_100000, main = "Standard normal", xlab = "x", probability=TRUE, ylab = "Density")
+```
+
+* These above demonstrations will be used in the practice quiz on Friday to refresh on the concepts and to start preparing for how to work on the final.
+
+* We will next consider how one uses an RMarkdown file to document an analysis, or in our case to use as a worksheet.
+
+========================================================
+
+## Data analysis reports
+
+* Data analysts tend to write a lot of reports, describing their analyses and results, for their collaborators or to document their work for future reference.
+* Many new users begin by first writing a single R script containing all of the work. 
+* Then simply share the analysis by emailing the script and various graphs as attachments. 
+* But this can be cumbersome, requiring a lengthy discussion to explain which attachment was which result.
+* Writing formal reports with Word or [LaTeX](http://www.latex-project.org/) can simplify this by incorporating both the analysis report and output graphs  into a single document. 
+* But tweaking formatting to make figures look correct and fix obnoxious page breaks can be tedious and lead to a lengthly "whack a mole" game of fixing new mistakes resulting from a single formatting change.
+
+========================================================
+### Reproducible analysis
+
+* Creating a web page (as an html file) by using R Markdown makes things easier. 
+* The report can be one long stream, so tall figures that wouldn't ordinary fit on one page can be kept full size and easier to read, since the reader can simply keep scrolling. 
+* Formatting is simple and easy to modify, allowing you to spend more time on your analyses instead of writing reports.
+* Ideally, such analysis reports are _reproducible_ documents: 
+  * If an error is discovered, or if some additional subjects are added to the data, you can just re-compile the report and get the new or corrected results 
+* The key R package is [`knitr`](http://yihui.name/knitr/) which we have been using in activities to create a mixture of text and chunks of code. 
+* When the document is processed by `knitr`, chunks of code will be executed, and graphs or other results inserted into the final document.
+* `knitr` allows you to mix basically any sort of text with code from different programming languages, but we recommend that you use `R Markdown`, which mixes Markdown with R. 
+* [Markdown](https://www.markdownguide.org/) is a light-weight mark-up language for creating web pages.
+
+
+========================================================
+
+### Basic components of R Markdown
+
+* The initial chunk of text (header) contains instructions for R to specify what kind of document will be created, and the options chosen. 
+* You can use the header to give your document a title, author, date, and tell it that you're going to want to produce html output (in other words, a web page).
+
+```
+---
+title: "Initial R Markdown document"
+author: "Jane Doe"
+date: "April 23, 2015"
+output: html_document
+---
+```
+
+* You can delete any of those fields if you don't want them included. 
+* The double-quotes aren't strictly _necessary_ in this case. 
+* They're mostly needed if you want to include a colon in the title.
+* RStudio creates the document with some example text to get you started. 
+
+========================================================
+## Markdown
+
+* Markdown is a system for writing web pages by marking up the text much as you would in an email rather than writing html code. 
+* The marked-up text gets _converted_ to html, replacing the marks with the proper html code.
+* If you know any HTML already, standard Markdown flavors usually accept HTML commands interspersed with Markdown for more detailed control of the output document.
+* You make things **bold** using two asterisks, like this: `**bold**`, and you make things _italics_ by using underscores, like this `_italics_`.
+  * The HTML equivalent wouldd look like `<b>bold</b>` or `<i>italics</i>`, where the Markdown equivalent usually simplifies the syntax. 
+
+========================================================
+### Markdown continued
+
+* You can make a bulleted list by writing a list with hyphens or asterisks, like this:
+
+```
+* bold with double-asterisks
+* italics with underscores
+* code-type font with backticks
+```
+
+* or like this:
+
+```
+- bold with double-asterisks
+- italics with underscores
+- code-type font with backticks
+```
+
+* Each will appear as:
+
+ - bold with double-asterisks
+ - italics with underscores
+ - code-type font with backticks
+ 
+* within their respective indentation levels.
+
+========================================================
+### Markdown continued
+
+* You can make a numbered list by just using numbers. You can even use the same number over and over if you want:</li> 
+```
+1. bold with double-asterisks
+1. italics with underscores
+1. code-type font with backticks
+```
+
+* You can make section headers of different sizes by initiating a line with some number of `#` symbols:
+```
+# Title
+## Main section
+### Sub-section
+#### Sub-sub section
+```
+* You compile the R Markdown document to an html webpage by clicking the "Knit" button in the upper-left.
+
+
+========================================================
+### Markdown continued
+
+* You can make a hyperlink like this:
+`[text to show](http://the-web-page.com)`.
+
+* You can include an image file like this: `![caption](http://url/for/file)`
+
+* If you know how to write equations in [LaTeX](http://www.latex-project.org/), you can use `$ $` and `$$ $$` to insert math equations, inline like `$E = mc^2$` and in its own chunk by
+
+```
+$$y = \mu + \sum_{i=1}^p \beta_i x_i + \epsilon$$
+```
+
+* The above two examples will render in the output document as $E=mc^2$ or
+
+  $$y = \mu + \sum_{i=1}^p \beta_i x_i + \epsilon$$
+
+* You can review Markdown syntax by navigating to the "Markdown Quick Reference" under the "Help" field in the toolbar at the top of RStudio.
+
+========================================================
+### R code chunks
+
+* The real power of Markdown comes from mixing markdown with chunks of code, and a special flavor of Markdown is designed for working well with R, R Markdown. 
+* When processed, the R code will be executed; if they produce figures, the figures will be inserted in the final document.
+
+* The main code chunks look like this:
+
+<pre>
+&#96;&#96;&#96;{r load_data}
+gapminder <- read.csv("gapminder.csv")
+&#96;&#96;&#96;
+</pre>
+
+* That is, you place a chunk of R code between <code>&#96;&#96;&#96;{r chunk_name}</code> and <code>&#96;&#96;&#96;</code>. 
+* In a complex report, one should give each chunk a unique name, as they will help you to fix errors and, if any graphs are produced, the file names are based on the name of the code chunk that produced them.
+
+
+========================================================
+### How things get compiled
+
+* When you press the "Knit" button, the R Markdown document is processed by [`knitr`](http://yihui.name/knitr) and a plain Markdown document is produced (as well as, potentially, a set of figure files): the R code is executed and replaced by both the input and the output; 
+  * if figures are produced, links to those figures are included.
+
+* The Markdown and figure documents are then processed by the tool [`pandoc`](http://pandoc.org/), which converts the Markdown file into an html file, with the figures embedded.
+
+```{r rmd_to_html_fig, fig.width=8, fig.height=3, fig.align="left", echo=FALSE}
+par(mar=rep(0, 4), bty="n", cex=1.5)
+plot(0, 0, type="n", xlab="", ylab="", xaxt="n", yaxt="n",
+     xlim=c(0, 100), ylim=c(0, 100))
+xw <- 10
+yh <- 35
+xm <- 12
+ym <- 50
+rect(xm-xw/2, ym-yh/2, xm+xw/2, ym+yh/2, lwd=2)
+text(xm, ym, ".Rmd")
+
+xm <- 50
+ym <- 80
+rect(xm-xw/2, ym-yh/2, xm+xw/2, ym+yh/2, lwd=2)
+text(xm, ym, ".md")
+xm <- 50; ym <- 25
+for(i in c(2, 0, -2))
+    rect(xm-xw/2+i, ym-yh/2+i, xm+xw/2+i, ym+yh/2+i, lwd=2,
+         border="black", col="white")
+text(xm-2, ym-2, "figs/")
+
+xm <- 100-12
+ym <- 50
+rect(xm-xw/2, ym-yh/2, xm+xw/2, ym+yh/2, lwd=2)
+text(xm, ym, ".html")
+
+arrows(22, 50, 38, 50, lwd=2, col="slateblue", len=0.1)
+text((22+38)/2, 60, "knitr", col="darkslateblue", cex=1.3)
+
+arrows(62, 50, 78, 50, lwd=2, col="slateblue", len=0.1)
+text((62+78)/2, 60, "pandoc", col="darkslateblue", cex=1.3)
+```
+
+
+
+========================================================
+
+## Chunk options
+
+* There are a variety of options to affect how the code chunks are treated. Here are some examples:
+
+  - Use `echo=FALSE` to avoid having the code itself shown.
+  - Use `results="hide"` to avoid having any results printed.
+  - Use `eval=FALSE` to have the code shown but not evaluated.
+  - Use `warning=FALSE` and `message=FALSE` to hide any warnings or  messages produced.
+  - Use `fig.height` and `fig.width` to control the size of the figures produced (in inches).
+
+* So you might write:
+
+<pre>
+&#96;&#96;&#96;{r load_libraries, echo=FALSE, message=FALSE}
+library("dplyr")
+library("ggplot2")
+&#96;&#96;&#96;
+</pre>
+
+* Often there will be particular options that you'll want to use repeatedly; for this, you can set _global_ chunk options, like so:
+
+<pre>
+&#96;&#96;&#96;{r global_options, echo=FALSE}
+knitr::opts_chunk$set(fig.path="Figs/", message=FALSE, warning=FALSE,
+                      echo=FALSE, results="hide", fig.width=11)
+&#96;&#96;&#96;
+</pre>
+
+* The `fig.path` option defines where the figures will be saved. 
+* The `/` here is really important; without it, the figures would be saved in the standard place but just with names that begin with `Figs`.
+* If you have multiple R Markdown files in a common directory, you might want to use `fig.path` to define separate prefixes for the figure file names, like `fig.path="Figs/cleaning-"` and `fig.path="Figs/analysis-"`.
+
+
+========================================================
+## Inline R code
+
+* You can make _every_ number in your report reproducible. Use <code>&#96;r</code> and <code>&#96;</code> for an in-line code chunk, like so:  
+   *  <code>&#96;r round(some_value, 2)&#96;</code>.
+* The code will be executed and replaced with the _value_ of the result.
+* However, don't let these in-line chunks get split across lines.
+
+
+========================================================
+
+## Other output options
+
+* You can also convert R Markdown to a PDF or a Word document. 
+* Click the little triangle next to the "Knit" button to get a drop-down menu. 
+* Or you could put `pdf_document` or `word_document` in the initial header of the file.
+* Creating .pdf documents may require installation of some extra software. 
+* If required, this is detailed in an error message.
+
+- [TeX installers for Windows](https://miktex.org/2.9/setup).
+- [TeX installers for macOS](https://tug.org/mactex).
+
+
+========================================================
+
+## Resources
+
+* [Knitr in a knutshell tutorial](http://kbroman.org/knitr_knutshell)
+* [Dynamic Documents with R and knitr](http://www.amazon.com/exec/obidos/ASIN/1482203537/7210-20) (book)
+* [R Markdown documentation](http://rmarkdown.rstudio.com)
+* [R Markdown cheat sheet](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)
+* [Getting started with R Markdown](https://www.rstudio.com/resources/webinars/getting-started-with-r-markdown/)
+* [R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/) (book by Rstudio team)
+* [Reproducible Reporting](https://www.rstudio.com/resources/webinars/reproducible-reporting/)
+* [The Ecosystem of R Markdown](https://www.rstudio.com/resources/webinars/the-ecosystem-of-r-markdown/)
+* [Introducing Bookdown](https://www.rstudio.com/resources/webinars/introducing-bookdown/)
+
