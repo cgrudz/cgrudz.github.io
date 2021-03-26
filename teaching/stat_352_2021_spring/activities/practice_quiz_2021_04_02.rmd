@@ -1,0 +1,39 @@
+---
+title: "Practice Quiz 04/02/21"
+output: html_document
+---
+
+# Activity 04/02/21
+
+## Student Name:
+
+## Instructions:
+Fill in your name above.  We will work through the following activities as a group in the discussion sections.  You must turn in a completed worksheet with solutions filled in below for credit.  The solutions will be given in the discussion section.
+
+## Activity: Binomial trials in R
+
+### Question 1:
+
+Suppose that an urn contains 4 red marbles and 6 blue marbles.  Suppose that we consider a trial successful when we draw a blue marble from the urn and we proceed to take 8 draws from the urn with replacement.
+
+What is the probability of selecting 3 or more blue marbles in the 8 draws?  Compute this in two ways, using each of the cumulative distribution function and the probability mass function for the binomial distribution.
+
+
+### Question 2:
+
+Can you plot the probabilty mass function and the cumulative probability distribution for the last experiment?  Try to include appropriate labels for this plot in the axes and in the title.
+
+
+
+
+### Question 3:
+
+Can you make a histogram or density plot of a sample of observations that are distributed according to the standard normal, as in the lecture?  Set the following values:
+
+```{r}
+set.seed(123)
+sample_size = 100
+```
+
+Try to include appropriate labels for this plot in the axes and in the title.
+
