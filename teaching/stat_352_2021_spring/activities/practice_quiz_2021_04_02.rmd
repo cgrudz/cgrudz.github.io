@@ -21,10 +21,10 @@ What is the probability of selecting 3 or more blue marbles in the 8 draws?  Com
 
 ### Question 2:
 
-Can you plot the probabilty mass function and the cumulative probability distribution for the last experiment?  Try to include appropriate labels for this plot in the axes and in the title.
+Can you plot the probability mass function and the cumulative probability distribution for the last experiment?  Try to include appropriate labels for this plot in the axes and in the title.
 
 
-
+## Activity: The normal distribution in R
 
 ### Question 3:
 
