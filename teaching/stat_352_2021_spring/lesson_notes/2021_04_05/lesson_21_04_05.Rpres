@@ -23,7 +23,7 @@ blue   <b style="color:#0000FF"> text </b>
 
 The central limit theorem continued and general concepts of point estimation
 ========================================================
-date: 03/31/2021
+date: 04/05/2021
 autosize: true
 incremental: true
 width: 1920
@@ -52,8 +52,35 @@ This site is for educational purposes only.  This website may contain copyrighte
     * Variance of estimators
     * Standard Error
 
+
+
 ========================================================
 ##  A review of the central limit theorem
+
+* Suppose that we want to obtain an estimate of a population parameter, where the population is modeled with a random variable $X$. 
+
+* We know that before the data are collected, the observations are considered to be random variables, 
+
+  * i.e., we treat an independent sequence of measurements of $X$,
+
+  $$X_1, X_2, \cdots , X_n$$ 
+  
+  * as random variables all drawn from a parent distribution $X \sim F(x)$ (where the CDF will define the distribution).
+
+  <blockquote>
+  <b>Random sample</b><br>
+  The random variables $X_1 , X_2, \cdots , X_n$ are a <strong>random sample</strong> of size $n$ if the $X_i$’s are independent random variables and every $X_i$ has the same probability distribution.
+  </blockquote>
+  
+* We then say that the measurements we obtain are possible outcomes of the sample variables $\{X_i\}_{i=1}^n$; particularly, if we make a computation of the sample mean,
+
+  $$\overline{X} = \frac{1}{n} \sum_{i=1}^n X_i$$
+  
+  the above is treated as a random variable (a linear combination of random variables) which has a random outcome, dependent on the realizations of the $X_i$.
+
+========================================================
+###  A review of the central limit theorem
+
 
 * Generally, if we are sampling from a population that has an unknown probability distribution, the <strong>sampling distribution of the sample mean</strong> will still be <b>approximately normal</b> with mean $\mu$ and variance
 $\frac{\sigma^2}{n}$ if the sample size $n$ is large. 

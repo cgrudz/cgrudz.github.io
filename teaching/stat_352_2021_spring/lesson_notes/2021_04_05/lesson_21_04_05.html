@@ -795,7 +795,7 @@ hljs.initHighlightingOnLoad();
   <div class="slides">
 
 <section data-state="section" data-transition="linear" data-transition-speed="default">
-<h1>The central limit theorem continued and general concepts of point estimation</h1><p>03&#x2F;31&#x2F;2021</p>
+<h1>The central limit theorem continued and general concepts of point estimation</h1><p>04&#x2F;05&#x2F;2021</p>
 
 <div class="slideContent" >
 <h2 style="text-align:left"> Instructions:</h2>
@@ -836,6 +836,39 @@ This site is for educational purposes only.  This website may contain copyrighte
 
 <div class="slideContent noTitle" >
 <h2 class="fragment">A review of the central limit theorem</h2>
+
+<ul>
+<li class="fragment"><p>Suppose that we want to obtain an estimate of a population parameter, where the population is modeled with a random variable \( X \). </p></li>
+<li class="fragment"><p class="fragment">We know that before the data are collected, the observations are considered to be random variables, </p>
+
+<ul>
+<li class="fragment">i.e., we treat an independent sequence of measurements of \( X \),</li>
+</ul>
+
+<p class="fragment">\[ X_1, X_2, \cdots , X_n \] </p>
+
+<ul>
+<li class="fragment">as random variables all drawn from a parent distribution \( X \sim F(x) \) (where the CDF will define the distribution).</li>
+</ul>
+
+<blockquote class="fragment">
+<b>Random sample</b><br>
+The random variables \( X_1 , X_2, \cdots , X_n \) are a <strong>random sample</strong> of size \( n \) if the \( X_i \)’s are independent random variables and every \( X_i \) has the same probability distribution.
+</blockquote></li>
+<li class="fragment"><p class="fragment">We then say that the measurements we obtain are possible outcomes of the sample variables \( \{X_i\}_{i=1}^n \); particularly, if we make a computation of the sample mean,</p>
+
+<p class="fragment">\[ \overline{X} = \frac{1}{n} \sum_{i=1}^n X_i \]</p>
+
+<p class="fragment">the above is treated as a random variable (a linear combination of random variables) which has a random outcome, dependent on the realizations of the \( X_i \).</p></li>
+</ul>
+
+</div>
+
+</section>
+<section data-transition="linear" data-transition-speed="default">
+
+<div class="slideContent noTitle" >
+<h3 class="fragment">A review of the central limit theorem</h3>
 
 <ul>
 <li class="fragment"><p>Generally, if we are sampling from a population that has an unknown probability distribution, the <strong>sampling distribution of the sample mean</strong> will still be <b>approximately normal</b> with mean \( \mu \) and variance
