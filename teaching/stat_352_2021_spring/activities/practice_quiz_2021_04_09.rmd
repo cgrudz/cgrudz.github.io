@@ -1,0 +1,55 @@
+---
+title: "Practice Quiz 04/02/21"
+output: html_document
+---
+
+# Activity 04/09/21
+
+## Student Name:
+
+## Instructions:
+Fill in your name above.  We will work through the following activities as a group in the discussion sections.  You must turn in a completed worksheet with solutions filled in below for credit.  The solutions will be given in the discussion section.
+
+## Activity: Computing z-scores and critical values
+
+### Question 1:
+
+Recall, a general normal confidence interval (with known variance $\sigma^2$) is given of the form:
+
+$$\left(\overline{x} - z_\frac{\alpha}{2}\frac{\sigma}{\sqrt{n}}, \overline{x}+z_\frac{\alpha}{2} \frac{\sigma}{\sqrt{n}}\right)$$
+where $z_\frac{\alpha}{2}$ is selected so that 
+
+$$P\left(Z\leq z_\frac{\alpha}{2}\right) = 1 - \frac{\alpha}{2}$$.
+
+The confidence level for the above interval is thus equal to $(1-\alpha)\times 100\%$.
+
+For a normal population with known variance $\sigma^2$, answer the following questions:
+
+
+What is the confidence level (written as a percentage) for the interval
+$$\left(\overline{x} - 2.14\frac{\sigma}{\sqrt{n}}, \overline{x}+2.14 \frac{\sigma}{\sqrt{n}}\right)?$$
+
+Describe how you can compute $\alpha$ using the built-in functions in R.
+
+#### Solution:
+
+
+## Activity: Computing point estimates and confidence intervals
+
+### Question 2:
+
+The yield of a chemical process is being studied. From previous experience, yield is known to be normally distributed and $\sigma=3$. The past five days of plant operation have resulted in the yields in the following array:
+```{r}
+my_data <- c(91.6, 88.75, 90.8, 89.95, 91.3)
+```
+
+Compute each of the:
+
+1. sample mean
+2. sample standard deviation
+3. the standard error of the sample mean
+4. the sample-estimate for the standard error of the sample mean
+5. the 95% two-sided confidence interval for the true mean
+6. the 99% two-sided confidence interval for the true mean
+
+#### Solution
