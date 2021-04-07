@@ -1,0 +1,585 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+<!-- foo 
+Highlighting
+bold
+strong
+orange <b style="color:#d95f02"> text </b>
+green  <b style="color:#1b9e77"> text </b>
+purple <b style="color:#d24693"> text </b>
+red    <b style="color:#FF0000"> text </b>
+blue   <b style="color:#0000FF"> text </b>
+-->
+
+Point estimation and confidence intervals
+========================================================
+date: 04/07/2021
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+<blockquote>
+FAIR USE ACT DISCLAIMER:</br>
+This site is for educational purposes only.  This website may contain copyrighted material, the use of which has not been specifically authorized by the copyright holders. The material is made available on this website as a way to advance teaching, and copyright-protected materials are used to the extent necessary to make this class function in a distance learning environment.  The Fair Use Copyright Disclaimer is under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+</blockquote>
+
+
+========================================================
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+
+  * General concepts in point estimation
+    * Bias of estimators
+    * Variance of estimators
+    * Standard Error
+  * An introduction to confidence intervals
+
+
+========================================================
+## General concepts of point estimation
+
+* Recall, any function of a random sample, i.e., any statistic, is modeled as a random variable.
+
+* If $h$ is a general function used to compute some statistic, we thus define
+
+  $$\hat{\Theta} = h(X_1, \cdots, X_n)$$
+  
+  to be a random variable that will depend on the particular realizations of $X_1,\cdots, X_n$.
+
+
+* We call the probability distribution of a statistic a sampling distribution.
+
+  <blockquote>
+  <b>Sampling Distribution</b><br>
+  The probability distribution of a statistic is called a <strong>sampling distribution</strong>.
+  </blockquote>
+
+* The sample mean 
+  
+  $$\hat{\Theta} = \overline{X} = h(X_1, \cdots, X_n)= \frac{1}{n}\sum_{i=1}^n X_i$$
+  
+  is now one example for which we have a model of the sampling distribution.
+  
+* Specifically, the <b>central limit theorem</b> says that the <strong>sampling distribution of the sample mean</strong> is $\overline{X} \sim N\left(\mu, \frac{\sigma^2}{n}\right)$ when $X$ is normal, or if $n$ is sufficiently large.
+
+========================================================
+### General concepts of point estimation continued
+
+<ul>
+  <li>Recall, we had a special name for $\hat{\Theta}$ in relation to the true parameter value $\theta$:</li>
+  <li style="list-style-type:none"><blockquote>
+  <b>Point estimators</b><br>
+  A <strong>point estimate</strong> of some population parameter $\theta$ is a single numerical value $\hat{\theta}$ of a statistic $\hat{\Theta}$.  This is a particular realization of the random variable $\hat{\Theta}$, viewed as a random variable; $\hat{\Theta}$ is called the <strong>point estimator</strong>. 
+  </blockquote></li>
+</ul>
+
+* We want an estimator to be "close" in some sense to the true value of the unknown parameter, but we know that it happens to be a random variable.
+
+* In this way, we need to describe <b>how close</b> this estimator is to the true value in a <strong>probabilistic sense</strong>.
+
+* As we have seen before, there are important parameters that describe a probability distribution or a data set:
+ 1. the <b>"center"</b> of the data / distribution; and
+ 2. the <b>"spread"</b> of the data / distribution.
+ 
+* The central limit theorem actually provided both of these (and the sampling distribution) for the sample mean:
+  1. the <b>"center"</b> of the distribution for $\hat{\Theta}=\overline{X}$ was given by $\mu$, <strong>the true population mean</strong>;
+  2. the <b>"spread"</b> of the distribution for $\hat{\Theta}=\overline{X}$ was given by $\frac{\sigma}{\sqrt{n}}$, the <strong>standard deviation of the population, divided by the square-root of the sample size</strong>.
+
+* The two above parameters thus give us a means of describing <b>"how close"</b> the sample mean $\overline{X}$ tends to be to the population mean $\mu$ in a <strong>probabilistic sense</strong>.
+
+========================================================
+### Bias of estimators
+
+* The notion of the "center" of the sampling distribution can be useful as a general criteria for estimators.
+
+* Formally, we say that $\hat{\Theta}$ is an <b>unbiased estimator</b> of $\theta$ if the <strong>expected value</strong> of $\hat{\theta}$ is equal to $\theta$.
+
+* This is equivalent to saying that the mean of the probability distribution of $\hat{\Theta}$ (or the mean of the sampling distribution of $\hat{\Theta}$) is equal to $\theta$.
+
+<blockquote>
+<b>Bias of an Estimator</b><br>
+The point estimator $\hat{\Theta}$ is an <strong>unbiased estimator</strong> for the parameter $\theta$ if 
+$$\mathbb{E}\left[\hat{\Theta}\right] = \theta$$
+
+If the estimator is not unbiased, then the difference 
+$$\mathbb{E}\left[\hat{\Theta}\right] - \theta$$
+is called the <strong>bias of the estimator</strong> $\hat{\Theta}$.
+
+When an estimator is unbiased, the <strong>bias is zero</strong>; that is, 
+$$\begin{align}
+\mathbb{E}\left[\hat{\Theta}\right] - \theta &= \theta - \theta \\
+&=0
+\end{align}$$
+</blockquote>
+
+* If we <strong>consider the expected value to represent the average value over infinite replications</strong>;
+
+ * the above says that "<b>over infinite replications of a random sample</b> of size $n$, the <strong>average value of the point estimator</strong> $\hat{\Theta}$ will <b>equal the true population parameter</b> $\theta$".
+ 
+* A <strong>particular realization</strong> of $\hat{\Theta}$ will <b>generally not equal the true value</b> $\theta$.
+
+* However, <strong>replications of the experiment will give a good approximation</strong> of the true value $\theta$.
+
+========================================================
+## Variance of estimators
+<div style="float:left; width:60%">
+<ul>
+  <li> We use the <b>bias</b> as discussed already to <strong>measure the center of a sampling distribution</strong></li>
+  <ul>
+    <li> An <b>unbiased estimator</b> will have a <strong>distribution centered at the true population parameter</strong>. </li>
+  </ul>
+  <li>Yet suppose we have two estimators of the same parameter $\theta$, which we will denote $\hat{\Theta}_1$ and $\hat{\Theta}_2$ respectively.</li>
+  <li>It is possible that they are <b>both unbiased</b> (the sampling distributions have the same center), yet they <strong>have different spread</strong>.</li>
+  <li>That is to say, <strong>one estimator might tend to vary more than the other</strong>.</li>
+</ul>
+</div>
+<div style="float:right; width:38%" class="fragment">
+<img src="minimum_variance_unbiased_estimator.png" style="width:100%"  alt="Sampling distributions with same mean and different variance.">
+<p style="text-align:center">
+Courtesy of Montgomery & Runger, <em>Applied Statistics and Probability for Engineers</em>, 7th edition
+</p>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>The <b>spread</b> is a critical measure of <strong>how much variation is encountered with respect to resampling</strong>.</li>
+  <li>We might describe the two concepts with an estimator as follows:</li>
+  <ul>
+    <li><b>Accuracy of an estimator</b> - this is represented by the <strong>estimator being unbiased</strong>, so that we expect it to give an accurate result on average.</li>
+    <li><b>Precision of an estimator</b> - this is represented by the <strong>estimator having a small spread</strong>, so that the estimates don't differ wildly from sample to sample.</li>
+  </ul>
+  <li>It is possible, in general, for an estimator to be either, both or neither of the above.</li>
+  <li>We are often interested, thus, in <strong>unbiased estimators with a minimum variance as a first choice</strong>.</li>
+  <li>In some situations biased estimators will actually be preferred, though a general discussion of the tradoffs is beyond our scope.</li>
+</ul>
+</div>
+
+========================================================
+### Variance of estimators continued
+
+<div style="float:left; width:60%">
+<ul> 
+  <li>As a formal definition, we will introduce the following idea:</li>
+  <blockquote>
+  <b>Minimum Variance Unbiased Estimator</b><br>
+  If we consider all unbiased estimators of $\theta$, the one with the smallest variance is called
+  the <strong>minimum variance unbiased estimator (MVUE)</strong>.
+  </blockquote>
+  <li>The practical interpretation again is demonsrated by the last figure:</li>
+</ul>
+</div>
+<div style="float:right; width:38%" class="fragment">
+<img src="minimum_variance_unbiased_estimator.png" style="width:100%"  alt="Sampling distributions with same mean and different variance.">
+<p style="text-align:center">
+Courtesy of Montgomery & Runger, <em>Applied Statistics and Probability for Engineers</em>, 7th edition
+</p>
+</div>
+<div style="float:left; width:60%">
+<ul>
+  <li>Suppose that $\hat{\Theta}_1$ is the <b>MVUE</b>, and $\hat{\Theta}_2$ is <strong>any other unbiased estimator</strong>.</li>
+  <li>Then,
+  $$\mathrm{var}\left(\hat{\Theta}_1\right) \leq \mathrm{var}\left(\hat{\Theta}_2\right).$$
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>Practically speaking, the MVUE is the <strong>most precise unbiased estimator</strong>, as its value changes the least with respect to resampling.</li>
+  <li>An important example of a MVUE is actually the <b>sample mean</b>.</li>
+  <blockquote>
+  If $X_1, X_2 , \cdots , X_n$ is a random sample of size $n$ from a <b>normal distribution</b> with mean $\mu$ and variance $\sigma^2$, the sample mean $\overline{X}$ is the <strong>MVUE</strong> for $\mu$.
+  </blockquote>
+  <li>Again, other choices exist to estimate $\mu$, but among all unbiased estimators, the <strong>sample mean is the most precise</strong>.</li>
+  <li>For non-normal distributions, however, a better choice might be, e.g., a biased estimator.</li>
+</ul>
+</div>
+
+========================================================
+### Standard error of an estimator
+
+* As noted before, the variance is a "natural" measure of spread mathematically for theoretical reasons, but it is in the units squared of the original units.
+
+* For this reason, when we talk about the spread of an estimator's sampling distribution, we typically discuss the <b>standard error</b>.
+
+  <blockquote>
+  <b>The standard error</b>
+  Let $\hat{\Theta}$ be an estimator of $\theta$. The <strong>standard error error</strong> of $\hat{\Theta}$ is its <b>standard deviation</b> given by
+  $$\sigma_\hat{\Theta} =  \sqrt{\mathrm{var}\left(\hat{\Theta}\right)}.$$
+  If the standard error involves <b>unknown parameters that can be estimated</b>, substitution of those values into the equation above produces an estimated standard error denoted $\hat{\sigma}_\hat{\Theta}$.  It is also common to write the standard error as $\mathrm{SE}\left(\hat{\Theta}\right)$.
+  </blockquote>
+  
+* <b>Q:</b> can anyone recall what the standard error is of the sample mean?  That is, what is the standard deviation of the sampling distribution (for a normal sample or $n$ large)?
+
+  * <b>A:</b> the central limit theorem states that $\overline{X}$ follows (exactly for a normal sample or $n$ large, approximately) a sampling distribution
+  
+  $$\overline{X}\sim N\left(\mu, \frac{\sigma^2}{n}\right).$$
+  
+  * Therefore, the standard error of the sample mean is precisely,
+  
+  $$\sigma_{\overline{X}} = \frac{\sigma}{\sqrt{n}}.$$
+
+========================================================
+### Standard error of an estimator
+
+* As was discussed before, there are times that we may not know all the parameters that describe the standard error.
+
+* For example, suppose we draw $X_1, \cdots, X_n$ from a <b>normal population</b>, for which <strong>we know neither the mean nor the variance</strong>.
+
+* Let the unknown and unobservable theoretical parameters be denoted $\mu$ and $\sigma$ as usual.
+
+* The sample mean has the sampling distribution,
+ 
+  $$\overline{X} \sim N\left( \mu, \frac{\sigma^2}{n}\right),$$
+  
+  and therefore standard error $\sigma_{\overline{X}} = \frac{\sigma}{\sqrt{n}}$.
+  
+* However, we stated that $\sigma$ itself is <b>unknown</b>.
+
+* In this case, we will <strong>estimate the standard error</strong> as
+
+  $$\hat{\sigma}_\overline{X} =  \frac{s}{\sqrt{n}}$$
+  with the <b>sample standard deviation</b> $s$.
+  
+* This is what is meant to estimate the standard error.
+
+* This particular example will be extremely important for confidence intervals.
+
+========================================================
+### Standard error of an estimator -- example
+
+* An article in the Journal of Heat Transfer (Trans. ASME, Sec. C, 96, 1974, p. 59) described a new method of measuring the thermal conductivity of Armco iron. 
+
+* Using a temperature of $100^\circ$ F and a power input of 550 watts, the following 10 measurements of thermal conductivity (in Btu/hr-ft-∘ F) were obtained:
+
+  $$41.60, 41.48, 42.34, 41.95, 41.86, 42.18, 41.72, 42.26, 41.81, 42.04$$
+
+* A point estimate of the mean thermal conductivity at $100^\circ$ F and 550 watts is the sample mean or
+
+ $$\overline{x} = 41.924$$
+
+
+* The standard error of the sample mean is $\sigma_\overline{X}=\frac{\sigma}{\sqrt{n}}$;
+
+  * however, $\sigma$ is unknown so that we estimate it by the sample standard deviation $s = 0.284$ to obtain
+
+ $$\hat{\sigma}_\overline{X} = \frac{s}{\sqrt{n}}= \frac{0.284}{\sqrt{10}} \approx 0.0898$$
+ 
+* Notice that the standard error is about <b>0.2 percent of the sample mean</b>, implying that we have obtained a <strong>relatively precise point estimate of thermal conductivity</strong>. 
+
+========================================================
+### Standard error of an estimator -- example
+
+
+* Assume that thermal conductivity is normally distributed, then two times the standard error is 
+
+  $$2\hat{\sigma}_\overline{X} = 2(0.0898) = 0.1796.$$ 
+  
+* The empirical rule says that about 95% of realizations of the sample mean lie within two standard deviations of the true mean $\mu$.
+
+* Therefore, we are highly confident that the <b>true mean thermal conductivity</b> is <strong>within the interval</strong> 41.924 ± 0.1796 or between $[41.744 , 42.104]$.
+
+* We will now formalize this logic into confidence intervals.
+
+========================================================
+## Introduction to confidence intervals
+
+* Engineers are often involved in estimating parameters. 
+
+* For example, there is an ASTM Standard E23 that defines a technique called the Charpy V-notch method for notched bar impact testing of metallic materials. 
+
+* The impact energy is often used to determine whether the material experiences a ductile-to-brittle transition as the temperature decreases. 
+
+* Suppose that we have <strong>tested a sample</strong> of $10$ specimens of a particular material with this procedure. We know that we can use the <b style="color:#d95f02">sample average</b> $\overline{X}$ to estimate the <b style="color:#1b9e77">true mean impact energy</b> $\mu$. 
+
+* However, we also know that the <b style="color:#1b9e77">true mean impact energy</b> is <strong>unlikely to be exactly equal to your estimate</strong> due to <b style="color:#d95f02">sampling error</b>. 
+
+* Reporting the results of your test as a single number is unappealing because $\overline{X}$ may be an accurate estimator, but it <strong>doesn't tell us how precise the estimate is</strong>.
+
+  * Rather, <strong>measures of the spread of the sampling distribution</strong>, e.g., the <b>standard error</b> tell us how precise the estimate is.
+
+* A way to <b>quantify our uncertainty</b> is to report the estimate in terms of a <strong>range of plausible values called a confidence interval</strong>. 
+
+========================================================
+### Introduction to confidence intervals -- continued
+
+* Suppose $\hat{\Theta}$ is an unbiased estimator for the speed of light $\theta$. 
+* We are assuming that $\theta$ is a deterministic but unknown constant.
+ * For sake of example, also suppose that $\hat{\Theta}$ has standard deviation $\sigma_\hat{\Theta}$ = 100 km/sec. 
+ * Recall Chebyshev’s inequality, 
+ 
+ $$\begin{align}
+ P\left(\vert \hat{\Theta} - \theta \vert \geq k \sigma_\hat{\Theta}\right) \leq  \frac{1}{k^2}
+ \end{align}$$
+ 
+ * We find
+ 
+  $$\begin{align}
+ P\left(\vert \hat{\Theta} - \theta \vert < 2 \sigma_\hat{\Theta}\right) &gt;  \frac{3}{4}
+ \end{align}$$
+
+ * This tells us that there is a probability of at least 75% that $\hat{\Theta}$ is within 200 km/sec of the speed of light $\theta$. 
+ 
+ * Equivalently, $\theta \in \left(\hat{\Theta}-200, \hat{\Theta}+200\right)$ with probability 75%.
+ 
+ * Notice that $\left(\hat{\Theta}-200, \hat{\Theta}+200\right)$ is a <b>random interval</b> but we again assume that $\theta$ is a fixed constant.
+ 
+======================================================== 
+
+### Introduction to confidence intervals -- continued
+
+* Now we will suppose the estimate $\hat{\Theta}$ gives us based on some data is $\hat{\theta}=299852.4$
+
+* We can say that  $\theta \in (299652.4, 300 052.4)$ with <b>confidence</b> 75%.
+   
+   * Note that $\theta$ is an an unknown constant -- it is either in the interval or not and there is nothing random about the above statement.
+   * Therefore, <strong>we cannot say that the probability</strong> of $\theta \in (299652.4, 300 052.4)$ is 75%, but we used information to <b>guarantee that our procedure for estimation will work 75% of the time</b>.
+   
+* Confidence intervals give us a systematic procedure as above to guarantee with a <b>level of confidence</b> that our plausible values for the parameter $\theta$ include the true value.
+ 
+* In the remaining course, we will be concerned with dual questions:
+  1. With what confidence can we estimate a parameter $\theta$ as a range of plausible values? And
+  2. how unlikely would it be for $\theta$ to be outside of some range based on our observations?
+
+* These two ideas are known as <b>confidence intervals</b> and <b>hypothesis testing</b> respectively.
+
+
+======================================================== 
+
+### Introduction to confidence intervals -- continued
+
+* Suppose that $X_1 , X_2, \cdots , X_n$ is a random sample from a normal distribution with <b>unknown mean</b> $\mu$ and <strong>known variance</strong> $\sigma^2$. 
+
+* By the central limit theorem, we know that the sample mean $\overline{X}$ is distributed 
+  
+  $$\overline{X} \sim N\left(\mu, \frac{\sigma^2}{n}\right)$$
+
+* We may standardize $\overline{X}$ by subtracting its mean and dividing by its standard deviation, 
+  
+  $$\begin{align}
+  Z = \frac{\overline{X} - \mu}{\frac{\sigma}{\sqrt{n}}}.
+  \end{align}$$
+
+* The random variable $Z$ has a <b>standard normal distribution</b>.
+
+* A <b>confidence interval estimate</b> for $\mu$ is an interval of the form 
+
+  $$l ≤ \mu ≤ u,$$ 
+  where the end-points $l$ and $u$ are computed from the sample data. 
+  
+* Because <b style="color:#d95f02">different samples</b> will <strong>produce different values</strong> of $l$ and $u$, these end-points are values of <b style="color:#1b9e77">random variables</b> $L$ and $U$, respectively. 
+
+======================================================== 
+
+### Introduction to confidence intervals -- continued
+
+* Suppose that we can determine values of $L$ and $U$ such that the following probability statement is true:
+  
+  $$P\{L \leq \mu \leq U\} = 1 − \alpha$$
+  where $0 \leq \alpha \leq 1$. 
+  
+  
+* There is a probability of $1 − \alpha$ of selecting a sample for which the CI will contain the true value of $\mu$. 
+
+* Once we have selected the sample, so that $X_1 = x_1 , X_2 = x_2 , \cdots , X_n = x_n$, and computed $l$ and $u$, the resulting confidence interval for $\mu$ is
+  
+  $$l \leq \mu \leq u.$$
+
+* The end-points or bounds $l$ and $u$ are called the <b>lower- and upper-confidence limits (bounds)</b>, respectively, and $1 − \alpha$ is called the <b>confidence coefficient (or level)</b>.
+
+* Again, 
+  
+    $$l \leq \mu \leq u.$$
+    is a fixed numerical statement with nothing random about it, this is true or untrue.
+    
+*  The goal then is to find the procedure that defines the random variables $L,U$ for which the procedure will succeed $(1-\alpha)\times 100\%$ of the time.
+
+
+========================================================
+
+### Introduction to confidence intervals -- continued
+
+<div style="float:left; width:40%">
+<img src="confidence_table.png" style="width:100%"  alt="Common confidence levels.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:right; width:60%">
+<ul>
+<li>Let's take an example <b>confidence level of $95\%$</b> -- this corresponds to a <strong>rate of failure of $5\%$</strong> over infinitely many replications.</li>
+  <li>Generally, we will write the confidence level as,
+  $$(1 - \alpha) \times 100\%$$
+  so that we can associate this confidence level with its rate of failure $\alpha$.</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+ <li>In our problem, because $Z = \frac{\overline{X} - \mu }{\frac{\sigma}{\sqrt{n}}}$ has a standard normal distribution, we may write
+ $$\begin{align}
+ P\left(-z_\frac{\alpha}{2} \leq  \frac{\overline{X} - \mu }{\frac{\sigma}{\sqrt{n}}} \leq z_\frac{\alpha}{2}\right) = 1 - \alpha
+ \end{align}$$
+ where
+ </li>
+</ul>
+</div>
+<div style="float:left; width:75%">
+  <ul>
+    <li>we want to find the <b>critical value</b> $z_\frac{\alpha}{2}$ for which:</li>
+    <ul>
+      <li>$(1-\frac{\alpha}{2})\times 100\%$ of the area under the normal density lies to the left of $z_\frac{\alpha}{2}$; and</li>
+      <li>$(1-\frac{\alpha}{2})\times 100\%$ of the area under the normal density lies to the right of $-z_\frac{\alpha}{2}$.</li>
+    </ul>
+    <li>Put together, $(1-\alpha)\times 100\%$ of values lie within $[-z_\frac{\alpha}{2},z_\frac{\alpha}{2}]$ in the standard normal. 
+  </ul>
+</ul> 
+</div>
+<div style="float:left; width:25%" class="fragment">
+<img src="alpha_over_2_critical.png" style="width:100%"  alt="Area between alpha over two critical value.">
+</div>
+
+========================================================
+
+### Introduction to confidence intervals -- continued
+
+<div style="float:left; width:40%">
+<img src="confidence_region.png" style="width:100%"  alt="Confidence interval for alpha value.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:60%">
+<ul>
+  <li>In the figure to the left, we see exactly thus how to find the width of the region for a given confidence level.</li>
+  <ul>
+    <li>For a given confidence level $(1 -\alpha)\times 100\%$, we will find the particular $\alpha$.</li>
+    <li>We then find the associated <strong>$z_\frac{\alpha}{2}$ critical value</strong>.</li>
+    <li>This critical value is associated to the measure of extremeness of <strong>finding an observation that lies far away from the mean</strong>.</li>
+    <li>Particularly, only $\alpha \times 100\%$ of the population lies outside of the region $[-z_\frac{\alpha}{2},z_\frac{\alpha}{2}]$ in the standard normal.</li>
+  </ul>
+</ul>
+</div>  
+<div style="float:left; width:100%">
+<ul>
+<li>Manipulating the earlier probability statement, we find that
+$$\begin{align}
+& P\left(-z_\frac{\alpha}{2} \leq  \frac{\overline{X} - \mu }{\frac{\sigma}{\sqrt{n}}} \leq z_\frac{\alpha}{2}\right) = 1 - \alpha\\
+\Leftrightarrow & P\left( \overline{X} - \frac{\sigma}{\sqrt{n}}z_\frac{\alpha}{2} \leq  \mu  \leq  \overline{X} + \frac{\sigma}{\sqrt{n}} z_\frac{\alpha}{2}\right) = 1 - \alpha.
+\end{align}$$
+<li>The above represents the traditional way to construct a confidence interval; with $(1-\alpha)\times 100\%$ <b>confidence</b>
+$$L \leq \mu \leq U \Leftrightarrow  \overline{X} - \frac{\sigma}{\sqrt{n}}z_\frac{\alpha}{2} \leq  \mu  \leq  \overline{X} + \frac{\sigma}{\sqrt{n}} z_\frac{\alpha}{2}$$
+</ul>
+</div>
+
+========================================================
+
+### Introduction to confidence intervals -- continued
+
+* Note, the last argument only works for a normal population.
+  * However, we get a <strong>very good approximation</strong> with $n$ large enough for non-normal populations.
+* The last argument also required that the variance $\sigma^2$ was known.
+  *  If $\sigma^2$ is unknown, we need to change the argument slightly, which is the reason we belabored z-scores in this argument.
+  
+* To compute the confidence intervals as above, we need to introduce a new function, the <b>quantile function</b>:
+  
+  * `qnorm(p, mean, sd)` -- this is the quantile function that gives the critical value associated to the value $\alpha=p$.
+  * The quantile function returns the value $z_p$ for which $p\times 100 \%$ of the area under the standard normal lies to the left of $z_p$ and $(1-p)\times 100\%$ lies to the right.
+  * Compared to our earlier example:
+  
+```{r}
+qnorm(0.025)
+qnorm(0.975)
+```
+
+* By the symmetry of the normal, we can thus compute $z_\frac{\alpha}{2}$=`qnorm(p)` where $p=1-\frac{\alpha}{2}$.
+
+========================================================
+
+### Introduction to confidence intervals -- continued
+
+* Suppose we know that, $\overline{X}$ is the sample mean from a normal population with (unknown) mean $\mu= 10$, standard deviation $\sigma= 2$ and sample size $n=16$, then 
+  
+  $$\overline{X} \sim N\left(10, \frac{4}{16}\right).$$
+    
+* Notice that the standard error is thus given as $\sigma_\overline{X} = \sqrt{\frac{1}{4}} = \frac{1}{2}$
+
+* If $\overline{X}$ is observed to take the value $\overline{x}=9$, then we can construct the $95\%$ confidence interval for $\mu$ as,
+
+```{r}
+se <- 0.5
+z_alpha_over_2 <- qnorm(0.975)
+ci <- c(9 - se*z_alpha_over_2 , 9+se*z_alpha_over_2)
+ci
+```
+
+* Notice, the above confidence interval does not contain the true population mean $\mu=10$...
+
+========================================================
+
+### Introduction to confidence intervals -- continued
+
+* Let's suppose instead we repeat the argument but select $\alpha=0.01$.
+
+* This corresponds to a critical value $z_\frac{\alpha}{2}=z_{0.005}$.
+
+* To compute the the corresponding critical value, we are looking for `p`=$1-\frac{\alpha}{2}=0.995$
+
+```{r}
+se <- 0.5
+z_alpha_over_2 <- qnorm(0.995)
+ci <- c(9 - se*z_alpha_over_2 , 9+se*z_alpha_over_2)
+ci
+```
+
+* Notice that this $(1-\alpha)\times 100\% = 99\%$ confidence interval <i>does</i> contain the true mean.
+
+* This confidence interval is somewhat wider as we want to guarantee that the procedure will work $99\%$ of the time.
+
+* Therefore, we need to include a wider range of plausible values when we construct such an interval.
+
+========================================================
+
+### Introduction to confidence intervals -- continued
+
+<div style="float:left; width:60%">
+<ul>
+  <li>What we are imagining when we construct confidence intervals is the following.</li>
+  <li>Based on some particular sample $X_{j,1},\cdots, X_{j,n}$ of size $n$ indexed by $j$, we will get some particular value for the confidence interval.</li>
+  <li>If we replicate the sample of size $n$, indexed by $j$, we will almost surely find a new confidence interval based on each replicate.</li>
+</ul>
+</div>
+<div style="float:right; width:38%" class="fragment">
+<img src="confidence_interval_replications.png" style="width:100%"  alt="Confidence interval replications.">
+<p style="text-align:center">
+Courtesy of Montgomery & Runger, <em>Applied Statistics and Probability for Engineers</em>, 7th edition
+</p>
+</div>
+<div style="float:left; width:60%">
+<ul>
+  <li>Our goal in constructing a confidence interval is thus to catch the true parameter value with the confidence level $(1-\alpha)\times 100\%$ out of all replicates.</li>
+  <li>If we want higher confidence, we need wider intervals to catch the true value.</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>However, the normal confidence interval,
+  $$\overline{X} - \frac{\sigma}{\sqrt{n}}z_\frac{\alpha}{2} \leq  \mu  \leq  \overline{X} + \frac{\sigma}{\sqrt{n}} z_\frac{\alpha}{2}$$
+  also has a width that depends on the sample size.</li>
+  <li>This is of course, as we discussed in the central limit theorem, the precision of the sample mean $\overline{X}$ increases for larger sample sizes, with a standard deviation that shrinks like $\frac{1}{\sqrt{n}}$.</li>
+  <li>This allows us to select a sample size for a target precision, given a level of confidence.</li>
+  <li>We will continue this next time.</li>
+</ul>
+</div>
