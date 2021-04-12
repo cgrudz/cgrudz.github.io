@@ -1,0 +1,744 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+<!-- foo 
+Highlighting
+bold
+strong
+orange <b style="color:#d95f02"> text </b>
+green  <b style="color:#1b9e77"> text </b>
+purple <b style="color:#d24693"> text </b>
+red    <b style="color:#FF0000"> text </b>
+blue   <b style="color:#0000FF"> text </b>
+-->
+
+Confidence intervals continued
+========================================================
+date: 04/12/2021
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+<blockquote>
+FAIR USE ACT DISCLAIMER:</br>
+This site is for educational purposes only.  This website may contain copyrighted material, the use of which has not been specifically authorized by the copyright holders. The material is made available on this website as a way to advance teaching, and copyright-protected materials are used to the extent necessary to make this class function in a distance learning environment.  The Fair Use Copyright Disclaimer is under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+</blockquote>
+
+
+========================================================
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+
+  * A review of confidence intervals
+  * Estimating the necessary sample size for an error tolerance
+  * One-sided confidence bounds
+  * Confidence intervals for the mean, with unknown population standard deviation
+    * Large sample size
+    * Student t distribution
+    * Student t confidence intervals
+
+
+
+========================================================
+
+### Introduction to confidence intervals -- continued
+
+<div style="float:left; width:40%">
+<img src="confidence_table.png" style="width:100%"  alt="Common confidence levels.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:right; width:60%">
+<ul>
+<li>Let's take an example <b>confidence level of $95\%$</b> -- this corresponds to a <strong>rate of failure of $5\%$</strong> over infinitely many replications.</li>
+  <li>Generally, we will write the confidence level as,
+  $$(1 - \alpha) \times 100\%$$
+  so that we can associate this confidence level with its rate of failure $\alpha$.</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+ <li>In our problem, because $Z = \frac{\overline{X} - \mu }{\frac{\sigma}{\sqrt{n}}}$ has a standard normal distribution, we may write
+ $$\begin{align}
+ P\left(-z_\frac{\alpha}{2} \leq  \frac{\overline{X} - \mu }{\frac{\sigma}{\sqrt{n}}} \leq z_\frac{\alpha}{2}\right) = 1 - \alpha
+ \end{align}$$
+ where
+ </li>
+</ul>
+</div>
+<div style="float:left; width:75%">
+  <ul>
+    <li>we want to find the <b>critical value</b> $z_\frac{\alpha}{2}$ for which:</li>
+    <ul>
+      <li>$(1-\frac{\alpha}{2})\times 100\%$ of the area under the normal density lies to the left of $z_\frac{\alpha}{2}$; and</li>
+      <li>$(1-\frac{\alpha}{2})\times 100\%$ of the area under the normal density lies to the right of $-z_\frac{\alpha}{2}$.</li>
+    </ul>
+    <li>Put together, $(1-\alpha)\times 100\%$ of values lie within $[-z_\frac{\alpha}{2},z_\frac{\alpha}{2}]$ in the standard normal. 
+  </ul>
+</ul> 
+</div>
+<div style="float:left; width:25%" class="fragment">
+<img src="alpha_over_2_critical.png" style="width:100%"  alt="Area between alpha over two critical value.">
+</div>
+
+========================================================
+
+### Introduction to confidence intervals -- continued
+
+<div style="float:left; width:40%">
+<img src="confidence_region.png" style="width:100%"  alt="Confidence interval for alpha value.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>
+<div style="float:left; width:60%">
+<ul>
+  <li>In the figure to the left, we see exactly thus how to find the width of the region for a given confidence level.</li>
+  <ul>
+    <li>For a given confidence level $(1 -\alpha)\times 100\%$, we will find the particular $\alpha$.</li>
+    <li>We then find the associated <strong>$z_\frac{\alpha}{2}$ critical value</strong>.</li>
+    <li>This critical value is associated to the measure of extremeness of <strong>finding an observation that lies far away from the mean</strong>.</li>
+    <li>Particularly, only $\alpha \times 100\%$ of the population lies outside of the region $[-z_\frac{\alpha}{2},z_\frac{\alpha}{2}]$ in the standard normal.</li>
+  </ul>
+</ul>
+</div>  
+<div style="float:left; width:100%">
+<ul>
+<li>Manipulating the earlier probability statement, we find that
+$$\begin{align}
+& P\left(-z_\frac{\alpha}{2} \leq  \frac{\overline{X} - \mu }{\frac{\sigma}{\sqrt{n}}} \leq z_\frac{\alpha}{2}\right) = 1 - \alpha\\
+\Leftrightarrow & P\left( \overline{X} - \frac{\sigma}{\sqrt{n}}z_\frac{\alpha}{2} \leq  \mu  \leq  \overline{X} + \frac{\sigma}{\sqrt{n}} z_\frac{\alpha}{2}\right) = 1 - \alpha.
+\end{align}$$
+<li>The above represents the traditional way to construct a confidence interval; with $(1-\alpha)\times 100\%$ <b>confidence</b>
+$$L \leq \mu \leq U \Leftrightarrow  \overline{X} - \frac{\sigma}{\sqrt{n}}z_\frac{\alpha}{2} \leq  \mu  \leq  \overline{X} + \frac{\sigma}{\sqrt{n}} z_\frac{\alpha}{2}$$
+</ul>
+</div>
+
+========================================================
+
+### Introduction to confidence intervals -- continued
+
+* Note, the last argument only works for a normal population.
+  * However, we get a <strong>very good approximation</strong> with $n$ large enough for non-normal populations.
+* The last argument also required that the variance $\sigma^2$ was known.
+  *  If $\sigma^2$ is unknown, we need to change the argument slightly, which is the reason we belabored z-scores in this argument.
+  
+* To compute the confidence intervals as above, we need to introduce a new function, the <b>quantile function</b>:
+  
+  * `qnorm(p, mean, sd)` -- this is the quantile function that gives the critical value associated to the value $\alpha=p$.
+  * The quantile function returns the value $z_p$ for which $p\times 100 \%$ of the area under the standard normal lies to the left of $z_p$ and $(1-p)\times 100\%$ lies to the right.
+  * Compared to our earlier example:
+  
+```{r}
+qnorm(0.025)
+qnorm(0.975)
+```
+
+* By the symmetry of the normal, we can thus compute $z_\frac{\alpha}{2}$=`qnorm(p)` where $p=1-\frac{\alpha}{2}$.
+
+========================================================
+
+### Introduction to confidence intervals -- continued
+
+* Suppose we know that, $\overline{X}$ is the sample mean from a normal population with (unknown) mean $\mu= 10$, standard deviation $\sigma= 2$ and sample size $n=16$, then 
+  
+  $$\overline{X} \sim N\left(10, \frac{4}{16}\right).$$
+    
+* Notice that the standard error is thus given as $\sigma_\overline{X} = \sqrt{\frac{1}{4}} = \frac{1}{2}$
+
+* If $\overline{X}$ is observed to take the value $\overline{x}=9$, then we can construct the $95\%$ confidence interval for $\mu$ as,
+
+```{r}
+se <- 0.5
+z_alpha_over_2 <- qnorm(0.975)
+ci <- c(9 - se*z_alpha_over_2 , 9+se*z_alpha_over_2)
+ci
+```
+
+* Notice, the above confidence interval does not contain the true population mean $\mu=10$...
+
+========================================================
+
+### Introduction to confidence intervals -- continued
+
+* Let's suppose instead we repeat the argument but select $\alpha=0.01$.
+
+* This corresponds to a critical value $z_\frac{\alpha}{2}=z_{0.005}$.
+
+* To compute the the corresponding critical value, we are looking for `p`=$1-\frac{\alpha}{2}=0.995$
+
+```{r}
+se <- 0.5
+z_alpha_over_2 <- qnorm(0.995)
+ci <- c(9 - se*z_alpha_over_2 , 9+se*z_alpha_over_2)
+ci
+```
+
+* Notice that this $(1-\alpha)\times 100\% = 99\%$ confidence interval <i>does</i> contain the true mean.
+
+* This confidence interval is somewhat wider as we want to guarantee that the procedure will work $99\%$ of the time.
+
+* Therefore, we need to include a wider range of plausible values when we construct such an interval.
+
+========================================================
+
+### Introduction to confidence intervals -- continued
+
+<div style="float:left; width:60%">
+<ul>
+  <li>What we are imagining when we construct confidence intervals is the following.</li>
+  <li>Based on some particular sample $X_{j,1},\cdots, X_{j,n}$ of size $n$ indexed by $j$, we will get some particular value for the confidence interval.</li>
+  <li>If we replicate the sample of size $n$, indexed by $j$, we will almost surely find a new confidence interval based on each replicate.</li>
+</ul>
+</div>
+<div style="float:right; width:38%" class="fragment">
+<img src="confidence_interval_replications.png" style="width:100%"  alt="Confidence interval replications.">
+<p style="text-align:center">
+Courtesy of Montgomery & Runger, <em>Applied Statistics and Probability for Engineers</em>, 7th edition
+</p>
+</div>
+<div style="float:left; width:60%">
+<ul>
+  <li>Our goal in constructing a confidence interval is thus to catch the true parameter value with the confidence level $(1-\alpha)\times 100\%$ out of all replicates.</li>
+  <li>If we want higher confidence, we need wider intervals to catch the true value at a higher rate.</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>However, the normal confidence interval,
+  $$\overline{X} - \frac{\sigma}{\sqrt{n}}z_\frac{\alpha}{2} \leq  \mu  \leq  \overline{X} + \frac{\sigma}{\sqrt{n}} z_\frac{\alpha}{2}$$
+  also has a width that depends on the sample size.</li>
+  <li>This is of course, as we discussed in the <b>central limit theorem</b>, the <strong>precision of the sample mean</strong> $\overline{X}$ <strong>increases for larger sample sizes</strong>, with a standard deviation that shrinks like $\frac{1}{\sqrt{n}}$.</li>
+  <li>This allows us to select a sample size for a target precision, given a level of confidence.</li>
+</ul>
+</div>
+
+
+========================================================
+
+## Choosing the sample size
+
+<div style="float:left; width:50%">
+<ul>
+  <li>In situations whose sample size can be controlled, we can choose $n$ so that we are $(1 − \alpha)\times 100\%$ confident that the error in estimating $\mu$ is less than a specified bound on the error $E$. </li>
+  <li> The appropriate sample size is found by choosing $n$ such that
+
+  $$z_\frac{\alpha}{2} \hat{\sigma}_\overline{X} = z_\frac{\alpha}{2} \frac{\sigma}{\sqrt{n}} = E.$$</li>
+</ul>
+</div>
+<div style="float:right; width:48%" class="fragment">
+<img src="estimation_error.png" style="width:100%"  alt="Confidence interval error.">
+<p style="text-align:center">
+Courtesy of Montgomery & Runger, <em>Applied Statistics and Probability for Engineers</em>, 7th edition
+</p>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>Notice, $n$ does not affect the choice of $z_\frac{\alpha}{2}$ which is based on the desired confidence level;</li>
+  <ul>
+    <li> rather, this changes the size of the standard error, which decreases proportionally to $\frac{1}{\sqrt{n}}$.</li>
+  </ul>
+  <li>Solving this equation gives the following formula for $n$:
+
+  $$\begin{align}
+  &E =  z_\frac{\alpha}{2} \frac{\sigma}{\sqrt{n}} \\
+  \Leftrightarrow & \frac{1}{\sqrt{n}} = \frac{E}{z_\frac{\alpha}{2} \sigma} \\
+  \Leftrightarrow & n = \left(\frac{z_\frac{\alpha}{2} \sigma}{E}\right)^2
+  \end{align}$$</li>
+  <li> For a specified error tolerance $E$, we can thus <i>choose</i> $n$ such that $\mu$ lies within $E = z_\frac{\alpha}{2} \frac{\sigma}{\sqrt{n}}$ of the sample mean $\overline{X}$ with $(1-\alpha)\times 100 \%$ confidence.</li>
+  <li>$E$ is a <b>chosen radius of the confidence interval</b> <strong>around the point estimate</strong>, in which we want to "catch" the true value.</li>
+</ul>
+</div>
+
+========================================================
+
+### Choosing the sample size -- continued
+
+* Putting this formally:
+
+<blockquote>
+  <b>Sample Size for Specified Error on the Mean, Variance Known</b><br>
+  If $\overline{X}$ is used as an estimate of $\mu$, we can be $(1 − \alpha)\times 100\%$ confident that the error $\vert \overline{x} - \mu\vert$ will not exceed a specified amount $E$ when the sample size is
+  $$n = \left(\frac{z_\frac{\alpha}{2} \sigma}{E}\right)^2.$$
+</blockquote>
+
+
+* Note that the above was directly a consequence of the central limit theorem, and the fact that
+
+  $$\overline{X} \sim N\left(\mu, \frac{\sigma^2}{n}\right).$$
+  
+  when the underlying population is normal (or approximately for large $n$ for non-normal populations).
+
+========================================================
+
+### Choosing the sample size -- example
+
+
+* Suppose that we want to determine how many specimens must be tested to ensure that the
+$95\%$ CI on $\mu$ for a normal population with known standard deviation $\sigma=1$ falls below some specified error tolerance.
+
+* For a $95\%$ confidence interval, we have $\alpha=1-0.95=0.05$.  
+
+* We therefore require that $1-\frac{\alpha}{2} = 1-0.025=0.975$ of the area lies to the left and $\frac{\alpha}{2}=0.025$ lies to the right of $z_\frac{\alpha}{2}$.
+
+
+* If $E=10\%$, we would write,
+
+  $$\begin{align}
+  n &= \left(\frac{z_\frac{\alpha}{2} \sigma}{E}\right)^2\\
+    &= \left(\frac{z_{0.025} \times 1}{0.10}\right)^2
+  \end{align}$$
+
+* In R we can write
+
+```{r}
+E <- 0.1
+sigma <- 1.0
+z_alpha_over_2 <- qnorm(0.975)
+n_ten_percent <- ( (z_alpha_over_2 * sigma) / E )^2
+n_ten_percent
+```
+
+========================================================
+
+### Choosing the sample size -- example
+
+* Notice, with our last choice of a $10\%$ error tolerance we had a corresponding sample size of
+
+```{r}
+n_ten_percent
+```
+
+* Suppose we require this estimate to be more precise, say $E=5\%$ or $E=1\%$.
+
+* We can revise our previous estimate by
+
+```{r}
+E <- 0.05
+n_five_percent <- ( (z_alpha_over_2 * sigma) / E )^2
+n_five_percent
+```
+
+* and
+
+```{r}
+E <- 0.01
+n_one_percent <- ( (z_alpha_over_2 * sigma) / E )^2
+n_one_percent
+```
+
+
+========================================================
+
+### Choosing the sample size -- example
+
+* In the last example, we saw the necessary sample size grow as follows:
+
+```{r fig.width=24, fig.height=6}
+x_vals <- c(0.01, 0.05, 0.10)
+y_vals <- c(n_one_percent, n_five_percent, n_ten_percent)
+par(cex = 2.0, mar = c(5, 4, 4, 2) + 0.3)
+plot(x_vals, y_vals, xlab = "Error tolerance", ylab="Necessary sample size", type="b")
+```
+
+========================================================
+
+### Choosing the sample size -- example
+
+* Suppose we set $x=E$ and we vary $x$ over a grid
+
+```{r fig.width=24, fig.height=6}
+x <- seq(0.005,0.1,by=0.005)
+E <- x
+n_grid <- ( (z_alpha_over_2 * sigma) / E )^2
+par(cex = 2.0, mar = c(5, 4, 4, 2) + 0.3)
+plot(E, n_grid, xlab = "Error tolerance", ylab="Necessary sample size", type="b")
+```
+
+* This plot illustrates the fact that the sample size is growing like
+
+ $$\begin{align}
+ n=C_{\alpha, \sigma} \times \frac{1}{x^2}
+ \end{align}$$
+ 
+ where $C_{\alpha,\sigma}$ is a constant that depends on the confidence level and the population standard deviation.
+
+========================================================
+
+## One-sided confidence bounds
+
+<div style="float:left; width:50%">
+<ul>
+  <li> The confidence intervals we have discussed <strong>provided both</strong> a <b>lower confidence bound</b> and an <b>upper confidence bound</b> for $\mu$. </li>
+  <li> Thus, it provides a <b>two-sided CI</b>. </li>
+  <li> It is also possible to obtain <b>one-sided confidence bounds</b> for $\mu$ by setting either the lower bound $l = −\infty$ or the upper bound $u = \infty$. </li>
+</ul>
+</div>
+<div style="float:right; width:48%" class="fragment">
+<img src="2-sided-and-1-sided-Confidence-Intervals-CI-the-first-diagram-shows-a-2-sided-CI.png" style="width:100%"  alt="Confidence interval error.">
+<p style="text-align:center">
+Courtesy of Sethi, R.J. et al. <a href="https://www.researchgate.net/publication/286233981_Gait_Recognition_Using_Motion_Physics_in_a_Neuromorphic_Computing_Framework"><i>Gait recognition using motion physics in a neuromorphic computing framework</i></a>. 2010.
+</p>
+</div>
+<div style="float:left; width:50%">
+<ul>
+   <li> In this case, we must respectively replace $z_\frac{\alpha}{2}$ with $z_\alpha$ and choose $\pm z_\alpha$ as the reference point appropriately for $l$ and $u$.</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+ <li>Suppose we want to <strong>bound the estimate below</strong>, i.e., we will allow $u=\infty$ and set $l=\overline{x}-z_\alpha \sigma_\overline{X}$ for the range,
+
+  $$(\overline{x}-z_\alpha \sigma_\overline{X}, \infty).$$</li>
+  
+  <li>Respectively, if we want to <strong>bound the estimate above</strong>, we will allow $l=-\infty$ and set $u=\overline{x}+z_\alpha \sigma_\overline{X}$ for the range,
+  
+  $$(-\infty, \overline{x}+z_\alpha \sigma_\overline{X}).$$</li>
+  
+  <li>In the above, the choice of the interval and the associated error is illustrated for the two-sided confidence interval and for the one-sided bounds, with $\alpha=0.05$.</li>
+</ul>
+</div>
+
+
+========================================================
+
+### One-sided confidence bounds -- continued
+
+* Formally we will write
+
+<blockquote>
+  <b>One-Sided Confidence Bounds on the Mean, Variance Known</b><br>
+  The $(1-\alpha)\times 100\%$ upper-confidence bound for $\mu$ is
+  $$\begin{align}
+  \mu &\leq \overline{x} + z_\alpha \sigma_{\overline{X}} \\
+  &= \overline{x} + z_\alpha \frac{\sigma}{\sqrt{n}}
+  \end{align}$$
+  and the $(1 − \alpha)\times 100\%$ lower-confidence bound for $\mu$ is
+  $$\begin{align}
+  \mu & \geq \overline{x} - z_\alpha \sigma_\overline{X} \\
+      & = \overline{x} - \frac{\sigma}{\sqrt{n}}
+  \end{align}$$
+  </blockquote>
+
+
+* We will use such an interval when, for example, it is important to <strong>decide if the population mean exceeds a certain threshold, or falls below some threshold</strong>.
+
+========================================================
+
+### One-sided confidence bounds -- example
+
+* In the case that we need to compute a one-sided confidence interval, we can revise our earlier solution as follows:
+
+  * Suppose that we are studying a normal population with a known standard deviation equal to $0.5$ and unknown mean $\mu$.
+  
+  * Assume that our sample size is equal to $n=25$, with a sample mean equal to $\overline{x}=10$
+  
+  * This would give a standard error of
+  
+  $$\sigma_\overline{X} = \frac{0.05}{\sqrt{25}} = \frac{0.05}{5} = 0.01$$
+
+* If we want to solve for a $95\%$ confidence bound, we compute the sample mean $\overline{x}$, the standard error and $z_\alpha$ as
+
+```{r}
+x_bar = 10
+se <- 0.01
+z_alpha <- qnorm(0.95)
+```
+
+
+========================================================
+
+### One-sided confidence bounds -- example
+
+* The corresponding lower confidence bound would be given as
+```{r}
+ci_lower <- c(x_bar - se * z_alpha, Inf)
+ci_lower
+```
+
+* We would say in plain English that
+
+<blockquote>
+We have $95\%$ confidence that the population mean exceeds `9.983551`.
+</blockquote>
+
+* Respectively, the corresponding upper confidence bound would be given as
+```{r}
+ci_upper <- c(-Inf, x_bar + se * z_alpha)
+ci_upper
+```
+
+* We would say in plain English that
+
+<blockquote>
+We have $95\%$ confidence that the population mean falls below `10.01645`.
+</blockquote>
+
+========================================================
+
+### One-sided confidence bounds -- example
+
+* However, notice that when we compare the <strong>$95\%$ one-sided confidence bounds</strong>
+
+```{r}
+ci_lower
+ci_upper
+```
+
+* with the two-sided confidence interval using $z_\alpha$ as before
+
+```{r}
+c(x_bar- se * z_alpha, x_bar + se * z_alpha)
+```
+
+* the <b>two-sided confidence interval</b> above corresponds to a <strong>$90\%$ confidence level</strong>.
+
+* This is because the two-sided confidence interval above uses the $z_\alpha$ critical value, with 
+  * $\alpha\times 100\%$ of the area in the right tail; and 
+  * $\alpha\times 100\%$ of the area in the left tail both.
+
+========================================================
+
+## Confidence intervals, variance unknown
+
+* In practice, we almost never know the true population standard deviation $\sigma$ and we must use the sample standard deviation $s$ as a point estimate.
+
+* Our <b>standard error estimate</b> is $\hat{\sigma}_\overline{X}= \frac{s}{\sqrt{n}}$, and this will be utilized for a <strong>more general construction of confidence intervals</strong>.
+
+
+* If we have a large sample size, with $n>40$, we can use this estimate of the standard error effectively within the confidence interval as follows.
+
+<blockquote>
+  <b>Large-Sample Confidence Interval on the Mean</b><br>
+  When n is large, the quantity
+  $$\frac{\overline{X} - \mu}{\frac{s}{\sqrt{n}}}$$
+  has an approximate standard normal distribution. Consequently,
+  $$x − z_\frac{\alpha}{2} \frac{s}{\sqrt{n}} \leq \mu \leq x + z_\frac{\alpha}{2} \frac{s}{\sqrt{n}}$$
+  is a large-sample confidence interval for $\mu$, with confidence level of approximately $(1-\alpha)\times 100\%$.
+</blockquote>
+
+
+* This is a form of the central limit theorem being used again where the underlying population distribution does not matter; 
+
+  * the sampling distribution of the sample mean can be approximated with a normal assumption with a standard error $\sigma_{\overline{X}}$.
+  
+  * If we estimate $\sigma$ with $s$, we can get an approximation of the normal using $\hat{\sigma}_{\overline{X}}$ as an approximation of the standard error.
+  
+
+
+========================================================
+
+### Confidence intervals, variance unknown -- continued
+
+* However, when the sample is small and $\sigma^2$ is unknown, we must make an assumption about the form of the underlying distribution to obtain a valid CI procedure. 
+
+* A <b>reasonable assumption</b> in many cases is that the <strong>underlying distribution is normal</strong>.
+
+* Many populations encountered in practice are <strong>well approximated by the normal distribution</strong>, so this assumption will lead to confidence interval procedures of wide applicability. 
+
+* In fact, <strong>moderate departure from normality will have little effect on validity</strong>. 
+
+* <strong>When the assumption is unreasonable</strong>, an alternative is to <b>use nonparametric statistical procedures</b> that are valid for any underlying distribution.
+
+
+========================================================
+
+### Confidence intervals, variance unknown -- continued
+
+* Suppose that the population of interest has a normal distribution with unknown mean $\mu$ and unknown variance $\sigma^2$. 
+
+* Assume that a random sample of size $n$, say, $X_1, X_2 , \cdots , X_n$, is available, and let $\overline{X}$ and $S^2$ be the sample mean and variance, respectively.
+
+* We wish to construct a two-sided CI on $\mu$;
+
+  * if the variance $\sigma$ is known, we know that 
+  
+  $$Z = \frac{\overline{X} - \mu}{\frac{\sigma}{\sqrt{n}}}$$ 
+  
+  has a standard normal distribution. 
+  
+  * When $\sigma$ is unknown, we use the estimate $\hat{\sigma}_\overline{X} = \frac{S}{\sqrt{n}}$ for the standard error. 
+  
+* The random variable $Z$ now becomes
+  
+  $$T = \frac{\overline{X} − \mu}{\frac{S}{\sqrt{n}}}.$$ 
+
+========================================================
+
+### Confidence intervals, variance unknown -- continued
+
+
+* For the random variable
+
+  $$T = \frac{\overline{X} − \mu}{\frac{S}{\sqrt{n}}}.$$ 
+  
+  logical questions are:
+  * <strong>what is the distribution of $T$?</strong>; and 
+  * <b>is the distribution very different than the standard normal?</b> 
+
+* If $n$ is large, the distribution differs very little from the standard normal by the central limit theorem. 
+
+* However, $n$ is usually small in most engineering problems, and in this situation, a different distribution must be employed to construct the CI.
+
+
+========================================================
+
+## Student's t-distribution
+
+<div style="float:left; width:45%;text-align:center;">
+<img src="student_t.png" style="width:100%" alt="Student t distribution depends on the degrees of freedom.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>  
+<div style="float:left; width:55%">
+<ul>
+  <li>The "student t" distribution became fully developed when the statistician and brewer William Sealy Gosset was trying to model the quality of raw material like barley for beermaking with very few measurements.</li>
+  <li>Gosset worked at Guinness brewery and was not allowed to publish under his own name, so instead published under the name "student".</li>
+  <li>The <b>student t</b> is <strong>very similar to a normal distribution, but has wider variability,  especially in the tails</strong>.</li>
+  <li> It gained importance because it is widely used in statistical tests, particularly in student’s t-test for estimating the statistical significance of the difference between two sample means.</li>
+  <li>We will make this connection to hypothesis testing shortly, where for now we construct a confidence interval from the t distribution.</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>  
+  <li>Let's suppose that we have <b style="color:#d95f02">a random sample</b> $X_1, \cdots, X_n$ from a <b>normal distribution</b> with <b style="color:#1b9e77">population mean</b> $\mu$ and <b style="color:#1b9e77">population standard deviation</b> $\sigma$.</li>
+  <li>The <b style="color:#d95f02">sample mean</b> $\overline{X}$ and the <b style="color:#d95f02">sample standard deviation</b> $S$ are computed from the above observations.</li>
+  <li>Then, it is an extremely important and non-trivial result that the <b>random variable</b>,
+  $$\frac{\overline{x} - \mu}{\frac{S}{\sqrt{n}}}$$
+  is distributed according to a <strong>student t with $n-1$ degrees of freedom</strong>.</li>  
+</ul>
+</div>
+
+========================================================
+### Student's t-distribution
+
+* The pdf of the t-distribution is
+
+  $$\begin{align}
+  f(T,n) = \frac{\Gamma\left\{\frac{n+1}{2}\right\}}{\sqrt{\pi n} \Gamma\left(\frac{n}{2}\right)\left(1 + \frac{T^2}{n}\right)^{\frac{n+1}{2}}}
+  \end{align}$$
+  where the Gamma function is a "special function".
+
+* We plot the density below fo <b>n=1</b>, <b style="color:red">n=2</b> and <b style="color:green">n=5</b>  degrees of freedom with the <b style="color:blue">normal density</b> plotted for reference.
+
+```{r fig.width=24, fig.height=5.5}
+par(cex = 2.0, mar = c(5, 4, 4, 2) + 0.3)
+t = seq(-5, 5, length = 300)
+colors = c("black", "red", "green")
+df = c(1, 2, 5)  # degrees of freedom(df) for the t-distribution
+plot(t, dnorm(t, 0, 1), xlab = "t", ylab = "pdf", type = "l", lwd = 2, col="blue")
+for (i in 2:4) {  lines(t, dt(t, df[i]), col = colors[i])}
+```
+
+========================================================
+### Student's t-distribution
+
+* The degrees of freedom determine the shape of the student t.
+
+* For $n &gt; 2$ degrees of freedom, the mean and variance of Student’s t-distribution
+are
+
+  $$\begin{align}
+  \mu_T= 0 & & \sigma_T^2 = \frac{n}{n-2}
+  \end{align}$$
+
+* As $n\rightarrow \infty$, the student t distribution becomes closer and eventually converges to the standard normal.
+
+```{r fig.width=24, fig.height=5.5}
+par(cex = 2.0, mar = c(5, 4, 4, 2) + 0.3)
+t = seq(-5, 5, length = 300)
+colors = c("black", "red", "green")
+df = c(10, 100, 1000)  # degrees of freedom(df) for the t-distribution
+plot(t, dnorm(t, 0, 1), xlab = "t", ylab = "pdf", type = "l", lwd = 2, col="blue")
+for (i in 2:4) {  lines(t, dt(t, df[i]), col = colors[i])}
+```
+
+
+
+========================================================
+### Student's t-distribution
+
+
+* The quantiles of a t-distributed rv $T$ are denoted by $t_p$, and, due to symmetry, $t_p =−t_{1− p}$. 
+
+* In R the <strong>generic functions</strong> for the <b>t distribution</b> are the following:
+
+  * `dt(x, df)` is the <b>probability density</b> function of the t distribution with `df` degrees of freedom.
+  * `pt(q, df)` is the <b>cumulative density</b> function of the t distribution with `df` degrees of freedom.
+  * `rt(n, df)` randomly generates a <b>sample</b> of size n from the t distribution with `df` degrees of freedom.
+  * `qt(p, df)` is the <b>quantile function</b> of the t distribution with `df` degrees of freedom.
+  
+* With these above generic functions for the t distribution, we can almost identically compute the student t confidence interval as we did for the normal confidence interval.
+
+
+========================================================
+## Student t confidence intervals
+
+* Formally, we will write
+
+<blockquote>
+  <b>Confidence Interval on the Mean, Variance Unknown</b><br>
+  If $\overline{x}$ and $s$ are the mean and standard deviation of a random sample from a <strong>normal distribution with unknown variance</strong> $\sigma^2$ with a <b>sample size $n$</b>. A $(1-\alpha)\times 100\%$ confidence interval on $\mu$ is given by
+  $$\begin{align}
+  &\overline{x} - \hat{\sigma}_\overline{X} t_\frac{\alpha}{2} \leq \mu \leq \overline{x} + \hat{\sigma}_\overline{X} t_\frac{\alpha}{2}\\
+  \Leftrightarrow&\overline{x} - \frac{s}{\sqrt{n}} t_\frac{\alpha}{2} \leq \mu \leq \overline{x} + \frac{s}{\sqrt{n}}t_\frac{\alpha}{2}
+  \end{align}$$
+  where $t_\frac{\alpha}{2}$ is the upper $\frac{\alpha}{2}$ critical point of the t distribution with n − 1 degrees
+of freedom.
+</blockquote>
+
+* In practice, this is how we will more typically compute a confidence interval on the mean.
+
+* Because this is the most common way to compute such a confidence interval in practice, there are actually built-in functions in the R language to handle this.
+
+* Computing the confidence interval "manually" with the quantile function is mostly pedagogical, but we will demonstrate how this is done with a few more examples.
+
+* Shortly, we will learn how to compute confidence intervals and hypothesis tests with the t distribution using the 
+
+```
+t.test()
+```
+function in R.
+
+
+========================================================
+## Student t confidence intervals -- continued
+
+* For now, in order to compute the t confidence interval manually, we need to find the appropriate critical value for the equation
+
+  $$\overline{x} - \frac{s}{\sqrt{n}} t_\frac{\alpha}{2} \leq \mu \leq \overline{x} + \frac{s}{\sqrt{n}}t_\frac{\alpha}{2}$$
+
+* We can find this critical point in the same way as for the normal, using R, as follows.
+
+* Suppose we have a <b>sample size</b> of $n=20$; this gives $n-1=19$ degrees of freedom, i.e.,
+
+```{r}
+t_alpha_over_2 <- qt(0.975, df=19)
+t_alpha_over_2
+```
+ is the critical point for the $95\%$ two-sided confidence interval.
+ 
+* The critical point for the $99\%$ two-sided confidence interval is given as
+```{r}
+t_alpha_over_2 <- qt(0.995, df=19)
+t_alpha_over_2
+```
+ 
+
