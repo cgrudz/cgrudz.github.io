@@ -1,0 +1,55 @@
+---
+title: "Practice Quiz 04/16/21"
+output: html_document
+---
+
+## Student Name:
+
+## Instructions:
+Fill in your name above.  We will work through the following activities as a group in the discussion sections.  You must turn in a completed worksheet with solutions filled in below for credit.  The solutions will be given in the discussion section.
+
+## Activity: Computing t-critical values
+
+### Question 1:
+
+Let the t critical value, $t_\frac{\alpha}{2}$ for $n-1=15$ degrees of freedom be denoted  $t_{0.025,15}$.  Use the `qt` function to determine the value of $t_{0.025,15}$.
+
+
+### Question 2:
+
+Let $t_\frac{\alpha}{2}$ be the critical value for the two-sided confidence interval
+$$\left(\overline{x} - \hat{\sigma}_\overline{X} t_\frac{\alpha}{2}, \overline{x} + \hat{\sigma}_\overline{X} t_\frac{\alpha}{2}\right)$$
+corresponding to a confidence level of $90\%$, and $n-1$ degrees of freedom$=25$
+
+Find the appropriate $t_\frac{\alpha}{2}$.
+
+
+### Question 3:
+Let $t_\alpha$ be the critical value for the one-sided confidence bound
+$$\left(-\infty, \overline{x} + \hat{\sigma}_\overline{X} t_\alpha\right)$$
+corresponding to a confidence level of $99\%$, and $n-1$ degrees of freedom$=19$
+
+Find the appropriate $t_\alpha$.
+
+
+
+## Activity: Computing t-confidence intervals
+
+
+An article in Computers & Electrical Engineering, “Parallel simulation of cellular neural networks” (1996, Vol. 22, pp. 61–84) considered the speed-up of cellular neural networks (CNN) for a parallel general-purpose computing architecture based on six transputers in different areas. The data follows:
+
+```{r}
+speed_up_times <- c(3.775302,	3.350679,	4.217981,	4.030324,	4.639692, 4.139665,	4.395575,	4.824257,	4.268119,	4.584193, 4.930027, 4.315973,	4.600101)
+```
+
+Assume population is approximately normally distributed.
+
+### Question 4:
+
+Compute a two-sided t-confidence interval for the population mean with a $95\%$ level of confidence manually.  Then use the `t.test()` function to verify that this was computed correctly.
+
+
+### Question 5:
+
+Compute a one-sided, upper t-confidence bound on the population mean with a $99\%$ level of confidence manually.  Then use the `t.test()` function to verify that this was computed correctly.
+
