@@ -1,0 +1,42 @@
+---
+title: "Practice Quiz 04/23/21"
+output: html_document
+---
+
+# Activity 04/23/21
+
+## Student Name:
+
+## Instructions:
+Fill in your name above.  We will work through the following activities as a group in the discussion sections.  You must turn in a completed worksheet with solutions filled in below for credit.  The solutions will be given in the discussion section.
+
+## Activity: Critical regions and power of hypothesis tests
+
+A textile fiber manufacturer is investigating a new drapery yarn, which the company claims has a mean thread elongation of 12 kilograms with a standard deviation of 0.5 kilograms. The company wishes to test the hypothesis $H_0:\mu=12$  against $H_1:\mu\neq 12$ using a random sample of 4 specimens.
+
+
+
+### Question 1:
+
+What is the type I error probability if the critical region (rejection region) is defined as $\{\overline{x} < 11.75\} \cup \{\overline{x} > 12.25\}$  kilograms?
+
+
+### Question 2:
+
+Find $\beta$ and the power of the test for the case where the true mean elongation is 11.25 kilograms.
+
+
+## Activity: Test statistics and P-values
+
+A consumer products company is formulating a new shampoo and is interested in foam height (in millimeters). Foam height is approximately normally distributed and has a known standard deviation of $\sigma=20$ millimeters. The company wished to test $H_0: \mu = 175$ against $\mu > 175$ millimeters, using the results of a sample size $n=10$.
+
+
+### Question 3:
+
+If the sample data result in $\overline{x} = 190$ millimeters, find the value for the test statistic $z_0$ (i.e., the z-score of the sample mean).
+
+
+### Question 4:
+
+How "unusual" is the sample value $\overline{x}=190$ if the true mean is really $\mu=175$? That is, what is the probability (P-value) that you would observe a sample average as large as $190$ millimeters (or larger), if the true mean foam height was really $\mu=175$ millimeters?
+
