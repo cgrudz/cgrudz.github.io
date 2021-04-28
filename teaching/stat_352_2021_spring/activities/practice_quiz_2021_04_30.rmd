@@ -1,0 +1,80 @@
+---
+title: "Practice Quiz 04/30/21"
+output: html_document
+---
+
+# Activity 04/30/21
+
+## Student Name:
+
+## Instructions:
+Fill in your name above.  We will work through the following activities as a group in the discussion sections.  You must turn in a completed worksheet with solutions filled in below for credit.  The solutions will be given in the discussion section.
+
+
+## Activity: General hypothesis testing, power of tests and sample sizes
+
+### Question 1:
+
+Cloud seeding has been studied for many decades as a weather modification procedure (for an interesting study of this subject, see the article in Technometrics, "A Bayesian Analysis of a Multiplicative Treatment Effect in Weather Modification", Vol. 17, pp. 161–166). The rainfall in acre-feet from 20 clouds that were selected at random and seeded with silver nitrate follows:
+
+```{r}
+rainfall <- c(18.0, 30.7, 19.8, 27.1, 22.3, 18.8, 31.8, 23.4, 21.2, 27.9, 31.9, 27.1, 25.0, 24.7, 26.9, 21.8, 29.2, 34.8, 26.7, 31.6)
+```
+
+Can you support a claim that mean rainfall from seeded clouds exceeds 25 acre-feet? Use $\alpha = 0.01$ significance.
+
+#### Solution:
+
+In this case, we will formulate a hypothesis test as follows:
+
+$$\begin{align}
+H_0: \mu \leq 25 & & H_1 :\mu > 25
+\end{align}$$
+
+The reasoning is, if we reject the null hypothesis, we support the alternative claim.  Therefore, the hypothesis test is run as
+
+```{r}
+t.test(rainfall, mu=25, alternative="greater")
+```
+
+However, we see that the P value is greater than $\alpha=0.05$, meaning that we fail to reject the null hypothesis.  The evidence does not suggest that $\mu > 25$.
+
+### Question 2:
+
+Compute the power of the test if the true mean rainfall is 27 acre-feet.
+
+
+#### Solution:
+
+In this case, we will want to compute the following values:
+
+```{r}
+n <- length(rainfall)
+s <- sd(rainfall)
+mu_null <- 25
+mu_alt <- 27.5
+delta <- abs(mu_null - mu_alt)
+```
+
+The power is computed by neglecting the `power` argument in the following, while supplying the sample size `n`:
+```{r}
+power.t.test(n=n, sd=s, delta=delta, sig.level=0.01, type="one.sample", alternative="one.sided")
+```
+
+
+### Question 3:
+
+What sample size would be required to detect a true mean rainfall of 27.5 acre-feet if we wanted the power of the test to be at least 0.9?
+
+#### Solution:
+
+To find the sample size necessary, we can supply the desired power instead of the sample size.  With this sample size value neglected, it will be computed from the other values:
+
+```{r}
+s <- sd(rainfall)
+mu_null <- 25
+mu_alt <- 27.5
+delta <- abs(mu_null - mu_alt)
+pow <- 0.9
+power.t.test(power=pow, sd=s, delta=delta, sig.level=0.01, type="one.sample", alternative="one.sided")
+```
