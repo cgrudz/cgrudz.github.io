@@ -1,0 +1,169 @@
+---
+title: "Final Project"
+output: html_document
+---
+
+## Student Name:
+
+## Instructions:
+Fill in your name above.  Most of the following exercises will have numeric answers that can be entered into the Canvas quiz online.  Graphical questions will all be submitted together with your work.  There will be a submission field in the Canvas quiz to submit your work in the form of the compiled HTML document for credit.
+
+
+
+### Question 1:
+
+A multiple-choice test contains 25 questions, each with 4 answers. If the exam is filled out randomly with each response equally likely, and each question filled independently, what is the probability of answering __less than or equal to 11 questions__ correctly? Round your answer to three decimal places. 
+
+### Question 2:
+
+Can you plot the probability mass function for the last experiment?  Try to include appropriate labels for this plot in the axes and in the title.
+
+### Question 3:
+
+Can you make a histogram of a sample of observations that are distributed according to the last experiment?  Set the following values:
+
+```{r}
+set.seed(123)
+sample_size = 100
+```
+
+Try to include appropriate labels for this plot in the axes and in the title.
+
+### Question 4:
+
+For a normal population with known variance $\sigma^2$, what is the __confidence level__ (written to three decimal places) for the interval
+$$\left(\overline{x} - 1.75\frac{\sigma}{\sqrt{n}}, \overline{x}+1.75 \frac{\sigma}{\sqrt{n}}\right)?$$
+
+### Question 5:
+
+The yield of a chemical process is being studied. From previous experience, yield is known to be normally distributed and $\sigma=3$. The past five days of plant operation have resulted in the yields in the following array called `my_data`:
+```{r}
+set.seed(456)
+my_data <- rnorm(n=50, mean = 85, sd=3)
+my_data
+```
+__Do not change the random seed above__.  Use `my_data` to compute each of the following.
+
+
+#### 5a:
+Compute the __sample mean__.
+
+#### 5b:
+Compute the __sample standard deviation__.
+
+
+#### 5c:
+Compute the __standard error__ of the sample mean.
+
+
+#### 5d:
+Compute the __sample-estimate for the standard error__ of the sample mean.
+
+
+#### 5e:
+Compute the __left endpoint of the 90% two-sided confidence interval__ for the true mean, using the __known standard error__.
+
+#### 5f:
+Compute the __right endpoint of the  99% one-sided, upper confidence bound__ for the true mean, using the __known standard error__.
+
+
+### Question 6:
+
+Let $t_\frac{\alpha}{2}$ be the critical value for the two-sided confidence interval
+$$\left(\overline{x} - \hat{\sigma}_\overline{X} t_\frac{\alpha}{2}, \overline{x} + \hat{\sigma}_\overline{X} t_\frac{\alpha}{2}\right)$$
+corresponding to a confidence level of $95\%$, and $n-1$ degrees of freedom$=15$
+
+Find the appropriate $t_\frac{\alpha}{2}$.
+
+### Question 7:
+
+
+Let $t_\frac{\alpha}{2}$ be the critical value for the two-sided confidence interval
+$$\left(\overline{x} - \hat{\sigma}_\overline{X} t_\frac{\alpha}{2}, \overline{x} + \hat{\sigma}_\overline{X} t_\frac{\alpha}{2}\right)$$
+corresponding to a confidence level of $90\%$, and $n-1$ degrees of freedom$=30$
+
+Find the appropriate $t_\frac{\alpha}{2}$.
+
+
+### Question 8:
+Let $t_\alpha$ be the critical value for the one-sided confidence bound
+$$\left(-\infty, \overline{x} + \hat{\sigma}_\overline{X} t_\alpha\right)$$
+corresponding to a confidence level of $99\%$, and $n-1$ degrees of freedom$=19$
+
+Find the appropriate $t_\alpha$.
+
+### Question 9:
+
+We will consider the speed-up of cellular neural networks (CNN) for a parallel general-purpose computing architecture based on six transputers in different areas. The data follows:
+
+```{r}
+set.seed(567)
+speed_up_times <- runif(30, min=3.5, max=5.5)
+speed_up_times
+```
+__Do not change the random seed above__.  Use `speed_up_times` to compute each of the following.  Assume population is __approximately normally distributed__.
+
+#### 9a:
+
+Compute the __left endpoint of a two-sided t-confidence interval__ for the population mean with a $90\%$ level of confidence.
+
+
+#### 9b:
+
+Compute the __right endpoint of the one-sided, upper t-confidence bound__ on the population mean with a $99\%$ level of confidence.
+
+
+### Question 10:
+
+A textile fiber manufacturer is investigating a new drapery yarn, which the company claims has a mean thread elongation of 24 kilograms with a standard deviation of 3.25 kilograms. The company wishes to test the hypothesis $H_0:\mu=24$  against $H_1:\mu\neq 24$ using a random sample of 16 specimens.
+
+
+
+#### 10a:
+
+What is the type I error probability if the critical region (rejection region) is defined as $\{\overline{x} < 23.25\} \cup \{\overline{x} > 25.25\}$  kilograms?
+
+#### 10b:
+
+Find the power of the test for the case where the true mean elongation is 26 kilograms.
+
+### Question 11:
+A consumer products company is formulating a new shampoo and is interested in foam height (in millimeters). Foam height is approximately normally distributed and has a known standard deviation of $\sigma=15$ millimeters. The company wished to test $H_0: \mu = 200$ against $\mu > 200$ millimeters, using the results of a sample size $n=14$.
+
+
+#### 11a:
+
+If the sample data result in $\overline{x} = 209$ millimeters, find the value for the test statistic $z_0$.
+
+#### 11b:
+
+What is the probability (P-value) that you would observe a sample average as large as $209$ millimeters (or larger), if the true mean foam height was really $\mu=200$ millimeters?
+
+
+### Question 12:
+
+Cloud seeding has been studied for many decades as a weather modification procedure (for an interesting study of this subject, see the article in Technometrics, "A Bayesian Analysis of a Multiplicative Treatment Effect in Weather Modification", Vol. 17, pp. 161–166). The rainfall in acre-feet from 45 clouds that were selected at random and seeded with silver nitrate follows:
+
+```{r}
+set.seed(789)
+rainfall <- rchisq(45, df=15, ncp = 30)
+rainfall
+```
+__Do not change the random seed above__.  Use `rainfall` to compute each of the following.  Assume population is __approximately normally distributed__.
+
+#### 12a:
+
+__True or False__: the hypothesis test on the mean rainfall from seeded clouds supports the claim that the mean rainfall exceeds 37 acre-feet at $\alpha = 0.001$ significance.  Include your P-value for the test.
+
+
+#### 12b:
+
+Compute the power of the test if the true mean rainfall is 50 acre-feet.
+
+
+
+
+#### 12c:
+
+What sample size would be required to detect a true mean rainfall of 40 acre-feet if we wanted the power of the test to be at least 0.9?
+
