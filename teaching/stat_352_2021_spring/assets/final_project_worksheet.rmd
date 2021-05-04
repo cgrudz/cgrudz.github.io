@@ -5,6 +5,9 @@ output: html_document
 
 ## Student Name:
 
+## Due date:
+May 10, 4:30 PM in Canvas.
+
 ## Instructions:
 Fill in your name above.  Most of the following exercises will have numeric answers that can be entered into the Canvas quiz online.  Graphical questions will all be submitted together with your work.  There will be a submission field in the Canvas quiz to submit your work in the form of the compiled HTML document for credit.
 
@@ -121,7 +124,7 @@ A textile fiber manufacturer is investigating a new drapery yarn, which the comp
 
 #### 10a:
 
-What is the type I error probability if the critical region (rejection region) is defined as $\{\overline{x} < 23.25\} \cup \{\overline{x} > 25.25\}$  kilograms?
+What is the type I error probability if the critical region (rejection region) is defined as $\{\overline{x} < 22.75\} \cup \{\overline{x} > 25.25\}$  kilograms?
 
 #### 10b:
 
