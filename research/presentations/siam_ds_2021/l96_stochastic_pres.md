@@ -36,15 +36,16 @@ height: 1080
 </ol>
 </div>
 
-<div style="float:left; width:33%;padding-top:88.575px">
-<img style="width:70%", src="UoR-logo.png" alt="University of Reading."/>
+<div style="float:left; width:33%; text-align:left;padding-top:88.575px">
+<img style="width:70%;", src="cerea_logo.png" alt="CEREA logo."/>
 </div>
 <div style="float:left; width:33%; text-align:center;">
 <img style="width:70%", src="UNR_logo.png" alt="University of Nevada, Reno logo."/>
 </div>
-<div style="float:left; width:33%; text-align:right;padding-top:88.575px">
-<img style="width:70%;", src="cerea_logo.png" alt="CEREA logo."/>
+<div style="float:left; width:33%;padding-top:88.575px; text-align:right">
+<img style="width:70%", src="UoR-logo.png" alt="University of Reading."/>
 </div>
+
 
 ========================================================
 
