@@ -19,7 +19,7 @@
 
 On the numerical integration of the Lorenz-96 model, with scalar additive noise, for benchmark twin experiments
 ========================================================
-date: June 25, 2021 
+date: May 25, 2021 
 autosize: true
 incremental: true
 width: 1920
@@ -117,6 +117,37 @@ height: 1080
 <b>2.</b> Frank, J. and Gottwald, G. A.<em> A Note on Statistical Consistency of Numerical Integrators for Multiscale Dynamics</em>. Multiscale Modeling &
 Simulation, 16, 1017–1033, 2018.
 </div>
+
+========================================================
+## Single layer Lorenz-96 model
+
+ <div style="float:left; width:50%">
+<img style="width:100%", src="global_circulation.png" alt="Image of global atmospheric circulation."/>
+<p style="text-align:center;font-size:30px">Courtesy of: Kaidor via Wikimedia Commons (CC 3.0)</p>
+</div>
+<div style="float:left;width:50%">
+<ul>
+  <li>We consider a simplified <b>1-dimensional model</b> of the <b>atmosphere</b> around a <b>latitude circle</b>.</li>
+  <li>We will suppose that this latitude circle can be <b>discretized</b> into <b>$n$ total longitude sectors</b>;</li>
+  <ul>
+    <li>each sector $i$ is represented by a <b>single state variable</b> $x_i$.</li>
+  </ul>
+  <li>The <b>classical Lorenz-96 model</b> is given as,
+  $\frac{\mathrm{d}\mathbf{x}}{\mathrm{d} t} \triangleq \mathbf{f}(\mathbf{x}),$ where,</li>
+  <ul>
+    <li>for each state component $i\in\{1,\cdots,n\}$,
+    $$\begin{align}\large{f_i(\mathbf{x}) =-x_{i-2}x_{i-1} + x_{i-1}x_{i+1} - x_i + F}.\end{align}$$</li>
+  </ul>
+ <li>The state variables $x_i$ have <b>periodic boundary conditions modulo $n$</b>, $x_0=x_n$,  $x_{-1}=x_{n-1}$ and $x_{n+1}=x_{1}$.  </li>
+  <li> The term $F$ in the Lorenz-96 system is the <b>forcing parameter</b> that <b>injects energy</b> to the model.</li>
+  <li>The Lorenz-96 model <b>approximates geophysical behavior</b> with:</li>
+  <ol>
+    <li><b>external forcing</b> and <b>internal dissipation</b> with the linear terms; and</li>
+    <li><b>advection</b> and <b>conservation of energy</b> in the quadratic terms.</li>
+  </ol>
+</ul>
+</div>
+
 
 
 ========================================================
@@ -297,9 +328,9 @@ Berlin Heidelberg, page 359. 2013.
   <ul>
     <li>log-log base 10 scale.</li>
   </ul>
-  <li><b>Point estimates</b> --- <b>average estimated discretization error</b> over <b>500 independent batches of simulations</b>.</li>
+  <li><b>Point estimates</b> --- <b>average estimated discretization error</b> over <b>500 independent ensembles of simulations</b>.</li>
   <ul>
-    <li><b>Each batch</b> --- evolves initial condition with respect to <b>100 independent Wiener processes</b>.</li>
+    <li><b>Each ensemble</b> --- evolves initial condition with respect to <b>100 independent Wiener processes</b>.</li>
     <li>We simulate:
     <ol>
       <li><b>finely discretized path solution $\mathbf{x}_\mathrm{SP}$</b> with error on $\mathcal{O}\left(10^{-7}\right)$, and</li>
@@ -325,12 +356,12 @@ Berlin Heidelberg, page 359. 2013.
     estimated as:
     <ol>
       <li>the <b>mean difference</b> of the <b>finely discretized solution</b>, versus</li> 
-      <li>the <b>coarse discretization</b> over all Wiener processes in the batch.</li>
+      <li>the <b>coarse discretization</b> over all Wiener processes in the ensemble.</li>
     </ol>
-  <li><b>Batch-mean estimates</b> are <b>Gaussian random variables distributed around the true expectation</b>.</li>
+  <li><b>Ensemble-mean estimates</b> are <b>Gaussian random variables distributed around the true expectation</b>.</li>
   <li><b>Slope (order of convergence)</b> estimated with <b>weighted least squares</b>;</li>
   <ul>
-    <li><b>weights proportional</b> to the <b>inverse standard deviation</b> of the batch realizations.</li>
+    <li><b>weights proportional</b> to the <b>inverse standard deviation</b> of the ensemble realizations.</li>
   </ul>
 </ul>
 </div>
@@ -381,7 +412,7 @@ Berlin Heidelberg, page 359. 2013.
     estimated as:
     <ol>
       <li><b>difference of means</b> of the <b>finely discretized solution</b>, versus</li> 
-      <li>the <b>coarse discretization</b> over all Wiener processes in the batch.</li>
+      <li>the <b>coarse discretization</b> over all Wiener processes in the ensemble.</li>
     </ol>
   <li><b>Effect of constant</b> is <b>more pronounced</b> in <span style="color:#1b9e77"><b>weak convergence</b></span>.</li>
   <li><b>Low diffusion:</b></li>
@@ -401,7 +432,7 @@ Berlin Heidelberg, page 359. 2013.
 <ul>
   <li>We use the <b>Taylor scheme</b> as a <b>benchmark</b> in the following experiments.</li>
   <ul>
-    <li><b>Taylor</b> is <b>consistent across diffusiuon</b> levels.</li>
+    <li><b>Taylor</b> is <b>consistent across diffusion</b> levels.</li>
   </ul>
   <li><b>We study:</b></li>
   <ul>
@@ -426,25 +457,25 @@ Berlin Heidelberg, page 359. 2013.
 <ul>
   <li><b>500 initial conditions</b> of L96-s model:</li>
   <ul>
-    <li>each initial condition is <span style="color:#1b9e77"><b>forecasted</b></span> with <b>100 independent Wiener processes</b>.</li>
+    <li>each initial condition is <b>forecasted</b> with an ensemble of <b>100 independent Wiener processes</b>.</li>
   </ul>
-  <li>We compute the <b>empirical, ensemble-estimated mean</b> and <b>ensemble-estimated spread</b> of the <span style="color:#1b9e77"><b>forward distribution</b></span>.</li>
+  <li>We compute the <b>empirical, ensemble-estimated mean</b> and <b>ensemble-estimated spread</b> of the <b>forward distribution</b>.</li>
   <li>This is performed over each of the integration schemes:</li>
   <ol>
-    <li><b>Taylor --- <b>step size $\Delta=10^{-3}$</b></b></li>
-    <li><b>Euler-Maruyama --- <b>step size $\Delta=10^{-3}$</b></b></li>
-    <li><b>Runge-Kutta</b> --- <b>step size $\Delta=10^{-3}$</b></li>
+    <li><b>Taylor</b> --- <b>step size $\Delta=10^{-3}$</b></b></li>
+    <li><b style="color:#1b9e77">Euler-Maruyama</b> --- <b>step size $\Delta=10^{-3}$</b></b></li>
+    <li><b style="color:#9a5918">Runge-Kutta</b> --- <b>step size $\Delta=10^{-3}$</b></li>
   </ol>
   <li><b>Top panels</b> --- <b>RMSD</b> of <b>ensemble means</b> for:
   <ol>
-    <li><b>Euler-Maruyama</b> and</li>
-    <li><b>Runge-Kutta</b></li>
+    <li><b style="color:#1b9e77">Euler-Maruyama</b> and</li>
+    <li><b style="color:#9a5918">Runge-Kutta</b></li>
   </ol>
   <li> versus <b>Taylor</b>.</li>
   <li><b>Bottom panels</b> --- <b>ratio of the ensemble spreads</b> for:
     <ol>
-    <li><b>Euler-Maruyama</b> and</li>
-    <li><b>Runge-Kutta</b></li>
+    <li><b style="color:#1b9e77">Euler-Maruyama</b> and</li>
+    <li><b style="color:#9a5918">Runge-Kutta</b></li>
   </ol>
   <li> versus <b>Taylor</b>.</li>
 </ul>
@@ -469,7 +500,7 @@ Berlin Heidelberg, page 359. 2013.
   </ul>
   <li><b>Runge-Kutta</b></li>
   <ul>
-    <li><span style="color:#1b9e77"><b>ensemble statistics</b></span> have <b>almost no difference</b> from <b>Taylor up to $T\approx 3$</b>.</li>
+    <li><b style="color:#9a5918">ensemble statistics</b></span> have <b>almost no difference</b> from <b>Taylor up to $T\approx 3$</b>.</li>
   </ul>
   <li><b>Euler-Maruyama</b></li>
   <ul>
@@ -496,13 +527,13 @@ Berlin Heidelberg, page 359. 2013.
   <li><b>Coarse ensemble versus benchmark</b>:</li>
   <ol>
     <li><b>Taylor --- <b>step size $\Delta=10^{-3}$</b></b></li>
-    <li><b>Euler-Maruyama --- <b>step size $\Delta=10^{-2}$</b></b></li>
-    <li><b>Runge-Kutta</b> --- <b>step size $\Delta=10^{-2}$</b></li>
+    <li><b style="color:#1b9e77">Euler-Maruyama</b> --- <b>step size $\Delta=10^{-2}$</b></b></li>
+    <li><b style="color:#9a5918">Runge-Kutta</b> --- <b>step size $\Delta=10^{-2}$</b></li>
   </ol>
 <li><b>Runge-Kutta</b></li>
   <ul>
-    <li><span style="color:#1b9e77"><b>ensemble mean</b></span> --- faster onset of divergence</b>.</li>
-        <li><span style="color:#1b9e77"><b>ensemble spread</b></span> --- increased variance of ratio</b>.</li>
+    <li><span style="color:#9a5918"><b>ensemble mean</b></span> --- faster onset of divergence</b>.</li>
+        <li><span style="color:#9a5918"><b>ensemble spread</b></span> --- increased variance of ratio</b>.</li>
   </ul>
   <li><b>Euler-Maruyama</b></li>
   <ul>
@@ -614,6 +645,14 @@ Berlin Heidelberg, page 359. 2013.
     </ul>
   </ul>
 </ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li><b>Shapiro–Wilk</b> test has a p value of approximately 0.80.</li>
+  <li><b>Student's t test</b> with null hypothesis that the residuals have a mean of 0 has a p value of approximately 0.77.</li>
+  <li>We <strong>fail to reject</strong> the null hypothesis that the differences are distributed according to a <b>mean zero Gaussian distribution</b>.</li>
+</ul>
+</div>
 
 ========================================================
 ## <span style="color:#d95f02">Filter benchmark</span> -- <span style="color:#1b9e77">Euler-Maruyama model-twin, fine discretization</span>, <span style="color:#7570b3">Taylor truth-twin, fine discretization</span>
@@ -675,8 +714,9 @@ Berlin Heidelberg, page 359. 2013.
     <li><b><span style="color:#7570b3">truth-twin</span></b> --- <b>Taylor step size $\Delta = 5 \times 10^{-3}$</b>.</li> 
   </ul>
   <li>The <b>expected discretization error is less than $10^{-3}$ over all diffusion regimes</b>.</li>
-  <li><b>Innacuracy in the <span style="color:#7570b3">truth-twin</span> adds some structure in the residuals</b>,</li>
-  <li>however, the results are <b>largely the same</b> as with the <b>accurate</b> <span style="color:#7570b3; font-weight:bold">truth-twin</span>.</li>
+  <li><b>Inaccuracy in the <span style="color:#7570b3">truth-twin</span> adds some bias in the residuals</b>.</li>
+  <li>Student's t test has p value on $\mathcal{O}\left(10^{-4}\right)$, and <strong>we reject the hypothesis that the residuals are mean zero</strong>.</li>
+  <li>However, <b>the practical difference in the statistics is negligible</b>, with mean of the residuals at  $\mathcal{O}\left(10^{-4}\right)$.</li>
 </ul>
 </div>
 <div style="float:left; width:100%">
@@ -720,7 +760,7 @@ Berlin Heidelberg, page 359. 2013.
     <li><b><span style="color:#1b9e77">4-stage Runge-Kutta with step $\Delta=10^{-2}$ --- model-twin</span></b>; and</li>
     <li><b><span style="color:#7570b3"> order 2.0 Taylor with step $\Delta=5\times 10^{-3}$ --- truth-twin</span></b>.</li>
   </ol>  
-  <li>This forms a practical compromise, which <b>our diagnostics demonstrate does not bias the outcomes of the <span style="color:#d95f02">filtering statistics</span></b>.</li>
+  <li>This forms a practical compromise, which <b>our diagnostics demonstrate does not practically bias the outcomes of the <span style="color:#d95f02">filtering statistics</span></b>.</li>
   <li>We provide a <b>computationally efficient framework for statistically robust twin experiments in the L96-s model</b>.</li>
   <li><b>We provide a novel derivation of ther order 2.0 Taylor scheme for the L96-s model</b>.</li>
   <ul>
