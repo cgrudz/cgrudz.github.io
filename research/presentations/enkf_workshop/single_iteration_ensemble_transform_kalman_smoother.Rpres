@@ -468,8 +468,8 @@ $$\begin{align}
 * Using a Bayesian analysis like before, we can write 
   
   $$\begin{align}
-  {\color{#d95f02} { p(\pmb{x}_{1:L} \vert \pmb{y}_{0:L}) } }
-  &\propto  \int \mathrm{d}\pmb{x}_0 \underbrace{ {\color{#d95f02} { p(\pmb{x}_0 \vert \pmb{y}_{0:L-1}) } } }_{(1)} \underbrace{ {\color{#7570b3} { \left[ \prod_{k=L-S+1}^L   p(\pmb{y}_k \vert \pmb{x}_k) \right] } }}_{(2)} \underbrace{{\color{#1b9e77} {  \left[\prod_{k=1}^L \pmb{\delta}\left\{\pmb{x}_k - \mathcal{M}_{k} \left(\pmb{x}_{k-1}\right) \right\} \right]  } }}_{(3)}
+  {\color{#d95f02} {p(\pmb{x}_{1:L} \vert \pmb{y}_{0:L})}}
+  &\propto  \int \mathrm{d}\pmb{x}_0 \underbrace{{\color{#d95f02} {p(\pmb{x}_0 \vert \pmb{y}_{0:L-1})}} }_{(1)} \underbrace{{\color{#7570b3} {\left[\prod_{k=L-S+1}^L   p(\pmb{y}_k \vert \pmb{x}_k) \right]}}}_{(2)} \underbrace{{\color{#1b9e77} {\left[\prod_{k=1}^L \pmb{\delta}\left\{\pmb{x}_k - \mathcal{M}_{k} \left(\pmb{x}_{k-1}\right) \right\} \right]}}}_{(3)}
   \end{align}$$
   where
   <ol>
