@@ -98,7 +98,7 @@ nonlinear, scalable data assimilation (DA)</strong><sup><b>1</b></sup>
 
 * For <strong>online applications</strong> in which there is a <strong>short operational time-window</strong> to produce a forecast for future states, the <b>iterative ensemble simulations may be prohibitively expensive</b>.
 
-* Particularly in case where nonlinearity in the DA cycle is <strong>not dominated by the forecast error dynamics</strong>,
+* Particularly in the case where nonlinearity in the DA cycle is <strong>not dominated by the forecast error dynamics</strong>,
 
   * i.e., if the <strong>tangent-linear evolution</strong> of <strong>Gaussian error distributions</strong> is an <b>adequate approximation</b>,
   
@@ -193,7 +193,7 @@ filtering, Bayesian MAP cost-function</strong>;
 where $\pmb{\delta}$ represents the <b>Dirac distribution</b>.</li>
   <li>The filtering problem is to sequentially and recursively estimate,
   $$\begin{align}
-  p(\pmb{x}_L \vert \pmb{y}_{L:1})
+  p(\pmb{x}_L \vert \pmb{y}_{1:L})
   \end{align}$$
   or some statistic of this density, given:</li>
   <ul>
@@ -580,7 +580,7 @@ with cost <strong>expanding in the eigen value decomposition of the Hessian</str
 
 <div style="float:left; width:100%">
 <ul>
-  <li>Compared to the classic ETKS, this <strong>adds an outer loop</strong> to the <b style="color:#d95f02">filtering cycle</b> to produce the <b style="color:#d95f02">posterior, smoothing analysis</b>.</li>
+  <li>Compared to the classic ETKS, this <strong>adds an outer-loop</strong> to the <b style="color:#d95f02">filtering cycle</b> to produce the <b style="color:#d95f02">posterior, smoothing analysis</b>.</li>
 </ul>
 </div>
 <div style="float:left; width:100%; text-align:center;" class="fragment">
