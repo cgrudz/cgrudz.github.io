@@ -1,0 +1,419 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+<!-- foo 
+Highlighting
+bold
+strong
+orange <b style="color:#d95f02"> text </b>
+green  <b style="color:#1b9e77"> text </b>
+purple <b style="color:#d24693"> text </b>
+red    <b style="color:#FF0000"> text </b>
+blue   <b style="color:#0000FF"> text </b>
+-->
+
+A review of sampling distributions and the univariate Gaussian
+========================================================
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+<blockquote>
+FAIR USE ACT DISCLAIMER:</br>
+This site is for educational purposes only.  This website may contain copyrighted material, the use of which has not been specifically authorized by the copyright holders. The material is made available on this website as a way to advance teaching, and copyright-protected materials are used to the extent necessary to make this class function in a distance learning environment.  The Fair Use Copyright Disclaimer is under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+</blockquote>
+
+========================================================
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+  * Sample statistics
+  * Sample random variables
+  * Sampling distributions
+  * The univariate Gaussian distribution
+  * Properties of the univariate Gaussian
+  * The central limit theorem
+
+========================================================
+## Sample statistics
+
+* The goal statistics is to use <b style="color:#d95f02">a numerical summary of data</b> from a <b style="color:#d95f02">small, representative sample</b> to say something <b style="color:#1b9e77">general</b> about the <b style="color:#1b9e77">larger, unobservable population or phenomena</b>.
+  
+* The measures of the <b style="color:#1b9e77">population</b> are referred to as <b style="color:#1b9e77">parameters</b>.
+
+* <b style="color:#1b9e77">Parameters</b> are generally <strong>unknown and unknowable</strong>.</li>
+
+  * For example, we cannot exactly compute the mean sea-surface temperature globally, as it is impossible to take all such measurements.
+   
+* However, if we have a <b style="color:#d95f02">representative sample</b>, we can compute the <b style="color:#d95f02">sample mean</b>.
+
+  * Numerical values like the <b style="color:#d95f02">sample mean</b> computed from data are referred to as <b style="color:#d95f02">statistics</b>.
+   
+* The <b style="color:#d95f02">sample  mean</b> will almost surely <b>not equal</b> <b style="color:#1b9e77">population mean</b>, due to the natural variation <b style="color:#d95f02">(sampling error)</b> that occurs in <b style="color:#d95f02">any given sample</b>.
+   * However, if we have a good <strong>probabilistic model</strong> for the population, we can use the <b style="color:#d95f02">sample statistic</b> to estimate the general, unknown <b style="color:#1b9e77">population parameter</b>.
+   
+* <strong>RVs</strong> and <strong>probability distributions</strong> give us the <b>model</b> for estimating <b style="color:#1b9e77">population parameters</b>.
+
+* <b>Note:</b> we can only <b>"find"</b> the parameters exactly in <strong>very simple examples</strong> like games of chance.
+
+* Generally, we will have to be satisfied with <b>estimates of the parameters</b> that are uncertain, but also <strong>include measures of "how uncertain"</strong>.
+
+
+========================================================
+### Sample mean
+
+* Suppose we have a sample of <strong>$n$ total measurements of some RV $X$</strong>.
+
+  * We will denote these measurements $x_1, x_2, \cdots, x_n \in \mathbb{R}$, where these refer to fixed numerical values.
+  
+  * These may correspond to the value that $X$ <strong>attains upon $n$ independently replicated trials</strong>.
+  
+<blockquote>
+<b>The (arithmetic sample) mean</b><br>
+Given measurements $x_1,\cdots,x_n$ of the RV $X$, we say that the <strong>sample mean</strong> is defined
+  $$\text{Sample mean} = \hat{x} =  \frac{x_1  +x_2 +\cdots + x_n}{n}= \frac{\sum_{i=1}^n x_i}{n} $$
+</blockquote>
+
+* We remark that $\hat{x}$ is a <b>fixed numerical value</b> <strong>depending on the particular sequence of outcomes</strong> $x_1,\cdots, x_n$ observed.
+
+  * Due to this fact, with respect to a new sample of size $n$, we may attain a new value for the sample mean.
+
+========================================================
+### Sample variance and standard deviation
+
+* We can similarly define the sample variance and standard deviation as follows
+
+<blockquote>
+<b>Sample standard deviation</b><br>
+Given measurements $x_1,\cdots,x_n$ of the RV $X$, we say that the <strong>sample standard deviation</strong>
+  $$\hat{\sigma} = \sqrt{\frac{\sum_{i=1}^n\left(x_i - \hat{x}\right)^2}{n-1}}$$</li>
+</blockquote>
+
+* Note that the numerator in the above accounts for the fact that one degree of freedom has been utilized in the computation of $\hat{x}$.
+
+<blockquote>
+<b>Sample variance</b><br>
+Given measurements $x_1,\cdots,x_n$ of the RV $X$, we say that the <strong>sample variance</strong>
+  $$\hat{\sigma}^2 = \frac{\sum_{i=1}^n\left(x_i - \hat{x}\right)^2}{n-1}$$</li>
+</blockquote>
+
+
+* For the same reasons discussed for the sample mean, the sample standard deviation and variance will tend to differ depending on the particular sequence of outcomes $x_1,\cdots, x_n$ measured.
+
+* This discrepancy is what we call <b>sampling error</b>, in which the <strong>random variation in a sample of a fixed size $n$ upon replication produces differences in the computation of a statistic</strong>.
+
+* For this reason, we may also consider a <b>probabilistic model for the sample statistic</b>, <strong>depending on the replication of measurements</strong>.
+
+
+========================================================
+## Sample random variables
+
+* Specifically, suppose that we want to <b>obtain an estimate of a population parameter</b>, where the <strong>population is modeled with a RV $X$</strong>. 
+
+* We know that before the data are collected, the observations are considered to be RVs, 
+
+  * i.e., we treat an independent sequence of measurements of $X$,
+
+  $$X_1, X_2, \cdots , X_n$$ 
+  
+  * as RVs all drawn from a parent distribution $X \sim P$ (where the CDF will define the distribution).
+
+  <blockquote>
+  <b>Random sample</b><br>
+  The RVs $X_1 , X_2, \cdots , X_n$ are a <strong>random sample</strong> of size $n$ if the $X_i$’s are independent RVs and every $X_i$ has the same probability distribution.
+  </blockquote>
+  
+* We then say that the measurements we obtain are possible outcomes of the sample variables $\{X_i\}_{i=1}^n$; 
+  *  particularly, if we make a computation of the sample mean,
+  $$\hat{X} = \frac{1}{n} \sum_{i=1}^n X_i$$
+  
+  the above is <strong>treated as a RV (a linear combination of RVs) which has a random outcome</strong>, dependent on the realizations of the $X_i$.
+
+
+========================================================
+## Sampling distributions
+
+* More generally, any function of the observations, i.e., any statistic, is also modeled as a RV.
+
+<blockquote>
+<b>Point estimators</b><br>
+Let $\{X_j\}_{j=1}^n$ be a random sample.  Let $\theta$ be a parameter of the parent population, defined by the CDF $P$.  If $h$ is a general function used to compute some statistic estimating $\theta$, we thus define the RV 
+  $$\hat{\Theta} = h(X_1, \cdots, X_n)$$
+  to be a <strong>point estimator</strong> for $\theta$.
+</blockquote>
+
+* We call the probability distribution of a statistic or estimator as above a <b>sampling distribution</b>.
+
+  <blockquote>
+  <b>Sampling Distribution</b><br>
+  The probability distribution of a statistic is called a <strong>sampling distribution</strong>.
+  </blockquote>
+
+* In this framework, we will distinguish then between the estimator (a random variable) and the numerical value it might attain on a sample of measurements.
+
+  <blockquote>
+  <b>Point estimate</b><br>
+  A <strong>point estimate</strong> of some population parameter $\theta$ is a single numerical value   
+  $$\hat{\theta} = h(x_1, \cdots,x_n)$$ 
+  attained as a particular realization of the RV $\hat{\Theta}$. 
+  </blockquote></li>
+</ul>
+
+
+========================================================
+### Sampling distributions
+
+* The notion of the "center" of the sampling distribution can be useful as a general criteria for estimators.
+
+* Formally, we say that $\hat{\Theta}$ is an <b>unbiased estimator</b> of $\theta$ if the <strong>expected value</strong> of $\hat{\Theta}$ is equal to $\theta$.
+
+* This is equivalent to saying that the mean of the sampling distribution of $\hat{\Theta}$ is equal to $\theta$.
+
+<blockquote>
+<b>Bias of an Estimator</b><br>
+The point estimator $\hat{\Theta}$ is an <strong>unbiased estimator</strong> for the parameter $\theta$ if 
+$$\mathbb{E}\left[\hat{\Theta}\right] = \theta$$
+
+If the estimator is not unbiased, then the difference 
+$$\mathbb{E}\left[\hat{\Theta}\right] - \theta$$
+is called the <strong>bias of the estimator</strong> $\hat{\Theta}$.
+
+When an estimator is unbiased, the <strong>bias is zero</strong>; that is, 
+$$\begin{align}
+\mathbb{E}\left[\hat{\Theta}\right] - \theta &= \theta - \theta \\
+&=0
+\end{align}$$
+</blockquote>
+
+* If we <strong>consider the expected value to represent the average value over infinite replications</strong>;
+
+ * the above says that "<b>over infinite replications of a random sample</b> of size $n$, the <strong>average value of the point estimator</strong> $\hat{\Theta}$ will <b>equal the true population parameter</b> $\theta$".
+
+
+========================================================
+### Sampling distributions
+
+* Both of the
+  <ol>
+  <li><b>sample mean</b> 
+  $$\hat{X}= \frac{1}{n}\sum_{i=1}^n X_i;$$
+  and</li>
+  <li><b>sample variance</b> 
+  $$\hat{\sigma}^2 = \frac{\sum_{i=1}^n \left(X_i - \hat{X}\right)^2}{n-1}$$</li>
+  </ol>
+* are <strong>unbiased estimators</strong>, i.e.,
+  $$\begin{align}
+  \mathbb{E}\left[\hat{X}\right] = \overline{x}, & & \mathbb{E}\left[\hat{\sigma}^2\right] = \sigma^2.
+  \end{align}$$
+
+* However, there are theoretical reasons that we can use to show that the <b>sample standard deviation</b> is a <strong>biased estimator of the population standard deviation</strong>, i.e.,
+ 
+ $$\mathbb{E}\left[ \hat{\sigma}\right] \leq \sigma $$
+ 
+ and it <strong>consistently underestimates the true standard deviation</strong>.
+
+* The bias tends to be small, however, and it is still the most practical estimate most of the time for the population standard deviation.
+
+========================================================
+### Sampling distributions
+
+* Recalling that the expected value gives the center of mass of the probability distribution, we should also be interested in the spread of the sampling distribution.
+
+* As noted before, the variance is a "natural" measure of spread mathematically for theoretical reasons, but it is in the units squared of the original units.
+
+* For this reason, when we talk about the spread of an estimator's sampling distribution, we typically discuss the <b>standard error</b>.
+
+  <blockquote>
+  <b>The standard error</b><br>
+  Let $\hat{\Theta}$ be a point estimator of $\theta$. The <strong>standard error error</strong> of $\hat{\Theta}$ is its standard deviation given by
+  $$\sigma_\hat{\Theta} =  \sqrt{\mathrm{var}\left(\hat{\Theta}\right)}.$$
+  If the standard error involves <b>unknown parameters that can be estimated</b>, substitution of those values into the equation above produces an estimated standard error denoted $\hat{\sigma}_\hat{\Theta}$.  It is also common to write the standard error as $\mathrm{SE}\left(\hat{\Theta}\right)$.
+  </blockquote>
+  
+* With these constructions in mind, we will now introduce one of the most fundamental results of classical statistics.
+
+* This result establishes the normal or Gaussian distribution in its central importance among distributions.
+  
+
+========================================================
+## The univariate Gaussian distribution
+
+<ul>
+  <li>The <b>Gaussian distribution</b> is considered the <strong>most prominent distribution in statistics</strong>.</li>
+  <li>It is a continuous probability distribution that has a <strong>bell-shaped probability density</strong>
+function.</li>
+  <li>The <b>Gaussian distribution</b> arises from the <strong>central limit theorem (CLT)</strong>,</li>
+  <ul>
+    <li>under weak conditions, the <strong>sum of a large number of RVs drawn from the same distribution is distributed approximately normally</strong> <b>irrespective of the form of the original distribution</b>.</li>
+  </ul>
+  <li>This gives mathematical justification to why we see normally distributed data quite often in practice; as was noted by Henri Poincare</li>
+  <blockquote>
+"Everybody believes in the exponential law of errors [i.e., the
+normal / Gaussian distribution]: the experimenters, because they think it
+can be proved by mathematics; and the mathematicians,
+because they believe it has been established by observation."
+— Poincare, Henri “Calcul Des Probabilités.”
+</blockquote>
+  <li>In addition to the ubiquity of the normal
+distribution, it can be easily manipulated analytically in equations,</li>
+  <ul>
+    <li> this enables one to derive a large number of results in explicit form.</li>
+  </ul>
+  <li>Due to these two aspects, the normal distribution is used extensively in theory and practice.</li>
+</ul>
+
+========================================================
+
+### The univariate Gaussian distribution continued
+
+<div style="float:left;width:40%">
+<ul>
+  <li>Unlike how we defined the density function $p$ and used this to compute $\overline{x}$ and $\sigma$ formerly, we will reverse this for the normal.</li>
+  <li>That is, we will use $\overline{x}$ and $\sigma$ to define the density of the normal and <strong>parametrize the distribution</strong>.</li>
+  <li> Let us use the following notation for compactness where
+    $$\exp(x) = e^{x}.$$</li>
+  <li style="list-style-type:none;"><blockquote>
+  <b>The univariate Gaussian distribution</b><br>
+  Let the <b>Gaussian RV</b> $X$ have mean $\overline{x}$ and standard deviation $\sigma$. The probability density function is given as
+  $$\begin{align}
+  p(x) = \frac{1}{\sqrt{2\pi}\sigma}\exp\left(-\frac{\left(x - \overline{x}\right)^2}{2\sigma^2}\right).
+  \end{align}$$
+  We will write $X \sim N\left(\overline{x}, \sigma^2\right)$ to denote that $X$ has the density described above.
+  </blockquote></li>
+  <li>Recall how we considered $\overline{x}$ to be a measure of center and $\sigma$ a measure of spread.</li>
+  <li>If we vary these two values, we can change the center of mass and the spread of the normal distribution:</li>
+</ul>
+</div>
+<div style="float:left; width:60%;text-align:center" class="fragment">
+<img src="Normal_Distribution_PDF.png" style="width:100%;" alt="Shapes of the normal density.">
+</div>
+<div style="float:left; width:60%">
+<ul>
+  <li>In the case that $\overline{x}=0$ and $\sigma=1$, we denote $N(0, 1)$ to be the <b>standard normal distribution</b>.</li>
+</ul>
+</div>
+
+========================================================
+
+### The univariate Gaussian distribution continued
+
+* Another useful property of the <b>family of Gaussian distributions</b> is that it is <strong>closed under linear transformations</strong>. 
+
+<blockquote>
+<b>Closure of the Gaussian under linear transformations</b><br>
+Let $X_1$ and $X_2$ be independent, Gaussian RVs defined
+  $$\begin{align}
+  X_1\sim N\left(\overline{x}_1 , \sigma_1^2 \right) & & 
+  X_2 \sim N\left(\overline{x}_2, \sigma_2^2 \right).
+  \end{align}$$
+  Then for $a,b,c \in \mathbb{R}$, the linear combination satisfies
+  $$aX_1 + bX_2 + c \sim N\left(a \overline{x}_1 + b\overline{x}_2 + c, a^2 \sigma_1^2 + b^2 \sigma_2^2\right)$$
+</blockquote>
+
+  
+* This is actually a <strong>general property</strong> of the family of <b>stable distributions</b>.
+
+* The closure property above implies that a Gaussian variable can always be "standardized" as,
+
+  $$\begin{align}
+  X \sim N(\overline{x}, \sigma^2) && \Rightarrow && \frac{X - \overline{x}}{\sigma} \sim N(0, 1).
+  \end{align}$$
+
+* The closure of the Gaussian under linear transformations has extremely important implications, when we introduce a mechanistic model later.
+
+* This is at the basis of results for estimators defined in a class of models known as <b>Gauss-Markov models</b>. 
+
+  * We will return to this subject shortly.
+
+========================================================
+## Central limit theorem
+
+* Suppose that a random sample of size $n$ is taken from a <b>normal population</b> with mean $\overline{x}$ and variance $\sigma^2$. 
+
+* By definition of a <b>random sample</b> each observation in this sample, say, $X_1, X_2, \cdots, X_n$, is a normally and independently distributed RV with mean $\overline{x}$ and variance $\sigma^2$. 
+  
+* We conclude that, due to closure of the Gaussian, the sample mean
+
+  $$\hat{X}= \frac{X_1 + X_2 + \cdots  + X_n}{n}$$
+
+  has a normal distribution with mean
+  
+  $$\begin{align}
+  \mathbb{E}\left[\hat{X}\right] &= \frac{\mathbb{E}\left[X_1\right] +  \cdots + \mathbb{E}\left[X_n\right]}{n} = \overline{x}
+  \end{align}$$
+
+  * and variance
+  
+  $$\sigma^2_\hat{X}:= \mathbb{E}\left[\left(\hat{X} - \overline{x}\right)^2\right] = \frac{\sigma^2 + \sigma^2 + \cdots + \sigma^2}{n^2} = \frac{\sigma^2}{n}$$
+  
+
+========================================================
+### Central limit theorem continued
+
+* More generally, if we are sampling from a population that has an unknown probability distribution, the <strong>sampling distribution of the sample mean</strong> will still be <b>approximately Gaussian</b> with mean $\overline{x}$ and variance
+$\frac{\sigma^2}{n}$ if the sample size $n$ is large. 
+
+* This is one of the most useful theorems in statistics, called the <b>central limit theorem</b>:
+
+  <blockquote>
+  <b>The central limit theorem (CLT)</b><br>
+  Let $X_1 , X_2 , \cdots , X_n$ be a random sample of size $n$ taken from a population with mean $\overline{x}$ and finite variance $\sigma^2$ and $\hat{X}$ be the sample mean.  Then the limiting form of the distribution of
+  $$Z = \frac{\hat{X} - \overline{x}}{\frac{\sigma}{\sqrt{n}}}$$
+  as $n \rightarrow \infty$ is the <b>standard normal distribution</b>.
+  </blockquote>
+  
+* Put another way, for $n$ sufficiently large, $\hat{X}$ has <b>approximately</b> a $N\left(\overline{x}, \frac{\sigma^2}{n}\right)$ distribution -- this says the following.
+  * Suppose we take a sample of size $n$ and compute the sample mean $\hat{x}$.
+  * Then suppose we replicate this sample and record the observed realizations for the sample mean $\hat{x}_1, \hat{x}_2, \cdots$.
+  * If the sample size $n$ is large, these data points $\hat{x}_1, \cdots$ will be approximately bell shaped with the following properties:
+     * the bell will be centered approximately at $\overline{x}$, the true population mean;
+     * the spread of the data around the center will be given by approximately by the standard deviation $\frac{\sigma}{\sqrt{n}}$.
+  * Particularly, if $n$ is very large, the observed sample means will tend to be very close to the center (the true mean).
+
+========================================================
+### Central limit theorem continued
+
+<div style="float:left; width:45%">
+<ul>
+  <li>As a visualization of the concept, suppose that we have a random sample indexed by $j$
+  $$X_{1,j}, \cdots, X_{n,j},$$
+  where $j$ refers to the replication number.</li>
+  </li>
+  <li>We will make replications for $j=1,\cdots,m$ and get a RV for sample mean indexed by $j$,
+  $$\hat{X}_j = \frac{1}{n}\sum_{i=1}^n X_{i,j}.$$
+  </li>
+  <li>When we observe a realization of $\hat{X}_j=\hat{x}_j$ or respectively the sample 
+  $$X_{1,j}=x_{1,j}, \cdots, X_{n,j}=x_{n,j},$$
+  we record these fixed numerical values.</li>
+</ul>
+</div>
+<div style="float:right; width:50%" class="fragment">
+<img src="CentralTheorem.png" style="width:100%"  alt="Central limit theorem">
+<p style="text-align:center">
+Courtesy of Mathieu ROUAUD, <a href="https://creativecommons.org/licenses/by-sa/4.0" target="blank">CC BY-SA 4.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:IllustrationCentralTheorem.png" target="blank">Wikimedia Commons</a>
+</p>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>The measurements $X_{i,j}$ may be distributed according to any underlying distribution with mean $\overline{x}$ and standard deviation $\sigma$.</li>
+  <li>However, if $n$ is large, the $\hat{X}_j$ is approximately normal with mean $\overline{x}$ and standard deviation $\frac{\sigma}{\sqrt{n}}$.</li>
+  <li>The sample mean replications, defined by the realizations of $x_{i,j}$, will have approximately a bell shaped frequency, centered approximately at $\overline{x}$.</li>
+  <li>The spread of the data will be approximately $\frac{\sigma}{\sqrt{n}}$.</li>
+  <li>Particularly, as $n\rightarrow \infty$, the spread shrinks to zero, so that we get a better and better estimate (more peaked bell shape) with large sample sizes.</li>
+</ul>
+</div>

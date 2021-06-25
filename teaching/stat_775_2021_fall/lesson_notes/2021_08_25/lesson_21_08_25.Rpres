@@ -1,0 +1,704 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+<!-- foo 
+Highlighting
+bold
+strong
+orange <b style="color:#d95f02"> text </b>
+green  <b style="color:#1b9e77"> text </b>
+purple <b style="color:#d24693"> text </b>
+red    <b style="color:#FF0000"> text </b>
+blue   <b style="color:#0000FF"> text </b>
+-->
+
+A review of random variables
+========================================================
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+<blockquote>
+FAIR USE ACT DISCLAIMER:</br>
+This site is for educational purposes only.  This website may contain copyrighted material, the use of which has not been specifically authorized by the copyright holders. The material is made available on this website as a way to advance teaching, and copyright-protected materials are used to the extent necessary to make this class function in a distance learning environment.  The Fair Use Copyright Disclaimer is under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+</blockquote>
+
+========================================================
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+  * Basic set theory
+  * Probabilistic experiments with finite outcome spaces
+  * Basic probability
+  * Discrete random variables
+  * Continuous random variables
+  * Parameters of probability distributions
+
+========================================================
+## Basic set theory: a history of sets
+
+
+<div style="float:left; width:40%">
+<ul>
+  <li>In the nineteenth century, the Georg Cantor developed the greater part of modern set theory.</li>
+  <li>Set theory is at the basis of mathematical logic and how mathematical objects are ordered in hierarchies of classes with certain properties.</li>
+  <li>At the turn of the nineteenth and twentieth centuries, Ernst Zermelo, Bertrand Russell, Cesare Burali-Forti and others found contradictions in the originally proposed set theory, with one of the famous results being Russell's paradox.</li>
+</ul>
+</div>
+<div style="float:right; width:50%" class="fragment">
+<img src="./barber_1.png" style="width:100%" alt="Description of Russell's paradox.">
+<p style="text-align:center"> Courtesy of Doxiadis, Apostolos, and Christos Papadimitriou. <i>Logicomix: An epic search for truth</i>. Bloomsbury Publishing USA, 2015.</p>
+</div>
+
+
+
+
+
+========================================================
+### A history of sets
+<ul>
+  <li>Moreover, it is <b>decreed that the barber is the one who shaves those that do not shave themselves</b>.</li>
+  <li>The question then is, <strong>who shaves the barber if the barber is the one who shaves those that do not shave themselves?</strong></li>
+  <li>In terms of sets, there was an early approach that defined a set as any identifiable collection; however, the question arose:</li>
+  <ul>
+    <li>if a set $A$ is identified as the collection of all collections that are not contained in themselves,</li>
+    <ul>
+      <li><b>does $A$ belong to itself or not?</b></li>
+    </ul>
+  </ul>
+  <li>Contradictions like the above led Ernst Zermelo in 1908 gave an axiomatic system which precisely described the existence of certain sets and the formation of sets from other sets.</li>
+  <li>This Zermelo–Fraenkel set theory is still the most common axiomatic system for set theory.</li>
+  <li>There are 9 axioms, amongst others, that deal with set equality, regularity, pairing sets, infinity, and power sets.</li>
+  <li>This set theory formalism is at the heart of theoretical probability, and thus statistical inference.</li>
+</ul>
+
+
+  
+========================================================
+### Common sets in mathematics
+  
+<ul>
+  <li>In mathematics, the most commonly considered sets are the following:</li>
+  <ul>
+    <li> $\mathbb{N}$: the set of <b>natural numbers</b>, i.e. $\{1, 2, 3, 4 \cdots \}$.
+    <li> $\mathbb{Z}$: the set of <b>integer numbers</b>, i.e. $\{\cdots − 3, −2, −1, 0, 1, 2, 3 \cdots \}$.
+    <li> $\mathbb{Q}$: the set of <b>rational numbers</b>, i.e., all numbers $q$ that can be represented as ratios of two numbers $q=\frac{z_1}{z_2}$ for $z_1,z_2\in \mathbb{Z}$.</li>
+    <li>$\mathbb{R}$: the set of <b>real numbers</b>, i.e., all rationals and irrational numbers like $\sqrt{2}$.</li> 
+    <li>$\mathbb{C}$: the set of <b>complex numbers</b>, i.e., all real numbers and all extensions of the real numbers to the complex plane.</li>
+  </ul>
+  <li>For each set there is a <b>cardinal number</b> which stands for the <strong>magnitude or number of
+elements in the set, even for infinite sets</strong>.</li> 
+  <ul>
+    <li>The cardinal number of $\mathbb{N}$ is $\aleph_0$ ("Aleph null"), which represents a "smaller" infininity than the infinity of $\mathbb{R}$,
+    $${\mathfrak {c}}=2^{\aleph _{0}} &gt; \aleph_{0}.$$</li>
+  </ul>
+  <li>The sets above are named by a fixed character or letter, whereas other sets in the literature are labeled arbitrarily with a Latin or Greek letter.</li>
+</ul>
+
+========================================================
+## Probabilistic experiments with finite outcome spaces
+
+
+<ul>
+  <li>When working with data that is subject to random variation, the theory behind this probabilistic situation becomes important.</li>
+  <li> There are <b>two types of experiments</b>: </li>
+  <ol>
+    <li><b style="color:#d95f02">deterministic</b>, in which <strong>all elements of the experiment are controlled precisely</strong>, and </li>
+    <li><b style="color:#1b9e77">random</b>, usually in the form of <strong>how the data is sampled or by the way error is introduced by uncertainty in measurements and experimental parameters</strong>.</li>
+  </ol>
+  <li> In the following we will review the main ideas about non-deterministic processes with a <strong>finite number of possible outcomes</strong>.</li>
+  <ul>
+    <li>This will bring us to the idea of a <b>discrete random variable</b>.</li>
+  </ul>
+  <blockquote>
+  <b>Random trials and event spaces</b><br>
+  A <strong>random trial</strong> (or experiment) is a procedure that yields one of the distinct outcomes that altogether form the <strong>sample or event space</strong>, denoted $\Omega$. All possible outcomes constitute the universal event $\Omega$, and subsets of $\Omega$ define all events in the sample space.</blockquote>
+  <li>For an experiment with finite possible outcomes like a single coin flip, we can actually write out $\Omega$ as a finite collection or set.</li>
+  <li><b>Question:</b> suppose our experiment is to make a single, fair coin flip where a "heads" is represented by $H$ and a tails is represented by $T$.  Can you identify the collection of all possible outcomes $\Omega$?</li>
+  <ul>
+    <li><b>Answer:</b> in this case $\Omega = \{H,T\}$.</li>
+  </ul>
+</ul>
+
+* A combination of multiple coin tosses leads to more possible results -- with two coin flips, we define 
+$$\Omega = \{\{H, H \}, \{H, T \}, \{T, H \}, \{T, T \}\}.$$ 
+
+  * Generally, the combination of several different experiments yields a sample space with all possible combinations of the single events. 
+
+========================================================
+### Probabilistic experiments with finite outcome spaces
+
+<ul>
+  <li>In the <b>simple probability model</b>, we follow the logic that is used in games of chance like the above:</li>
+  <ul>
+    <li>Assume that the experiment's outcome can be represented by an element of $\omega \in \Omega$.</li>
+    <li>Assume that all possible outcomes of the experiment are equally likely.</li>
+    <li>Assume that all possible outcomes in the sample space can be listed as a finite collection.</li>
+    <blockquote>
+    <b>The simple probability model</b><br>
+    The <strong>probability</strong> of attaining some outcome in a collection of outcomes $A \subset \Omega$ can be written as,<br><br>
+    $$\mathcal{P}(A) = \mathcal{P}(\omega \in A) = \frac{\text{All possible ways that the experiment's outcome }\omega\in A}{\text{All possible ways for the experiment to have an outcome }\omega\in \Omega}$$</blockquote>
+  </ul>
+  <li><b>Question:</b> given the above "simple probability model", what possible values can $\mathcal{P}(A)$ take and what is the meaning of the maximum and the minimum value?</li>
+  <ul>
+    <li><b>Answer:</b> if there are no possible ways to attain some outcome in $A$, the smallest numerator is zero.</li>
+    <li>If the number of ways for an outcome to occur in $A$ equals the total number of ways the experiment can end, the $\mathcal{P}(A)=1$.</li>
+    <li>If $\mathcal{P}(A)=0$ then we say we are <strong>certain that $A$ is impossible</strong>;</li>
+    <li>respectively, $\mathcal{P}(A)=1$ means we are <strong>certain $A$ will occur</strong>.</li>
+  </ul>
+</ul>
+
+========================================================
+### Basic probability 
+
+<div style="float:left; width:40%">
+<img src="venn_diagramm.png" style="width:100%"  alt="Venn diagram of events $A$ and $B$ with nontrivial intersection.">
+<p style="text-align:center">
+Courtesy of Bin im Garten  <a href="https://creativecommons.org/licenses/by-sa/3.0" target="blank">CC</a> via  
+        <a href="https://commons.wikimedia.org/wiki/File:Menge_Venn-Diagramm_001.svg"> Wikimedia Commons</a>
+</p>
+</div>
+<div style="float:left; width:60%">
+<ul>
+  <li>We will recall some basic properties of probability:</li>
+  <ul>
+    <li>Probabilities for the full <b>sample space</b> and <b>empty set</b> are defined $\mathcal{P}(\Omega)=1$ and $\mathcal{P}(\emptyset)=0$.</li>
+    <li>The probability of a <b>set union</b> is given as
+    $$\mathcal{P}(A\cup B) = \mathcal{P}(A) + \mathcal{P}(B) - \mathcal{P}(A\cap B).$$</li>
+    <li>Consequentially, if $A$ and $B$ are <b>disjoint</b>,
+    $$\mathcal{P}(A\cup B) = \mathcal{P}(A) + \mathcal{P}(B).$$</li>
+    <li>The <b>conditional probability</b> of $A$ given $B$ describes the probability of $A$ when it is assumed that $B$ occurs.</li>
+    <ul>
+      <li>Intuitively <strong>restricts the sample space</strong> $\Omega$ to $\Omega \cap B =  B$, therefore,
+    $$\mathcal{P}(A\vert B) = \frac{\mathcal{P}(A \cap B)}{\mathcal{P}(B)}.$$</li>
+    </ul>
+  </ul>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>Note, the above only makes sense when $\mathcal{P}(B)\neq 0$ and we should <b>only consider the conditional probability</b> when <strong>conditioning on possible events</strong>.</li>
+  <li>Consequently, when $B$ is possible, we recover the notion,
+  $$\mathcal{P}(A \cap B) = \mathcal{P}(A\vert B) \mathcal{P}( B).$$</li>
+  <li>Both forms of conditional probability above are equivalent, forming different axiomatic approaches to defining the concept.</li>
+</ul>
+</div>
+
+========================================================
+## Basic probability
+
+
+<ul>
+  <li>Closely related notions to the conditional probability are <b>independence</b> and <b>dependence</b> of events.</li>
+  <ul>
+    <li> <b>Dependence</b> -- two events are said to be <b>dependent</b> if the outcome of one event <strong>directly affects the probability of the other</strong>.</li>
+    <li><b>Independence</b> -- two events are said to be <b>independent</b> if the outcome of either event has <strong>no impact on the probability of the other</strong>.</li>
+    <ul>
+  <li>Mathematically, we can see the meaning of independence clearly as, </li>
+  <blockquote>
+  <b>Independence</b><br>
+  $A$ and $B$ are <strong>independent</strong> by definition <strong>if and only if both of the following hold</strong>,
+  $$\begin{matrix}
+  \mathcal{P}(A\vert B) = \mathcal{P}(A) & \text{and}  & \mathcal{P}(B\vert A) = \mathcal{P}(B). 
+  \end{matrix}$$</blockquote>
+  </ul>
+  <li>Using the definition of conditional probability, this states equivalently that
+  $$\begin{align}
+  &\mathcal{P}(A\vert B) = \frac{\mathcal{P}(A\cap B)}{\mathcal{P}(B)}  & &   \mathcal{P}(B\vert A) = \frac{\mathcal{P}(B \cap A)}{\mathcal{P}(A)} \\
+  \Leftrightarrow & \mathcal{P}(A\cap B) = \mathcal{P}(A) \mathcal{P}(B).
+  \end{align}$$</li>
+  <li>Although the two ideas are equivalent, the first version is a more intuitive statement, while the second statement is more useful in computation.</li>
+  <li>Again, both form slightly different axiomatic approaches to defining probability.</li>
+</ul>
+
+========================================================
+### Basic probability 
+
+<ul>
+  <li>Assume that both $A,B\subset \Omega$ are possible.</li>
+  <ul>
+    <li>Let us apply the relationship for $\mathcal{P}(A \cap B)$ symmetrically in $A$ and $B$:
+     $$\begin{align}
+     \mathcal{P}(A \cap B)= \mathcal{P}(A\vert B) \mathcal{P}( B); & & 
+     \mathcal{P}(B\cap A) = \mathcal{P}(B \vert A) \mathcal{P}(A).
+     \end{align}$$</li>
+     <li>Recall that $\mathcal{P}(A \cap B) = \mathcal{P}(B\cap A)$, then applying these together we get Bayes' law.</li>
+     <blockquote>
+     <b>Bayes' law</b><br>
+     Let $A,B\subset \Omega$ such that $\mathcal{P}(A), \mathcal{P}(B) > 0$.  Then the probability of $A\vert B$ can be "inverted" via Bayes' law as
+     $$\mathcal{P}(A \vert B) = \frac{\mathcal{P}(B \vert A) \mathcal{P}(A)}{\mathcal{P}(B)}.$$
+     </blockquote>
+     <li>Bayes' law is a very simple <b>statement of conditional probability</b>, but with <strong>profound consequences on the computation of probabilities</strong>.</li>
+     <li>Bayesian analysis was not widely used until advances in digital computers, due to the difficulty in deriving analytical statistics with this framework.</li>
+     <li>However, using <b>Monte-Carlo or ensemble methods</b>, Bayes provides a numerically efficient framework to produce a <strong>recursive conditional update of our beliefs in time</strong>.</li>
+     <li>If $B$ represents incoming information about a time-evolving system, $\mathcal{P}(A\vert B)$ represents our <b>updated belief about an event $A$</b> <strong>given the new information $B$</strong>.</li>
+     <li>We will return to this theme when returning to conditional probabilities later.</li>
+  </ul>
+</ul>
+
+========================================================
+### Basic probability 
+
+<ul>
+  <li> Define $A^\mathrm{c}$ to be the complement of an event, i.e.,
+      $$A^\mathrm{c} = \{\omega \in \Omega \vert \omega \notin A\},$$</li>
+  <li>then the probability of unions also shows us that
+$$\begin{align}
+& \mathcal{P}\left(A \cup A^\mathrm{c}\right) = \mathcal{P}(\Omega) \\
+\Leftrightarrow & \mathcal{P}(A) + \mathcal{P}\left(A^\mathrm{c}\right) - \mathcal{P}\left(A \cap A^\mathrm{c}\right) = 1 \\
+\Leftrightarrow & \mathcal{P}(A) + \mathcal{P}\left(A^\mathrm{c}\right) - \mathcal{P}(\emptyset) = 1 \\
+\Leftrightarrow &\mathcal{P}(A) + \mathcal{P}\left(A^\mathrm{c}\right) =1
+\end{align}$$
+</li>
+<blockquote>
+<b>Complementary probability</b><br>
+Let $A, A^c\subset \Omega$ be defined as above, then their <strong>probabilities are complementary</strong>
+$$\mathcal{P}(A) = 1 - \mathcal{P}\left(A^\mathrm{c}\right).$$</blockquote>
+</ul>
+
+========================================================
+## Discrete random variables
+
+* The <b>outcomes of a probabilistic experiment</b> can be <strong>modeled by a random variable</strong> $X$. 
+
+<blockquote>
+<b>Random variables</b><br> 
+ A <strong>random variable (RV)</strong> $X$ is a map that assigns a real-world event $\omega\in\Omega$ to a real value in $\mathbb{R}$.
+</blockquote>
+
+* Prototypically, $X$ may be considered an observable of the trial, though $X$ in general may not be observable.
+
+* Such a model is needed, where there may not be any intrinsic numerical meaning to the events in the sample space $\Omega$.
+
+* For example, $X$ can be the number of heads in the outcome of two coin flips
+  
+  * $\Omega$ will be the set of possible outcomes
+  
+  $$\Omega = \{ \{H,H\}, \{H,T\}, \{T, H\}, \{T,T\}\}$$
+  
+  * The event $\{H,H\}$ has no intrinsic numerical meaning;
+  
+  * $X$ will take the event $\{H,H\}$ and map this value to $2 \in \mathbb{R}$.
+  
+* With a finite number $k$ of possible outcomes we can create a set of possible values $x_i$ for $X$, as $i = \{1, \cdots , k\}$.
+
+* More generally, we  might consider when a countably-infinite index set can enumerate all possible outcomes.
+
+<blockquote> 
+<b>Discrete random variables</b><br>
+A RV $X$ is <strong>discrete</strong> if the values that $X$ can attain, $x_i$, can be made into a collection $\{x_i\}_{i=1}^k$ for a finite $k$ or for an infinite collection $\{x_i\}_{i=1}^\infty$.
+</blockquote>
+
+
+
+========================================================
+### Discrete random variables
+
+* A <b>probability distribution</b> is a complete description of the outcomes and associated probabilities of a random trial.
+
+* The distribution of a discrete RV is typically described by its <b>probability mass function</b> $p(x_i)$
+and the <b>cumulative distribution function</b> $P(x)$.
+
+<blockquote> 
+<b>Probability mass function</b><br>
+The <strong>probability mass function</strong> $p$ of a discrete RV $X$ is a function that returns the probability that $X$ is exactly equal to some value.  For some indexed possible outcome $x_j$,
+  $$\begin{align}
+  p(x_i) = \mathcal{P}(X=x_i).
+  \end{align}$$
+</blockquote>
+
+* The cumulative distribution function $P$ (cdf) is defined for with respect to the ordering $x_i &lt; x_{i+1}$.
+
+
+<blockquote> 
+<b>Cumulative distribution function</b><br>
+Let $X$ be a <strong>discrete RV</strong>, then the mapping 
+ $$P:\mathbb{R} \rightarrow [0,1]$$
+ defined by 
+ $$\begin{align}
+ P(x) :&= \mathcal{P}(X \leq x) \\
+      &= \sum_{i \in \mathcal{I}, x_i < x} p(x_i)
+ \end{align}$$
+ is called the <strong>cumulative distribution function (cdf)</strong> of the RV $X$.
+</blockquote>
+
+
+========================================================
+### Discrete random variables
+
+* Using the probability mass function, we can define the expected value of a discrete RVs.
+
+<blockquote>
+<b>Expected value of a discrete RV</b></br>
+Let $X$ be a discrete RV with a range of possible values $\{x_i\}_{i \in \mathcal{I}}$ where $\mathcal{I}\subset\mathbb{Z}$. The <strong>expected value</strong> is defined
+  $$\begin{align}
+  \overline{x} := \mathbb{E}\left[ X\right] &:= \sum_{i\in \mathcal{I}} x_i \mathcal{P}(X=x_i)\\
+  &=  \sum_{i\in \mathcal{I}} x_i p(x_i)
+  \end{align}$$
+</blockquote>
+
+* Using the property that events associated to distinct observeable values ($X=x_i$) are disjoint, 
+
+  $$\sum_{i\in \mathcal{I}} \mathcal{P}(X = x_i) =1$$ 
+  as seen by taking the probability of all events as a union.
+
+* $\mathbb{E}$ in the above represents a <strong>weighted average of all possible values</strong> that $X$ might attain.
+
+  * The <b>classical interpretation</b> of the expected value in this way is as the <strong>center of mass for the probability of attainable values</strong> of $X$.
+
+* Suppose we were able to take infinite replications of a random trial and record the observed value of $X$ over all infinite trials;
+
+  * intuitively, the average of the observed values for $X$ over all the infinite replications would be given by the expected value $\mathbb{E}\left[X\right]$.
+  
+
+========================================================
+### Discrete random variables
+ 
+
+* The expected value describes how the probability mass for the observable of the trial is centered.
+
+* However, a critical notion is <strong>"how much spread or dispersion will there be in the data around this center of mass?"</strong>
+
+<blockquote>
+<b>Variance of a discrete RV</b><br>
+Let $X$ be a discrete RV with distinct values $\{x_i \}_{i\in \mathcal{I}}$ and probability mass
+function $p(x_i)=\mathcal{P}(X = x_i ) \in [0, 1]$ for $i \in \mathcal{I}$.  Then the variance of $X$ is defined to be,
+  $$\begin{align}
+  \sigma^2 := \mathrm{var}(X) &:= \mathbb{E}\left[\left\{X - \mathbb{E}\left(X\right)\right\}^2\right]\\
+  &=\sum_{i\in \mathcal{I}} \left\{x_i - \overline{x}\right\}^2 p(x_i)
+  \end{align}$$
+</blockquote>
+  
+* The two forms above can be shown equivalent by defining
+
+  $$Y := X - \overline{x},$$
+  and following the definition of $\mathbb{E}\left[Y\right]$.
+  
+* Notice that the variance describes a weighted-average, squared-deviation of each possible observable from the center of mass.
+
+* This means that the variance gives a non-negative <b>measure of the average dispersion</b> of the possible-to-observe outcomes <strong>around the center of probability mass</strong>.
+
+  * Particularly, the variance is zero if and only if there is only one possible outcome;
+  * the variance increases with possible-to-observe values further from the center.
+
+========================================================
+## Continuous random variables
+
+
+* Unlike <b style="color:#1b9e77">discrete RVs</b>, <b style="color:#d95f02">continuous RVs</b> can take on an <b style="color:#d95f02">uncountably infinite
+number of possible values</b>.
+
+  * This is to say that if $X$ is a <b style="color:#d95f02">continuous RV</b>, there is <b style="color:#d95f02">no possible index set $\mathcal{I}\subset \mathbb{Z}$</b> which can enumerate the possible values $X$ can attain.
+  
+  * For <b style="color:#1b9e77">discrete RVs</b>, we could perform this with a possibly <b style="color:#1b9e77">infinite index set</b>, $\{x_i\}_{i=1}^\infty$
+  
+  * This has to do with how the <b style="color:#d95f02">infinity of the continuum $\mathbb{R}$</b> is actually <strong>larger than</strong> the <b style="color:#1b9e77">infinity of the counting numbers, $\aleph_0$</b>;
+  
+  * in the <b style="color:#d95f02">continuum</b> you can <b style="color:#d95f02">arbitrarily sub-divide the units of measurement</b>.
+  
+* A good example to think of is if $X$ is the daily high temperature in degrees Celsius.
+  <ul>
+    <li>If we had a sufficiently accurate thermometer, we could <b>measure temperature to an arbitrary decimal precision</b> and it would make sense.</li>
+    <li>$X$ thus takes the weather from the outcome space and <strong>gives us a number in a continuous unit of measurement</strong>.</li>
+  </ul>
+  
+* This type of measurement differs fundamentally from counting, e.g., heads of coin flips.
+
+========================================================
+### Continuous random variables
+
+
+* These RVs are characterized by a <b>cumulative distribution function</b> and a <b>probability density function</b>.
+
+<blockquote>
+<b>Cumulative distribution function</b><br> 
+Let $X$ be a <strong>continuous RV</strong>, then the mapping 
+ $$P:\mathbb{R} \rightarrow [0,1]$$
+ defined by $P(x) = \mathcal{P}(X \leq x)$, is called the <strong>cumulative distribution function (cdf)</strong> of the RV $X$.
+</blockquote>
+
+* While the CDF is basically equivalent between continuous and discrete RVs, the properties of the contiuum imply differences between the probability density and the probability mass functions.
+
+<blockquote>
+<b>Probability density function</b><br>
+A mapping  $p: \mathbb{R} \rightarrow \mathbb{R}^+$ is called the <strong>probability density function (PDF)</strong> of an RV $X$ if:
+<ul>
+  <li>$p(x) = \frac{\mathrm{d} P}{\mathrm{d}x}$ exists for all $x\in \mathbb{R}$; and </li>
+  <li>the <strong>density is integrable</strong>, i.e., 
+ $$\int_{-\infty}^\infty p (x) \mathrm{d}x = 1.$$ </li>
+</blockquote>
+
+========================================================
+### Continuous random variables
+
+* <b>Question:</b> How can you use the definition of the PDF and the <b>fundamental theorem of calculus</b>
+  $$\begin{align}
+  p(x) = \frac{\mathrm{d} P}{\mathrm{d}x}  & & \text{ and }& &
+  \int_{a}^b \frac{\mathrm{d}f}{\mathrm{d}x} \mathrm{d}x = f(b) - f(a)
+  \end{align}$$
+  to <strong>find another form for the CDF</strong>?
+
+  * <b>Answer:</b> Notice that $p= \frac{\mathrm{d} P}{\mathrm{d}x}$ means that the <b>CDF</b> can be <strong>written in terms of the anti-derivative of the density</strong>.
+  
+  * If <b>$s$</b> and <b>$t$</b> are <strong>arbitrary values</strong>, the <b>definite integral</b> is written as
+  
+  $$\begin{align}
+  \int_{s}^t p(x) \mathrm{d}x &= \int_{s}^t \frac{\mathrm{d} P}{\mathrm{d}x} \mathrm{d}x\\
+  &= P(t) - P(s) \\
+  & = \mathcal{P}(X \leq t) - \mathcal{P}(X \leq s) = \mathcal{P}(s &lt; X \leq t)
+  \end{align}$$
+  
+  * If we take a limit as $s \rightarrow \infty$ we thus recover that
+  
+  $$\begin{align}
+  \lim_{s\rightarrow - \infty} \int_{s}^t p(x) \mathrm{d} x & = \lim_{s \rightarrow -\infty} \mathcal{P}(s &lt; X \leq t) \\
+  & = \mathcal{P}(X\leq t) = P(t)
+  \end{align}$$
+  
+* This is analgous to the property for discrete RVs, where we write,
+
+  $$\begin{align}
+  P(t) = \mathcal{P}(X \leq t) = \sum_{j \in \mathcal{I},\, x_j \leq t} \mathcal{P}(X = x_j) = \sum_{j \in \mathcal{I},\, x_j \leq t} p(x_j)
+  \end{align}$$
+
+========================================================
+### Continuous random variables
+
+<ul>
+  <li>The notion of the <b>probability density function</b> <strong>directly extends</strong> the idea of the <b>probability mass function</b> for discrete RVs.</li>
+  <li>However, a key difference is that
+  $$\begin{align}
+  \int_{a}^a p(x) \mathrm{d}x = \mathcal{P}(X=a)=0
+  \end{align}$$
+  for any value $a$.</li>
+  <ul>
+    <li>I.e., <strong>the probability of any single point measurement is always zero</strong>.</li>
+    <li>Particularly, we can only compute non-zero probability in ranges for continuous RVs.</li>
+  </ul>
+  <li>Based on this last result, it might appear that our model of a continuous RV is useless.</li>
+  <li>In practice, when a particular measurement such as $14.47$ degrees Celsius
+is observed,</li>
+  <ul>
+    <li>this result can be <strong>interpreted as the rounded value of a measurement at precision</strong>
+with a true value in a range such $$14.465\leq x \leq 14.475$$
+    at the limit of our precision.</li>
+  </ul>
+  <li>The probability that the rounded value $14.47$ is observed as the value for $X$ is the probability that $X$ assumes a value in the interval 
+  $$[14.465, 14.475],$$ 
+  which is not zero.</li>
+  <li>Because each point has zero probability, we need not distinguish between inequalities such as $<$ or $\leq$ for continuous RVs.</li>
+    <li style="list-style-type:none;"><blockquote>
+    <b>Probability ranges for continuous RVs</b><br>
+    For a continuous RV $X$, for any $x_1< x_2$
+    $$\mathcal{P}(x_1 \leq X \leq x_2 ) = \mathcal{P}(x_1 < X \leq x_2) = \mathcal{P}(x_1 \leq X < x_2) = \mathcal{P}(x_1 < X < x_2).$$
+</blockquote></li>
+</ul>
+
+
+========================================================
+### Continuous random variables
+
+<ul>
+  <li>Elementary properties of the <b>probability distribution</b> of a <b style="color:#1b9e77">discrete RV</b> can be described by an <strong>expectation</strong> and a <strong>variance</strong>. </li>
+  <li> The substantial difference with <b style="color:#d95f02">continuous RVs</b> is in the use of <b style="color:#d95f02">integrals</b>, rather than <b style="color:#1b9e77">sums</b>, over the possible values of the RV.</li>
+  <blockquote>
+  <b>Expected value of a continuous RV</b><br>
+  Let $X$ be a continuous RV with a density function $p(x)$, then the <strong>expected value</strong> of $X$ is defined as
+  $$\overline{x} :=  \mathbb{E}\left[X\right] := \int_{-\infty}^{+\infty} x p(x)\mathrm{d}x.$$
+  </blockquote>
+  <li>In the above, we have the same interpretation of $\overline{x}$ as giving the <b>center of mass</b> for the probability density.</li>
+  <blockquote>
+  <b>Variance of a continuous RV</b><br>
+  If the expectation of $X$ exists, the <strong>variance</strong> is defined as 
+  $$\begin{align}
+  \sigma^2:= \mathrm{var} \left(X\right)& := \mathbb{E}\left[\left(X − \mathbb{E}\left[X\right]\right)^2\right] \\
+  &=\int_{-\infty}^\infty \left(x - \overline{x} \right)^2 p(x)\mathrm{d}x
+  \end{align}$$</blockquote>
+</ul>
+
+* Once again, this is a <b>measure of dispersion</b> by <strong>averaging the deviation</strong> of each case from the mean in the square sense, weighted by the probability density. 
+
+
+* This quantity is also known as the <b>second centered moment</b>, as part of a general family of moments for the distribution.
+
+========================================================
+### Moments of continuous random variables
+
+* A general form for higher-order moments is given as follows:
+
+<blockquote>
+<b>General moments formula</b><br>
+Let $X$ be a random variable with PDF $p$, then the $n$-th moment is defined as
+$$\begin{align}
+\mathbb{E}\left[X^n\right]=\int_{-\infty}^\infty x^n p(x) \mathrm{d}x
+\end{align}$$
+</blockquote>
+
+
+* In particular, we call the second moment $\mathbb{E}\left[X^2\right]$ the mean-square.
+
+* In this way, like the first moment as the center of mass, the second centered moment (the variance) is analogous to the rotational inertia at the center of mass. 
+
+* It can be shown that the formula for variance can be reduced as follows:
+
+  $$\begin{align}
+  \mathrm{var}(X) = \mathbb{E}\left[X^2\right] - \mathbb{E}\left[X\right]^2,
+  \end{align}$$
+  i.e., as the <strong>difference between the mean-square and the mean squared</strong>.
+  
+* Although this is a <b>useful formula for simple calculations</b>, this formula can produce <strong>very poor performance in terms of numerical stability in floating point arithmetic</strong>.
+
+* More generally with multivariate distributions, we will consider a numerically stable approach to compute the second centered moment.
+
+
+
+========================================================
+### Continuous random variables
+
+<ul>
+  <li>While the <b style="color:#d95f02">variance</b> is a <b style="color:#d95f02">more "fundamental" theoretical quantity</b>, in practice <b style="color:#1b9e77">we are usually concerned with</b> the <b style="color:#1b9e77">standard deviation</b> of the RV $X$.</li>
+  <li>This is due to the fact that the <b style="color:#d95f02">variance $\sigma^2$</b> has the <b style="color:#d95f02">units of $X^2$</b> by the definition of the product.</li>
+  <blockquote>
+  <b>Standard deviation of a RV</b><br>
+  Let $X$ be a RV (continuous or discrete) with variance $\sigma^2$.  We define the <strong>standard deviation</strong> of $X$ as
+  $$\mathrm{std}(X):=\sqrt{\mathrm{var}\left(X\right)} = \sigma.$$</blockquote>
+  <ul>
+    <li>For example, if the <b>units of $X$ are $\mathrm{cm}$</b>, then <strong>$\sigma^2$ will be in $\mathrm{cm}^2$</strong>.</li> 
+  </ul>
+  <li>Taking a square root on the variance gives us the <b style="color:#1b9e77">standard deviation $\sigma$</b>  in the <b style="color:#1b9e77">units of $X$ itself</b>.</li>
+  <li>The wide applicability of the standard deviation as a measure of spead can be understood by Chebyshev's theorem.</li>
+
+========================================================
+
+## Chebyshev's Theorem
+
+<ul>
+  <blockquote>
+  <b>Chebyshev's Theorem</b><br>
+   Let $X$ (integrable) be a RV with finite expected value $\overline{x}$ and finite non-zero variance $\sigma^2$. Then for any real number $k > 0$,
+   $$\begin{align}
+   \mathcal{P}(\vert X -\overline{x}\vert > k \sigma ) \leq \frac{1}{k^2}
+   \end{align}$$
+  </blockquote>
+  <li><b>Question:</b> Suppose $k=2$, what does this statement tell us?</li>
+  <ul>
+    <li><b>Answer:</b> For $k=2$, we say there is a probability of <b>at least</b>
+    $$1 - \frac{1}{2^2} = 1 - \frac{1}{4} = \frac{3}{4}$$
+    that $X$ takes a realization within $k=2$ standard deviations of the mean.</li>
+  </ul>
+  <li>In terms of a collection of measurements, this can be interpreted that (on average over infinitely many replicated trials)</li>
+  <ul>
+    <li>at least $\frac{3}{4}$ of the measurements will lie within two standard deviations of the center of mass.</li>
+  </ul>
+  <li>Note that Chebyshev's theorem is only a <b>lower bound</b> on <strong>at least how much data lies within standard deviations</strong>.</li>
+  <li>This is a <strong>weaker statement</strong> than might be true for a specific random variable, but this holds for <b>any random variable</b>.</li>
+</ul>
+
+
+
+========================================================
+### Quantiles / percentiles
+
+* While together the <b style="color:#d95f02">mean $\overline{x}$</b> and the <b style="color:#1b9e77">standard deviation $\sigma$</b> give a picture of the <b style="color:#d95f02">center</b> and <b style="color:#1b9e77">dispersion</b> of a probability distribution, we can analyze this in a different way.
+
+* For example, while the mean is the notion of the "center of mass", we may also be interested in <strong>where the upper and lower $50\%$ of values are separated</strong> as a different notion of <b>"center"</b>.
+
+  * The value that separates this upper and lower half <strong>does not need to equal the center of mass in general</strong>, and it is known commonly as the <b>median</b>.
+ 
+* More generally, for any <b>univariate cumulative distribution function $P$</b>, and for <b>$0 < q < 1$</b>, we can identify <strong>$q$ as a percent of the data that lies under the graph of a density curve</strong>.
+
+  * We might be interested in where the <b>lower $q$ area</b> is <strong>separated from</strong> the <b>upper $1-q$ area</b>.
+
+<blockquote>
+<b>Percentile of $P$</b><br>
+ Let $X$ be a random variable with CFD $P$.  The quantity
+  $$\begin{align}
+  P^{-1}(q)=\inf \left\{x \vert P(x) \geq q \right\}
+  \end{align}$$
+  is called the <strong>theoretical $q$-th quantile or percentile of $P$</strong>.
+</blockquote>
+  
+* The "$\inf$" in the above refers to the smallest possible quantity (infimum) in the set on the right-hand-side.
+  
+* We will usually refer to the <b>$q$-th quantile as $x_q$</b>.
+  
+* $P^{-1}$ is called the <b>quantile function</b>.
+
+  * Particularly, $x_{\frac{1}{2}}$ is known as the <b>theoretical median</b> of a distribution.
+
+
+========================================================
+
+## Median and mode
+
+<ul>
+  <li> The median provides a different notion of the "center" as the <strong>middle of the data</strong>.</li>
+  <li> Particularly, we have
+  $$\begin{align}
+  P(x_q) := \mathcal{P}(X \leq x_q) = q
+  \end{align}$$
+  by the definition.</li>
+  <li>For $q=\frac{1}{2}$, the median thus describes the point which separates upper 50% from the lower 50% of possible-to-observer values.</li>
+  </li>
+  <li> Another notion of the most <strong>"central point"</strong> in the data can be the value that is <strong>measured most frequently</strong>.</li>
+  <blockquote>
+  <b>The mode of $p$</b><br>
+  Let $X$ be a RV with PDF $p$.  We say $x^\ast$ is a (local) mode of $p$ provided that there is a neighborhood
+  $x^\ast \in \mathcal{N}$ such that for all $x\in \mathcal{N}$ not equal to $x^\ast$, 
+  $$\begin{align}
+  p\left(x^\ast \right) > p(x).
+  \end{align}$$
+  </blockquote>
+  <li>The above refers to a mode as a <b>local maximum for the density function</b>, i.e., a point at which the density is greatest in a neighborhood.</li>
+  <li>This corresponds to a <strong>peak of the density curve</strong>.</li>
+</ul>
+
+
+========================================================
+
+## Differences in mean, median and mode
+
+
+<div style="float:left; width:60%">
+<img src="mean_median_mode.png" style="width:100%"  alt="Differences between mean, median and mode with non-symmetric distributions.">
+<p style="text-align:center">
+Courtesy of Diva Jain <a href="https://creativecommons.org/licenses/by-sa/4.0" target="blank">CC</a> via <a href="https://commons.wikimedia.org/wiki/File:Relationship_between_mean_and_median_under_different_skewness.png"> Wikimedia Commons</a>. 
+</p>
+</div>
+<div style="float:left; width:40%">
+<ul>
+  <li>Usually, the mean, median and mode tell us different characteristics of what we call the "center" of the data.</li>
+  <li>In the <strong>special case when data is symmetric and unimodal, these coincide</strong>.</li>
+  <li>In the left, we see data that is all uni-modal, but with three different cases.</li>
+  <li>In the left case, we have right skewness:
+  <ul>
+    <li>Here, the mean and median are discplaced to the right away from the mode.</li>
+    <li>Additionally, the mean and median do not match.</li>
+  </ul>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>In the right case, we have left skewness:</li>
+  <ul>
+    <li> In this case, the mean and the median are skewed to the left away from the mode.</li>
+  </ul>
+  <li><b>Note:</b> the precise location of the mean and median do not need to hold this way for all skew distributions -- <strong>this is only one example of how this can look</strong>  .</li>  
+</ul>
+</div>
+

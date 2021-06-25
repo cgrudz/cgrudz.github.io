@@ -1,0 +1,467 @@
+---
+layout: page
+title: STAT 775 &#8212 Fall 2021
+---
+
+<img style="width:100%; border:1px solid black" src="./assets/OAF_cycle.png" alt="A schematic of the observation-analysis-forecast cycle."/>
+<div style="font-size:18px; width:80%; margin-left:10%; margin-right:10%; margin-top:10px; margin-bottom-10px">
+<p>
+A schematic of the recursive observation-analysis-forecast cycle of sequential, Baysian filtering.  Estimates of the density are squentially forecasted with the
+dynamical model and conditioned with the likelihood of incoming observations.
+</p>
+</div>
+
+
+<h2>Introduction</h2>
+<p>
+This is the course web page for Data Assimilation and Estimation Theory, STAT 775 FALL 2021 – Section 1001.  Please see the menus below for class resources and the up-to-date class schedule.
+</p>
+<h3>Course syllabus</h3>
+<h3>Modules, assignments and grades will be posted through <a href='https://wcl.unr.edu' target="blank"><strong>Web Campus</strong></a>.</h3>
+
+<h2>Course information</h2>
+<button class="accordion"><h3>Class resources</h3></button>
+    <div class="accordian_panel">
+    <button class="accordion"><h4>Recommended books</h4></button>
+        <div class="accordian_panel">
+				There are no required books for this class but the following books are suggested for further readings.
+        <ul>
+            <li><a href='https://epubs.siam.org/doi/book/10.1137/1.9780898718591' target="blank">
+								Speyer, J. L., & Chung, W. H. (2008). <i>Stochastic processes, estimation, and control</i>. Society for Industrial and Applied Mathematics.</a></li>
+						<li><a href="https://epubs.siam.org/doi/book/10.1137/1.9781611974546" target="blank">
+								Asch, M., Bocquet, M., & Nodet, M. (2016). <i>Data assimilation: methods, algorithms, and applications</i>. Society for Industrial and Applied Mathematics.</a></li>
+        </ul>
+					The course will loosely follow Chapters 1 - 5 and 7 from <i>Stochastic processes, estimation, and 
+					control</i> and Chapters 1 - 3 and 6 - 11 of <i>Data assimilation: methods, algorithms, and
+					applications</i>. Other sources of material will include relevant journal articles and surveys.
+        </div>
+    <button class="accordion"><h4>Programming resources</h4></button>
+        <div class="accordian_panel">
+        <ul>
+            <li>Free scientific programming lessons are available through
+                <a href='https://software-carpentry.org/lessons/index.html' target="blank">Software Carpentry (nonprofit teaching programming for researchers)</a>.</li>
+            <li>Advanced students interested in the theory of programming are recommended <a href='https://eloquentjavascript.net/' target="blank">Eloquent Javascript (free, creative commons)</a>.</li>
+        </ul> 
+        </div>
+    </div>        
+<button class="accordion"><h3>Archive</h3></button>
+    <div class="accordian_panel" style='width:800px'>
+        <p>
+            The up-to-date schedule is in the table below.  
+        </p>
+        <table>
+        <tr>
+            <th> <strong>Week </strong></th> <th> <strong>Day 1</strong> </th> <th><strong>Day 2</strong></th> <th><strong>Day 3</strong></th>
+        </tr>
+        <tr>
+            <td> 08/23 - 08/29 </td>  
+						<td>
+								Course introduction
+								<ul>
+									<li>Syllabus</li>
+									<li>Activity</li>
+								</ul>
+            </td> 
+						<td>
+						A review of random variables	
+                <ul>
+									<li><a href='https://youtu.be/zrpl8X6g6o0' target="blank">Lecture video</a></li>
+									<li><a href='./lesson_notes/2021_08_25/lesson_21_08_25.html' target="blank">Lecture notes</a></li>
+									<li>Activity</li>
+								</ul>
+            </td> 
+            <td>  
+						A review of sampling distributions and the univariate Gaussian	
+                <ul>
+									<li><a href='https://youtu.be/HYG7FYFiBX8' target="blank">Lecture video</a></li>
+									<li><a href='./lesson_notes/2021_08_27/lesson_21_08_27.html' target="blank">Lecture notes</a></li>
+									<li>Activity</li>
+								</ul>
+						</td>
+        </tr>
+        <tr>
+            <td> 08/30 - 09/05 </td> 
+            <td> 
+							A review of linear algebra and vector calculus
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+						<td>
+							A review of random vectors
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+            </td>     
+            <td>  
+							A review of covariances and the multivariate Gaussian
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+            </td>
+        </tr>
+        <tr>
+					<td> 09/06 -<br> 09/12
+					</td>  
+          <td> 
+						<b>No class 09/06</b> &#8212 <b>Labor Day</b>
+          <td>
+							Conditional expectations and Bayesian inference
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+          </td>
+          <td>
+							Stochastic processes and discrete Gauss-Markov models Part I
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+          </td>
+        </tr>
+        <tr>
+          <td> 
+						09/13 - 09/19 
+					</td> 
+          <td> 
+							Stochastic processes and discrete Gauss-Markov models Part II
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+					</td>
+					<td>
+						Continuous-time models and elementary stochastic calculus Part I
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+          </td>     
+          <td> 
+						Continuous-time models and elementary stochastic calculus Part II
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+          </td>
+        </tr>
+        <tr>
+            <td> 
+							09/20 - 09/26
+						</td> 
+						<td>
+							Elementary numerical solution to ODEs and SDEs Part I
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+						</td> 
+						<td>
+							Elementary numerical solution to ODEs and SDEs Part II
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+            </td>     
+            <td>
+							Minimum variance and maximum likelihood estimation Part I
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+            </td>
+        </tr>
+        <tr>
+          <td> 09/27 - 10/03 </td> 
+          <td>
+							Minimum variance and maximum likelihood estimation Part II
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+          </td> 
+          <td>  
+						The Kalman filter Part I 
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+          </td>
+          <td>  
+						The Kalman filter Part II
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+          </td>
+        </tr>
+        <tr>
+          <td> 
+						10/04 - 10/10 
+					</td> 
+          <td> 
+						Variational least-squares Part I
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+					</td>
+          <td>
+						Variational least-squares Part II
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+          </td>     
+          <td>  
+						Joint state-parameter estimation
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+          </td>
+        </tr>
+        <tr>
+            <td> 10/11 - 10/17 </td> 
+            <td>
+							Filtering, smoothing and sequential smoothing
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+            </td>
+            <td>
+							Particle filters Part I
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+						</td> 
+            <td>
+							Particle filters Part II
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+            </td>     
+        </tr>
+        <tr>
+            <td> 10/18 - 10/24 </td> 
+            <td>
+							Metropolis-Hastings Part I
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+            </td>
+            <td>
+							Metropolis-Hastings Part II
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+            </td>     
+            <td>  
+							3D-VAR
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+            </td>
+        </tr>
+        <tr>
+            <td> 10/26 - 10/31 </td> 
+            <td>
+							The extended Kalman filter
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+            </td>
+            <td> 
+							4D-VAR and generalized nonlinear least-squares Part I
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+            </td>
+            <td> 
+						<b>No class 10/29</b> &#8212 <b>Nevada Day</b>
+            </td>
+        </tr>
+        <tr>
+            <td> 11/01 - 11/07 </td> 
+            <td>
+							4D-VAR and generalized nonlinear least-squares Part II
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+            </td>
+            <td>
+							The ensemble Kalman filter and smoother Part I
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+            </td>     
+            <td> 
+							The ensemble Kalman filter and smoother Part II
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+            </td>
+        </tr>
+        <tr>
+            <td> 11/08 - 11/14 </td> 
+            <td> 
+							The ensemble Kalman filter and smoother Part III
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+            </td>
+            <td>
+							Hybrid ensemble-variational techniques Part I
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+            </td>     
+						<td>
+							Hybrid ensemble-variational techniques Part II
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+            </td>
+        </tr>
+        <tr>
+            <td> 11/15 - 11/21 </td> 
+            <td>
+							Nonlinear stability and divergence
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+            </td>
+            <td>
+							Covariance inflation
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+            </td>
+            <td>
+							Localization and other means of regularization
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+            </td>
+        </tr>
+        <tr>
+            <td> 11/22 - 11/28 </td>  
+            <td>
+							Benchmarking twin experiments
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+            </td>
+            <td>
+							A survey of applications
+              <ul>
+								<li>Lecture video</li>
+								<li>Lecture notes</li>
+								<li>Activity</li>
+							</ul>
+            </td>     
+            <td> 
+						<b>No class 11/26</b> &#8212 <b>Family Day</b>
+            </td>
+        </tr>
+        <tr>
+            <td> 11/29 - 12/05 </td> 
+            <td>
+							Modelling case study in DAPPER
+            </td>     
+            <td> 
+							Modelling case study in DAPPER
+            </td>
+						<td>
+							Modelling case study in DAPPER
+						</td>
+        </tr>
+        <tr>
+            <td> 12/06 - 12/12 </td> 
+            <td>
+							Modelling case study in DAPPER
+            </td>
+						<td>
+						<b>No class 12/08</b> &#8212 <b>Prep Day</b>
+					  </td>
+						<td>
+						<b>No class 12/10</b> &#8212 <b>Finals week</b>
+					  </td>
+        </tr>
+    </table>
+    </div>
+
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+            panel.style.display = "none";
+        } else {
+            panel.style.display = "block";
+        }
+    });
+}
+</script>
+
