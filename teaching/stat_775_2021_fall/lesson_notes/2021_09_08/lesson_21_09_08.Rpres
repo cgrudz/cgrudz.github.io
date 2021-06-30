@@ -1,0 +1,561 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+<!-- foo 
+Highlighting
+bold
+strong
+orange <b style="color:#d95f02"> text </b>
+green  <b style="color:#1b9e77"> text </b>
+purple <b style="color:#d24693"> text </b>
+red    <b style="color:#FF0000"> text </b>
+blue   <b style="color:#0000FF"> text </b>
+-->
+
+A review of random vectors
+========================================================
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+<blockquote>
+FAIR USE ACT DISCLAIMER:</br>
+This site is for educational purposes only.  This website may contain copyrighted material, the use of which has not been specifically authorized by the copyright holders. The material is made available on this website as a way to advance teaching, and copyright-protected materials are used to the extent necessary to make this class function in a distance learning environment.  The Fair Use Copyright Disclaimer is under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+</blockquote>
+
+========================================================
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+  * Multiple random variables
+  * CDF and PDF of multiple variables
+  * Marginals
+  * The ensemble matrix
+  * The expected value
+  * The ensemble mean
+
+========================================================
+## Introducing multiple random variables
+
+
+* We will now introduce the basic tools of <b>statistics and probability theory for multivariate analysis</b>;
+
+  * we will be studying the relations between <strong>$N_x>1$ total RVs that will often covary together in their conditional probabilities</strong>. 
+  
+* Some notions like the expected / center of mass will translate directly over linear combinations of RVs.
+
+* Recall, for RVs $X,Y$ and a constant scalars $a,b$ we have
+  $$\mathbb{E}\left[ a X + b Y\right] = a \mathbb{E}\left[X\right] + b \mathbb{E}\left[Y\right]$$
+  by the linearity of the expectation.
+
+* Recall the vector notation $\pmb{x} \in \mathbb{R}^{N_x}$, matrix notation $\mathbf{A} \in \mathbb{R}^{N_x \times N_x}$, and matrix-slice notation $\mathbf{A}^j \in \mathbb{R}^{N_x}$ where
+  
+  $$\begin{align}
+  \pmb{x} := \begin{pmatrix} x_1 \\ \vdots \\ x_{N_x} \end{pmatrix} & & \mathbf{A} := 
+  \begin{pmatrix}
+  a_{1,1} & \cdots & a_{1, N_x} \\
+  \vdots & \ddots & \vdots \\
+  a_{N_x,1} & \cdots & a_{N_x, N_x}
+  \end{pmatrix}
+   & &
+   \mathbf{A}^j := 
+   \begin{pmatrix}
+  a_{1,j} \\
+  \vdots \\
+  a_{N_x, j}
+  \end{pmatrix}
+  \end{align}$$
+  
+
+* The linearity of the expectation then extends to random vectors $\pmb{x}, \pmb{y}$ and constant matrices $\mathbf{A},\mathbf{B}$, we can write
+  $$\mathbb{E}\left[\mathbf{A}\pmb{x} + \mathbf{B}\pmb{y} \right] = \mathbf{A}\mathbb{E}\left[ \pmb{x}\right] + \mathbf{B}\mathbb{E}\left[\pmb{y}\right].$$
+
+* While the concept of the <b>center of mass</b> has a <strong>direct generalization to vectors</strong>, we will need to make some additional considerations when we measure the spread of RVs and how they relate to others.
+
+* The extension of the <b>second centered moment</b> has the generalization to the <strong>rotational inertia tensor</strong>.
+
+========================================================
+## The cumulative distribution function
+
+* We will begin our consideration in $N_x=2$ dimensions, as all properties described in the following will extend (with minor modifications) to arbitrarily large but finite $N_x$.
+
+* Let the random vector $\pmb{X}$ be defined as
+
+  $$\begin{align}
+  \pmb{X} = 
+  \begin{pmatrix}
+  X_1 \\ X_2
+  \end{pmatrix}
+  \end{align}$$
+  where each of the above components $X_i$ is a RV.
+  
+* We can define the <b>cumulative distribution function</b> in a similar way to the definition in one variable.
+
+* Let $x_1,x_2$ be <strong>two fixed real values forming a constant vector</strong> as
+  
+  $$\pmb{x} = \begin{pmatrix} x_1 \\ x_2\end{pmatrix}.$$
+  
+* Define the comparison operator between two vectors $\pmb{y}, \pmb{x}$ as
+
+  $$\pmb{y} \leq \pmb{x} \Leftrightarrow  y_i \leq x_i \text{ for each and every }i$$
+
+<blockquote>  
+<b>Multivariate cumulative distribution function</b><br>
+The <strong>cumulative distribution function</strong> $P$, describing the probability of realizations of $\pmb{X}$, is defined
+  $$P(\pmb{x}) = \mathcal{P}(\pmb{X}\leq \pmb{x} ) = \mathcal{P}(X_i \leq x_i \quad \forall i=1,\cdots,N_x).$$
+</blockquote>
+
+
+
+========================================================
+### The joint probability density function
+
+* Recall that the CDF 
+  
+  $$\begin{align}
+  P:\mathbb{R}^2 & \rightarrow [0,1] \\
+   \pmb{x} & \rightarrow \mathcal{P}(\pmb{X}\leq \pmb{x})
+  \end{align}$$
+  is a function of the variables $(x_1,x_2)$. 
+  
+* Suppose then that $P$ has continuous second partial derivatives in  $\partial_{x_1} \partial_{x_2}P = \partial_{x_2}\partial_{x_1}P$;
+
+  * this implies we can arbitrarily exchange the order of differentiation or integration.
+
+<blockquote>
+<b>Multivariate probability density function</b><br>
+Let $P\in \mathcal{C}^2\left(\mathbb{R}^2\right)$ , then the <strong>probability density function</strong> $p$ is defined as
+  $$\begin{align}
+  p:\mathbb{R}^2 & \rightarrow \mathbb{R}\\
+   \pmb{x} &\rightarrow \partial_{x_1}\partial_{x_2}P(\pmb{x})
+  \end{align}$$
+</blockquote>
+  
+* In the above definition, we have constructed the density function in the same way as in one variable;
+
+  * specifically, in the case where $p$ itself is differentiable, we have defined the CDF as the anti-derivative of the density:
+  
+  $$\begin{align}
+  P(\pmb{x}) = \int_{-\infty}^{x_1} \int_{-\infty}^{x_2} p(s_1, s_2) \mathrm{d}s_1 \mathrm{d}s_2.
+  \end{align}$$
+
+
+========================================================
+### The joint probability density function
+
+* Recall that the relationship between the CDF and the PDF as
+
+  $$\begin{align}
+  P(\pmb{x}) = \int_{-\infty}^{x_1} \int_{-\infty}^{x_2} p(s_1, s_2) \mathrm{d}s_1 \mathrm{d}s_2;
+  \end{align}$$
+
+
+
+* this implies that
+  
+  $$\begin{align}
+  P(- \infty &lt; \pmb{X} &lt; \infty)  = \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} p(s_1, s_2) \mathrm{d}s_1 \mathrm{d}s_2 = 1
+  \end{align}$$
+
+* If we define this over $N_x\geq 2$ variables, all of the above extends identically when $P$ has derivatives defined in arbitrary arrangements of the $N_x$-th partial derivatives in each $\partial_{x_i}$.
+
+* Specifically, this requires that, for all permutations $\psi:(1, \cdots, N_x)  \rightarrow (\psi(1), \cdots ,\psi(N_x))$,
+
+  $$\begin{align}
+  \partial_{x_1} \cdots \partial_{x_{N_x}}P = \partial_{x_{\psi(1)}} \cdots \partial_{x_{\psi(N_x)}}P
+  \end{align}$$
+
+  * We then construct $p$ as the $N_x$-th partial derivative of $P$ in all univariate partial derivatives.
+
+* Using the integral relationship, we can similarly show
+
+  $$\begin{align}
+  P(\pmb{x}) = \int_{-\infty}^{x_1} \cdots \int_{-\infty}^{x_{N_x}} p(s_1, \cdots, s_{N_x}) \mathrm{d}s_1\cdots \mathrm{d}s_{N_x}.
+  \end{align}$$
+
+
+========================================================
+### The joint probability density function
+
+
+<div style="float:left; width:55%">
+<ul>
+  <li>Particularly, we will again view the density function like the curve of the univariate case, but for two variables we see this as a <strong>surface above the $x_1,x_2$ plane</strong>.</li>
+</ul>
+</div>
+<div style="float:right; width:40%" class="fragment">
+<img style="width:100%", src="Multivariate_Gaussian.png" alt="Volume under joint density."/><p style="text-align:center"> Courtesy of: F.M. Dekking, et al. <i>A Modern Introduction to Probability and Statistics</i>. Springer Science & Business Media, 2005.</p>
+</div>
+<div style="float:left; width:55%">
+<ul>
+  <li>To the right, we see the multivariate Gaussian bell surface that defines the multivariate normal distribution in two variables.</li>
+  <li>In one variable, the probability $\mathcal{P}(X_1 \leq x_1)$ was associated to the area under the curve, computed by the integral of the density.</li>
+</ul>
+</div>
+<div style="float:left; width:40%" class="fragment">
+<img style="width:100%", src="joint_density.png" alt="Volume under joint density."/><p style="text-align:center"> Courtesy of: F.M. Dekking, et al. <i>A Modern Introduction to Probability and Statistics</i>. Springer Science & Business Media, 2005.</p>
+</div>
+<div style="float:right; width:55%">
+<ul>
+  <li>With integrals in two variables, a volume is computed under the surface with a multiple integral.</li>
+  <li>Likewise, we will associate the probability $\mathcal{P}(\pmb{a} \leq \pmb{X} \leq \pmb{b})$ with some volume under the surface.</li>
+  <li>By the construction, we can generally write, 
+  $$\begin{align}
+  \mathcal{P}(\pmb{a} \leq \pmb{X}\leq \pmb{b}) = \int_{a_1}^{b_1} \int_{a_2}^{b_2} p(s_1,s_2)\mathrm{d}s_1\mathrm{d}s_2,
+  \end{align}$$
+  or extend this to hyper-volumes for $N_x>2$ variables.
+  </li>
+</ul>
+</div>
+
+
+
+========================================================
+### The marginal distribution function
+
+* A new construction arises when we consider the <b>joint probability of multiple variables</b>, and <strong>how these relate back to univariate probability</strong>.
+
+* Consider if we write the CDF of $\pmb{X} = (X_1,X_2)^\top$ in terms of its component arguments,
+  
+  $$\begin{align}
+  P(x_1, x_2) = \int_{-\infty}^{x_1}\int_{-\infty}^{x_2} p(s_1, s_2) \mathrm{d}s_1 \mathrm{d}s_2
+  \end{align}$$
+  we can also <strong>define the limit as $x_i$ goes to infinity</strong>.
+  
+* This can be considered as an operation of averaging out the variable $x_i$ as represented by the integral
+  
+  $$\begin{align}
+  \lim_{x_2\rightarrow \infty}\int_{-\infty}^{x_1}\int_{-\infty}^{x_2} p(s_1, s_2) \mathrm{d}s_1 \mathrm{d}s_2 = \int_{-\infty}^{x_1}\int_{-\infty}^{\infty} p(s_1, s_2) \mathrm{d}s_1 \mathrm{d}s_2
+  \end{align}$$
+
+* However, if we consider $x_1$ to still remain a free variable in the above equation, this can be written as,
+  
+  $$\begin{align}
+  P(x_1) = P(x_1, \infty) = \lim_{x_2 \rightarrow \infty} P(x_1,x_2)
+  \end{align}$$
+  where <b>$P(x_1)$ is the <b>marginal distribution function</b> for $x_1$</b>, integrating our $x_2$ in the same sense as above.
+
+
+* Likewise we can define the marginal distribution function symmetrically in $x_2$ as,
+  
+  $$\begin{align}
+  P(x_2) = P(\infty , x_2) = \lim_{x_1 \rightarrow \infty} P(x_1,x_2)
+  \end{align}$$
+  where <b>$P(x_2)$ is the marginal distribution function for $x_2$</b> integrating our $x_1$ in the same sense as above.
+
+
+========================================================
+### The marginal distribution function
+
+* Let us consider now the meaning of this object in terms of simple probability.
+
+* Let $A =\{X_1 \leq x_1\}$ and $B = \{X_2\leq x_2\}$ so that,
+
+  $$\begin{align}
+  P(x_1) &:= \lim_{x_2\rightarrow \infty} P(x_1, x_2)  \\
+                 &= \lim_{x_2\rightarrow \infty} \mathcal{P}(A \cap B) \\
+                 &= \lim_{x_2 \rightarrow\infty} \mathcal{P}(A \vert B) \mathcal{P}(B)\\
+                 &= \mathcal{P}(A)
+  \end{align}$$
+  as $X_2 \leq \infty$ places no restriction on the event $A$, and $\mathcal{P}(B)=1$ for $x_2 \rightarrow \infty$.
+
+*  Similarly, we can show this for the marginal distribution in $x_2$.
+
+* Therefore, we associate the marginal distribution of $x_1$ with its <b>intrinsic probability distribution</b>, after <strong>factoring out the outcomes of possibly related variables</strong>.
+
+* Geometrically, we can gain some understanding of the marginal probability distribution terms of the marginal density function.
+
+
+========================================================
+### The marginal density function
+
+<div style="float:left; width:55%">
+<ul>
+  <li>Let's suppose that $X_1,X_2$ have a joint density defined as $p(\pmb{x})$ such that
+  $$P(\pmb{x}) = \int_{-\infty}^{x_1}\int_{-\infty}^{x_2} p(s_1, s_2) \mathrm{d}s_1 \mathrm{d}s_2.$$</li>
+  <li>Suppose we integrate $x_2$ out of the density as above, then we define the marginal density function as
+  $$p(x_1) = \int_{-\infty}^{\infty} p(x_1,s_2) \mathrm{d}s_2.$$</li>
+  <li>By construction, we have the following relationship between the marginals
+  $$P(x_1) = \int_{-\infty}^{x_1}p(s_1)\mathrm{d}s_1.$$</li>
+</ul>
+</div>
+<div style="float:right; width:40%" class="fragment">
+<img style="width:100%", src="Multivariate_normal_sample.png" alt="Marginal of the joint density."/><p style="text-align:center"> Courtesy of <a href="https://commons.wikimedia.org/wiki/File:MultivariateNormal.png">Bscan</a>, CC0, via Wikimedia Commons</p>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>The above description shows that $p(x_1)$ can be associated to the total area under the curve $p(x_1, s_2)$ where $x_1$ is fixed and $s_2$ is free to vary over all values $-\infty \leq s_2\leq \infty$.</li>
+  <li>Geometrically, the marginal density curves are represented for the joint normal distribution in $x_1$ and $x_2$ in the figure above.</li>
+  <li>For any fixed $x_1$, the marginal histogram is produced by finding the frequency of all values $x_2$ that are observed associated to this value $x_1$.</li>
+  <li>We thus sum all $x_2$-values in to the margin and look at the density of $x_1$ over the margin of the joint plot.</li>
+</ul>
+</div>
+
+========================================================
+### Independence and the marginal probability
+
+* Let us recall now that $\mathcal{P}(A \cap B) = \mathcal{P}(A)\mathcal{P}(B)$ if and only if $A$ and $B$ are independent events.
+
+* Let $A =\{X_1 \leq x_1\}$ and $B = \{X_2\leq x_2\}$ once again.
+
+* Consider thus, if $X_1$ and $X_2$ are independent RVs, we must have that
+  
+  $$\begin{align}
+  P(x_1, x_2) &= \mathcal{P}(A \cap B) \\
+               &= \mathcal{P}(A) \mathcal{P}(B) \\
+               &=P(x_1) P(x_2)
+  \end{align}$$
+  from our earlier derivations.
+  
+*  If we take the derivatives $\partial_{x_1}\partial_{x_2}$ of the above, assuming again the independence,
+  
+  $$\begin{align}
+  \partial_{x_1}\partial_{x_2} P(x_1,x_2) &= p(x_1,x_2) \\
+  & = \partial_{x_1} P(x_1) \partial_{x_2} P(x_2)\\
+  &= p(x_1) p(x_2)
+  \end{align}$$
+  which can be shown by integrating out either $x_i$ from the joint density.
+  
+
+* Therefore, for <strong>independent RVs $X_1,X_2$</strong> we recover the following <b>identities on the marginal functions</b>,
+
+  $$\begin{align} P(x_1, x_2) = P(x_1)P(x_2)  & & p(x_1,x_2) = p(x_1) p(x_2)\end{align}$$
+  
+========================================================
+## Marginal verus conditional probability
+
+* The marginals are closely related to the notion of the conditional probability.
+
+* We recall, it is a basic assumption in probability that when $\mathcal{P}(B)\neq0$,
+  
+  $$\mathcal{P}(A\vert B) = \frac{\mathcal{P}(A\cap B)}{\mathcal{P}(B)}.$$
+
+* We will thus define the conditional density as,
+  
+  $$p(x_1 \vert x_2) = \frac{p(x_1, x_2)}{p(x_2)}$$
+  
+* We can thus write equivalently,
+
+  $$ p(\pmb{x}) := p(x_1,x_2) =  p(x_1 \vert x_2) p(x_2)$$
+
+
+*  When $X_1,X_2$ are independent, we furthermore obtain $p(x_1 \vert x_2) = p(x_1)$.
+
+========================================================
+### Marginal verus conditional probability
+
+*  The following relationship between the marginal, conditional and joint densities
+  
+  $$ p(\pmb{x}) =  p(x_1 \vert x_2) p(x_2)$$
+  
+  can be used to illustrate another connection.
+  
+* Consider,
+
+  $$\begin{align}
+  p(x_1) &= \int_{-\infty}^\infty p(\pmb{x}) \mathrm{d}x_2 \\ 
+                 &= \int_{-\infty}^\infty p(x_1 \vert x_2) p(x_2) \mathrm{d}x_2
+  \end{align}$$
+  
+* Then we have the interpretation of the marginal $p(x_1)$ as the <strong>average value of the conditional density $p(x_1 \vert x_2)$, as we take the weighted average over all possible $x_2$</strong>.
+
+* This is equivalent to the earlier interpretation, summing the total frequency of all $x_2$ observed for a fixed value of $x_1$.
+
+========================================================
+## Samples and random vectors
+
+* In multivariate statistics, a <b>random sample</b> is defined as a sequence of i.i.d. RVs 
+
+  $$\pmb{X}_1 , . . . , \pmb{X}_{N_e} \in \mathbb{R}^{N_x},$$ 
+  where each $\pmb{X}_i$ has the same distribution as a parent or population RV $\pmb{X} \sim P$.
+  
+  * Each component of $\pmb{X}_j$ represents a map to a possible-to-observe numerical outcome of the random trial, while the $j$ represents the replication index of the trial.
+
+* Observations of the random sample are the values the RVs $\{\pmb{X}_j\}_{j=1}^{N_e}$ attain, i.e., fixed vectors of numerical outcomes $\{\pmb{x}_j\}_{j=1}^{N_e}$.
+
+* In data assimilation, it is typical to collect the random sample into what is known as an <b>ensemble matrix</b>.
+
+<blockquote>
+<b>The (random) ensemble matrix</b><br>
+Let $\{\pmb{X}_j\}_{j=1}^{N_e}$ be RVs <strong>independently and identically distributed (iid)</strong> according to a parent distribution $\pmb{X}\sim P$.  The <strong>(random) ensemble matrix</strong> is defined
+$$\begin{align}
+\mathbf{E} := \begin{pmatrix} \pmb{X}_1,  \cdots,  \pmb{X}_{N_e}\end{pmatrix}, & & \mathbf{E}^j := \pmb{X}_j, & & \mathbf{E}\in \mathbb{R}^{N_x \times N_e},
+\end{align}$$
+where $N_x$ is referred to as the <strong>state dimension</strong> and $N_e$ is referred to as the <strong>ensemble dimension</strong>.
+</blockquote>
+
+* Notice that the ensemble matrix places <b>distinct RVs in distinct rows</b>, while <strong>replicates of the outcomes are positioned in columns</strong>.
+
+* This can be thought of similarly to the <b>transpose of the design matrix</b> from linear regression.
+
+
+========================================================
+## Samples and random vectors
+
+* Following the convention of the ensemble matrix, we can similarly write the observed ensemble in a matrix form.
+
+
+<blockquote>
+<b>The (observed) ensemble matrix</b><br>
+Let $\{\pmb{X}_j\}_{j=1}^{N_e}$ be RVs <strong>independently and identically distributed (iid)</strong> according to a parent distribution $\pmb{X}\sim P$, and $\{\pmb{x}_j\}_{j=1}^{N_e}$ be some realization of the random sample. The <strong>(observed) ensemble matrix</strong> is defined
+$$\begin{align}
+\mathbf{E} := \begin{pmatrix} \pmb{x}_1,  \cdots,  \pmb{x}_{N_e}\end{pmatrix}, & & \mathbf{E}^j := \pmb{x}_j, & & \mathbf{E}\in \mathbb{R}^{N_x \times N_e}.
+\end{align}$$
+</blockquote>
+
+* We will use the the ensemble matrix notation interchangably;
+
+  * the context in which we refer to the ensemble matrix will determine if we treat this as a random matrix or a matrix of data. 
+
+
+========================================================
+## The expected value
+
+* We mentioned already that the expectation has the same property of passing over linear combinations of RVs in the same ways with vectors as with scalars.
+
+* Particularly, we consider the following definition:
+
+  * Let $\pmb{X}$ be a RV of size $N_x$ with the associated CDF $P(\pmb{x})$ and the density $p(\pmb{x})$.
+  
+  * Then, we will denote the expected value of the vector $\pmb{X}$ as,
+  
+  $$\begin{align}
+  \mathbb{E}\left[\pmb{X}\right] = \int_{\mathbb{R}^{N_x}} \mathbf{s} p(\mathbf{s})\mathrm{d}\mathbf{s}=
+    \begin{pmatrix}
+  \mathbb{E}\left[X_1\right] \\ \vdots \\ \mathbb{E}\left[X_{N_x}\right]
+  \end{pmatrix} =
+  \begin{pmatrix}
+  \int_{-\infty}^\infty s_1 p(s_1) \mathrm{d}s_1 \\ \vdots \\   \int_{-\infty}^\infty s_{N_x} p(s_{N_x}) \mathrm{d}s_{N_x} 
+  \end{pmatrix} = \begin{pmatrix} \overline{x}_1 \\ \vdots \\ \overline{x}_{N_x}\end{pmatrix} = \overline{\pmb{x}}
+  \end{align}$$
+  where in the above $p(x_i)$ refers to the marginal for $X_i$ having integrated out the other variables.
+  
+* In the form $\mathbb{E}\left[\pmb{X}\right] = \int_{\mathbb{R}^{N_x}} \mathbf{s} p(\mathbf{s})\mathrm{d}\mathbf{s}$ this can be seen as the weighted average of the vector $\mathbf{s}$, given the weights of the joint density.
+  
+* Suppose again $N_x=2$, then we can then consider the first entry of $\mathbb{E}\left[\pmb{X}\right]$ to be,
+  
+  $$\begin{align}
+  \mathbb{E}\left[ X_1\right] = \int_{-\infty}^\infty s_1 p(s_1)\mathrm{d}s_1 &= \int_{-\infty}^\infty \int_{-\infty}^\infty s_1 p(s_1 \vert s_2) p(s_2) \mathrm{d}s_2 \mathrm{d}s_1
+  \end{align}$$
+  so that this can be understood as the center of mass for $X_1$ conditional on $X_2$ after averaging over the range of $X_2$, weighted by its density.
+  
+
+========================================================
+## The expected value
+
+* Recall that the expected value of a RV can be described as,
+
+  $$\begin{align}
+  \mathbb{E}\left[\pmb{X}\right] =
+    \begin{pmatrix}
+  \mathbb{E}\left[X_1\right] \\ \vdots \\ \mathbb{E}\left[X_{N_x}\right]
+  \end{pmatrix} 
+  \end{align}$$
+  
+* Using this definition, it is easy to show how we can apply our usual rules of distributing this expected value over linear combinations of RVs.
+
+* Particularly, simply following row-versus column multiplication, we can deduce directly that
+
+  $$\mathbb{E}\left[\mathbf{A}\pmb{X}_1 + \mathbf{B}\pmb{X}_2 \right] = \mathbf{A}\mathbb{E}\left[ \pmb{X}_1\right] + \mathbf{B}\mathbb{E}\left[\pmb{X}_2\right].$$
+   for constant matrices $\mathbf{A},\mathbf{B}$.
+
+* The above likewise holds for scalars $a,b$ trivially.
+
+
+
+========================================================
+### The ensemble mean
+
+* Now, suppose for a sample size $N_e$, with RVs $\{\pmb{X}_j\}_{j=1}^{N_e}$ of length $N_x$, we again define the ensemble-based mean of the <b>random variable</b> $X_i$ corresponding to the $i$-th entry of each above <strong> random vector</strong> as
+  
+  $$\begin{align}
+  \hat{X}_i = \frac{1}{N_e} \sum_{j=1}^{N_e} X_{ij},
+  \end{align}$$
+  which is itself a <b>random variable</b>.
+
+* This is equivalent to taking a <b>row-average of the random matrix</b>, taken over all columns $j=1,\cdots, {N_e}$
+
+   $$\begin{align}
+  \mathbf{E} & = 
+  \begin{pmatrix}
+  X_{1,1} & \cdots & X_{1,N_e} \\
+  \vdots & \ddots & \vdots \\
+  X_{N_x,1} & \cdots & X_{N_x,N_e}
+  \end{pmatrix}
+  \end{align}$$
+  
+* Particularly, for the <strong>vector with all entries equal to one $\pmb{1}$</strong>, we have,
+
+ $$\begin{align}
+ \hat{\pmb{X}} = \mathbf{E}\pmb{1}\frac{1}{N_e} = 
+ \begin{pmatrix}
+ \hat{X}_1 \\ \vdots \\ \hat{X}_{N_x}
+ \end{pmatrix}
+ \end{align}$$
+ for each $i=1,\cdots, N_x$ as defined above.
+
+========================================================
+### The ensemble mean
+
+
+* Note that from the last slide, we had
+
+ $$\begin{align}
+ \hat{\pmb{X}} = \mathbf{E}\pmb{1}\frac{1}{N_e}
+ \end{align}$$
+
+* Particularly, $\hat{\pmb{X}}$ is an unbiased estimator for $\overline{\pmb{x}}$, i.e, $\mathbb{E}\left[ \hat{\pmb{X}}\right] = \overline{\pmb{x}}$.
+
+* For observations of the RVs $\{\pmb{x}_j\}_{j=1}^{N_e}$, we similarly will denote the observed sample-based mean,
+
+ $$\begin{align}
+ \bar{x}_i = \frac{1}{N_e} \sum_{j=1}^{N_e} x_{ij}
+ \end{align}$$
+ 
+ where this can also be seen as taking the row-average of 
+ 
+   $$\begin{align}
+  \mathbf{E} & = 
+  \begin{pmatrix}
+  x_{1,1} & \cdots & x_{1,N_e} \\
+  \vdots & \ddots & \vdots \\
+  x_{N_x,1} & \cdots & x_{N_x,N_e}
+  \end{pmatrix}
+  \end{align}$$
+
+
+========================================================
+### The ensemble mean
+
+* Using the previous relationships, we can similarly show that,
+  
+  $$\begin{align}
+  \mathbf{E} \pmb{1} \frac{1}{N_e} = 
+ \begin{pmatrix}
+ \hat{x}_1 \\ \vdots \\ \hat{x}_{N_e}
+ \end{pmatrix} = \hat{\pmb{x}}.
+  \end{align}$$
+  
+* This tells us that the vector of the sample-based means of observations provides a point estimate for the expected value of the RV $\mathbb{E}\left[\pmb{X}\right] = \overline{\pmb{x}}$ 
+
+
+* In the next part of this unit, we will consider <b>how to measure spread of multiple RVs</b> and <strong>how this relates to the notion of correlation between variables</strong>.
+
+* Finally, we will discuss briefly the importance of the <b>multivariate Gaussian distribution</b>, defined over RVs.
+
+
