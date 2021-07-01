@@ -1,0 +1,84 @@
+---
+title: Term Paper STAT 775,<br> Fall 2021
+output:
+  html_document:
+    css: ./styles/base.css
+    highlight: null
+    theme: null
+    includes:
+      in_header: ./styles/notebook.html
+---
+
+Instructor: Colin Grudzien<br>
+
+## Assignment:
+
+### Summary
+
+For the final project, you are to to write a term paper in mathematical typesetting software.  You can use any software you prefer, but the report is required to be produced in a clean, easy-to-read document with the required document structure below.  Figures should be captioned, with clear and easy-to-interpret labels and graphics.  The final report must be uploaded in a PDF format to Webcampus.  The report should be written in 12 point font, have 1.0 or 1.5 line-spacing and be approximately 5 - 10 pages long, not including references or the appendix of code in the page count.  
+
+You are expected to use resources from outside of this course to investigate a topic of your choice and to summarize this topic according to the assignment objectives and rubric.  The goal of the assignment will be to read at least one paper of your choice in order to discuss the role of data assimilation in the application, or to discuss the novelty of a technique demonstrated in the work and how it provides novel tools for estimation problems.  Suggested topics are:
+<ul>
+  <li>__A paper related to your own research__ -- if you are working on an application, you may discuss a paper in which data assimilation techniques have been used in your own research context and what advantages and disadvantages this approach may have.</li> 
+  <li>__Data assimilation and machine learning__ -- discuss how the Bayesian formalism for data assimilation extends to general machine learning models and hybrid models including both data assimilation and machine learning techniques.</li>
+  <li>__Adaptive inflation or localization techniques__ -- discuss different techniques that can be utilized in order to "automatically tune" hyper-parameters in the estimation scheme.</li>
+  <li>__The Levenberg-Marquardt algorithm__ -- discuss how the trust region approach differs from the standard quasi-Netwon optimization approach commonly utilized.</li>
+  <li>__Expectation maximization__ -- discuss how this approach has been used to create, e.g., Gaussian mixture models estimating model and observation error statistics.</li>
+  <li>__Lagrangian data assimilation__ -- discuss how the problem changes when observations are given in Lagrangian coordinates, or the model evolution is represented in a Lagrangian frame.</li>
+  <li>__Reduced precision numerics__ -- discuss the consequences of reducing the precision of numerics on the data assimilation and uncertainty quantification problem.  What are the tradeoffs and possible rationale?</li>
+  <li>__Stochastic model reduction__ -- discuss how stochastic reduction of multi-scale physics affects the data assimilation and uncertainty quantification problem.</li>
+</ul>
+
+Your report needs to identify an example where this technique is used in a research or replication paper.  Examples from blogs are acceptable for works referenced and may help with discussing code implementations, but you will need to draw your particular example from a scholarly source.
+
+### Document structure
+
+
+<table class="minimalistBlack" style="text-align:center">
+<thead>
+<tr>
+  <th>Category</th>
+  <th>Expected results</th>
+  <th>Total points</th>
+</tr>
+</thead>
+<tr>
+<td style="padding:8px;"> __Section 1:__  Introduction </td>
+<td style="padding:8px;">Introduce your topic, the motivation of the work, and discuss how this work fits in within our framework of analysis.</td>
+<td style="padding:8px;">10 points</td>
+</tr>
+<tr>
+<td style="padding:8px;">__Section 2:__ Discuss the primary reference </td>
+<td style="padding:8px;"> Discuss where the example is drawn from and what the purpose was of this example, e.g., what questions were the authors trying to answer.  Discuss what analysis was performed in this example in the source and why this technique was relevant.</td>
+<td style="padding:8px;">10 points</td>
+</tr>
+<tr>
+<td style="padding:8px;">__Section 3:__ Discuss how the problem relates to your own research</td>
+<td style="padding:8px;"> Provide a proposal on how to utilize these techniques in a novel context.  Discuss how other techniques have already been utilized in the field and discuss why the research proposal may provide some advantage over existing work.</td>
+<td style="padding:8px;">10 points</td>
+</tr>
+<tr>
+<td style="padding:8px;"> __Section 4:__ Conclusions and looking forward</td>
+<td style="padding:8px;">The student should reflect on the course and what was gained from the course content.</td>
+<td style="padding:8px;">10 points</td>
+</tr>
+<tr>
+<td style="padding:8px;"> __Section 5:__ Works cited</td>
+<td style="padding:8px;"></td>
+<td style="padding:8px;">Required</td>
+</tr>
+<tr>
+<td style="padding:8px;"> __Section 6:__ Appendix of Python code as necessary</td>
+<td style="padding:8px;"></td>
+<td style="padding:8px;">Required</td>
+</tr>
+ 
+<tr>
+<td><strong> Grand total</strong>
+<td>All of the above</td>
+<td> 40/40 points</td>
+</tr>
+</table>
+
+## Due date
+The report must be submitted on Webcampus by __5:00 PM, Wednesday, December 10th__.

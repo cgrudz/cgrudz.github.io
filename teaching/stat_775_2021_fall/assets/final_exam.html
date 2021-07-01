@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Term Paper STAT 775,  Fall 2021</title>
+
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+<style type="text/css">
+  
+  /* Whole document - standard notebook size and margins */
+  body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      max-width: 8.5in;
+      margin: auto;
+      background: #FFFFFF;
+      padding: 1in 1in 1in 1in;
+  }
+
+#customlist {
+  /* delete default counter */
+  list-style-type: none;
+  /* create custom counter and set it to 0 */
+  counter-reset: elementcounter;
+}
+
+#customlist>li:before {
+  /* print out "Section " followed by the current counter value */
+  content: "Section " counter(elementcounter) ":";
+  /* increment counter */
+  counter-increment: elementcounter;
+}
+  
+</style>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+<link rel="stylesheet" href="data:text/css,%3Cstyle%20type%3D%22text%2Fcss%22%3E%0A%0A%0Abody%20%7B%0Afont%2Dfamily%3A%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Amax%2Dwidth%3A%208%2E5in%3B%0Amargin%3A%20auto%3B%0Abackground%3A%20%23FFFFFF%3B%0Apadding%3A%201in%201in%201in%201in%3B%0A%7D%0A%0Ah1%20%7B%0Afont%2Dsize%3A%2050px%3B%0Acolor%3A%20%23000000%3B%0Atext%2Dalign%3Acenter%3B%0Amargin%2Dbottom%3A15px%3B%0A%7D%0Ah1%2Bp%20%7B%0A%0Acolor%3A%20%23000000%3B%0Afont%2Dsize%3A%2020px%3B%0Aline%2Dheight%3A%202em%3B%0Amargin%2Dtop%3A%200%2E5em%3B%0Amargin%2Dbottom%3A%200em%20%21important%3B%0Atext%2Dalign%3A%20center%3B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0A%0Ah2%20%7B%0Acolor%3A%20%23000000%3B%0A%7D%0A%0Adt%20%7B%0Afloat%3A%20left%3B%0Aclear%3A%20left%3B%0Awidth%3A%2017%25%3B%0A%0A%7D%0Add%20%7B%0Amargin%2Dleft%3A%2017%25%3B%0A%7D%0Ap%20%7B%0Amargin%2Dtop%3A0%3B%0Amargin%2Dbottom%3A7px%3B%0A%7D%0A%0Ablockquote%20%7B%0Atext%2Dalign%3A%20left%3B%20%7D%0A%0Aa%20%7B%0Atext%2Ddecoration%3A%20none%3B%0Acolor%3A%20%231D5996%3B%0A%7D%0Aa%3Ahover%2C%20a%3Aactive%20%7B%0Abackground%2Dcolor%3A%20%231D5996%3B%0Acolor%3A%20%23FFFFFF%3B%0Atext%2Ddecoration%3A%20none%3B%0Atext%2Dshadow%3A%201px%201px%201px%20%23333%3B%0A%7D%0A%0Ahr%20%7B%0Acolor%3A%20%23A6A6A6%3B%0A%7D%0Atable%20%7B%0Awidth%3A%20100%25%3B%0Aborder%2Dcollapse%3Acollapse%3B%0Aborder%2Dspacing%3A0%3B%0Adisplay%3Atable%0A%7D%0Atable%2EminimalistBlack%20%7B%0Aborder%3A%203px%20solid%20%23000000%3B%0Awidth%3A%20100%25%3B%0Atext%2Dalign%3A%20left%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%2EminimalistBlack%20td%2C%20table%2EminimalistBlack%20th%20%7B%0Apadding%3A%205px%204px%3B%0A%7D%0Atable%2EminimalistBlack%20tbody%20td%20%7B%0Afont%2Dsize%3A%2015px%3B%0A%7D%0Atable%2EminimalistBlack%20thead%20%7B%0Abackground%3A%20%23CFCFCF%3B%0Abackground%3A%20%2Dmoz%2Dlinear%2Dgradient%28top%2C%20%23dbdbdb%200%25%2C%20%23d3d3d3%2066%25%2C%20%23CFCFCF%20100%25%29%3B%0Abackground%3A%20%2Dwebkit%2Dlinear%2Dgradient%28top%2C%20%23dbdbdb%200%25%2C%20%23d3d3d3%2066%25%2C%20%23CFCFCF%20100%25%29%3B%0Abackground%3A%20linear%2Dgradient%28to%20bottom%2C%20%23dbdbdb%200%25%2C%20%23d3d3d3%2066%25%2C%20%23CFCFCF%20100%25%29%3B%0Aborder%2Dbottom%3A%203px%20solid%20%23000000%3B%0A%7D%0Atable%2EminimalistBlack%20thead%20th%20%7B%0Afont%2Dsize%3A%2015px%3B%0Afont%2Dweight%3A%20bold%3B%0Acolor%3A%20%23000000%3B%0Atext%2Dalign%3A%20left%3B%0A%7D%0Atable%2EminimalistBlack%20tfoot%20%7B%0Afont%2Dsize%3A%2014px%3B%0Afont%2Dweight%3A%20bold%3B%0Acolor%3A%20%23000000%3B%0Aborder%2Dtop%3A%203px%20solid%20%23000000%3B%0A%7D%0Atable%2EminimalistBlack%20tfoot%20td%20%7B%0Afont%2Dsize%3A%2014px%3B%0A%7D%0A%0A%2Eshort%5Fanswer%5Fdiv%20%7B%0Awidth%3A100%25%3B%0Aheight%3A1%2E5in%3B%0Afloat%3Aleft%3B%0A%7D%0A%2Eanswer%5Fdiv%20%7B%0Awidth%3A100%25%3B%0Aheight%3A2in%3B%0Afloat%3Aleft%3B%0A%7D%0A%2Elong%5Fanswer%5Fdiv%7B%0Awidth%3A100%25%3B%0Aheight%3A3in%3B%0Afloat%3Aleft%3B%0A%7D%0A%0A%40media%20print%20%7B%0A%2Epagebreak%20%7B%20page%2Dbreak%2Dbefore%3A%20always%3B%20padding%2Dtop%3A1in%3B%0A%7D%20%7D%0Adiv%2Esolutions%20%2A%20%7B%0Acolor%3A%23000099%3B%0A%7D%0A%3C%2Fstyle%3E%0A" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Term Paper STAT 775,<br> Fall 2021</h1>
+
+
+
+<p>Instructor: Colin Grudzien<br></p>
+<div id="assignment" class="section level2">
+<h2>Assignment:</h2>
+<div id="summary" class="section level3">
+<h3>Summary</h3>
+<p>For the final project, you are to to write a term paper in mathematical typesetting software. You can use any software you prefer, but the report is required to be produced in a clean, easy-to-read document with the required document structure below. Figures should be captioned, with clear and easy-to-interpret labels and graphics. The final report must be uploaded in a PDF format to Webcampus. The report should be written in 12 point font, have 1.0 or 1.5 line-spacing and be approximately 5 - 10 pages long, not including references or the appendix of code in the page count.</p>
+You are expected to use resources from outside of this course to investigate a topic of your choice and to summarize this topic according to the assignment objectives and rubric. The goal of the assignment will be to read at least one paper of your choice in order to discuss the role of data assimilation in the application, or to discuss the novelty of a technique demonstrated in the work and how it provides novel tools for estimation problems. Suggested topics are:
+<ul>
+<li>
+<strong>A paper related to your own research</strong> – if you are working on an application, you may discuss a paper in which data assimilation techniques have been used in your own research context and what advantages and disadvantages this approach may have.
+</li>
+<li>
+<strong>Data assimilation and machine learning</strong> – discuss how the Bayesian formalism for data assimilation extends to general machine learning models and hybrid models including both data assimilation and machine learning techniques.
+</li>
+<li>
+<strong>Adaptive inflation or localization techniques</strong> – discuss different techniques that can be utilized in order to “automatically tune” hyper-parameters in the estimation scheme.
+</li>
+<li>
+<strong>The Levenberg-Marquardt algorithm</strong> – discuss how the trust region approach differs from the standard quasi-Netwon optimization approach commonly utilized.
+</li>
+<li>
+<strong>Expectation maximization</strong> – discuss how this approach has been used to create, e.g., Gaussian mixture models estimating model and observation error statistics.
+</li>
+<li>
+<strong>Lagrangian data assimilation</strong> – discuss how the problem changes when observations are given in Lagrangian coordinates, or the model evolution is represented in a Lagrangian frame.
+</li>
+<li>
+<strong>Reduced precision numerics</strong> – discuss the consequences of reducing the precision of numerics on the data assimilation and uncertainty quantification problem. What are the tradeoffs and possible rationale?
+</li>
+<li>
+<strong>Stochastic model reduction</strong> – discuss how stochastic reduction of multi-scale physics affects the data assimilation and uncertainty quantification problem.
+</li>
+</ul>
+<p>Your report needs to identify an example where this technique is used in a research or replication paper. Examples from blogs are acceptable for works referenced and may help with discussing code implementations, but you will need to draw your particular example from a scholarly source.</p>
+</div>
+<div id="document-structure" class="section level3">
+<h3>Document structure</h3>
+<table class="minimalistBlack" style="text-align:center">
+<thead>
+<tr>
+<th>
+Category
+</th>
+<th>
+Expected results
+</th>
+<th>
+Total points
+</th>
+</tr>
+</thead>
+<tr>
+<td style="padding:8px;">
+<strong>Section 1:</strong> Introduction
+</td>
+<td style="padding:8px;">
+Introduce your topic, the motivation of the work, and discuss how this work fits in within our framework of analysis.
+</td>
+<td style="padding:8px;">
+10 points
+</td>
+</tr>
+<tr>
+<td style="padding:8px;">
+<strong>Section 2:</strong> Discuss the primary reference
+</td>
+<td style="padding:8px;">
+Discuss where the example is drawn from and what the purpose was of this example, e.g., what questions were the authors trying to answer. Discuss what analysis was performed in this example in the source and why this technique was relevant.
+</td>
+<td style="padding:8px;">
+10 points
+</td>
+</tr>
+<tr>
+<td style="padding:8px;">
+<strong>Section 3:</strong> Discuss how the problem relates to your own research
+</td>
+<td style="padding:8px;">
+Provide a proposal on how to utilize these techniques in a novel context. Discuss how other techniques have already been utilized in the field and discuss why the research proposal may provide some advantage over existing work.
+</td>
+<td style="padding:8px;">
+10 points
+</td>
+</tr>
+<tr>
+<td style="padding:8px;">
+<strong>Section 4:</strong> Conclusions and looking forward
+</td>
+<td style="padding:8px;">
+The student should reflect on the course and what was gained from the course content.
+</td>
+<td style="padding:8px;">
+10 points
+</td>
+</tr>
+<tr>
+<td style="padding:8px;">
+<strong>Section 5:</strong> Works cited
+</td>
+<td style="padding:8px;">
+</td>
+<td style="padding:8px;">
+Required
+</td>
+</tr>
+<tr>
+<td style="padding:8px;">
+<strong>Section 6:</strong> Appendix of Python code as necessary
+</td>
+<td style="padding:8px;">
+</td>
+<td style="padding:8px;">
+Required
+</td>
+</tr>
+<tr>
+<td>
+<strong> Grand total</strong>
+<td>
+All of the above
+</td>
+<td>
+40/40 points
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="due-date" class="section level2">
+<h2>Due date</h2>
+<p>The report must be submitted on Webcampus by <strong>5:00 PM, Wednesday, December 10th</strong>.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

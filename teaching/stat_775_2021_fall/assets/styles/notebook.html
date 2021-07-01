@@ -1,0 +1,26 @@
+<style type="text/css">
+  
+  /* Whole document - standard notebook size and margins */
+  body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      max-width: 8.5in;
+      margin: auto;
+      background: #FFFFFF;
+      padding: 1in 1in 1in 1in;
+  }
+
+#customlist {
+  /* delete default counter */
+  list-style-type: none;
+  /* create custom counter and set it to 0 */
+  counter-reset: elementcounter;
+}
+
+#customlist>li:before {
+  /* print out "Section " followed by the current counter value */
+  content: "Section " counter(elementcounter) ":";
+  /* increment counter */
+  counter-increment: elementcounter;
+}
+  
+</style>
