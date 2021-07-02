@@ -1,0 +1,458 @@
+---
+layout: page
+title: STAT 445/645 &#8212 Fall 2021
+---
+
+<img style="width:100%; border:1px solid black" src="./assets/Multivariate_Gaussian.png" alt="Three dimensional bell surface of a multivariate Gaussian distribution."/>
+<div style="font-size:18px; width:80%; margin-left:10%; margin-right:10%; margin-top:10px; margin-bottom-10px">
+<p>
+		Three dimensional bell surface of a multivariate Gaussian distribution.
+		<a href="https://commons.wikimedia.org/wiki/File:Multivariate_Gaussian.png"><strong>Courtesy of Wikimedia Commons (CC 3.0)</strong></a>
+</p>
+</div>
+
+
+<h2>Introduction</h2>
+<p>
+This is the course archive page for Introduction to Statistical Computing, STAT 445/645 FALL 2021 – Section 1001.  
+Please see the menus below for class resources, handouts, lectures and activities archived from the class.
+</p>
+<h3><a href="./assets/syllabus.html" target='blank'>Course syllabus</a></h3>
+<h3>Modules, assignments and grades will be posted through <a href='https://wcl.unr.edu' target='blank'><strong>Web Campus</strong></a>.</h3>
+
+<h2>Course information</h2>
+<button class="accordion"><h3>Class resources</h3></button>
+    <div class="accordian_panel">
+    <button class="accordion"><h4>Recommended books</h4></button>
+        <div class="accordian_panel">
+					Please note that there are no required textbooks and the lectures should be watched before class meeting sessions to prepare for activities.  For deeper reading, 
+					recommended resources are the following:
+        <ul>
+            <li><a href='https://www.springer.com/gp/book/9783319553351' target='blank'>
+									<em>Härdle, W.K. et al. Basic Elements of Computational Statistics. Springer International Publishing, 2017.</em></a></li>
+            <li><a href='https://www.routledge.com/Statistical-Computing-with-R-Second-Edition/Rizzo/p/book/9781466553323' target='blank'>
+									<em>Rizzo, Maria L. Statistical computing with R. CRC Press, 2019.</em></a></li>
+            <li><em>Kutner, M. et al. Applied Linear Statistical Models 5th Edition / Applied Linear Regression Models 4th Edition</em></li>
+            <li><a href='https://newonlinecourses.science.psu.edu/statprogram/reviews' target='blank'>Review of statistical concepts, calculus and matrices.</a></li>
+        </ul> 
+        </div>
+    <button class="accordion"><h4>Programming resources</h4></button>
+        <div class="accordian_panel">
+        <ul>
+            <li>R is required for the class.  Students can get an installation file from <a href='https://www.r-project.org/' target='blank'>the R project (free and open source software)</a>.</li>
+					  <li>Students are required to install the editor <a href="https://rstudio.com/products/rstudio/download/" target="blank">RStudio Free Desktop Edition</a> for some class assignments.</li>
+						<li>Students are also required to install <a href='https://www.laatex-project.org/' target='blank'>LaTeX (free typesetting language)</a>.  This is required to compile R Markdown,
+            and is the standard for writing mathematical and statistical reports and publications.</li>
+						<li>This class will utilize <a href="https://www.datacamp.com/" target="blank">DataCamp</a> with free educational license.  Instructions for accessing this license will
+							be sent by the instructor.</li>
+            <li>Advanced students interested in the theory of programming are recommended <a href='https://eloquentjavascript.net/' target='blank'>Eloquent Javascript (free, creative commons)</a>.</li>
+        </ul> 
+        </div>
+    </div>        
+<button class="accordion"><h3>Archive</h3></button>
+    <div class="accordian_panel" style='width:800px'>
+        <p>
+				The archive of lectures, handouts and activities is below according to the semester schedule.
+        </p>
+        <table style="width: 100%;">
+						<colgroup>
+						<col span="1" style="width: 10%;">
+						<col span="1" style="width: 30%;">
+						<col span="1" style="width: 30%;">
+						<col span="1" style="width: 30%;">
+					</colgroup>
+        <tr>
+					<th> <strong>Week </strong></th> <th> <strong>Day 1</strong> </th> <th><strong>Day 2</strong></th> <th><strong>Day 3</strong></th>
+        </tr>
+        <tr>
+           <td> 08/23 - 08/29 </td>
+					 <td> 
+						 Course introduction<br>
+             Supplementary Materials:
+						 <ul>
+							<li><a href="./assets/syllabus.html">Syllabus</a></li>
+						 </ul>
+					</td>
+					 <td> 
+							Introduction to R and R Studio
+              <ul>
+              </ul>
+							Activity sheets:
+							<ul>
+							</ul>
+              Supplementary Materials:
+              <ul>
+                  <li> <a href='https://swcarpentry.github.io/r-novice-gapminder/01-rstudio-intro/index.html' target='blank'>Introduction to R and R Studio</a></li>
+                  <li> <a href='https://swcarpentry.github.io/r-novice-gapminder/03-seeking-help/index.html' target='blank'>Seeking help</a></li>
+							</ul>
+            </td> 
+            <td>
+							Data structures and exploring data frames
+							<ul>
+							</ul>
+							Activity sheets:
+							<ul>
+							</ul>
+              Supplementary Materials:
+              <ul>
+                  <li> <a href='https://swcarpentry.github.io/r-novice-gapminder/04-data-structures-part1/index.html' target='blank'>Data structures</a></li>
+                  <li> <a href='https://swcarpentry.github.io/r-novice-gapminder/05-data-structures-part2/index.html' target='blank'>Exploring data frames</a></li>
+              </ul>
+            </td> 
+        </tr>
+        <tr> 
+           <td> 08/30 - 09/05 </td>
+						<td>
+							Exploring data frames and subsetting data
+							<ul>
+							</ul>
+							Activity sheets:
+							<ul>
+							</ul>
+                Supplementary Materials:
+                <ul>
+                    <li> <a href='https://swcarpentry.github.io/r-novice-gapminder/05-data-structures-part2/index.html' target='blank'>Exploring data frames</a></li>
+                    <li> <a href='https://swcarpentry.github.io/r-novice-gapminder/06-data-subsetting/index.html' target='blank'>Subsetting data</a></li>
+                </ul>
+						</td>
+            <td>
+							Vectorization of R code
+							<ul>
+							</ul>
+							Activity sheets:
+							<ul>
+							</ul>
+                Supplementary Materials:
+                <ul>
+                    <li> <a href='https://swcarpentry.github.io/r-novice-gapminder/09-vectorization/index.html' target='blank'>Vectorization</a></li>
+                </ul>
+            </td>     
+            <td>  
+							Control flow in R
+							<ul>
+							</ul>
+							Activity sheets:
+							<ul>
+							</ul>
+							Supplementary Materials:
+							<ul>
+                  <li> <a href='https://swcarpentry.github.io/r-novice-gapminder/07-control-flow/index.html' target='blank'>Control flow</a></li>
+							</ul>
+            </td>
+        </tr>
+        <tr>
+					<td> 09/06 -<br> 09/12</td>
+					<td><b>No class 09/06</b> &#8212 <b>Labor Day</b></td>
+					<td>
+							Graphics in ggplot2 and writing data
+							<ul>
+							</ul>
+							Activity sheets:
+							<ul>
+							</ul>
+              Supplementary Materials:
+              <ul>
+                  <li> <a href='https://swcarpentry.github.io/r-novice-gapminder/08-plot-ggplot2/index.html' target='blank'>Creating Publication-Quality Graphics with ggplot2</a></li>
+                  <li> <a href='https://swcarpentry.github.io/r-novice-gapminder/11-writing-data/index.html' target='blank'>Writing Data</a></li>
+              </ul>
+					</td>
+          <td>
+							Functions and scripting part I
+							<ul>
+							</ul>
+							Activity sheets:
+							<ul>
+							</ul>
+              Supplementary Materials:
+              <ul>
+                  <li> <a href='https://swcarpentry.github.io/r-novice-gapminder/10-functions/index.html' target='blank'>Functions Explained</a></li>
+              </ul>
+          </td>
+        </tr>
+        <tr>
+          <td> 09/13 - 09/19 </td> 
+						<td>
+							Functions and scripting part II
+                <ul>
+                </ul>
+                Supplementary Materials:
+                <ul>
+                  <li> <a href='https://swcarpentry.github.io/r-novice-gapminder/10-functions/index.html' target='blank'>Functions Explained</a></li>
+                </ul>
+						<td>
+						Reporting in Knitr and R Markdown
+							<ul>
+                <li> <a href='https://swcarpentry.github.io/r-novice-gapminder/15-knitr-markdown/index.html' target='blank'>Producing Reports with Knitr</a></li>
+							</ul>
+						</td>
+						<td>
+							A review of random variables in R part I
+							  Activity sheets:
+								<ul>
+								</ul>
+                Supplementary Materials:
+                <ul>
+								</ul>
+            </td>     
+        </tr>
+        <tr>
+            <td> 09/20 - 09/26 </td> 
+            <td> 
+							A review of random variables in R part II
+								<ul>
+								</ul>
+                Supplementary Materials:
+                <ul>
+								</ul>
+						</td>
+            <td>
+							A review of random variables in R part III
+								<ul>
+								</ul>
+                Supplementary Materials:
+                <ul>
+								</ul>
+            </td>
+            <td> 
+						 Univariate descriptive statistics part I	
+                <ul>
+                </ul>
+							  Activity sheets:
+								<ul>
+								</ul>
+                Supplementary Materials:
+                <ul>
+                </ul>
+						</td>
+        </tr>
+        <tr>
+          <td> 09/27 - 10/03 </td> 
+						<td>
+						 Univariate descriptive statistics part II
+                <ul>
+                </ul>
+							  Activity sheets:
+								<ul>
+								</ul>
+                Supplementary Materials:
+                <ul>
+                </ul>
+						</td>
+						<td>
+							Confidence intervals and hypothesis testing part I
+							<ul>
+							</ul>
+							  Activity sheets:
+								<ul>
+								</ul>
+                Supplementary Materials:
+                <ul>
+                </ul>
+						</td>
+            <td> 
+							Confidence intervals and hypothesis testing part II
+								<ul>
+								</ul>
+							  Activity sheets:
+								<ul>
+								</ul>
+                Supplementary Materials:
+                <ul>
+                </ul>
+						</td>
+        </tr>
+        <tr>
+            <td> 10/05 - 10/09 </td> 
+            <td> 
+							Confidence intervals and hypothesis testing part III
+								<ul>
+								</ul>
+							  Activity sheets:
+								<ul>
+								</ul>
+                Supplementary Materials:
+                <ul>
+                </ul>
+						</td>
+						<td>
+								<ul>
+								</ul>
+							  Activity sheets:
+								<ul>
+								</ul>
+                Supplementary Materials:
+                <ul>
+                </ul>
+            </td>     
+            <td>  
+             A review of univariate statistical analysis in R
+             <ul>
+             </ul>
+						 Supplementary Materials:
+             <ul>
+             </ul>
+            </td>
+        </tr>
+        <tr>
+            <td> 10/12 - 10/16 </td> 
+            <td>
+            </td>
+            <td>
+						</td> 
+            <td>
+							<b>Midterm I</b>
+						 <ul>
+						 </ul>
+            </td>     
+        </tr>
+        <tr>
+            <td> 10/19 - 10/23 </td> 
+            <td> Matrix algebra and numerical integration in R
+                <ul>
+                </ul>
+						</td>
+						<td>
+							  Activity sheets:
+								<ul>
+								</ul>
+                Supplementary Materials:
+                <ul>
+								</ul>
+            </td>
+            <td>  
+							<ul>
+							</ul>
+            </td>     
+        </tr>
+        <tr>
+            <td> 10/26 - 10/30 </td> 
+            <td> Numerical differentiation in R 
+                <ul>
+									<li><b>No class 10/29</b> &#8212 <b>Nevada Day</b></li>
+                </ul>
+						</td>
+						<td>
+							  Activity sheets:
+								<ul>
+								</ul>
+                Supplementary Materials:
+                <ul>
+								</ul>
+            </td>     
+            <td> 
+            </td>
+        </tr>
+        <tr>
+            <td> 11/02 - 11/06 </td> 
+            <td>Unconstrained optimization in R
+                <ul>
+                </ul>
+						</td>
+						<td>
+							  Activity sheets:
+								<ul>
+								</ul>
+                Supplementary Materials:
+                <ul>
+								</ul>
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td> 11/09 - 11/13 </td> 
+            <td>
+							Multivariate distributions and random number generation in R
+            </td>
+            <td> 
+							  Activity sheets:
+								<ul>
+								</ul>
+                Supplementary Materials:
+                <ul>
+								</ul>
+            </td>     
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td> 11/16 - 11/20 </td> 
+						<td> A review of numerical techniques<br> and<br> <b>Midterm II</b>
+                <ul>
+                </ul>
+						</td>
+						<td>
+                Supplementary Materials:
+                <ul>
+								</ul>
+            </td>
+            <td> 
+            </td>
+        </tr>
+        <tr>
+            <td> 11/23 - 11/25 </td> 
+						<td>Regression part 2 and Thanksgiving break
+                <ul>
+									<li><b>No class 11/26</b> &#8212 <b>Family Day</b></li>
+                </ul>
+						</td>
+            <td>  
+							  Activity sheets:
+								<ul>
+								</ul>
+                Supplementary Materials:
+                <ul>
+								</ul>
+            </td>     
+						<td></td>
+        </tr>
+        <tr>
+            <td> 11/30 - 12/04 </td> 
+            <td> Maximum likelihood estimation 
+						<ul>
+						</ul>
+						</td>
+            <td>
+							  Activity sheets:
+								<ul>
+								</ul>
+                Supplementary Materials:
+                <ul>
+								</ul>
+						</td>
+						<td></td>
+        </tr>
+        <tr>
+            <td> 12/07 - 12/09 </td> 
+            <td> 
+                <ul> 
+									<li>No class 12/09 - Finals Prep Day</li>
+                </ul>
+            <td>  
+            </td>     
+						<td>
+                <ul> 
+                </ul>
+            </td>
+        </tr>
+    </table>
+    </div>
+
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+            panel.style.display = "none";
+        } else {
+            panel.style.display = "block";
+        }
+    });
+}
+</script>
+
