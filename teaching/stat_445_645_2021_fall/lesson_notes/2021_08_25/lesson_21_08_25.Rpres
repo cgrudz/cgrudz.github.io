@@ -1,0 +1,283 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+An introduction to R and RStudio
+========================================================
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+<blockquote>
+FAIR USE ACT DISCLAIMER:</br>
+This site is for educational purposes only.  This website may contain copyrighted material, the use of which has not been specifically authorized by the copyright holders. The material is made available on this website as a way to advance teaching, and copyright-protected materials are used to the extent necessary to make this class function in a distance learning environment.  The Fair Use Copyright Disclaimer is under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+</blockquote>
+
+========================================================
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+
+  * What is R and RStudio
+  * How do we write code?
+  * How to install packages
+  * How to get help in R
+
+========================================================
+
+
+<h2> Introduction</h2>
+
+* This course will lean heavily on programming;
+
+  * while it is possible to perform statistical analyses by hand for some very simple "toy" problems, realistic problem solving must be done on a computer.
+  
+* This course does not assume that you are already familiar with programming;
+
+  * this course will also not require a deep knowledge of programming or computer science. 
+
+  * However, everyone is responsible to learn enough R to become proficient with standard modeling and plotting functions.
+  
+* Students are recommended to use the lessons in [Sofware Carpentry](https://software-carpentry.org/lessons/) as a free reference for scientific programming in R.
+
+  * This series of lectures will follow [R for Reproducible Scientific Analysis](https://swcarpentry.github.io/r-novice-gapminder/) as a basis for the lessons.
+
+========================================================
+
+<h2> What is R?</h2>
+  
+<ul> 
+  <li> There are a number of common choices of programming/ scripting languages for performing statistical modelling, e.g.:</li>
+  <ul>
+    <li> SAS </li>
+    <li> SPSS </li>
+    <li> STATA </li>
+    <li> Python </li>
+    <li> R </li>
+  </ul>
+  <li> We will use R for the following reasons:</li>
+  <ol>
+    <li> it is free and open source software with extensive documentation and tutorials available;</li>
+    <li> it has well established libraries for statistical modeling with a wide functionality;</li>
+    <li> the entry barrier to using the R language in terms of computer science training is very low; and</li>
+    <li> there are free interactive, introductory lessons from DataCamp which will be used for homework assignments for additional practice outside of class.</li>
+  </ol>
+</ul>
+
+========================================================
+## Required software sources
+
+* You may work with the required software on library and laboratory computers alone -- all of the following software will be included.
+
+* If you want to use a personal device, the following software should be installed _in order_.
+
+* You will need to install <a href='https://www.latex-project.org/' target='blank'>LaTeX (free typesetting language)</a> to compile R Markdown.
+
+* An installation file for R can be obtained from <a href='https://www.r-project.org/' target='blank'>the R project (free and open source software)</a>.
+
+* The editor <a href="https://rstudio.com/products/rstudio/download/" target="blank">RStudio Free Desktop Edition</a> should be installed after R.
+
+========================================================
+<h2>RStudio</h2>
+
+<div style="float:left; width:70%">
+<img style="width:100%", src="01-rstudio.png" alt="View of R studio development environment."/>
+</div>
+<div style="float:left; width:30%">
+<ul>
+  <li> "RStudio" is a commonly used and supported integrated development environment for R.</li>
+  <li>RStudio is highly recommended for all beginning programmers and will be required software for this class;</li> 
+    <ul>
+      <li>this is not the same thing as R, but a set of graphical tools to quickly write and develop code.</li>
+    </ul>
+  <li> The figure on the left shows the RStudio environment as a collection of different windows.</li>
+  <li> In the left-most window is the console, where an interactive session of R is taking place.</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+<li>R can be used as an "interactive" language, in which an interpreter accepts commands and returns a response in real time.</li>
+  <li>R can also be used as "scripting" language, in which a script or a set of instructions are given to R to perform and an output is directed based on the script.</li>
+</ul>
+</div>
+
+========================================================
+<h3>RStudio for scripting</h3>
+
+<div style="float:left; width:70%">
+<img style="width:100%", src="01-rstudio-script.png" alt="Image of the  R studio script editor"/>
+</div>
+
+<div style="float:left; width:30%">
+<ul>
+  <li>In the view to the left, the RStudio has an additional window for a scripting editor.</li>
+  <li>In this text page, with file extension ".R", we can write a series of commands for the R interpreter to follow to produce a result.</li>
+  <li>Notice, in the right-hand-side windows there are tabs for "Environment" and "History".</li>
+  <li>During an R session, working interactively or in a script, R will accumulate a history of commands and an environment of different variables which are active in the memory.</li>
+</ul>
+</div>
+
+========================================================
+<h3>Workflow in RStudio</h3>
+
+
+<div style="float:left; width:70%">
+<img style="width:100%", src="01-rstudio-script.png" alt="Image of the  R studio script editor"/>
+</div>
+
+<div style="float:left; width:30%">
+<ul>
+  <li>Typically, one will use R studio in one of two ways:</li>
+  <ol>
+    <li>work can be done interactively in the console to perform exploratory analysis;</li>
+    <ul>
+      <li>in this case, the command history will keep a record of the actions performed.</li>
+    </ul>
+    <li>work can be done in a script, while running code sections in the RStudio interface.</li>
+  <ul>
+  <li>A line of code can be run in the editor by using the "run" button in the editor window.</li>
+  </ul>
+  </ol>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+    <li>This is helpful because you can keep a history of your analysis and work on it incrementally by running a line or a few lines of code at a time.</li>
+      <li>Typically, the second way is preferrable, especially when integrating R code into a "Notebook".</li>
+</ul>
+</div>
+
+========================================================
+<h3>R Notebooks</h3>
+
+<div style="float:left; width:70%">
+<img style="width:100%", src="notebook.png" alt="Image of the  R studio notebook editor"/>
+</div>
+
+<div style="float:left; width:30%">
+<ul>
+  <li>In this class, the preferred way of working on projects and homework will be in the form of an R Notebook</li>
+  <li>One R Notebook template is shown on the left-hand-side of the image, in which we see a mixture of Markdown/ HTML and R code in "chunks".</li>
+  <li>On the right-hand-side of the editor, we see a live preview of the notebook, rendered as a document.</li>
+  <li>R Notebooks have the advantage of both the scripting style programming and interactive programming:</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ol>
+  <li>we can work interactively with data and scripts, with the stored environmental variables updating with our commands;</li>
+  <li>at the same time, we have a place to document all of our command history, with <b>extensive commenting</b> on our analysis and process of investigation.</li>
+</ol>
+</div>
+
+========================================================
+<h3>R Notebooks -- continued</h3>
+
+<div style="float:left; width:70%">
+<img style="width:100%", src="notebook.png" alt="Image of the  R studio notebook editor"/>
+</div>
+<div style="float:left; width:30%">
+<ul>
+  <li>Writing up our analysis simultaneously with our code makes a kind of "lab-notebook", from which R notebooks are inspired.</li>
+  <li>This lab notebook can be exported as a PDF, HTML page, and other formats.</li>
+  <li>Exporting an R notebook into HTML or PDF is the required way to turn in homework.</li> 
+</ul>
+</div>
+
+<div style="float:left; width:100%">
+<ul>
+  <li>To write an R Notebook, you may need some familiarity with basic Markdown.</li>
+  <ul>
+    <li>Markdown is a simplified version of HTML for formatting documents quickly based on standard templates.</li>
+    <li>You can find a collection of Markdown formatting commands in the linked <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="blank">cheat-sheet</a>
+  </ul>
+</ul>
+</div>
+
+
+========================================================
+<h2>Installing packages</h2>
+
+
+<div style="float:left; width:70%">
+<img style="width:100%", src="cran.png" alt="Image of the CRAN main webpage."/>
+</div>
+
+<div style="float:left; width:30%">
+<ul>
+  <li>The strength of R as a language comes from the variety of packages/ libraries that are available for use.</li>
+  <li>These libraries are mostly written by statistical scientists for free and public use in academic settings;</li>
+  <ul>
+    <li><b>Note:</b> some libraries have restrictions of use for commercial purposes.</li>
+  </ul>
+  <li>These libraries, as with the current and development version of the R language, are hosted by the CRAN project.</li>
+</ul>
+</div>
+
+<div style="float:left; width:100%">
+<ul>
+  <li>We also note, because this is a community repository, not all software is built to the same quality or with standard conventions.</li>
+  <li>However, we will mostly use what have become "standard" libraries, which are well maintained and widely accepted and supported by the community.</li>
+</ul>
+</div>
+
+
+
+
+========================================================
+<h3>Installing packages -- continued</h3>
+
+* We will often use the "Faraway" package which contains many example data sets to study --- to install this, we can simply type:
+
+```{r eval=FALSE}
+install.packages('faraway')
+```
+
+* The "install.packages()" function will initiate an installation of the library with the package manager.
+
+  * This will connect your installation of R directly with CRAN, and handle all dependencies, so you don't need to do anything else. 
+
+* When a library has already been installed, but we want to use it in our environment, we can simply call
+
+```{r}
+require(faraway)
+```
+
+* For the remaining introduction to coding in R, we will also want the following packages:
+
+```{r eval=FALSE}
+install.packages("ggplot2")
+install.packages("plyr")
+install.packages("gapminder")
+```
+
+========================================================
+<h3>Getting help in RStudio</h3>
+
+* Whenever you are uncertain about the use of a function or a topic in general, you can use the "?" command in R to obtain a help file.
+
+```{r}
+?install.packages
+```
+
+* If you're not sure what package a function is in, or how it's specifically spelled you can do a fuzzy search:
+
+```{r}
+??install.packages
+```
+
+* This will pull up related documentation and help pages in a search format.
+
