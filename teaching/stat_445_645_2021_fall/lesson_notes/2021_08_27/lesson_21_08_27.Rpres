@@ -1,0 +1,415 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+R as a calculator and data types
+========================================================
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+<blockquote>
+FAIR USE ACT DISCLAIMER:</br>
+This site is for educational purposes only.  This website may contain copyrighted material, the use of which has not been specifically authorized by the copyright holders. The material is made available on this website as a way to advance teaching, and copyright-protected materials are used to the extent necessary to make this class function in a distance learning environment.  The Fair Use Copyright Disclaimer is under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+</blockquote>
+
+========================================================
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+
+  * How to use R as a calculator
+  * Variables and data types
+  * Vectors and vectorization
+
+========================================================
+<h2>R as a calculator</h2>
+
+* R accepts a set of human-readable instructions and converts these into machine language.
+
+* R can be used simply as a powerful calculator, for example:
+
+  * if we enter a mathematical expression into an R console, we can evaluate mathematical expressions,
+
+```{r}
+1 + 1
+```
+
+
+========================================================
+<h3>R as a calculator -- continued</h3>
+
+
+* R uses standard mathematical notations for its operations, and follows the standard mathematical order of precedence:
+ 
+* Parentheses 
+
+```{r}  
+(1 + 1)
+```
+
+* Exponents
+
+```{r}
+(1 + 1)^2
+```
+  
+* Division
+
+```{r}
+(1 + 1)^2 / 4
+```
+
+========================================================
+<h3>R as a calculator -- continued</h3>
+
+* Multiplication
+
+```{r}
+(1 + 1)^2 / 4 * 3
+```
+  
+* Addition
+
+```{r}
+(1 + 1)^2 / 4 * 3 + 1
+```
+
+
+* Subtraction
+
+```{r}
+(1 + 1)^2 / 4 * 3 + 1 - 2
+```
+
+
+========================================================
+<h3>R as a calculator -- continued</h3>
+
+* R also has many standard built-in mathematical functions and variables, e.g.,
+
+```{r}
+log(1)
+cos(pi)
+sin(pi)
+```
+
+* The notation "ae-16" refers to the mathematical expression $a \times 10^{-16}$, where $a$ is the leading coefficient.
+
+* Notice that R doesn't see $sin(\pi)$ as zero, as it is mathematically, but is extremely small.
+
+
+* This has to do with the way in which numbers are encoded into programming languages -- this will be discussed further shortly.
+
+```{r}
+typeof(sin(pi))
+```
+
+
+========================================================
+
+<h2> Comparing things</h2>
+
+* Not all values in the computing language are numeric, and not all numerical values are built the same.
+
+* Consider the comparison operator "==" for evaluating if two inputs are the *same*,
+
+```{r}
+sin(pi) == 0
+0 == 0
+```
+
+* We can also compare if two inputs are *not the same*,
+```{r}
+1 != 2
+```
+
+========================================================
+
+<h3> Comparing things -- continued</h3>
+
+* Notice that the outputs of the earlier comparisons are either "TRUE" or "FALSE" -- these are examples of logical values, which are the output of logical expressions.
+
+```{r}
+typeof(TRUE)
+```
+
+* We can also compare the relative size of different values
+
+```{r}
+1 > 2
+2 >= 2
+-1 <= 0
+```
+
+========================================================
+
+<h2> Variables and assignment</h2>
+
+* Values such as the output of different expressions can be assigned a variable name,
+
+```{r}
+my_variable <- 2 + 2
+```
+
+* In the above expression, the operator "<-" tells R to associate the output of the expression $2 +2$ to "my_variable".
+
+```{r}
+my_variable
+```
+
+* We can show the current variables in the environment using the command "ls()"
+
+```{r}
+ls()
+```
+
+========================================================
+
+<h3> Variables and assignment -- continued</h3>
+
+
+* We can re-assign a value to "my_variable" which will be stored in the environment and memory,
+
+```{r}
+my_variable <- my_variable + my_variable
+my_variable
+```
+
+* Notice that the right hand side of the assignment operator "<-" is always evaluated first, then the assignment is given.
+
+  * In this case, as above, we can recursively define a variable.
+ 
+========================================================
+
+<h3> Variables and assignment -- continued</h3>
+ 
+  
+* Key to writing "good" code is to use good variable naming (and commenting).
+
+  * Generally, it is preferable to name variables with something descriptive, e.g.,
+  
+```{r}
+mean_sea_surface_temp <- 10
+```
+
+* For longer names as above, we can use e.g.,
+
+  * underscores;
+  * periods; or
+
+```{r}
+mean.sea.surface.temp <- 10
+```
+  
+  * capital letters.
+
+```{r}
+meanSeaSurfaceTemp <- 10
+```
+
+* All the above are commonly used conventions and all are acceptable --- the key is to be <b>clear</b> and <b>consistent</b> in your code.
+
+========================================================
+
+<h3> Variables and assignment -- continued</h3>
+
+* <b>Q:</b> which of the following do you think are acceptable names for R variables?
+
+```
+min_height
+max.height
+_age
+.mass
+MaxLength
+min-length
+2widths
+celsius2kelvin
+```
+* <b>A:</b> the only ones that are not acceptable are
+
+```
+_age
+min-length
+2widths
+```
+
+* This is because R will not accept a leading underscore, a leading number or a dash in the name.
+
+  * <b>Note:</b> however, that a leading period in ".mass" creates a "hidden" variable, which you typicall will not want.
+
+========================================================
+
+
+
+<h2> Vectorization</h2>
+
+* R is a vectorized language, meaning that variables and functions can have vectors as values. 
+
+* A vector in R describes a set of values in a certain order of the <b>same data type</b>.
+
+  * The type of data will become increasingly important as we start using vectors.
+  
+* A simple way to construct a vector is with the constructor function "c()"
+
+```{r}
+c(1, 3, 6)
+```
+
+========================================================
+
+<h3> Vectorization -- continued</h3>
+
+
+* The function takes an arbitrary number of elements as above, and creates a vector.
+
+```{r}
+my_variable <- c(TRUE, pi)
+my_variable
+```
+
+* Notice that the output of the above expression looks different from the input --- this is because R forces vectors to have data of a single type:
+
+```{r}
+typeof(my_variable)
+```
+
+* Here, the value "TRUE" has been forced into its numeric counterpart "1".
+
+
+========================================================
+
+<h3> Vectorization -- continued</h3>
+
+* In the last example, we saw that a logical value "TRUE" was forced into a numeric value by the constructor function.
+
+* This variable "coercion" occurs in various situations, and we need to be careful with the results.
+
+* <b>Q:</b> what do you expect the result of the following to be?
+
+```
+1 == TRUE
+```
+
+* <b>A:</b>
+
+```{r}
+1 == TRUE
+typeof(1)
+typeof(TRUE)
+```
+
+
+========================================================
+
+<h3> Vectorization -- continued</h3>
+
+* Vectors are built by definition with an order of the data that is stored --- data can be accessed by calling this index:
+
+```{r}
+my_variable[1]
+my_variable[2]
+```
+
+* Mathematical operations can also be performed on vectors when their arguments accept vectors, and they can be applied element-wise on the vector entries:
+
+```{r}
+sin(my_variable)
+```
+
+
+========================================================
+
+<h3> Vectorization -- continued</h3>
+
+* Certain functions allow us to construct vectors automatically based on a range of values, known as a "slice"
+
+```{r}
+my_variable <- 1:5
+my_variable
+```
+
+* We can make a general slice where the arguments are given as a:b and returns a vector of all integer spaced values between a and b:
+
+```{r}
+10:5
+4:10
+```
+
+* This is often quite useful for extracting a subset of data from a large vector or matrix.
+
+========================================================
+
+<h3> Vectorization -- continued</h3>
+
+* We can also apply a mathematical operation to a scalar element-wise by the entries of a vector
+
+```{r}
+2^my_variable
+```
+
+* Or use a vector as the index of a vector
+
+```{r}
+my_variable[2:3]
+```
+
+* This likewise goes for logical, comparison operators.
+
+* <b>Q:</b> what do you expect to be the output of the following line?
+
+```
+1:10 > 5
+```
+
+* <b>A:</b>
+
+
+```{r}
+1:10>5
+```
+
+========================================================
+
+<h3> Vectorization -- continued</h3>
+
+
+* Note that logical vectors are also useful for extracting subsets of data.
+
+  * Particularly, we may wish to set up a statement that we wish to evaluate on the data and find all data points that satisfy the condition.
+  
+```{r}
+my_variable <- 1:10
+my_index <- my_variable>5
+my_variable[my_index]
+```
+
+* We might also have non-numeric vectors, such as
+
+```{r}
+my_variable <- c('red', 'blue', 'green')
+my_variable
+```
+
+* For such a vector, a logical statement can also be quite useful,
+
+```{r}
+my_index <- my_variable == 'red'
+my_variable[my_index]
+```
+
+
