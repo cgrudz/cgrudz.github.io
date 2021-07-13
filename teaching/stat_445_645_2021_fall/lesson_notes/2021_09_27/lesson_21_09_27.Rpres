@@ -1,0 +1,527 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+
+Descriptive statistics in R
+========================================================
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+<blockquote>
+FAIR USE ACT DISCLAIMER:</br>
+This site is for educational purposes only.  This website may contain copyrighted material, the use of which has not been specifically authorized by the copyright holders. The material is made available on this website as a way to advance teaching, and copyright-protected materials are used to the extent necessary to make this class function in a distance learning environment.  The Fair Use Copyright Disclaimer is under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+</blockquote>
+
+
+========================================================
+
+<h2>Outline</h2>
+
+<ul>
+  <li>The following topics will be covered in this lecture:</li>
+  <ul>
+    <li>An introduction to descriptive statistics in R</li>
+    <li>Graphical representations</li>
+    <li>Statistics of location and dispersion</li>
+  </ul>
+</ul>
+
+
+
+========================================================
+## An introduction to descriptive statistics in R
+
+* Let us consider an  <b style="color:#1b9e77">rv $X$ following a distribution $F_θ$ , $X \sim F_\theta$</b>. 
+
+* To obtain a sample of <b style="color:#d95f02">$n$ observations</b> one first constructs <b style="color:#1b9e77">$n$ copies of the rv $X$</b>, i.e. 
+
+  * sample rvs $X_1 , \cdots , X_n \sim F_\theta$ which <strong>follow the same distribution $F_\theta$</strong> as the original variable $X$.
+  
+  * By way of analogy, this is how a binomial trial by <strong>replicating individual Bernouli trials</strong>, where each random variable represents an outcome of an individual Bernouli trial.
+
+* All $X_1 , \cdots , X_n$ are often assumed to be independent, where <b>"iid"</b> refers to <strong>independent and identically distributed</strong> as above. 
+
+* When the real-world transpires, and each rv assigns a number to the outcome, we draw an <b style="color:#d95f02">observation $x_i$</b> of the <b style="color:#1b9e77">rv $X_i$</b>; 
+
+  * this results in a <b style="color:#d95f02">random sample $x_1 , \cdots , x_n$</b>. 
+  
+* Note that these <b style="color:#d95f02">lower-case values $x_1 , \cdots , x_n$</b> <strong>are not rvs</strong>, as the outcome has already transpired, but instead just observations of the outcome.
+
+  * particularly, these can be <strong>used to estimate</strong> the <b style="color:#1b9e77">unknown parameters $\theta$</b> (for normal distribution these are $\mu$ and $\sigma$).   
+
+========================================================
+### An introduction to descriptive statistics in R
+
+* Note, because the <b>observations are of a random process</b>, the outcomes and thus the <strong>observations will change if we replicate the trial</strong>.
+
+* If we compute the <b>sample mean</b> of the <b style="color:#1b9e77">random variables</b>, i.e.,
+  $$\begin{align}
+  \overline{X} = \frac{1}{n}\sum_{i=1}^n X_i 
+  \end{align}$$
+
+  this is also a <b style="color:#1b9e77">random variable</b>, as it is simply a combination of random variables.
+  
+* However, computing this on the <b style="color:#d95f02">observations</b>, after the outcome has transpired
+  
+  $$\begin{align}
+  \overline{x} = \frac{1}{n}\sum_{i=1}^n x_i
+  \end{align}$$
+  
+  is just a <strong>measure of the center of the cloud of the observations</strong>.
+
+========================================================
+### Frequency tables
+
+* Suppose we have <b style="color:#d95f02">observations $\{x_i \}_{i=1}^n$</b> of a <b style="color:#1b9e77">rv $X$</b>.
+
+  * Let $\{a_j\}_{i=1}^k$, denote <b>all different realizations</b> of $X$ in the sample.
+
+* We will define two types of frequencies as follows:
+
+* The <b>absolute frequency</b> of $a_j$, denoted by $n(a_j)$, is the <strong>number of occurrences of $a_j$</strong> in the sample $\{x_i\}_{i=1}^n$. 
+
+* The <b>relative frequency</b> of $a_j$, denoted by $h(a_j)$, is the <strong>ratio of the absolute frequencies of $a_j$ and the sample size $n$</strong>, 
+  $$h(a_j) = n(a_j)/n.$$
+
+  * Clearly 
+  
+  $$\sum_{j=1}^k h(a_j )= \sum_{j=1}^k \frac{n(a_j)}{n} = \frac{n}{n} = 1.$$
+  
+
+========================================================
+### Frequency tables
+
+*  The function `table()` returns <strong>all observed values of the data along with their absolute frequencies</strong>. 
+
+* These can be used further to compute the relative frequencies by dividing by n.
+
+* Let us consider the dataset `chickwts`, a data frame with 71 observations of 2 variables: 
+  
+  * `weight`, a numeric variable for the weight of the chicken, and 
+  * `feed`, a factor for the type of feed. 
+  
+
+* By using 
+
+```{r}
+table(chickwts$feed) 
+```
+  we get one line, stating the possible chicken feed, i.e. <strong>each possible observed value, and the absolute frequency</strong> of each type in the line below.
+
+========================================================
+### Frequency tables
+
+* To put this into relative frequency, we can write
+
+```{r}
+table(chickwts$feed) / length(chickwts$feed)
+```
+
+* There are several methods of visualising the frequencies graphically. 
+
+* Depending on which type of data is at our disposal, the adequate approach needs to be chosen carefully: 
+
+ * Bar Plot, Bar Diagram or Pie Chart for qualitative or discrete variables, and 
+ 
+ * the histogram for continuous (or quasi-continuous) variables.
+
+* Since the variable feed in dataset `chickwts` has only 6 distinct <b>categories of feed</b>, the <strong>frequencies can be conveniently shown using a Bar Plot, a Bar Diagram or a Pie Chart</strong>.
+
+
+========================================================
+### Graphical frequency
+
+* Here we make a bar plot for the frequency table.
+
+```{r fig.width=24, fig.height=6}
+par(cex.axis = 1.75, mai=c(1.5,1.5,.5,.5), mgp=c(3,0,0))
+plot(table(chickwts$feed), ylab = expression(h(a[j])), xlab = "", cex.lab = 2)
+```
+
+
+
+========================================================
+### Graphical frequency
+
+* Here we make a bar plot for the relative frequency table
+
+```{r fig.width=24, fig.height=6}
+par(cex.axis = 1.75, mai=c(1.5,1.5,.5,.5), mgp=c(3,0,0))
+barplot(table(chickwts$feed)/length(chickwts$feed), space = 2, ylab = expression(h(a[j])), xlab = "", cex.lab = 2)
+abline(h = 0)
+```
+
+========================================================
+### Graphical frequency
+
+* Here we make a pie chart for the relative frequency table
+
+```{r fig.width=24, fig.height=6}
+par(cex = 1.75, mai=c(1.5,1.5,.5,.5), mgp=c(3,0,0))
+pie(table(chickwts$feed)/length(chickwts$feed))
+```
+ 
+
+
+========================================================
+### Empirical (Cumulative) Distribution Function
+
+* The <b>empirical cumulative distribution function (ecdf)</b> is denoted by $\hat{F}(x)$ and <strong>describes the relative number of observations which are less than or equal to $x$ in the sample</strong>. 
+
+* We write $\hat{F}(x)$ with a hat because it is an <strong>estimator of the true cdf</strong>
+  $$F(x) = P(X \leq x).$$ 
+  
+* <b>$\hat{F}(x)$ converges almost surely to $F(x)$ when $n$</b>, the sample size, goes to infinity due to the Strong Law of Large Numbers.
+
+* The ecdf is a non-decreasing step function, 
+
+  * i.e. it is a <strong>function which is constant except for jumps</strong> at a discrete set of points. 
+  
+* The <b>points where the jumps occur are the realizations of the rv</b> and thus illustrate a general property of the cumulative distribution function: 
+
+  * continuous at right and existing limit at left, which holds for all $\hat{F}$. 
+  
+* This step function is given by `ecdf()`, which returns a function of class `ecdf`, which can be plotted using `plot()`.
+
+* Take for example the dataset `Formaldehyde` containing 6 observations on two variables: 
+  1. carbohydrate (`car`) and 
+  2. optical density (`optden`). 
+  
+
+========================================================
+### Empirical (Cumulative) Distribution Function
+
+* The ecdf for the subset `Formaldehyde$car` can be calculated as follows, 
+
+```{r}
+d = ecdf(Formaldehyde$car)
+summary(d)
+```
+
+* This allows us to see the empirical values for the CDF, as given by the ordered values in the sample.
+
+
+========================================================
+### Empirical (Cumulative) Distribution Function
+
+* We can plot this as
+
+```{r fig.width=24, fig.height=6}
+par(cex = 1.75, mai=c(1.5,1.5,.5,.5), mgp=c(3,0,0))
+plot(d, ylab = expression(hat(F)(x)), xlab = "x", main = "")
+abline(v = 0.5, lty = 2, lwd = 2)
+text(0.71, 0.51, expression(hat(F)(0.5)), cex = 1.2)
+```
+
+* In the vertical axis, we have the relative frequency value defined by $\hat{F}(x)$ on the sample, i.e.,
+  $$\begin{align}
+  \hat{F}(x) \approx \frac{\text{number of values less than }x\text{ in the sample}}{\text{total sample size }n}
+  \end{align}$$
+  
+* Correspondingly, the horizontal axis represents the value $x$ in the functional argument.
+
+========================================================
+### Empirical (Cumulative) Distribution Function
+
+* We then can see the behavior of the step function where we have the six different measurements.
+
+```{r fig.width=24, fig.height=6}
+par(cex = 1.75, mai=c(1.5,1.5,.5,.5), mgp=c(3,0,0))
+plot(d, ylab = expression(hat(F)(x)), xlab = "x", main = "")
+abline(v = 0.5, lty = 2, lwd = 2)
+text(0.71, 0.51, expression(hat(F)(0.5)), cex = 1.2)
+```
+
+* The value that <b>$\hat{F}(x)$ is constant in between observed values</b> and <strong>jumps when we reach a new value $x_i$ that exists in the sample of observations</strong>.
+
+
+========================================================
+### Histograms
+
+* The <b>histogram</b> is a common way of visualizing the <strong>data frequencies of continuous (real valued) variables</strong>. 
+
+* In a histogram, <strong>bars are erected on distinct intervals</strong>, which constitute the so-called <b>data classes or bins</b>. 
+
+* The <b>y-axis</b> represents the <strong>relative frequency of the classes</strong>, so that the total area of the bars is equal to one. 
+
+* The width of the bars is given by the chosen intervals, the <b>height of each bar</b> is <strong>equal to the empirical probability density of the corresponding interval</strong>.
+
+* If <b>$\{K_i\}_{i = 1}^s$</b> is a set of <strong>$s$ total disjoint classes</strong>, the histogram or empirical density function $\hat{f}(x)$ is defined by
+
+  $$\begin{align}
+  \hat{f}(x)= \frac{\text{relative frequency of observations lying in the class containing}x}{\text{the width of the interval that defines this class}} = \frac{h(K_i)}{\vert K_i\vert} \text{ for }x\in K_i
+  \end{align}$$
+
+* In the above, we thus define <b>$h(K_i)$</b> to be the <strong>frequency of the observations lying in the interval $K_i$ relative to the sample size $n$</strong>, and 
+
+* <b>$\vert K_i\vert$</b> to be the <strong>width of the associated interval</strong>.
+
+========================================================
+### Histograms
+
+* We write $\hat{f}(x)$ with a "hat" also because it is a <strong>sample-based estimator of the true density function</strong> $f(x)$, which describes the relative likelihood of the underlying variable to take on any given value. 
+
+* $\hat{f}(x)$ is a <b>consistent estimator</b> of $f(x)$, since for every value of $x$, $\hat{f}(x)$ <strong>converges almost surely to $f(x)$ when $n$ goes to infinity</strong>, also due to the Strong Law of Large Numbers.
+
+* We can construct a histogram with the function `hist()`.
+
+* By default, without specifying the arguments for `hist()`, R produces a histogram with the absolute frequencies of the classes on the y-axis. 
+
+* Thus, to obtain a histogram according to our definition, one needs to set `freq = FALSE`. 
+
+* The number of classes $s$ is calculated by default using <b>Sturges’ formula</b> 
+  $$s = log_2 \left[n + 1\right].$$ 
+  
+* The brackets denote the ceiling function used to round up to the next integer to avoid fractions of classes. 
+
+* Note that this formula <strong>performs poorly for $n < 30$</strong>. 
+
+* To specify the intervals manually, one can fill the argument breaks with a vector giving the breakpoints between the histogram cells, or simply the desired number of cells.
+
+========================================================
+### Histograms
+
+* For example, consider `nhtemp`, a sample of size $n = 60$ containing the mean annual temperature in degrees Fahrenheit in New Haven, Connecticut, from 1912 to 1971.
+
+```{r fig.width=24, fig.height=6}
+par(cex = 1.75, mai=c(1.5,1.5,.5,.5), mgp=c(3,0,0))
+hist(nhtemp, freq = F, main = "", ylab = expression(hat(f)(x)), xlab = expression(x %in% K[i]))
+```
+
+
+========================================================
+### Histograms
+
+* In the following example, `breaks = seq(47, 55, 0.5)` means that the histogram should range from 47 to 55 with a break every 0.5 step, i.e. 
+  $$K_1 = [47, 47.5), K 2 = [47.5, 48), ....$$
+
+```{r fig.width=24, fig.height=6}
+par(cex = 1.75, mai=c(1.5,1.5,.5,.5), mgp=c(3,0,0))
+hist(nhtemp, freq = F, breaks = seq(from = 47, to = 55, by = 0.5), main = "", ylab = expression(hat(f)(x)), xlab = expression(x %in% K[i]))
+```
+
+
+========================================================
+### Kernel density estimators
+
+* The <b style="color:#d95f02">histogram</b> is a density estimator with a relatively <b style="color:#d95f02">low rate of convergence</b> to the true density. 
+
+* A simple idea to <b>improve the rate of convergence</b> is to use a <strong>function that weights the observations in the vicinity of the point where we want to estimate the density</strong>, depending on how far away each such observation is from that point.
+
+* Therefore, the <b style="color:#1b9e77">kernel estimated density</b> is defined as
+  $$\begin{align}
+  \hat{f}_h (x) = \frac{1}{n}\sum_{i=1}^n K_h(x - x_i) = \frac{1}{hn}\sum_{i=1}^n K\left(\frac{x-x_i}{h} \right) 
+  \end{align}$$
+  
+* The  $K_h(x−x_i)$ is the <b>kernel</b>, which is a symmetric nonnegative real valued integrable function. 
+
+  * The expression above can be considered similar to the histogram, but by choosing one of a <strong>class of possible weight functions $K_h$</strong>;
+  
+  * the <b>weight that $K_h$ gives values</b> is <strong>according to the distance of the argument $x$ from the $i$-th observation $x_i$ weighted by the "bandwidth" $h$</strong>.
+
+* Furthermore, the kernel should have the following properties:
+  1. $\int_{-\infty}^\infty uK(u)\mathrm{d}u = 0$;
+  2. $\int_{-\infty}^\infty k(u) \mathrm{d}u = 1$.
+  
+
+========================================================
+### Kernel density estimators
+
+<div style="float:left; width:50%" class="fragment">
+<img src="./kernels.png" style="width:100%" alt="Popular kernel densities.">
+<p style="text-align:center">
+Courtesy of Härdle, W.K. et al. <i>Basic Elements of Computational Statistics</i>. Springer International Publishing, 2017.</p>
+</div>
+<div style="float:left; width:50%">
+<ul>
+  <li>Some popular choices of kernels are pictured to the left.</li>
+  <li>In each, we can see how different choices given different weight to the argument $x$ relative to the position of the observation $x_i$.</li>
+  <li>For the <b>uniform kernel</b>, we resemble the histogram where <strong>all points in an interval are treated with equal weight in that class</strong>.</li>
+  <li>For the <b>triangular</b>, we see that the weight points receive <strong>decays linearly away from the position of $x_i$</strong>.</li>
+  <li>For the <b>Epanechnikov kernel</b>, the <strong>weight decays more quadratically</strong>.</li>
+  <li>For the <b>quartic kernel</b>, the <strong>weight decays quarticly</strong>.</li>
+</ul>
+</div>
+
+
+========================================================
+### Kernel density estimators
+
+* If we instead plot the kernel density estimator for the Newhave temperature data, we get the following:
+
+```{r fig.width=24, fig.height=6}
+par(cex = 1.75, mai=c(1.5,1.5,.5,.5), mgp=c(3,0,0))
+y = density(nhtemp, kernel = "epanechnikov") # density estimation for temperature
+plot(y, main = "", lwd = 3)
+```
+
+* The result is to have a <b style="color:#1b9e77">quadratic smoothing of the contour</b>, rather than the <b style="color:#d95f02">boxy histogram</b>.
+
+* Especially for a <b>continuum variable</b> like temperature, this is a <b style="color:#1b9e77">more accurate approach to represent the empirical density</b>.
+
+========================================================
+## Statistics of location and dispersion
+
+* “Where are the data centered?” 
+
+* “How are the data scattered around the center?” 
+
+* “Are the data symmetric or skewed?” 
+
+* These questions are often raised when it comes to a simple description of sample data. 
+
+* <b>Location parameters</b> describe the <strong>center of a distribution through a numerical value</strong>. 
+
+* They can be quantified in different ways and visualized particularly well by boxplots.
+
+========================================================
+### Arithmetic mean
+
+* The term <b>arithmetic mean</b> characterizes the <strong>average position of the realizations of the observations</strong>. 
+
+* It is a good location measure for data from a symmetric distribution.
+
+* The <b>sample (arithmetic) mean</b> for a <b style="color:#d95f02">sample of $n$ values, $x_1 , x_2 , \cdots, x_n$</b> is defined by
+  
+  $$\begin{align}
+  \overline{x}_n = \frac{1}{n}\sum_{i=1}^n x_i
+  \end{align}$$
+
+* Suppose that <b style="color:#d95f02">$\{x_i\}_{i=1}^n$ are observations</b> of $X_i$ all with the same expected value <b style="color:#1b9e77">$\mathbb{E}\left[X_i\right] =\mu$</b>.
+
+* The <b style="color:#d95f02">sample means converge almost surely to $\mu$ (also called the population mean)</b>, i.e.
+
+  $$\lim_{n\rightarrow \infty}\overline{x}_n \rightarrow_{as} \mu$$
+  
+  
+* The arithmetic mean is the value that we compute when we use the `mean()` function in R.
+
+========================================================
+### Quantiles
+
+* Another type of location parameter is the <b>quantile</b>. 
+
+* Quantiles are very robust in that they are <strong>not influenced by outliers</strong>, since they are determined by the ordered rank of the observations; 
+
+  * the quantiles are also estimates of the <b style="color:#1b9e77">theoretical quantiles $F^{-1}(p)= \xi_p$</b> defined earlier.
+  
+* The <b style="color:#d95f02">p-quantile $\tilde{x}_p$</b>, for $0\leq p \leq 1$, is a value such that <strong>at most $100 \times p\%$ of the observations are less than or equal to $\tilde{x}_p$</strong>; and 
+
+* <strong>$100 \times (1 − p)\%$ are greater than or equal to $\tilde{x}_p$</strong>. 
+
+* The number of observations which are less than or equal to $\tilde{x}_p$ is, then, equal to $n\times p$.
+
+* If it is desired to have the usual location parameters, such as the median, mean and some quantiles at once, one can use the command `summary()`
+
+```{r}
+summary(nhtemp)
+```
+
+
+========================================================
+### Mode
+
+* The <b>mode</b> is the <strong>most frequently occurring observation</strong> in a data set. 
+
+* Together with the mean and median, one can use it as an <strong>indicator of the skewness of the data</strong>. 
+
+* In general, the mode is not equal to either the mean or the median, and the difference can be huge if the data are strongly skewed.
+
+* The <b>mode</b> is defined by
+  $$x_{mode} = a_j,$$ 
+  with $n(x_{mode} ) \geq n(a_i ), \forall i \in \{1, \cdots, k\}$ where $n(x)$ is the absolute frequency of $x$ and $a_i$ are the observed values in the sample.
+
+========================================================
+### Variance
+
+* The variance is one of the most widely used measures of dispersion. 
+
+* However, the <b>variance</b> is <strong>sensitive to outliers</strong> and is only reasonable for symmetric data.
+
+* The <b style="color:#d95f02">sample variance</b> for $n$ values $x_1 , x_2 , \cdots , x_n$ is the <strong>average of the squared deviations from the sample mean $\overline{x}_n$</strong>:
+
+  $$s^2 = \frac{1}{n-1} \sum_{i=1}^n \left(x_i - \overline{x}_n\right)^2$$
+  
+  * Note that we do not use the denominator $n$ for theoretical reasons, (the degrees of freedom).
+  
+* Having copies <b style="color:#1b9e77">$X_1 , \cdots , X_n$ of a rv $X \sim F_{\mu, \sigma^2}$</b>, it can be shown that
+
+  $$\begin{align}
+  \mathbb{E}\left[ S^2\right] = \mathbb{E}\left[ \frac{1}{n-1}\sum_{i=1}^n \left(X_i - \mu\right)^2\right] = \sigma^2
+  \end{align}$$
+  
+  where in the above we refer to the <b style="color:#1b9e77">random variables</b>, not their observations.
+
+
+
+========================================================
+### Standard deviation
+
+* As the variance is, due to the squares, not on the same scale as the original data, it is useful to introduce a normalised dispersion measure.
+
+* We saw that for the <b style="color:#1b9e77">rv $X$</b>, the theoretical standard deviation $\sigma$</strong> gives an appropriate measure of spread but in the <strong>same scale as $X$</strong>.
+
+* Given <b style="color:#d95f02">observations $\{x_i\}_{i=1}^n$</b> of the random variable $X$, we denote the <b style="color:#d95f02">sample standard deviation as $s = \sqrt{s^2}$</b>.
+
+* Unlike the sample variance estimator, <strong>$\mathbb{E}\left[S\right] \neq \sigma$ as this turns out to systematically underestimate the true parameter</strong>.
+
+* Nonetheless, the fixes are too complicated and not useful enough in general so we default to this estimator regardless.
+
+* Variance and standard deviation are computed simply in R as
+
+```{r}
+var(nhtemp)
+sd(nhtemp)
+```
+
+
+
+========================================================
+### Interquartile range
+
+* The <b>interquartile range (IQR)</b> of a sample is the <strong>difference between the upper quartile $\tilde{x}_{0.75}$ and the lower quartile $\tilde{x}_{0.25}$</strong>, i.e.
+
+  $$\mathrm{IQR} = \tilde{x}_{0.75} - \tilde{x}_{0.25}.$$
+  
+* It is also called the midspread or middle fifty, since roughly fifty percent of the observations are found within this range. 
+
+* The IQR is a <strong>robust statistic</strong> and is therefore preferred to looking at, e.g., the total range of the data.
+
+  * If the min and max values are outliers, this range can strongly distort our view of the data.
+
+
+
+========================================================
+### Box-Plots
+
+* The <b>box-plot (or box-whisker plot)</b> is a diagram which describes the distribution of a given data set. 
+
+* It summarizes the location and dispersion measures discussed previously. 
+
+* The box-plot gives a quick glimpse of the observations’ range and empirical distribution.
+
+```{r fig.width=24, fig.height=3}
+require(lattice)
+bwplot(as.vector(nhtemp), xlab="Newhaven Temperature Farenheit")
+```
+
+* At the center of the plot, we have the median and the IQR.
+
+* The <strong>whiskers typically extend by 1.5 the length of the IQR</strong> and outliers beyond this are plotted individually.
+
+* This forms a visual summary similar to the `summary()` function in R.
