@@ -1,0 +1,295 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+
+Other univariate distributions related to the normal
+========================================================
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+<blockquote>
+FAIR USE ACT DISCLAIMER:</br>
+This site is for educational purposes only.  This website may contain copyrighted material, the use of which has not been specifically authorized by the copyright holders. The material is made available on this website as a way to advance teaching, and copyright-protected materials are used to the extent necessary to make this class function in a distance learning environment.  The Fair Use Copyright Disclaimer is under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+</blockquote>
+
+
+========================================================
+
+<h2>Outline</h2>
+
+<ul>
+  <li>The following topics will be covered in this lecture:</li>
+  <ul>
+    <li>The $\chi^2$ distribution</li>
+    <li>The student-t distribution</li>
+    <li>The F-distribution</li>
+  </ul>
+</ul>
+
+
+
+========================================================
+## The $\chi^2$ distribution
+
+* While the <b style="color:#d95f02">normal distribution</b> is <strong>frequently applied to describe the underlying distribution of a statistical experiment</strong>, <b style="color:#1b9e77">asymptotic test statistics</b> are often based on a <strong>transformation of a (non-) normal rv</strong>. 
+
+* To get a better understanding of these tests, it will be helpful to study the $\chi^2$, t- and F-distributions, and their relations with the normal one.
+
+* We will begin with the <b>$\chi^2$ distribution</b>, describing the <strong>sum of the squares of independent standard normal rvs</strong>.
+
+*  If $Z_i \sim N(0, 1)$, for $i = 1, \cdots, n$ are independent, then the rv $X$ given by
+  
+  $$\begin{align}
+  X = \sum_{i=1}^n Z_i \sim \chi^2_n
+  \end{align}$$
+  the <b>$\chi^2_n$ distribution in $n$ total degrees of freedom</b>.
+  
+* This distribution is of particular interest since it describes the <strong>distribution of a sample variance as an unbiased estimator varying about the true parameter</strong>.
+
+
+========================================================
+### The $\chi^2$ distribution
+
+<ul>
+  <li>The pdf of the $\chi^2$ distribution is
+  $$\begin{align}
+  f(z,n) = \frac{2^{-\frac{n}{2}} z^{\frac{n}{2} - 2}exp\left(-\frac{z}{2}\right)}{\Gamma\left(\frac{n}{2}\right)},
+  \end{align}$$</li>
+  <li>where $\Gamma(k)$ is the classical "gamma function" given as,
+  $$\begin{align}
+  \Gamma(z)=\int_0^\infty t^{z-1}\exp\left(-t\right)\mathrm{d}t.
+  \end{align}$$</li>
+  <li>The cdf of the χ2 distribution is
+  $$\begin{align}
+  F(z,n)= \frac{\Gamma_z\left(\frac{z}{2}, \frac{z}{2}\right)}{\Gamma\left(\frac{n}{2}\right)}
+  \end{align}$$
+  where 
+  $$\Gamma_z(\alpha) = \int_0^z t^{\alpha -1} \exp\left(-t\right)\mathrm{d}t$$ 
+  is the incomplete gamma function.
+  </li>
+</ul>
+
+
+========================================================
+### The $\chi^2$ distribution
+
+* The standard implemented functions for the $\chi^2$ distribution are as follow:
+  * `dchisq(x, df)` is the <b>pdf</b>;
+  * `pchisq(q, df)` is the <b>cdf</b>;
+  * `qchisq(p, df)` is the <b>quantile</b>;
+  * `rchisq(n, df)` is the function for <b>generating a sample</b>.
+  
+* Same as for other distributions, if `log = TRUE` in `dchisq` function, then log density is computed, which is useful for maximum likelihood estimation. 
+
+* Similar to the functions for the t and F distributions, all the functions also have the parameter `ncp` which is the non-negative parameter of non-centrality, 
+
+ * this refers to when this rv is constructed from Gaussian rvs with non-zero expectations.
+
+========================================================
+### The $\chi^2$ distribution
+
+* In the below we plot how the pdf of the $\chi^2$ changes for higher numbers of degrees of freedom.
+
+  * These are varied as <b>n=5</b>, <b style="color:red">n=10</b>, <b style="color:green">n=15</b> and <b style="color:blue">n=25</b>.
+
+```{r fig.width=24, fig.height=5.5}
+par(cex = 2.0, mar = c(5, 4, 4, 2) + 0.3)
+z = seq(0, 50, length = 300)
+df = c(5, 10, 15, 25)
+colors = c("black", "red", "green", "blue")
+plot(z, dchisq(z,  df[1]),  type = "l", xlab = "z", ylab = "pdf")
+for (i in 2:4) { lines(z, dchisq(z, df[i]), col = colors[i])}
+```
+
+* In general, the $\chi^2$ pdf is bell-shaped and shifts to the right-hand side for greater numbers of degrees of freedom, becoming more symmetric.
+
+
+========================================================
+### The $\chi^2$ distribution
+
+
+* There are two special cases, namely n = 1 and n = 2. 
+
+```{r fig.width=24, fig.height=5.5}
+par(cex = 2.0, mar = c(5, 4, 4, 2) + 0.3)
+z = seq(0, 50, length = 300)
+m = c(1, 2)
+plot(z, dchisq(z, m[1]), type = "l", xlab = "z", ylab = "pdf", xlim = c(0, 10), xaxs = "i", yaxs = "i")
+lines(z, dchisq(z, m[2]), col = "blue")
+```
+
+* In the first case, the vertical axis is an asymptote and the distribution is not defined at 0. 
+
+* In the second case, the curve steadily decreases from the value 0.5
+
+
+
+========================================================
+### The $\chi^2$ distribution
+
+* Respectively, using the `pchisq` function we can plot the cdf for each number of degrees of freedom <b>n=5</b>, <b style="color:red">n=10</b>, <b style="color:green">n=15</b> and <b style="color:blue">n=25</b> as
+
+```{r fig.width=24, fig.height=5}
+par(cex = 2.0, mar =  c(5, 4, 4, 2) + 0.3)
+z = seq(0, 50, length = 300)
+df = c(5, 10, 15, 25)
+colors = c("red", "green", "blue")
+plot(z, pchisq(z,  df[1]),  type = "l", xlab = "z", ylab = "cdf")
+for (i in 2:4) { lines(z, pchisq(z, df[i]), col = colors[i-1]) }
+```
+* A distinctive feature of $\chi^2$ is that it is positive, due to the fact that it represents a sum of squared values.
+
+* The expectation and variance are both given by,
+  
+  $$\begin{align}
+  \mathbb{E}\left[X\right] = n & & \mathrm{var}\left(X\right) = 2n 
+  \end{align}$$
+
+
+========================================================
+
+## Student's t-distribution
+
+<div style="float:left; width:45%;text-align:center;">
+<img src="student_t.png" style="width:100%" alt="Student t distribution depends on the degrees of freedom.">
+<p  style="text-align:center">
+Courtesy of Mario Triola, <em>Essentials of Statistics</em>, 6th edition
+</p>
+</div>  
+<div style="float:left; width:55%">
+<ul>
+  <li>The "student t" distribution became fully developed when the statistician and brewer William Sealy Gosset was trying to model the quality of raw material like barley for beermaking with very few measurements.</li>
+  <li>Gosset worked at Guinness brewery and was not allowed to publish under his own name, so instead published under the name "student".</li>
+  <li>The <b>student t</b> is <strong>very similar to a normal distribution, but has wider variability,  especially in the tails</strong>.</li>
+  <li> It gained importance because it is widely used in statistical tests, particularly in student’s t-test for estimating the statistical significance of the difference between two sample means.</li>
+  <li>Let's suppose that we have <b style="color:#d95f02">$x_1, \cdots, x_n$ total observations</b> sampled from a <b>normal distribution</b> with mean <b style="color:#1b9e77">$\mu$</b> and <b style="color:#1b9e77">standard deviation $\sigma$</b>.</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>  
+  <li>We can compute the <b style="color:#d95f02">sample mean $\overline{x}$</b> and the <b style="color:#d95f02">sample standard deviation $s$</b> from the above observations.</li>
+  <li>Then, it is an extremely important result that the <b>random variable</b>,
+  $$\frac{\overline{x} - \mu}{\frac{s}{\sqrt{n}}}$$
+  is distributed according to a <strong>student t with $n-1$ degrees of freedom</strong>.</li>  
+  <li>The number of <b>"degrees of freedom"</b> in the student t is a <strong>parameter that determines the shape</strong>, as shown on the diagram above.</li>
+</ul>
+</div>
+
+========================================================
+### Student's t-distribution
+
+* Slightly more formally, a <strong>combination of the normal and $\chi^2$ distributions is represented by the t-distribution</strong>.
+
+* Let $X \sim N(0, 1)$ and $Y \sim \chi^2_n$ be independent rvs; 
+
+  * then a <b>t-distributed rv $Z$ with n − 1 degrees of freedom</b> can be formalized as
+
+ $$\begin{align}
+ Z = \frac{X}{\sqrt{Y/n}} \sim t_{n-1}
+ \end{align}$$
+
+
+ 
+========================================================
+### Student's t-distribution
+ 
+* The pdf of the t-distribution is
+
+  $$\begin{align}
+  f(z,n) = \frac{\Gamma\left\{\frac{n+1}{2}\right\}}{\sqrt{\pi n} \Gamma\left(\frac{n}{2}\right)\left(1 + \frac{z^2}{n}\right)^{\frac{n+1}{2}}}
+  \end{align}$$
+
+* We plot the density below fo <b>n=1</b>, <b style="color:red">n=2</b> and <b style="color:green">n=5</b>  degrees of freedom with the <b style="color:blue">normal density</b> plotted for reference.
+
+```{r fig.width=24, fig.height=5.5}
+par(cex = 2.0, mar = c(5, 4, 4, 2) + 0.3)
+t = seq(-5, 5, length = 300)
+colors = c("black", "red", "green")
+df = c(1, 2, 5)  # degrees of freedom(df) for the t-distribution
+plot(t, dnorm(t, 0, 1), xlab = "t", ylab = "pdf", type = "l", lwd = 2, col="blue")
+for (i in 2:4) {  lines(t, dt(t, df[i]), col = colors[i])}
+```
+
+
+========================================================
+### Student's t-distribution
+
+* For $n &gt; 2$ degrees of freedom, the expectation and variance of Student’s t-distribution
+are
+
+  $$\begin{align}
+  \mathbb{E}\left[Z\right] = 0 & & \mathrm{var}\left(Z\right) = \frac{n}{n-2}
+  \end{align}$$
+
+* By symmetry, the skewness is always zero for the student's t-distribution.
+
+* The quantiles of a t-distributed rv $Z$ are denoted by $t_p$, and, due to symmetry, $t_p =−t_{1− p}$. 
+
+* Thus, when stating the hypothesis for a two-sided test, the critical values are used with given significance levels $\alpha$ as follows:
+
+  $$P\left(\vert Z\vert &gt; \vert t_{\alpha/2}\vert \right) = \alpha$$
+
+
+========================================================
+## F-distribution
+
+*  While the student's t-distribution is often used for analyzing the means of samples, we note that we may want to <strong>compare the variances of multiple samples too</strong>.
+
+* Knowing that the sample variances of normal distributions are distributed according to a $\chi^2$, this motivates our definition in the following.
+
+* The rv <b>$Z$ has the Fisher–Snedecor (F-distribution) distribution with $n$ and $m$ degrees of freedom</b> if
+
+  $$\begin{align}
+  Z = \frac{\chi^2(n)/ n}{\chi^2(m)/m}
+  \end{align}$$
+  
+ where $\chi^2(n) ∼ \chi^2_n$ and $χ^2(m) ∼ \chi^2_m$ are independent rvs.
+
+* The pdf and the cdf of the F-distribtution become especially complicated and we will suppress a direct statement of these.
+
+========================================================
+## F-distribution
+
+* The procedures in R dedicated to this distribution require the parameters $n$ and $m$ as well:
+  * `df(x, df1, df2)` is the <b>pdf</b>;
+  * `pf(q, df1, df2)` is the <b>cdf</b>;
+  * `qf(p, df1, df2)` is the <b>quantile</b>;
+  * `rf(n, df1, df2)` is the function for <b>generating a sample</b>.
+
+* Here parameters `df1` and `df2` are the two degrees of freedom parameters. 
+
+  * Same as for other distributions, if `log = TRUE` in `df` function, then log density is computed, which is useful for maximum likelihood estimation. 
+  
+* Also similar to the functions for the $\chi^2$ and t-distribution, all the above-mentioned functions have the non-centrality parameter `ncp`.
+
+========================================================
+### F-distribution
+
+* In the below we plot the pdf of the F-distribution for <b>n=1,m=1</b>, <b style="color:red">n=2,m=6</b>, <b style="color:green">n=3, m=10</b> and <b style="color:blue">n=50, m=50</b>:
+
+```{r fig.width=24, fig.height=8}
+par(cex = 2.0, mar = c(5, 4, 4, 2) + 0.3)
+z = seq(0, 5, length = 300)
+n = c(1, 2, 3, 50)
+m = c(1, 6, 10, 50)
+colors = c("black", "red", "green", "blue")
+plot(z, df(z, n[1], m[1]), type = "l", xlab = "z", ylab = "pdf", ylim = c(0, 1.5))
+for (i in 2:4) {  lines(z, df(z, n[i], m[i]), col = colors[i])}
+```
+
+* In the activities in class, we will explore the properties of these distributions.
