@@ -1,0 +1,325 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+
+Numerical integration in R part I
+========================================================
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+<blockquote>
+FAIR USE ACT DISCLAIMER:</br>
+This site is for educational purposes only.  This website may contain copyrighted material, the use of which has not been specifically authorized by the copyright holders. The material is made available on this website as a way to advance teaching, and copyright-protected materials are used to the extent necessary to make this class function in a distance learning environment.  The Fair Use Copyright Disclaimer is under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+</blockquote>
+
+
+========================================================
+
+<h2>Outline</h2>
+
+<ul>
+  <li>The following topics will be covered in this lecture:</li>
+  <ul>
+    <li>Basic ideas of numerical integration</li>
+    <li>Quadrature</li>
+    <li>Newton-Cotes</li>
+    <li>The trapezoid rule</li>
+  </ul>
+</ul>
+
+========================================================
+<h2>Basic ideas of numerical integration</h2>
+
+* In basic calculus, we learn about various types of <b style="color:#1b9e77">functions that have easy-to-solve integrals with closed form</b>, e.g.,
+
+ * <b>Polynomials</b> follow simple rules in terms of anti-derivatives and definite integrals;
+ 
+ * <b>Trigonometric</b> functions have many nice relationships that allow us to find anti-derivatives;
+ 
+ * certain forms of equations allow <strong>substitutions or integration by parts in order to re-write integrals into simple forms</strong>.
+ 
+* However, there are <b style="color:#d95f02">far more integrals that cannot be solved this way than can be solved by hand</b>.
+  
+  * One important example is the Gaussian function,
+  $$f(x) = e^{-x^2}$$
+  which does not have a simple closed form, and it is non-trivial to show that this integrates to $\sqrt{\pi}$.
+
+  *  Generally, <strong>integrals have no closed form in terms of evaluating anti-derivatives</strong>; 
+  
+  * we can instead appeal to the construction of integrals directly to get some insight into how we can perform integration by computer.
+
+========================================================
+### Riemann sums
+
+
+* Recall, when we define a <b>Riemann sum</b>, this is very <strong>similar to how a density estimator like a histogram or kernel density estimator works</strong>.
+
+*  We will suppose that there is some function 
+  $$f:[a,b] \rightarrow \mathbb{R}$$
+  that we wish to integrate over the range above.
+  
+*  If $f(x)$ can be evaluated at any given point $x\in [a,b]$, we can <strong>take a partition of the interval $[a,b]$ as follows</strong>:
+
+  * Let $a = x_0 &lt; x_1 &lt; \cdots &lt; x_n=b$;
+  
+  * We define sub-intervals of $[a,b]$ with the above points defining the endpoints, i.e.,
+  
+  $$\begin{align}
+  I_i = [x_{i-1}, x_i]  & & \cup_{i=1}^n I_i = [a,b]
+  \end{align}$$
+  
+  * Finally, for each $i$, we choose a <strong>representative point for the interval $x_i^\ast\in I_i$ that will be used to evaluate the weight given to the interval</strong>.
+  
+* Let us finally write the length of the $i$-th interval as $\Delta_i = x_{i} - x_{i-1}$, and denote the collection of all the intervals and the representative points as $\mathcal{I}_n$;
+
+  * then a <b>Riemann sum</b> on this partition is defined as,
+  
+  $$\begin{align}
+  S\left(\mathcal{I}_n\right) = \sum_{i=1}^n f\left(x_i^\ast\right) *\Delta_i
+  \end{align}$$
+
+========================================================
+### Examples of Riemann sums
+
+
+<div style="float:left; width:50%" class="fragment">
+<img src="./Riemann_sum_convergence.png" style="width:100%" alt="Convergence of Riemann sums.">
+<p style="text-align:center">
+Courtesy of <a href="https://commons.wikimedia.org/wiki/File:Riemann_sum_convergence.png" title="via Wikimedia Commons">I, KSmrq via Wikimedia Commons</a> <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA</a>
+</p>
+</div>
+<div style="float:left; width:50%">
+<ul>
+  <li>To the left, we see several different interpretations of Riemann sums for a given function, represented by the <b>black curve</b>:</li>
+  <ul>
+    <li>We vary the <strong>size of the partition $n$, as well as the choice of the $x_i^\ast$ representative points</strong>.</li>
+    <li><b style="color:blue">Top left:</b> we see the right-endpoint method, where $x_i^\ast = x_i$ for all $i$.</li>
+    <li><b style="color:red">Top right:</b> wherever $f(x)$ attains its minimum value over the range $I_i$ is chosen as $x^\ast_i$.</li>
+    <li><b style="color:green">Bottom left:</b> wherever $f(x)$ attains its maximal value over the range $I_i$ is chosen as $x^\ast_i$.</li>
+    <li><b style="color:#e6b800">Bottom right:</b> we see the the left-endpoint method, where $x^\ast_i = x_{i-1}$ for all $i$.</li>
+  </ul>
+  <li>The plotted lines then show how fast the <strong>discrete approximations converge to the true value of the integral</strong> as we take smaller widths $\Delta_i$ and more sub-intervals in the partition $\mathcal{I}_n$ as $n\rightarrow \infty$.</li>
+  <li>Most numerical integration follows a pattern like this, in which we will look for clever ways to find a representative value for a partition, so that we can get the true value asymptotically in the refinement of the partition.</li>
+</ul>
+</div>
+
+========================================================
+### Quadrature
+
+* Although the method of <b style="color:#d95f02">Riemann sums</b> discussed is relatively simple to implement in a computer language, it suffers from disadvantages like histograms do.
+
+  * Specifically, the <b style="color:#d95f02">Riemann sums</b> discussed earlier have a <b style="color:#d95f02">very slow rate of convergence</b>;
+  
+  * i.e., you must take a very fine partition of the interval, and evaluate $f$ many times, to get accurate results.
+  
+* Like we considered with the <b style="color:#1b9e77">kernel densities</b>, we may instead use a <b style="color:#1b9e77">smoothing function that will give weight to values of $f(x)$</b> away from the representative point $x_i^\ast$ for the interval $I_i$.
+
+* For reasons that won't be considered directly in this class, <strong>polynomials can make very good approximations of arbitrary functions within certain bounds</strong>.
+
+* Polynomials are also very easy to integrate, so that if we can <b style="color:#1b9e77">approximate $f$ well by some polynomial $p_n(x)$, we can get a faster converging sum by this approximation</b>.
+
+* This idea is known as <b style="color:#1b9e77">quadrature</b>.
+
+========================================================
+## Newton-Cotes rule
+
+* Let's suppose that a partition $I_n$ of $[a,b]$ is given with endpoints $a=x_0 &lt; \cdots &lt; x_n = b$.
+
+* We will call the class of <b>basis polynomials $P_n$</b> which will be a collection of all polynomials $p_n \in P_n$ for which
+    $$\begin{align}
+    p_n(x) = \sum_{i=1}^n x^i c_i  & & p_n(x_i) = f(x_i) 
+    \end{align}$$
+    for some coefficient values $c_i$.
+    
+* The goal then is to <strong>choose some such polynomial $p_n$ that gives a good approximation of $f(x)$ over each sub-interval in the partition</strong>.
+
+* We will define a generic interpolation polynomial as follows:
+  
+  $$\begin{align}
+  L_k(x) = \prod_{i=0,i\neq k}^n \frac{x - x_i}{x_k - x_i} 
+  \end{align}$$
+  
+  where $x_i$ are the endpoints of the partition and the product goes over all terms $x_i$ except for $x_k$ to avoid a division by zero.
+  
+  * Specifically, when we evaluate <b style="color:#1b9e77">$L_k(x_k)$ we get the value $1$ by all numerators equaling the denominators</b>.
+  
+  * However, <b style="color:#d95f02">at any other $x_i$, $L_k(x_i) = 0$ for all $i \neq k$</b>.
+  
+
+========================================================
+### Newton-Cotes rule
+
+* Using the interpolation polynomials, we construct the <b>Lagrange basis polynomial $p_n$</b> as follows:
+
+  $$\begin{align}
+  p_n(x)  = \sum_{i=1}^n f(x_i)L_i(x)
+  \end{align}$$
+  
+  so that this <strong>evaluates to $f(x_i)$ at each endpoint in the partition, but it interpolates between the points with better accuracy than the flat Riemann sum</strong>.
+  
+* We will need to now make a distinction between the theoretical, exact integral and its approximation:
+  
+  * We will denote the <b style="color:#1b9e77">exact integral of $f$</b> over the interval $[a,b]$ as,
+  
+  $$\begin{align}
+  \mathcal{I}(f) = \int_{a}^b f(x) \mathrm{d}x.
+  \end{align}$$
+  
+  * On the other hand, we denote the <b style="color:#d95f02">approximate integral of $f$ over the partition $\mathcal{I}_n$</b>,
+  
+  $$\begin{align}
+  \mathcal{I}_n(f) =& \int_a^b p_n(x) \mathrm{d}x\\
+  =&\sum_{i=1}^n \int_{a}^b f(x_i) L_i(x) \mathrm{d}x
+  \end{align}$$
+  where each of the individual polynomials can be easily evaluated, and a sum taken over the results.
+
+
+
+========================================================
+### Newton-Cotes rule
+
+
+* In a proper numerical analysis course, we would study the rate at which,
+  
+  $$ \vert \mathcal{I}(f) - \mathcal{I}_n(f) \vert \rightarrow 0$$
+  as the partition is refined, $n\rightarrow\infty$.
+
+* Developing methods like this, showing the precision of these methods, and the rate at which we can increase the precision by taking a refinement of the partition, is an entire field of its own;
+
+  * here <strong>we will only introduce the fundamental ideas that will help us use advanced computational tools in statistics later</strong>, but interested students are encouraged to read more independently.
+  
+* In the above, our <b>Newton-Cotes</b> rule describes actually a <strong>general family of different approximations we can make</strong>, some of which are taught in basic calculus.
+
+
+========================================================
+### Newton-Cotes rule
+
+* Consider again the Newton-Cotes rule as follows:
+
+  * The <b style="color:#d95f02">approximate integral in Newton-Cotes</b> (instead of a Riemann sum approach) is given as,
+  
+  $$\begin{align}
+  \mathcal{I}_n(f) = (b-a) \sum_{i=1}^n f(x_i) \alpha_i & & \alpha_i = \frac{1}{b-a}\int_{a}^b L_i(x) \mathrm{d}x
+  \end{align}$$
+  
+  * The <b>$\alpha_i$</b> values are weights like in the Riemann sum, but that are <b style="color:#d95f02">computed with a polynomial smoothing</b> instead of the standard Riemann sum.
+  
+* Suppose the nodes $x_i$ are equidistant in $[a, b]$, i.e., 
+  
+  * $x_k = a + kh$, where $h$ is a fixed step-size between partition endpoints, defined by $h = (b − a)/n$.
+  
+* In this particular case, this is the "closed" Newton-Cotes rule for which $\alpha_k$ can be computed explicitly up to $n=7$;
+  
+  * for $n=8$ and higher, different approaches to quadrature need to be used.
+
+
+========================================================
+### Trapezoid rule
+
+* The <b>classical trapezoid rule</b> is actually one of the Newton-Cotes techniques, we consider the following.
+
+  * Let $n=1$ and thus $x_0 = a, x_1 = b$ are the only endpoints in the partition.
+  
+  * We also will thus only have the two following interpolation polynomials,
+  
+  $$\begin{align}
+  L_0(x) &= \prod_{i=1}^1 \frac{x - x_i}{x_k - x_i} = \frac{x - x_1}{x_0 - x_1} = \frac{x - b}{-\left(b-a\right)} \\
+  L_1(x) &= \prod_{i=0}^0 \frac{x - x_i}{x_k - x_i} = \frac{x - x_0}{x_1 - x_0} = \frac{x -a}{\left(b - a\right)}
+  \end{align}$$
+  
+  * Then notice that,
+  
+  $$\begin{align}
+  \alpha_0 &= \frac{1}{b-a} \int_a^b L_0(x) \mathrm{d}x = \frac{x^2 - 2bx}{-2(b-a)^2} \big\vert_{a}^b =  \frac{b^2 - 2b^2}{-2\left(b-a\right)^2} - \frac{a^2 - 2ab}{-2\left(b-a\right)^2} = \frac{1}{2} \\
+  \alpha_1 &= \frac{1}{(b-a)} \int_a^b L_1(x) \mathrm{d}x = \frac{x^2 - 2ax}{2(b-a)^2} \big\vert_{a}^b =  \frac{b^2 - 2ab}{2 \left(b-a\right)^2} - \frac{a^2 -  2a^2}{\left(b-a\right)^2} = \frac{1}{2}
+  \end{align}$$
+  
+  * Then explicitly, the integration rule is given as,
+  
+  $$\mathcal{I}_1 (f) = \left(b - a\right) \frac{f(b) + f(a)}{2}.$$
+  
+
+========================================================
+### Trapezoid rule
+
+
+<div style="float:left; width:50%" class="fragment">
+<img src="./trapezoid.png" style="width:100%" alt="Trapezoid rule.">
+<p style="text-align:center">
+<a href="https://commons.wikimedia.org/wiki/File:Integration_num_trapezes_notation.svg" title="via Wikimedia Commons">Intégration_num_trapèzes.svg: Scalerderivative work: Cdang</a> / <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA</a>
+</p>
+</div>
+<div style="float:left; width:50%">
+<ul>
+  <li>Graphically, we can see how the <b>trapezoidal rule</b> <strong>approximates the area under the curve</strong> to the left, using the mean value of the function $f$ at the endpoints,
+  $$\frac{f\left(x_{i+1}\right) + f\left(x_i\right)}{2}.$$</li>
+  <ul>
+    <li>The area is thus approximated by 
+    $$\left(x_{i+1} - x_{i}\right) \frac{f\left(x_{i+1}\right) + f\left(x_i\right)}{2}.$$</li>
+  </ul>
+  <li>For many types of functions $f$, this tends to be much more accurate than using Riemann sums directly
+</ul>
+</div>
+
+========================================================
+### Trapezoid rule
+
+<div style="float:left; width:50%">
+<ul>
+<li> However, the trapezoidal rule still has relatively low rate of convergence;</li> 
+  <ul>
+    <li>in practice if <b>$b-a$ is large</b>, <strong>we will have to apply this rule over many sub-intervals</strong>, within a partition of $[a,b]$, rather than over all of $[a,b]$ at once.</li>
+  </ul>
+  <li>How the rule improves as we take a smaller and smaller refinement of the partition is visualized to the right as follows.</li>
+</ul>
+</div>
+<div style="float:right; width:40%" class="fragment">
+<img src="./Trapezium2.gif" style="width:100%" alt="Trapezoid rule.">
+<p style="text-align:center">
+<a href="https://commons.wikimedia.org/wiki/File:Trapezium2.gif" title="via Wikimedia Commons">Mkwadee at English Wikipedia</a> / <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA</a>
+</p>
+</div>
+<div style="float:left; width:50%">
+<ul>
+  <li>In R, the trapezoidal rule is implemented within the package ```caTools```.</li> 
+  <li>There the function ```trapz(x, y)``` is used with an ordered vector ```x``` containing the partition end-point values and the vector ```y``` containing the corresponding y-axis values.</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>Let's suppose we want to approximate the integral,
+  $$\begin{align}
+  \int_{-\frac{\pi}{2}}^\frac{\pi}{2} \cos(x)\mathrm{d}x =\int_{-\frac{\pi}{2}}^\frac{\pi}{2} \frac{\mathrm{d}}{\mathrm{d}x}\sin(x)\mathrm{d}x = \sin(x) \big\vert_{-\frac{\pi}{2}}^\frac{\pi}{2} = 2,
+  \end{align}$$
+  using the trapezoidal rule.</li>
+  <li>Because this integral has an exact answer, we can see how accurate the approximation is based upon the number of sub-intervals in the partition.</li>
+</ul>
+</div>
+
+========================================================
+### Trapezoid rule
+
+* We will vary the number of points in the partition `i` and print the absolute difference between the approximation and the exact value below:
+```{r}
+require(caTools)
+for (i in 2:2:20) {
+  partition <- seq(-pi/2, pi/2, len=i)
+  print(abs(2 - trapz(partition, cos(partition))))
+}
+```
+
