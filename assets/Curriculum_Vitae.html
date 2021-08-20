@@ -1,22 +1,16 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en-us" xml:lang="en-us">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Curriculum_Vitae</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
   <style type="text/css">
   /*
    * Copyright 2013 Christophe-Marie Duquesne <chmd@chmd.fr>
@@ -26,16 +20,16 @@
    * This CSS document is delivered to you under the CC BY-SA 3.0 License.
    * https://creativecommons.org/licenses/by-sa/3.0/deed.en_US
    */
-
+  
   /* Whole document */
   body {
       font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
       max-width: 800px;
       margin: auto;
       background: #FFFFFF;
-      padding: 10px 10px 10px 10px;
+      padding: 0.5in 0.5in 0.5in 0.5in;
   }
-
+  
   /* Title of the resume */
   h1 {
       font-size: 55px;
@@ -43,7 +37,7 @@
       text-align:center;
       margin-bottom:15px;
   }
-
+  
   h1+p {
       /*subtitle*/
       color: #2166ac;
@@ -54,7 +48,7 @@
       text-align: center;
       font-weight: bold;
   }
-
+  
   /* Titles of categories */
   h2 {
       /* This is called "sectioncolor" in the ConTeXt stylesheet. */
@@ -86,12 +80,12 @@
       margin-top:0;
       margin-bottom:7px;
   }
-
+  
   /* Blockquotes */
   blockquote {
       text-align: center
   }
-
+  
   /* Links */
   a {
       text-decoration: none;
@@ -103,12 +97,12 @@
       text-decoration: none;
       text-shadow: 1px 1px 1px #333;
   }
-
+  
   /* Horizontal separators */
   hr {
       color: #2166ac;
   }
-
+  
   table {
       width: 100%;
   }
@@ -149,7 +143,7 @@
 <dd><p><strong>Postdoctoral Researcher</strong><br> <a href="https://nersc.no" target="blank">Nansen Environmental and Remote Sensing Center</a> – Bergen, Norway<br></p>
 <p>Developed a novel framework for Bayesian data assimilation methods in chaotic dynamical systems under the “REDDA – Reduced Subspace in Big Data Treatment” project of the Norwegian Research Council.</p>
 </dd>
-<dt>Oct. 2012 - <br>May. 2016</dt>
+<dt>Oct. 2012 - <br>May 2016</dt>
 <dd><p><strong>Graduate Research Assistant</strong><br> <a href="https://mcrn.hubzero.org/" target="blank">Mathematics and Climate Research Network (MCRN)</a> – UNC at Chapel Hill Node<br></p>
 <p>Employed innovative technology platforms for collaboration in virtual research networks under the NSF Science Across Virtual Institutes program. Organized the web-based Joint Data Assimilation Seminar between the Nansen Environmental and Remote Sensing Center in Bergen, Norway, the International Centre for Theoretical Sciences in Bangalore, India, and MCRN in the United States.</p>
 </dd>
@@ -181,7 +175,7 @@
 <h2 id="publications">Publications</h2>
 <h3 id="section">2021</h3>
 <ul>
-<li><p><strong>C. Grudzien</strong>, M. Bocquet, and D. Deka. <em>Ensemble-based data assimilation for joint state-parameter estimation in nonlinear, stochastic transmission dynamics</em>. In preparation.</p></li>
+<li><p><strong>C. Grudzien</strong>, M. Bocquet. <em>A fast, single-iteration ensemble Kalman smoother for sequential data assimilation</em>. In preparation.</p></li>
 <li><p>A. Carrassi, M. Bocquet, J. Demaeyer, <strong>C. Grudzien</strong>, P. Raanes and S. Vannitsem. <a href="https://arxiv.org/abs/2010.07063"> <em>Data assimilation for chaotic dynamics</em></a>. In S. Park and L. Xu, editors, Volume IV of Data Assimilation for Atmospheric, Oceanic and Hydrologic Applications, Accepted.</p></li>
 </ul>
 <h3 id="section-1">2020</h3>
@@ -208,41 +202,38 @@
 <li><p><strong>C. Grudzien</strong>. <a href="https://www.sciencedirect.com/science/article/pii/S0377042716301066?np=y"><em>The instability of the Hocking–Stewartson pulse and its geometric phase in the Hopf bundle</em></a>. Journal of Computational and Applied Mathematics, 307:162–169, 2016</p></li>
 </ul>
 <h2 id="software-and-educational-products">Software and Educational Products</h2>
+<h3 id="dataassimilationbenchmarks.jl"><a href="https://github.com/cgrudz/DataAssimilationBenchmarks.jl" target="blank">DataAssimilationBenchmarks.jl</a></h3>
+<p>I am the primary developer of the open-source Julia package DataAssimilationBenchmarks.jl. This framework is designed for testing and validation of ensemble-based filters and sequential smoothers in chaotic toy models. The code is meant to be performant, in the sense that large hyper-parameter discretizations can be explored to determine structural sensitivity and reliability of results across different experimental regimes, with parallel implementations in Slurm.</p>
 <h3 id="dapper"><a href="https://github.com/nansencenter/DAPPER" target="blank">DAPPER</a></h3>
 <p>I am a contributor to the Nansen Center Data Assimilation Package in Python for Experimental Research (DAPPER). DAPPER is a set of templates for benchmarking the performance of data assimilation (DA) methods. The software provides experimental support and tutorials on DA.</p>
-<h3 id="numerical-benchmarks-for-iterative-ensemble-ensemble-variational-smoothers"><a href="https://github.com/cgrudz/enkf_benchmark" target="blank">Numerical benchmarks for iterative ensemble / ensemble-variational smoothers</a></h3>
-<p>This code repository contains research code studying the effects of model stochasticity and nonlinearity on the performance on different formulations of the iterative, ensemble Kalman smoother for joint state-parameter estimation in the stochastically forced Lorenz-96 model.</p>
-<h3 id="numerical-benchmarks-for-the-stochastically-forced-lorenz-96-model"><a href="https://github.com/cgrudz/lorenz_96_sde" target="blank">Numerical benchmarks for the stochastically forced Lorenz-96 model</a></h3>
-<p>This is the code repository for the manuscript <a href="https://www.geosci-model-dev.net/13/1903/2020/gmd-13-1903-2020.html"> “On the numerical integration of the Lorenz-96 model, with scalar additive noise, for benchmark twin experiments”</a> This includes the code for the novel strong order 2.0 Taylor scheme derived for the L96-s system.</p>
 <h3 id="electric-grid-model-reduction"><a href="https://github.com/cgrudz/electric_grid_model_reduction" target="blank">Electric grid model reduction</a></h3>
 <p>This is the code repository for the manuscript <a href="https://epubs.siam.org/doi/abs/10.1137/17M1138054" target="blank"> “Structure-and physics-preserving reductions of power grid models”</a> This includes the code for the reduction and interactive visualization of a real power grid network, from a Midwestern utility.</p>
-<h3 id="mathematical-theory-of-data-assimilation-with-applications"><a href="https://github.com/cgrudz/Tutorial_on_DA" target="blank">Mathematical Theory of Data Assimilation with Applications</a></h3>
-<p>Lectures given in the London Mathematical Society 2019 Summer Research School on the Mathematics of Climate. This introduces the fundamentals of data assimilation and estimation theory from a Bayesian perspective to new users, with an emphasis on intuition behind the methods. These lectures were developed in collaboration with Alberto Carrassi, Patrick Raanes and Marc Bocquet.</p>
 <h3 id="ada-compliant-teaching-workflow"><a href="https://github.com/cgrudz/ADA_compliant_teaching_workflow" target="blank">ADA compliant teaching workflow</a></h3>
 <p>This workflow has been designed to meet as best as possible ADA web accessibility standards and to produce mathematical typesetting content that is fully accessible for teaching. Templates are provided to create persistent, accessible HTML documents that can be printed identically for phyisical copies. Presentation templates are included for RMarkdown-based mathematical and software lectures.</p>
-<div class="pagebreak">
-
-</div>
 <h2 id="teaching">Teaching</h2>
 <h3 id="phd-students">PhD Students</h3>
 <dl>
 <dt>Aug. 2020 -<br> Present</dt>
-<dd>Beau Smith – University of Nevada, Reno <em>Studying stochastic model reduction and parametrization in multiscale dynamics.</em> <br>
+<dd>Beau Smith – University of Nevada, Reno <em>Co-mentoring PhD in applied mathematics with Eric Olson.</em> <br>
 <p>
 </p>
 </dd>
 </dl>
 <h3 id="masters-students">Masters Students</h3>
 <dl>
-<dt>Aug. 2019 -<br> Present</dt>
-<dd>Amani Jridi – University of Nevada, Reno <em>Studying weak numerical schemes for probabilistic forecasting.</em> <br>
+<dt>Aug. 2019 -<br> Aug. 2021</dt>
+<dd>Amani Jridi – University of Nevada, Reno <br>
 <p>
 </p>
+<br>
 </dd>
 <dt>June -<br> Aug. 2017</dt>
 <dd>Armand Vic – École Normale Supérieure de Rennes <em>Supervised Erasmus Plus Research Training Internship in mathematics at the Nansen Center.</em>
 </dd>
 </dl>
+<div class="pagebreak">
+
+</div>
 <h3 id="undergraduate-students">Undergraduate Students</h3>
 <dl>
 <dt>Jan. 2021 -<br> Present</dt>
@@ -252,12 +243,17 @@
 <h3 id="research-schools">Research Schools</h3>
 <dl>
 <dt>2021</dt>
-<dd><strong>Data science and beyond: data assimilation with elements of machine learning</strong><br> I will lecture in the Utrecht University’s summer research school on data assimilation and machine learning, rescheduled for August 2021 due to COVID-19.<br>
+<dd><a href="http://indico.ictp.it/event/9609/"><strong>Joint ICTP-IUGG Workshop on Data Assimilation and Inverse Problems in Geophysical Sciences</strong></a><br> I am a lecturer in the International Centre for Theoretical Physics’ and The International Union of Geodesy and Geophysics’ workshop on data assimilation and inverse problems.<br>
 <p>
 </p>
 </dd>
 <dt>2021</dt>
-<dd><a href="https://www.cimpa.info/en/node/6474" target="blank"><strong>CIMPA School on Mathematics of Climate Science</strong></a><br> I will lecture in the Centre International de Mathematiques Pures et Appliquées Research School on Mathematics of Climate Science, in Kigali, Rawanda (June 28 - July 9, 2021).<br>
+<dd><a href="https://utrechtsummerschool.nl/courses/science/data-science-and-beyond-data-assimilation-with-elements-of-machine-learning"><strong>Data science and beyond: data assimilation with elements of machine learning</strong></a><br> I was a lecturer in Utrecht University’s summer research school on data assimilation and machine learning.<br>
+<p>
+</p>
+</dd>
+<dt>2021</dt>
+<dd><a href="https://www.cimpa.info/en/node/6474" target="blank"><strong>CIMPA School on Mathematics of Climate Science</strong></a><br> I was a lecturer in the Centre International de Mathematiques Pures et Appliquées Research School on Mathematics of Climate Science, in Kigali, Rawanda (June 28 - July 9, 2021).<br>
 <p>
 </p>
 </dd>
@@ -275,13 +271,18 @@
 <h3 id="lecturer">Lecturer</h3>
 <h4 id="university-of-nevada-reno">University of Nevada, Reno</h4>
 <dl>
+<dt>STAT 775</dt>
+<dd><a href="https://cgrudz.github.io/teaching/stat_775_2021_fall/" target="blank"><strong>Data Assimilation and Estimation Theory</strong></a> (Fall 2021)<br> Studies modern data assimilation theory and applications with an emphasis on scalability of algorithm design for high-dimensional, nonlienear systems. <br>
+<p>
+</p>
+</dd>
 <dt>STAT 757</dt>
 <dd><a href="https://cgrudz.github.io/teaching/stat_757_2020_fall/" target="blank"><strong>Applied Regression Analysis</strong></a> (Spring 2019 / Fall 2019 / Fall 2020)<br> Introduces fundamental techniques of applied regression within a frequentist perspective. <br>
 <p>
 </p>
 </dd>
 <dt>STAT 445 / 645</dt>
-<dd><a href="https://cgrudz.github.io/teaching/stat_445_645_2020_fall/" target="blank"><strong>Introduction to statistical computing</strong></a> (Fall 2020)<br> Introduces computational statistical methods within a modern computing environment. <br>
+<dd><a href="https://cgrudz.github.io/teaching/stat_445_645_2021_fall/" target="blank"><strong>Introduction to statistical computing</strong></a> (Fall 2020 / Fall 2021)<br> Introduces computational statistical methods within a modern computing environment. <br>
 <p>
 </p>
 </dd>
@@ -296,6 +297,9 @@
 </p>
 </dd>
 </dl>
+<div class="pagebreak">
+
+</div>
 <h4 id="university-of-north-carolina-at-chapel-hill">University of North Carolina at Chapel Hill</h4>
 <dl>
 <dt>MATH 252</dt>
@@ -315,7 +319,7 @@
 </p>
 </dd>
 <dt>2020</dt>
-<dd>ACUE Effective Pratice Framework – Association of College and University Educators<br>
+<dd>ACUE Effective Practice Framework – Association of College and University Educators<br>
 <p>
 </p>
 </dd>
@@ -383,6 +387,16 @@
 </div>
 <h2 id="selected-talks">Selected Talks</h2>
 <dl>
+<dt>June 2021</dt>
+<dd>The International EnKF Workshop 2021<br> Held online due to COVID-19<br>
+<p>
+</p>
+</dd>
+<dt>May 2021</dt>
+<dd>SIAM Conference on Applications of Dynamical Systems<br> Held online due to COVID-19<br>
+<p>
+</p>
+</dd>
 <dt>Nov. 2019</dt>
 <dd>Big data, data assimilation, and uncertainty quantification<br> l’Institut Henri Poincaré – Paris France<br>
 <p>
@@ -404,7 +418,7 @@
 </p>
 </dd>
 <dt>May 2018</dt>
-<dd>Thirteenth International Ensemble Kalman Filter Workshop – Bergen, Norway<br>
+<dd>Thirteenth International Ensemble Kalman Filter Workshop<br> Nansen Environmental and Remote Sensing Center – Bergen, Norway<br>
 <p>
 </p>
 </dd>
