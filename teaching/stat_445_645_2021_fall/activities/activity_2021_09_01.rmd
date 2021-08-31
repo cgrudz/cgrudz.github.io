@@ -36,18 +36,12 @@ Were you right? Why / why not?
 
 
 #### Question 2:
+Make matrix containing the numbers `1:50`, with 5 columns and 10 rows.
+Did the `matrix` function fill your matrix by column, or by row, as its default behavior?
+See if you can figure out how to change this.
+(hint: read the documentation for `matrix`!)
 
-Consider the R output of the matrix below:
-```{r}
-matrix(c(4, 1, 9, 5, 10, 7), ncol = 2, byrow = TRUE)
-```
-Examine each command below and try to figure out the output before typing them.
 
-  1. `matrix(c(4, 1, 9, 5, 10, 7), nrow = 3)`
-  2. `matrix(c(4, 9, 10, 1, 5, 7), ncol = 2, byrow = TRUE)`
-  3. `matrix(c(4, 9, 10, 1, 5, 7), nrow = 2)`
-  4. `matrix(c(4, 1, 9, 5, 10, 7), ncol = 2, byrow = TRUE)`
-  
 ### Activity 2: practice with subsetting data
 
 #### Question 1:
@@ -100,39 +94,3 @@ There's a wrong way (using only `==`), which will give you a warning;
 a clunky way (using the logical operators `==` and `|`); and
 an elegant way (using `%in%`). See whether you can come up with all three
 and explain how they (don't) work.
-
-
-### Activity 3: more practice with multi-dimensional indices
-
-#### Question 1:
-
-Given the following code:
-```{r}
-m <- matrix(1:18, nrow=3, ncol=6)
-print(m)
-```
-
-1. Which of the following commands will extract the values 11 and 14?
-
-A. `m[2,4,2,5]`
-
-B. `m[2:5]`
-
-C. `m[4:5,2]`
-
-D. `m[2,c(4,5)]`
-
-
-#### Question 2:
-Given the following list:
-
-```{r eval=FALSE}
-xlist <- list(a = "Software Carpentry", b = 1:10, data = head(iris))
-xlist
-```
-
-Using your knowledge of both list and vector subsetting, extract the number 2 from xlist.
-Hint: the number 2 is contained within the "b" item in the list.
-
-
-
