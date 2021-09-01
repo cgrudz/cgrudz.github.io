@@ -1,0 +1,136 @@
+# Activity 09/01/2021
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+### Activity 1: vectors and matrices
+
+
+#### Question 1:
+We can declare a matrix full of zeros:
+
+```{r eval=FALSE}
+matrix_example <- matrix(0, ncol=6, nrow=3)
+matrix_example
+```
+
+And similar to other data structures, we can ask things about our matrix:
+
+```{r eval=FALSE}
+class(matrix_example)
+typeof(matrix_example)
+str(matrix_example)
+dim(matrix_example)
+nrow(matrix_example)
+ncol(matrix_example)
+```
+
+What do you think will be the result of
+`length(matrix_example)`?
+Try it.
+Were you right? Why / why not?
+
+
+#### Question 2:
+Make matrix containing the numbers `1:50`, with 5 columns and 10 rows.
+Did the `matrix` function fill your matrix by column, or by row, as its default behavior?
+See if you can figure out how to change this.
+(hint: read the documentation for `matrix`!)
+
+
+### Activity 2: practice with subsetting data
+
+#### Question 1:
+
+Given the following code:
+```{r}
+x <- c(5.4, 6.2, 7.1, 4.8, 7.5)
+names(x) <- c('a', 'b', 'c', 'd', 'e')
+print(x)
+```
+
+Come up with at least 2 different commands that will produce the following output:
+##### Solution:
+```{r}
+x[2:4]
+x[-c(1,5)]
+x[c('b','c','d')]
+```
+
+#### Question 2:
+
+Given the following code:
+
+```{r eval=FALSE}
+x <- c(5.4, 6.2, 7.1, 4.8, 7.5)
+names(x) <- c('a', 'b', 'c', 'd', 'e')
+print(x)
+```
+
+Write a subsetting command to return the values in x that are greater than 4 and less than 7.
+
+##### Solution
+
+```{r}
+x[ x > 4 & x <7]
+```
+
+
+#### Question 3:
+
+Selecting elements of a vector that match any of a list of components
+is a very common data analysis task. For example, the gapminder data set
+contains `country` and `continent` variables, but no information between
+these two scales. Suppose we want to pull out information from southeast
+Asia: how do we set up an operation to produce a logical vector that
+is `TRUE` for all of the countries in southeast Asia and `FALSE` otherwise?
+
+Suppose you have these data:
+```{r}
+seAsia <- c("Myanmar","Thailand","Cambodia","Vietnam","Laos")
+require(gapminder)
+## extract the `country` column from a data frame (we'll see this later);
+## convert from a factor to a character;
+## and get just the non-repeated elements
+countries <- unique(as.character(gapminder$country))
+#print(countries)
+```
+
+There's a wrong way (using only `==`), which will give you a warning;
+a clunky way (using the logical operators `==` and `|`); and
+an elegant way (using `%in%`). See whether you can come up with all three
+and explain how they (don't) work.
+
+```{r}
+# wrong
+countries == seAsia
+# clunky
+countries == "Myanmar" | countries == "Thailand" | countries == "Cambodia" | countries == "Vietnam" | countries == "Laos"
+# elegant
+countries %in% seAsia
+```
+
+
+To extract a dataframe associated to Southeast Asia, we can write
+
+```{r}
+gapminder[as.character(gapminder$country) %in% seAsia,]
+```
+
+#### Question 4:
+
+Consider the R output of the matrix below:
+```{r}
+matrix(c(4, 1, 9, 5, 10, 7), ncol = 2, byrow = TRUE)
+```
+Examine each command below and try to figure out the output before typing them.
+
+  1. `matrix(c(4, 1, 9, 5, 10, 7), nrow = 3)`
+  2. `matrix(c(4, 9, 10, 1, 5, 7), ncol = 2, byrow = TRUE)`
+  3. `matrix(c(4, 9, 10, 1, 5, 7), nrow = 2)`
+  4. `matrix(c(4, 1, 9, 5, 10, 7), ncol = 2, byrow = TRUE)`
+  
