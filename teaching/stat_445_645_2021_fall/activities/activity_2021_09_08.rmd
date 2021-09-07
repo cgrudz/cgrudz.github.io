@@ -1,0 +1,133 @@
+# Activity 09/08/2021
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+We will need  the below for these activities.
+```{r}
+require(gapminder)
+```
+
+
+### Activity 1: basic control flow
+
+There is a lot of similarity between `for` loops and `while` loops.  Actually, using additional statements such as `if`, `break`, or by creating a "counter" we can make a `while` loop perform the functionality of a `for` loop.
+
+
+#### Exercise 1:
+
+Consider our vectorization example from a previous exercise,
+
+```{r}
+n <- 100000
+t_1 <- proc.time()
+print(sum(1/(1:n)^2))
+print(proc.time() - t_1)
+```
+
+We want to practice our looping in several ways while demonstrating how much slower it is to loop versus vectorize in R.
+
+```{r}
+x <- 0
+t_1 <- proc.time()
+for (i in 1:n) {
+  x <- x + 1 / i^2
+}
+print(x)
+print(proc.time() - t_1)
+```
+
+
+Try to fill in the below code chunks where we will re-write this in the form of a `while` loop in two different ways.
+
+```{r, eval=FALSE}
+i <- 0
+x <- 0
+t_1 <- proc.time()
+while (i < n) {
+   
+
+}
+print(proc.time() - t_1)
+```
+
+```{r, eval=FALSE}
+i <- 0
+x <- 0
+t_1 <- proc.time()
+while (TRUE) {
+
+   
+   if (i >= n){
+      
+   }
+}
+print(x)
+print(proc.time() - t_1)
+```
+
+
+
+
+### Activity 2: control flow with dataframes
+
+
+
+We will write a script that loops through the `gapminder` data by continent and prints out
+whether the mean life expectancy for that continent is smaller or larger than 65 years in the year 1982.  
+This will be walked through in several sub-problems.
+
+
+#### Question 1:
+
+We want to extract all the unique values of the continent vector.  We also need to loop over each of these continents and calculate the average life expectancy for each continent in 1982.
+
+
+Try filling in the code below to simply loop over continents and print the average life expectancy over all years
+
+```{r eval=FALSE}
+for (continent_name in unique(gapminder$continent)){
+  
+  cat(continent_name, mean(continent_data$lifeExp), "\n")
+}
+```
+
+
+
+
+
+
+#### Question 2:
+
+Using the solution from the last example, fill in the code block to print the mean life expectancy of the continent in the year 1982.
+
+
+
+
+#### Question 3:
+
+We need to add an `if()` condition now before printing, which evaluates whether the calculated average life expectancy is above or below a threshold, and print an output conditional on the result.
+
+Let's define the threshold
+```{r}
+threshold_value <- 65
+```
+
+Consider how to add an `if()` condition to the previous code to instead print  either
+```{r eval=FALSE}
+cat("Average Life Expectancy in", continent_name, "was less than or equal to", threshold_value, "in 1982.\n")
+```
+
+or 
+
+```{r eval=FALSE}
+cat("Average Life Expectancy in", continent_name, "was greater than", thresholdValue, "in 1982.\n")
+```
+
+
+
+
