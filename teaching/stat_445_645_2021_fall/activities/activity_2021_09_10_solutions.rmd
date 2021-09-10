@@ -1,0 +1,99 @@
+# Activity 09/08/2021
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+## Activities:
+
+We will need both of the below for these activities.
+```{r}
+require(gapminder)
+require(ggplot2)
+```
+
+
+
+### Activity 1: plotting in ggplot2
+
+
+Let's consider a plot below, where we use the `facet_wrap` with the `country` argument to plot the life expectancy versus year for all countries in the "Americas" region. 
+
+```{r}
+americas <- gapminder[gapminder$continent == "Americas",]
+ggplot(data = americas, mapping = aes(x = year, y = lifeExp)) +
+  geom_line() + facet_wrap( ~ country)
+```
+
+To clean this figure up for a publication we need to change some of the text elements.  The x-axis is too cluttered, and the y axis should read "Life expectancy", rather than the column name in the data frame.  We can do this by adding a couple of different layers. The **theme** layer controls the axis text, and overall text size. 
+
+
+
+Labels for the axes, plot title and any legend can be set using the `labs` function. Legend titles
+are set using the same names we used in the `aes` specification.  Thus below the color legend title is set using `color = "Continent"`, while the title
+of a fill legend would be set using `fill = "MyTitle"`.
+
+```{r}
+ggplot(data = americas, mapping = aes(x = year, y = lifeExp, color=continent)) +
+  geom_line() + facet_wrap( ~ country) +
+  labs(
+    x = "Year",              # x axis title
+    y = "Life expectancy",   # y axis title
+    title = "Figure 1",      # main title of figure
+    color = "Continent"      # title of legend
+  ) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+
+This is a taste of what you can do with ggplot2. RStudio provides a
+really useful [cheat sheet][cheat] of the different layers available, and more
+extensive documentation is available on the [ggplot2 website][ggplot-doc].
+Finally, if you have no idea how to change something, a quick internet search will
+usually send you to a relevant question and answer on Stack Overflow with reusable
+code to modify!
+
+[cheat]: https://www.rstudio.org/links/data_visualization_cheat_sheet
+[ggplot-doc]: https://ggplot2.tidyverse.org/reference/
+
+
+#### Question 1:
+
+Try using the facet_wrap feature in ggplot2 to plot the life expectancies over time for all countries, but sorted by regions into sub-plots.  Use a scatter plot to picture life expectancies versus time, but where the points are colored by continent.  Finally, use the `geom_smooth` command to plot a linear model trend in each sub-plot.  The title should explain immediately the important information in the picture, with good, descriptive axis labels.  Use the `theme()` command to make sure the tick labels are also clear.
+
+
+Note, if you want to save your plot to a file "regional_life_trends.png" you can use the command below where life_trend_plt is the plotting object assigned by the ggplot command.
+```{r eval=FALSE}
+# saving the figure to an output file, "regional_life_trends.png"
+ggsave(filename = "regional_life_trends.png", 
+       plot = life_trend_plt, width = 18, height = 15, 
+       dpi = 300, units = "cm")
+```
+
+
+
+##### Solution to question 1:
+```{r}
+life_trend_plt <- ggplot(data=gapminder, 
+                         aes(x = year, y = lifeExp, color = continent)) +
+                  geom_point() +
+                  geom_smooth(method = 'lm')  + facet_wrap(~continent) +
+                  labs(
+    x = "Year",                                # x axis title
+    y = "Life expectancy",                     # y axis title
+    title = "Regional life expectancy trends", # main title of figure
+    color = "Region"                           # title of legend
+  ) +
+                  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+life_trend_plt
+```
+
+
+#### Question 2:
+
+Repeat the above question but plotting a different relationship, with the same sub-plots organized by continent.  You may re-use a relationship other than life expectancy that you may have used in a different exercise.
+
