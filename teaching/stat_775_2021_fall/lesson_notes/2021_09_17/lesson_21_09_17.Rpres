@@ -1,0 +1,352 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+<!-- foo 
+Highlighting
+bold
+strong
+orange <b style="color:#d95f02"> text </b>
+green  <b style="color:#1b9e77"> text </b>
+purple <b style="color:#d24693"> text </b>
+red    <b style="color:#FF0000"> text </b>
+blue   <b style="color:#0000FF"> text </b>
+-->
+
+Stochastic Processes and Gauss-Markov Models Part II
+========================================================
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+<blockquote>
+FAIR USE ACT DISCLAIMER:</br>
+This site is for educational purposes only.  This website may contain copyrighted material, the use of which has not been specifically authorized by the copyright holders. The material is made available on this website as a way to advance teaching, and copyright-protected materials are used to the extent necessary to make this class function in a distance learning environment.  The Fair Use Copyright Disclaimer is under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+</blockquote>
+
+========================================================
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+  * Markov processes
+  * Discrete Gauss-Markov models
+  * Propagation of the mean state
+  * Propagation of the covariance
+
+========================================================
+## Markov processes
+
+* In our last discussion, we considered stochastic processes generally, with a quintessential process as an example, i.e., <b>Gaussian processes</b>.
+
+* The <b>Gaussian process</b> is at the basis of how we will <strong>model a noise-perturbed mechanistic system</strong>, but we will also require another important property.
+
+* The additional property we will introduce is the <b>Markov hypothesis</b>;
+
+  * in particular, a Markov process is sometimes known as a <strong>"memoryless process"</strong>.
+  
+* A memoryless process is physically intuitive in a variety of situations, in that this is extremely similar to an initial value problem.
+
+* An <b>initial value problem</b> is one in which we have well-defined governing process laws, for which the <strong>initial value of a model state will determine the subsequent time-evolution</strong>.
+
+* In dynamical systems, this is known as the group action property of the flow map.
+
+* If we satisfy certain conditions with the governing laws, there will exist a flow map,
+
+  $$\begin{align}
+  \boldsymbol{\Phi}(s, \pmb{x}_t): &\mathbb{R} \times \mathbb{R}^{N_x} \rightarrow \mathbb{R}^{N_x}\\
+  &\pmb{x}_t \rightarrow \pmb{x}_{t+s},
+  \end{align}$$
+  which completely describes the time-evolution of any initial state.
+  
+* Therefore, in order to model the state at time $t + s$, <strong>we do not need to know the history of the state before time $t$</strong>;
+
+  * rather, $\pmb{x}_t$ provides the complete information necessary to evolve the state to $\pmb{x}_{t+s}$.
+
+
+========================================================
+### Markov processes
+
+* Let us firstly denote the following notations:
+
+<blockquote>
+<b>Time series slice notation</b><br>
+For a sequence of time points $\{t_i\}_{i=k}^l\subset T$, we will denote the <strong>"slice" notation</strong> for time series of random states as
+  $$\begin{align}
+  X_{l:k} &:= \{X_{l} , X_{l-1} ,\cdots, X_{k}\} \\
+  \pmb{x}_{l:k} &:= \{\pmb{x}_{l} , \pmb{x}_{l-1}, \cdots , \pmb{x}_{k}\}
+  \end{align}$$
+  for either the random variables $X_i$ or the random vectors $\pmb{x}_i$.
+</blockquote>
+
+* These notations will often be useful to compactify our subsequent analyses, and we will extend this notation also to observable realizations.
+
+<blockquote>
+<b>Markov processes</b><br>
+A random process $\{X_t : t\in T\}$ where $T\subset\mathbb{R}$, is
+said to be a <strong>Markov process</strong> if for any increasing collection $t_0 &lt; t_1 &lt; \cdots &lt; t_n \in T$
+$$\begin{align}
+\mathcal{P}\left( X_{n} \leq x_n | X_{n-1:0} = x_{n-1:0}\right) =  \mathcal{P}\left( X_n \leq x_n | X_{n-1} = x_{n-1}\right),
+\end{align}$$
+or equivalently in terms of the CDF, or the PDF when it exists.
+</blockquote>
+
+* We similarly extend the notion to random vectors indexed in time, replacing $X_k$ with $\pmb{x}_k$.
+
+* The above thus gives precisely the analogy of the inital value problem on the last slide.
+
+* In particular, when we <b>condition on knowledge</b> of the realization of the state at the <b>previous time index</b>, the <strong>outcome at the current time is independent of the remaining history</strong> at times $t_{n-2} ,\cdots, t_{0}$.
+
+* In a sense, $X_{n-1}=x_{n-1}$ describes an initial value problem for the probability at the subsequent time index.
+
+========================================================
+### Markov processes
+
+* A special property thus emerges from the Markov hypothesis in how we understand a joint density or cdf of a time series.
+
+* Lets suppose that the joint density, $p\left(\pmb{x}_{n:0}\right)$, exists for a time series; we will consider how the <strong>Markov hypothesis can be applied recursively</strong>:
+
+  $$\begin{align}
+  p\left(\pmb{x}_{n:0}\right) = p\left(\pmb{x}_n | \pmb{x}_{n-1:0} \right)p\left(\pmb{x}_{n-1:0}\right)
+  \end{align}$$
+  simply as a consequence of <b>conditional probability</b>.
+  
+* However we know that, for a Markov process,
+  
+  $$\begin{align}
+  p\left(\pmb{x}_n | \pmb{x}_{n-1:1} \right) \equiv p\left(\pmb{x}_n | \pmb{x}_{n-1}\right).
+  \end{align}$$
+  
+* We can therefore simplify the above with the equivalence as
+  
+  $$\begin{align}
+  p\left(\pmb{x}_{n:0}\right) &= p\left(\pmb{x}_n | \pmb{x}_{n-1} \right)p\left(\pmb{x}_{n-1:0}\right)\\
+  &= p\left(\pmb{x}_n | \pmb{x}_{n-1} \right)p\left(\pmb{x}_{n-1}|\pmb{x}_{n-2:0}\right)p\left(\pmb{x}_{n-2:0}\right)\\
+  &=p\left(\pmb{x}_n | \pmb{x}_{n-1} \right)p\left(\pmb{x}_{n-1}|\pmb{x}_{n-2}\right)p\left(\pmb{x}_{n-2:0}\right).
+  \end{align}$$
+
+* Notice the pattern extends recursively so that we can identify
+
+  $$\begin{align}
+  p(\pmb{x}_{n:0}) \equiv p(\pmb{x}_0)\prod_{k=1}^{n-1} p(\pmb{x}_{k+1}|\pmb{x}_k).
+  \end{align}$$
+
+
+========================================================
+### Markov processes
+
+* Recall the identity in the last slide,
+
+  $$\begin{align}
+  p(\pmb{x}_{n:0}) \equiv p(\pmb{x}_0)\prod_{k=1}^{n-1} p(\pmb{x}_{k+1}|\pmb{x}_k).
+  \end{align}$$
+  
+* In the above, we will typically call $p(\pmb{x}_0)$ our <b>"prior" knowledge</b>, assuming that there is no history that we consider before time $t_0$.
+
+* This initial density, instead, <strong>represents all knowledge about the process that would provide (uncertain) initial value data</strong> for a prediction problem.
+
+* On the other hand, $p(\pmb{x}_{k+1}| \pmb{x}_{k})$ is known as a <b>transition probability density</b>, describing the probability for a realization at the next time index given the realization at the previous one.
+
+* Given some initial realization of the random vector $\pmb{x}_0 = \pmb{x}_0^\ast$, this <strong>chain of transition probabilities</strong> thus determines the entire joint density of the time series.
+
+
+========================================================
+## Discrete Gauss-Markov models
+
+* A <b>Gauss–Markov process</b> is simply a random process that <strong>is both Gaussian and Markov</strong>.
+
+* These processes play a big role in filtering theory and signal processing for two basic reasons:
+
+  * The first is that Markov processes can be <strong>completely described by an
+initial condition and a transition density function</strong>, which is a great simplification. 
+
+  * The second is that the <b>Gaussian is closed under linear (and affine) transformations</b>.
+
+* Because of these properties, a Gauss–Markov process can be represented by the <b>state vector
+of a multistate linear dynamical system</b>,
+
+  $$\begin{align}
+  \pmb{x}_k := \mathbf{M}_{k} \pmb{x}_{k-1} + \pmb{w}_k
+  \end{align}$$
+  where
+  
+  * $\pmb{x}_k\in \mathbb{R}^{N_x}$ represents the <strong>random vector governed by the process laws</strong> encompassed in the <strong>linear transformation</strong> $\mathbf{M}_k\in\mathbb{R}^{N_x \times N_x}$;
+  
+  * $\mathbf{M}_k$ is <strong>assumed to have no zero eigenvalues</strong>, so that it is an invertible linear transformation;
+  
+  * $\pmb{w}_k$ is known as <strong>process noise</strong>, representing inadequacies of the deterministic laws encoded in $\mathbf{M}_k$; 
+  
+  * particularly, we will typically assume that
+  
+  $$\begin{align}
+  \pmb{w}_k \sim N(\pmb{0}, \mathbf{Q}_k)
+  \end{align}$$
+  so that $\pmb{w}_k$ represents an <strong>unbiased shock to the deterministic evolution</strong> of $\pmb{x}_{k-1}$; and
+  
+  * we assume that there is an <strong>initial prior</strong> given as $\pmb{x}_0 \sim N\left(\overline{\pmb{x}}_0, \mathbf{B}_0\right)$.
+
+
+
+========================================================
+### Discrete Gauss-Markov models
+
+* Recall the discrete Gauss-Markov model
+  
+  $$\begin{align}
+  \pmb{x}_k := \mathbf{M}_{k} \pmb{x}_{k-1} + \pmb{w}_k
+  \end{align}$$
+
+* Note that we do not assume to observe $\pmb{w}_k$, but we will <b>typically assume to know its statistics</b>, i.e., we know the covariance of the noise $\mathbf{Q}_k$.
+
+* We will also assume that the sequence of model noise $\pmb{w}_{k:1}$ is white-in-time, i.e.,
+
+  $$\begin{align}
+  \mathbb{E}\left[\pmb{w}_k \pmb{w}_l^\top \right] := \delta_{k,l}\mathbf{Q}_k 
+  \end{align}$$
+  where $\delta_{k,l}$ denotes the <b>Kronecker delta</b>, i.e.,
+  
+  $$\begin{align}
+  \delta_{k,l} := 
+  \begin{cases}
+  1 & \quad \text{if } k=l\\
+  0 &\quad \text{else}
+  \end{cases}
+  \end{align}$$
+  
+* The <b>white-in-time assumption</b> is what <strong>keeps the process Markovian</strong>, so that there are not correlations between the noise realizations at different times;
+
+  * thereby, this prevents the dependence of the transition probability on far-past history.
+
+========================================================
+### Discrete Gauss-Markov models
+
+* When the conditions of the last two slides are satisfied, we arrive at an extremely powerful result:
+
+<blockquote>
+<b>Discrete Gauss-Markov models</b><br>
+Suppose that we have an initial prior $\pmb{x}_0 \sim N\left(\overline{\pmb{x}}_0, \mathbf{B}_0\right)$, and the time evolution of the random vector $\pmb{x}_k$ is governed by the discrete Gauss-Markov model
+  $$\begin{align}
+  \pmb{x}_k := \mathbf{M}_{k} \pmb{x}_{k-1} + \pmb{w}_k
+  \end{align}$$
+  as already discussed.  Then, the <strong>joint density for the time series</strong> $\pmb{x}_{k:0}$ <strong>is Gaussian</strong>, as are all of the conditional densities and the marginal densities. 
+</blockquote>
+
+* We note, we can easily derive the transition density for an arbitrary state as follows,
+
+  $$\begin{align}
+  \pmb{x}_k - \mathbf{M}_k\pmb{x}_{k-1} = \pmb{w}_k \sim N\left(\pmb{0}, \mathbf{Q}_k\right).
+  \end{align}$$
+
+* Therefore, we can write
+
+  $$\begin{align}
+  p(\pmb{x}_k | \pmb{x}_{k-1}) =  \left(2 \pi\right)^{-\frac{N_x}{2}} \vert\mathbf{Q}_k\vert^{-\frac{1}{2}} \exp\left\{-\frac{1}{2}\left(\pmb{x}_k - \mathbf{M}_k\pmb{x}_{k-1}\right)^\top \mathbf{Q}^{-1}_k\left(\pmb{x}_k - \mathbf{M}_k\pmb{x}_{k-1}\right)\right\}
+  \end{align}$$
+  
+* In the above, we can thus qualitatively consider the <b>transition probability</b> to be given as
+
+  * a <strong>hyper-exponential penalty function</strong>, where the probability density decays at order $\parallel \pmb{y}\parallel^2$; where
+  
+  * $\parallel \pmb{y}\parallel:= \parallel \pmb{x}_k - \mathbf{M}_k\pmb{x}_{k-1}\parallel_{\mathbf{Q}_k}$, i.e., the <strong>norm of the discrepancy from the deterministic evolution of the last state</strong>; 
+  
+  * <b>weighted inverse proportionally to the spread of the model noise</b> (or the model uncertainty).
+
+========================================================
+## Propagation of the mean state
+
+* The last result is an extremely important result, that we will utilized heavily in forming Bayesian inferences.
+
+* However, it should be noted that there is another classical approach to handling the propagation of the initial Gaussian $N(\overline{\pmb{x}}_0,\mathbf{B}_0)$.
+
+* In particular, a <b>Gaussian distribution</b> is <strong>entirely parameterized in terms of the mean and covariance</strong>;
+
+  * therefore, knowledge of these values completely describes the distribution in question at any time.
+  
+* We will consider this approach in the following when we look at <strong>how the mean is propagated in time</strong>.
+
+* Consider,
+
+  $$\begin{align}
+  \mathbb{E}\left[ \pmb{x}_k \right] &= \mathbb{E}\left[\mathbf{M}_k \pmb{x}_{k-1} + \pmb{w}_k \right] \\
+  &= \mathbb{E}\left[ \mathbf{M}_k \pmb{x}_{k-1}\right] +\mathbb{E}\left[ \pmb{w}_k \right]\\
+  &= \mathbf{M}_k \overline{\pmb{x}}_{k-1} + \pmb{0}\\
+  &\equiv \overline{\pmb{x}}_k
+  \end{align}$$
+  
+* Therefore, if the <strong>model noise is unbiased</strong> as above, the mean at a subsequent time is given by the <b>deterministic evolution of the mean</b> at the last time.
+
+* Using this relationship recursively, we then say
+
+  $$\begin{align}
+  \overline{\pmb{x}}_k &= \mathbf{M}_k \cdots \mathbf{M}_1 \overline{\pmb{x}}_0 \\
+  &:= \mathbf{M}_{k:1} \overline{\pmb{x}}_0 .
+  \end{align}$$
+
+========================================================
+## Propagation of the covariance
+
+* The previous, inductive relationship for the mean state then gives us the ability to <b>compute the covariance</b>.
+
+* Consider,
+
+  $$\begin{align}
+  \mathrm{cov}\left(\pmb{x}_k\right) &:= \mathbb{E}\left[\left(\pmb{x}_k - \overline{\pmb{x}}_k\right)\left(\pmb{x}_k - \overline{\pmb{x}}_k\right)^\top\right]\\
+  &=\mathbb{E}\left[\left(\mathbf{M}_k \pmb{x}_{k-1} + \pmb{w}_k - \mathbf{M}_k\overline{\pmb{x}}_{k-1}  \right)\left(\mathbf{M}_k \pmb{x}_{k-1} + \pmb{w}_k - \mathbf{M}_k\overline{\pmb{x}}_{k-1}  \right)^\top\right]\\
+  &=\mathbb{E}\left[\left(\mathbf{M}_k \pmb{x}_{k-1} - \mathbf{M}_k \overline{\pmb{x}}_{k-1}\right)\left(\mathbf{M}_k \pmb{x}_{k-1} - \mathbf{M}_k \overline{\pmb{x}}_{k-1}\right)^\top\right] \\
+  & \quad + \mathbb{E}\left[\left(\mathbf{M}_k \pmb{x}_{k-1} - \mathbf{M}_k \overline{\pmb{x}}_{k-1}\right)\pmb{w}_k^\top \right] +  \mathbb{E}\left[\pmb{w}_k\left(\mathbf{M}_k \pmb{x}_{k-1} - \mathbf{M}_k \overline{\pmb{x}}_{k-1}\right)^\top \right]\\
+  &\quad + \mathbb{E}\left[ \pmb{w}_k \pmb{w}^\top_k \right]
+  \end{align}$$
+
+* Having assumed that the model noise is white-in-time, $\pmb{x}_{k-1}$ is independent of $\pmb{w}_k$, so that <strong>all cross terms have zero covariance</strong>.
+
+* Furthermore, we recognize 
+  
+  $$\begin{align}
+  \left(\mathbf{M}_k \pmb{x}_{k-1} - \mathbf{M}_k \overline{\pmb{x}}_{k-1}\right)=\mathbf{M}_k\left(\pmb{x}_{k-1} -\overline{\pmb{x}}_{k-1}\right) 
+  \end{align}$$
+  such that we write
+  
+ $$\begin{align}
+ \mathrm{cov}\left(\pmb{x}_k\right) = \mathbf{M}_k \mathbf{B}_{k-1}\mathbf{M}_k^\top + \mathbf{Q}_k.
+ \end{align}$$
+
+
+========================================================
+### Propagation of the covariance
+
+* The recursive form for the mean and covariance provides a complete (recursive) description of the probability distribution of $\pmb{x}_k$ in time. 
+
+* This is given inductively, with knowledge of the first prior and the model noise statistics, as
+
+  $$\begin{align}
+  \pmb{x}_0 &\sim N(\overline{x}_0, \mathbf{B}_0); \\
+  \pmb{x}_k & \sim N\left(\mathbf{M}_k\overline{\pmb{x}}_{k-1} , \mathbf{M}_k\mathbf{B}_{k-1}\mathbf{M}_k^\top + \mathbf{Q}_k\right);
+  \end{align}$$
+  where the <strong>second line provides the inductive step</strong>, describing all future distributions.
+  
+* This is an <b>exact equation, which fully describes the discrete Gauss-Markov model</b>, in the absence of observations of the process.
+
+* That is to say, this form of the discrete Gauss-Markov model only assumes that we use our prior knowledge, but that we do not update this with additional conditional knowledge of the evolution.
+
+* Shortly, we will introduce the technology to produce conditional estimates when there is new information arriving sequentially in time.
+
+* Firstly, however, we will extend this discrete Gauss-Markov model to systems that are generated by <b>stochastic differential equations</b>.
+
+* In doing so, we will also seek to explain <strong>how one simulates such systems numerically</strong>, and how some of these simulation techniques are connected to our ultimate goal, i.e., 
+
+  * nonlinear estimation with the Gauss-Markov approximation.
+
+
