@@ -1,0 +1,106 @@
+# Activity 09/13/2021
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+### Activity 1: recursive functions
+
+A recursive function is one that calls upon itself in order to complete an action.  This can look like the following at a high-level:
+```
+my_recursive_function = function(argument) {
+  
+  if(argument == special_value){
+    return(argument)
+  }
+  else{
+    my_new_value = some_action(argument)
+    my_recursive_function(my_new_value)
+  }
+}
+```
+
+
+#### Exercise 1:
+
+A classic example of such a recursive function is one that calculates the factorial, i.e.,
+$$n! = n\times (n-1)\times \cdots \times 1 :=\prod_{i=1}^n i$$
+Try writing an initial function that that computes the factorial recursively.  This can be performed by filling in some of the lines of code below:
+
+
+
+#### Exercise 2:
+
+In the last function, the simple form given may be prone to errors.  For instance, suppose we input a negative value.  Try this.  Then think of a way to fill in the code to handle the issue encountered.
+
+
+
+
+#### Exercise 3:
+
+We may not just encounter errors when the argument is negative, what do you think will happen if the argument is non-integer?  Try this.  Then think of a way to fill in the code to handle the issue encountered.  Hint: there's a way to check for non-integer numerical values and other data types entirely with a single argument, try this.
+
+##### Solution:
+
+
+### Activity 2: function scope
+
+#### Exercise 1:
+Recall that R follows the convention of passing by value, not by reference as in some other programming languages.  Knowing this, can you explain the following output in this code?
+
+```{r}
+modifies_last_entry <- function(array){
+  dims <- dim(array)
+  array[dims[1], dims[2]] <- pi
+  return(array)
+}
+
+my_mat = matrix(1:12, 3, 4)
+print(modifies_last_entry(my_mat))
+print(my_mat)
+```
+
+#### Exercise 2:
+
+The above shows an important rule in R, functions create their own local "world" or "scope" that doesn't interfere with the world outside of it.  However, can we affect the world that a function operates in?  Test the following code.  Then change the value of my constant, do you get the same result?
+
+```{r}
+my_constant <- pi
+
+my_function <- function(val){
+  return(val + my_constant)
+}
+
+my_function(10)
+```
+
+
+#### Exercise 3:
+
+We see that there is a hierarchy of variable scope, where `my_function` inherited the value of `my_constant` as a known variable in the function definition.  Furthermore, when this value changed, `my_function` itself changed, as it still referenced the current value associated to `my_constant`.  This is the notion of local versus global scope of variables.  When a variable is defined outside of a function, it's definition is inherited in the lower scope.  This could cause unexpected behavior if we are not careful.  What do you think will be the behavior of the following function?  Can you explain why?
+
+
+```{r}
+x <- 10
+y <- pi
+
+my_function <- function(y){
+  return(x + y)
+}
+
+```
+
+### Activity 3: composition of functions
+
+Functions can also take functions as arguments, which can be very useful for producing complex sets of instructions.  Fill in the following code so that we recover a function that will take another statistical function and return the associated statistic of the array.  Try to return the mean and the standard deviation from the below
+
+```{r}
+my_data_array <- matrix(1:12, 3, 4)
+compute_stats_on_my_array <- function(func){
+
+}
+
+```
