@@ -1,0 +1,67 @@
+# Activity 09/17/2021
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group.
+
+## Activities:
+
+
+### Activity 1: Set relationships
+
+#### Exercise 1:
+Suppose we are given the following sets.
+
+```{r}
+A <- c(1, 2, 3, 4)
+B <- c(3, 4, 5, 6, 7)
+```
+
+Can you compute the following?
+
+ 1. $A\cap B$
+ 2. $A\cup B$
+ 3. $A \setminus B$
+
+What is the probability of randomly selecting an odd number from each of the above sets?
+
+
+
+#### Exercise 2:
+
+Suppose that our total space of outcomes is given by $\Omega = \{1, 2, 3, 4, 5, 6, 7, 8, 9, 10\}$ and we have a random trial in which we select one of these numbers with equal probability.
+Using our probability relationships, what is the probability of selecting a number in $A$ given that it is a number in $B$?
+
+
+
+### Activity 2: basic probability spaces
+
+In the following you will need the `prob` package in R:
+
+```{r, message=FALSE}
+require(prob)
+```
+
+The following are standard experiments in the `prob` package that we use with the simple probability model.
+```
+ urnsamples(x, size, replace = FALSE, ordered = FALSE, ...),
+ tosscoin(ncoins, makespace = FALSE),
+ rolldie(ndies, nsides = 6, makespace = FALSE),
+ cards(jokers = FALSE, makespace = FALSE),
+ roulette(european = FALSE, makespace = FALSE).
+```
+
+In the following exercises, we will compute some complex conditional probabilities for these examples.
+
+#### Exercise 1:
+
+Suppose we roll 4 fair dies, compute the probability space as in the above and compute all the probabilities generally.
+
+#### Exercise 2:
+
+From the above solution, compute the probability that the sum of all dice is greater than 20.
+
+#### Exercise 3:
+
+Now compute the probability that the total of all dies is greater than 20, given that the first two rolls are greater than 4.
