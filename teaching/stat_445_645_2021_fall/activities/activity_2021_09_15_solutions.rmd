@@ -1,0 +1,140 @@
+---
+title: "My new template"
+subtitle: "And a new beginning"
+author: "Zachary M. Smith, John Doe"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    numbered_sections: true
+    theme: cerulean
+  
+---
+
+## Activities:
+
+### Activity 1: learning to customize R Markdown
+
+In this exercise, we will learn to create a rich R Markdown document, using YAML and other customizations.
+
+In classic programming humor, we will recursively define "YAML" as
+
+ > YAML: YAML Ain’t Markup Language
+
+A YAML header contains YAML arguments, such as “title”, “author”, and “output”, demarcated by three dashes (—) on either end.
+
+![R Markdown YAML heading](https://zsmith27.github.io/rmarkdown_crash-course/images/rmarkdown/yaml_1.png)
+
+#### Exercise 1:
+
+As in the image above, we can set a document title with YAML. The specified title (title: "My Title") will appear at the head of the document with a larger font size than the rest of the document.  In terms of headings, this creates a heading level 1, which will eliminate some of the warning errors in this document.
+
+#### Exercise 2:
+You can specify a subtitle (e.g., subtitle: "My Subtitle"), which will appear below and in slightly smaller font size than the title of the document.  Try adding a subtitle for the document.
+
+#### Exercise 3:
+An author can be specified (e.g., author: "Zachary M. Smith") and will appear at the head of the document but below the title(s). You can specify multiple authors by separating the names of the authors by a comma (author: "Zachary M. Smith, John Doe").  Try specifying a multi-author report in the YAML above.
+
+#### Exercise 4:
+You can supply a date (date: "March 3rd, 2020") that will be added to the head of the document. You can specify a static date (date: "March 3rd, 2020") or a dynamic date (see image below) that will update each time you knit (render) the document.  Try specifying a dynamic date in your template.
+
+![R Markdown YAML setting dynamic dates](https://zsmith27.github.io/rmarkdown_crash-course/images/rmarkdown/yaml_dynamic-date.png)
+
+
+#### Exercise 5:
+You can specify an output file type in the YAML as well.  As in the image above, try adding a file type for the output as HTML. 
+
+Some other valid arguments include:
+
+ * `html_document`
+ * `html_notebook`
+ * `pdf_document`
+ * `word_document`
+
+Try some alternative outputs as well.
+
+#### Exercise 6:
+
+Notice how the hash marks denote section headings.  These follow the hierarchy in which we can specify sections and sub-sections by the number of hash marks.  NOTE: we should only use a single `#` first heading corresponding to the document title, but all other levels such as `##` can be used to specify further sub-headings.
+
+Notice in the image below, we can set a table of contents for longer documents, and this can be performed as a floating side bar or at the top of the document.  Try to add a table of contents and to specify the style as you choose.
+
+![R Markdown YAML table of contents](https://zsmith27.github.io/rmarkdown_crash-course/images/rmarkdown/yaml_3.png)
+
+#### Exercise 7:
+For more stylish documents, one can use a variety of pre-made themes for the output.   A good resource for public themes is [here](https://www.datadreaming.org/post/r-markdown-theme-gallery/).  Try to specify a new theme for the document.
+
+
+#### Exercise 8:
+
+Finally, we can optionally set to enable code folding / hiding in the document dynamically.  This can be specified as in the image below:
+
+![Code folding YAML](https://zsmith27.github.io/rmarkdown_crash-course/images/rmarkdown/folding_hide.png)
+
+Try setting this and hiding some code!
+
+### Actvity 2: LaTeX
+
+Math mode can be entered with the dollar sign $5 \times 10 = 50$.  Equations can be generated in a new line with double dollar signs:
+
+$$5 \times 10 = 50$$
+
+When writing out several lines of equations, one should usually enter the align environment,
+$$\begin{align}
+c^2  &= a^2 + b^2  \\
+\text{Area of a circle} & = \pi r^2
+\end{align}$$
+Ampersands denote the align points which will the equations will be set to meet at.  The double back slash will denote a new equation.  You can perform complex formatting in this way, it just takes some practice and experimentation.
+
+Matrices can be written with similar formatting to the above, using ampersands and back slashes to denote formatting
+$$\begin{align}
+\mathbf{A} = 
+\begin{pmatrix}
+a & b \\
+c & d
+\end{pmatrix}
+\end{align}$$
+
+$$\begin{align}
+&\mathbf{A} = \begin{pmatrix}
+a & b & c \\
+d & e & f
+\end{pmatrix}
+& &\mathbf{B} = \begin{pmatrix}
+g & h & i \\
+j & k & l
+\end{pmatrix}
+& &\mathbf{C} = \begin{pmatrix}
+m & n & o \\
+p & q & r
+\end{pmatrix}
+\end{align}$$
+
+Another common command is the `\frac` command used for making fractions,
+$$\sin\left(\frac{\pi}{2}\right) = 1.$$
+Notice that we also use the `\left` and `\right` commands to wrap the closing parentheses.  This is done for automatic re-sizing of these to match the size of what lies between.   Try to run the above command without these to see the effect.
+
+
+
+#### Notes on style
+For clarity, one can write matrices as upper-case bold
+$$\begin{align}
+\mathbf{A} = 
+\begin{pmatrix}
+a & b \\
+c & d
+\end{pmatrix}
+\end{align}$$
+and vectors as lower-case bold, lower-case bold and italic,  or with the vec command,
+$$\begin{align}
+& \mathbf{v} = \begin{pmatrix} a \\ b \\ c\\ d
+\end{pmatrix}& &\pmb{v} = \begin{pmatrix} a & b & c & d\end{pmatrix} & &\vec{v} = \begin{pmatrix} a & b & c & d\end{pmatrix}
+\end{align}$$
+Spaces, like the real numbers, use "blackboard bold" $\mathbb{R}$.
+
+I personally go for `\pmb` or `\vec` as this is standard in many physics journals, while the `\mathbf` is fairly standard for matrices.  However, every field likes to do this their own way, the key point is the following:
+
+ > Know your audience and write that way consistently for clarity.
+ 
+When you need to learn more, there is always the StackExchange as usual, but I also will recommend a nice open [WikiBook](https://en.wikibooks.org/wiki/LaTeX). 
