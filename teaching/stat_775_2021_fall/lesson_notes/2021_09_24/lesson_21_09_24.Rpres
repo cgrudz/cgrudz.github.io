@@ -1,0 +1,255 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+<!-- foo 
+Highlighting
+bold
+strong
+orange <b style="color:#d95f02"> text </b>
+green  <b style="color:#1b9e77"> text </b>
+purple <b style="color:#d24693"> text </b>
+red    <b style="color:#FF0000"> text </b>
+blue   <b style="color:#0000FF"> text </b>
+-->
+
+Elementary numerical solution to ODEs and SDEs Part I
+========================================================
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+<blockquote>
+FAIR USE ACT DISCLAIMER:</br>
+This site is for educational purposes only.  This website may contain copyrighted material, the use of which has not been specifically authorized by the copyright holders. The material is made available on this website as a way to advance teaching, and copyright-protected materials are used to the extent necessary to make this class function in a distance learning environment.  The Fair Use Copyright Disclaimer is under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+</blockquote>
+
+========================================================
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+  * The Euler scheme for ODEs
+  * Convergence and error of the Euler scheme
+  * The Euler-Maruyama scheme for SDEs
+  * Strong versus weak convergence for numerical SDEs
+
+========================================================
+## The Euler scheme for ODEs
+
+* In the last section, we considered the construction of a <b>Gauss-Markov model in continuous time</b> as <strong>generated from SDEs</strong>.
+
+* Although we focused on the scalar case, these concepts <strong>generalize naturally</strong> to <b>systems of stochastic differential equations on random vectors</b>.
+
+* Rather than belaboring the mathematical machinery, in the next two lectures we will consider how one simulates such systems of equations in practice.
+
+* We will begin again with the analogy of deterministic <b>systems of ordinary differential equations (ODEs)</b>.
+
+* After we introduce some core techniques for ODEs, we will introduce how these methods are <strong>extended to systems that are simulated with governing laws with random shocks</strong>.
+
+========================================================
+### The Euler scheme for ODEs
+
+* Recall the notion of the <b>initial value problem</b>, where
+
+  $$\begin{align}
+  \frac{\mathrm{d}}{\mathrm{d}t}\pmb{x}&: = \pmb{f}(t, \pmb{x}), \\
+  \pmb{x}(0)&:= \pmb{x}_0.
+  \end{align}$$
+  
+* We note that the Lipshitz condition discussed last time guarantees the existence and uniqueness of a solution.
+
+* Suppose that the solution is defined over an interval $[0, T]$ where we make a partition as
+  
+  $$\begin{align}
+  t_0 = 0 < t_1 < \cdots < t_n = T
+  \end{align}$$
+  where $t_i - t_{i-1} = h$ for all $i$.
+
+* Let's consider once again a <strong>tangent approximation to this solution</strong>, where for the perturbation $t_i + h$ in time,
+
+  $$\begin{align}
+  \pmb{x}(t_{i+1})&= \pmb{x}(t_{i}) + \pmb{x}'(t_i) h +\mathcal{O}(h^2) \\
+  &=\pmb{x}(t_{i}) + f(t_i, \pmb{x}(t_i)) h +\mathcal{O}(h^2).
+  \end{align}$$
+
+<blockquote>
+<b>Euler scheme</b><br>
+Let $\pmb{x}(t)$ satisfy the initial value problem above; the approxmation of this solution by <strong>Euler's scheme</strong> is defined recursively as
+  $$\begin{align}
+  \hat{\pmb{x}}(t_{i+1}) &=\hat{\pmb{x}}(t_{i}) + f(t_i, \hat{\pmb{x}}(t_i)) h,
+  \end{align}$$
+  where $h$ is known as the step size in time.
+</blockquote>
+  
+========================================================
+## Convergence and error of the Euler scheme
+
+* We note that Taylor's theorem guarantees that the difference of the approximation
+
+   $$\begin{align}
+  \pmb{x}(t_{i+1})&=\pmb{x}(t_{i}) + f(t_i, \pmb{x}(t_i)) h +\mathcal{O}(h^2)
+  \end{align}$$<br>
+  from the true solution shrinks at order $\mathcal{O}(h^2)$ as $h\rightarrow 0$.
+  
+* If $\pmb{f}$ has continuous second derivatives, we can actually write
+
+  $$\begin{align}
+  \pmb{x}(t_{i+1})= &\pmb{x}(t_{i}) + \pmb{x}'(t_i) h + \frac{1}{2}\pmb{x}''(\tau_i) h^2
+  \end{align}$$
+  for some $\tau_i \in (t_i, t_{i+1})$.
+  
+  * The term $\frac{1}{2}\pmb{x}''(\tau_i) h^2$ is known as the <b>truncation error of the Taylor approximation</b>.
+
+* However, the <strong>repeated approximation using this rule accumulates error</strong>, due to the repeated miss-match between the numerical approximation and the true solution.
+
+* Consider, for the numerical solution defined again as $\hat{\pmb{x}}(t)$,
+
+  $$\begin{align}
+  \pmb{x}(t_{i+1}) - \hat{\pmb{x}}(t_{i+1}) = \pmb{x}(t_{i}) - \hat{\pmb{x}}(t_{i})  + h\left[\pmb{f}(t_{i}, \pmb{x}(t_i)) - \pmb{f}(t_i, \hat{\pmb{x}}(t_i) \right]+ \frac{1}{2}\pmb{x}''(\tau_i) h^2
+  \end{align}$$
+  
+* The terms $\pmb{x}(t_{i}) - \hat{\pmb{x}}(t_{i})  + h\left[\pmb{f}(t_{i}, \pmb{x}(t_i)) - \pmb{f}(t_i, \hat{\pmb{x}}(t_i) \right]$ in the above difference are instead known as the <b>propagation error</b>.
+
+========================================================
+### Convergence and error of the Euler scheme
+
+* Although the exact Taylor expansion means that the derivative approximation differs by terms at second order, 
+
+  * the <strong>propagation error from the repeated numerical approximation</strong> of the true state means that the <b>numerical and the true solution differ at order $\mathcal{O}(h)$</b>.
+  
+* This motivates the following definition for the numerical solution of ODEs.
+
+<blockquote>
+<b>Numerical convergence of ODEs</b><br>
+Let $\pmb{x}(t)$ be an exact solution to an initial value problem, and let $\hat{\pmb{x}}(t)$ be a numerical approximation, using a maximum step size of $h$.  The approximation $\hat{\pmb{x}}$ is said to <strong>converge to $\pmb{x}$ at order $\gamma$</strong> if there exists a constant $C$ independent of $h$ such that
+$$\begin{align}
+\max \parallel \pmb{x}(t) - \hat{\pmb{x}}(t) \parallel \leq C h^\gamma  
+\end{align}$$
+for all $t \in [0, T]$.
+</blockquote>
+
+* With the above definition in mind, it is a classic result that the <strong>Euler approximation converges at order $1.0$</strong> to the true solution to an initial value problem.
+
+* The Euler scheme is not used widely in practice due to this low order of convergence, but it is extremely useful to understand the principles of numerical simulation.
+
+* Particularly, <b>higher-order Taylor expansions</b> give better <strong>(higher-order) rates of convergence</strong> of the numerical solution to the true solution.
+
+* The Euler scheme also has a direct extension to SDEs that will likewise help explain the approximations made in numerical simulation of these random sample paths.
+
+========================================================
+## The Euler Maruyama scheme
+
+* We recall the form of our <b>generic SDE</b>, but this time presented in <strong>vector notations</strong>,
+
+  $$\begin{align}
+  \mathrm{d}\pmb{x}:= \pmb{f}(t, \pmb{x}(t)) \mathrm{d}t + \mathbf{S}(t, \pmb{x}(t))\mathrm{d}\pmb{W}_t
+  \end{align}$$
+   where in the above:
+   <ol>
+      <li>The function $\pmb{f}$ is a (possibly) nonlinear function representing the governing laws;</li>
+      <li>$\mathbf{S}$ is a matrix-valued function of $\pmb{x}$ and $t$;</li>
+      <li>$\pmb{W}_t$ is a vector of independent Wiener processes.</li>
+   </ol>
+
+* The extension of Euler's scheme follows directly to the above by formally writing the following.
+
+<blockquote>
+<b>Euler-Maruyama</b><br>
+For the system of SDEs defined above, the numerical approximation of the sample path by <strong>Euler-Maruyama</strong> is defined as,
+  $$\begin{align}
+  \hat{\pmb{x}}(t_{i+1}) := \hat{\pmb{x}}(t_{i}) + \pmb{f}(t_i, \hat{\pmb{x}}(t_i)) h + \mathbf{S}(t_i, \hat{\pmb{x}}) \boldsymbol{\xi} \sqrt{h}
+  \end{align}$$
+  where $\boldsymbol{\xi} \sim N\left(\pmb{0},  \mathbf{I}_{N_x}\right)$.
+</blockquote>
+
+* Note that with $\boldsymbol{\xi}$ distributed as the standard normal means that $\sqrt{h}\boldsymbol{\xi} \sim N\left(\pmb{0}, h \mathbf{I}_{N_x}\right)$, <strong>giving a representation of the discretized Wiener process</strong>.
+
+* Intuitively, this gives the <b>direct extension of the ODE system</b> by analogy where we make a <strong>Gaussian perturbation to the mechanistic evolution of the state</strong> by the process laws.
+
+* However, as usual, convergence is a more subtle concept...
+
+========================================================
+## Strong versus weak convergence for numerical SDEs
+
+* As with the earlier discussion of <b>strong convergence</b>, we understand this as being a <strong>"path-wise" convergence similar to the deterministic convergence</strong>.
+
+<blockquote>
+<b>Strong convergence</b><br>
+Let $\pmb{x}(t)$ be an exact sample path of a generic system of SDEs, and $\hat{\pmb{x}}(t)$ be some numerical discretization with a maximum step size of $h$ between time points.  The approximation $\hat{\pmb{x}}$ is said to <strong>strongly converge</strong> to $\pmb{x}$ at order $\gamma$ if there exists a constant $C$ independent of $h$ such that
+$$\begin{align}
+\mathbb{E}\left[\parallel \pmb{x}(t) - \hat{\pmb{x}}(t) \parallel \right] \leq C h^\gamma
+\end{align}$$
+for all $t \in [0, T]$.
+</blockquote>
+
+* Notice that this gives a direct analogy to the deterministic convergence;
+
+  * i.e., <b>averaging out over all possible outcomes</b> for the Wiener process, the <strong>expected discrepancy</strong> between the exact realization and the approximate realization is bounded at order $\mathcal{O}(h^\gamma)$. 
+
+* For a specific sample path, given a particular realization of $\pmb{W}_t$, the discrepancy may be less than or greater than this bound;
+  
+  * however, this says intuitively that the <strong>average discretization error over all possible realizations remains bounded</strong>.
+
+* This is contrasted with <b>weak convergence</b> which describes a convergence in probability. 
+
+  * Particularly, we can consider <b>weak convergence</b> not to guarantee convergence to any sample path, but to <strong>guarantee the reconstruction of the statistics of their distribution</strong>.
+  
+========================================================
+### Strong versus weak convergence for numerical SDEs
+
+<blockquote>
+<b>Weak convergence</b><br>
+Let $\pmb{x}(t)$ be an exact sample path of a generic system of SDEs, and $\hat{\pmb{x}}(t)$ be some numerical discretization with a maximum step size of $h$ between time points.  The approximation $\hat{\pmb{x}}$ is said to <strong>weakly converge</strong> to $\pmb{x}$ at order $\gamma$ if there exists a constant $C$ independent of $h$ such that, for any $2(\gamma+1)$ continuously differentiable function $g$ of at most polynomial growth
+$$\begin{align}
+\parallel\mathbb{E}\left[ \pmb{g}(\pmb{x}(t)) - \pmb{g}(\hat{\pmb{x}}(t))  \right]\parallel \leq C h^\gamma
+\end{align}$$
+for all $t \in [0, T]$.
+</blockquote>
+
+* In the simple case where $\pmb{g}$ is the identity, we see a clear distinction between the two modes of convergence:
+
+  * <b>Strong convergence</b> <strong>bounds the mean error</strong> between the sample path and the approximation; while
+  * <b>weak convergence</b> <strong>bounds the error in reconstructing the mean</strong> for the sample paths.
+  
+* Therefore, we say that <b>weak convergence</b> <strong>measures the accuracy of the empirical statistics</strong> generated from an ensemble of approximate path solutions, computing statistics from these realizations.
+
+* Strong convergence guarantees weak convergence with at least the same order;
+  
+  * however, it is possible that a numerical scheme will converge weakly alone, and not re-produce any particular sample path, only the statistics of the distribution.
+
+========================================================
+### Strong versus weak convergence for numerical SDEs
+
+* A remarkable fact arises then which differentiates numerical ODEs and SDEs;
+
+  * particularly, the <b>Euler-Maruyama scheme</b> generally only has a <strong>strong convergence on order of $\gamma = 0.5$</strong> while it has weak convergence on order of $\gamma = 1.0$.
+  
+* The loss of a half order of convergence arises due to the difference between the deterministic Taylor expansion and the It&ocirc;-Taylor expansion:
+
+   $$\begin{align}
+   f(W_T) - f(W_0) = \int_{0}^T f'(W_t)\mathrm{d}W_t +\frac{1}{2} \int_{0}^T f''(W_t) \mathrm{d}t.
+  \end{align}$$
+  
+* When one <strong>corrects for the miss-match</strong> in the It&ocirc;-Taylor expansion including additional terms, one arives at the <b>Milstein scheme</b>.
+
+* It is important to note, however, that when the SDE is in terms of <b>additive noise</b>, i.e., $\mathbf{S}(t, \pmb{x}(t)) := \mathbf{S}(t)$, the correction vanishes and the <strong>Euler-Maruyama scheme gains strong convergence order $1.0$</strong>.
+
+* Nonetheless, the very poor approximation by Euler and Euler-Maruyama leads to the need to derive schemes with better convergence properties.
+
+* In the next lecture, we will consider the development of the widely used <b>4-stage Runge-Kutta scheme</b> and its extension to simulating SDEs.
+
+* We will also consider some <b>general practicalities</b> about <strong>simulating discrete models, and tangent-linear models, from continuous-time models</strong>. 

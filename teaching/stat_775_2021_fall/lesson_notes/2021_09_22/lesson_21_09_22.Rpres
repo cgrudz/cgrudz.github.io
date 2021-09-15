@@ -1,0 +1,312 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+<!-- foo 
+Highlighting
+bold
+strong
+orange <b style="color:#d95f02"> text </b>
+green  <b style="color:#1b9e77"> text </b>
+purple <b style="color:#d24693"> text </b>
+red    <b style="color:#FF0000"> text </b>
+blue   <b style="color:#0000FF"> text </b>
+-->
+
+Continuous-time models and stochastic calculus Part II
+========================================================
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+<blockquote>
+FAIR USE ACT DISCLAIMER:</br>
+This site is for educational purposes only.  This website may contain copyrighted material, the use of which has not been specifically authorized by the copyright holders. The material is made available on this website as a way to advance teaching, and copyright-protected materials are used to the extent necessary to make this class function in a distance learning environment.  The Fair Use Copyright Disclaimer is under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+</blockquote>
+
+========================================================
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+  * Ordinary differential equations
+  * Stochastic differential equations
+  * Additive noise
+  * Modes of convergence
+  * The Fokker-Planck Equations 
+
+========================================================
+## Ordinary differential equations
+
+* In our last session, we introduced the notion of the <b>stochastic integral</b>, with two standard forms, the <b style="color:#1b9e77">It&ocirc;</b> and <b style="color:#d24693">Stratonovich</b> forms.
+
+* Particularly, we discussed some of the ways that the <strong>stochastic integral extends, and is different from</strong> the <b style="color:#d95f02">standard deterministic integral</b>.
+
+* Despite the differences, we are able to formally manipulate these equations with e.g., It&ocirc;'s lemmas.
+
+* In particular, these concepts allow us to derive what is known as a <b>stochastic differential equation</b> as an <strong>extension of the ordinary differential equation</strong>.
+
+* Giving an intuition on this extension, and how we will use this formalism to sample a target density, will be the focus of this lecture.
+
+========================================================
+### Ordinary differential equations
+
+* A general <b>ordinary differential equation (ODE)</b> is written as
+  
+  $$\begin{align}
+  & \frac{\mathrm{d}}{\mathrm{d}t} \pmb{x} := \pmb{f}(t, \pmb{x})  \\
+  \Leftrightarrow & \mathrm{d}\pmb{x} := \pmb{f}(t,\pmb{x})\mathrm{d}t.
+  \end{align}$$
+  
+* When $\pmb{f}$ <strong>satisfies a regularity condition</strong>, this equation will have a <b>unique solution</b> given some initial data.
+
+<blockquote>
+<b>Lipshitz Continuity</b><br>
+The function $\pmb{f}:\mathbb{R}^{N_x} \rightarrow \mathbb{R}^{N_x}$ is said to be <strong>Lipshitz continuous</strong> at a point $\pmb{x}_0$ if for all $\pmb{x}_1$, in a sufficiently small neighborhood of $\pmb{x}_0$,
+$$\begin{align}
+\parallel \pmb{f}(\pmb{x}_0) - \pmb{f}(\pmb{x}_1) \parallel \leq K \parallel \pmb{x}_0 - \pmb{x}_1\parallel 
+\end{align}$$
+for a fixed constant $K\in \mathbb{R}$.
+</blockquote>
+
+* Lipshitz continuity above is <strong>stronger than regular continuity</strong>, but <b>weaker than differentiability</b>.
+
+  * In particular, if $\pmb{f}\in \mathcal{C}^1(\mathbb{R}^{N_x})$, $\pmb{f}$ satisfies Lipshitz continuity.
+  
+  * More generally, a function that is Lipshitz continuous can be shown to be differentiable except on a set of measure zero, 
+  
+  * i.e., with <b>probability one</b>, you will select a point in a bounded interval at which <strong>$\pmb{f}$ is differentiable</strong>.
+
+* For this reason, we consider <b>Lipshitz functions</b> to be <strong>differentiable "almost everywhere"</strong>, where the number of non-differentiable spikes is limited.
+
+========================================================
+### Ordinary differential equations
+
+* Recall the differential equation on the last slide
+
+  $$\begin{align}
+   \mathrm{d}\pmb{x} := \pmb{f}(t,\pmb{x})\mathrm{d}t.
+  \end{align}$$
+
+* Provided that $\pmb{f}$ is Lipshitz in its components at some initial condition, in the state variable and time, it can be shown that there is a unique solution defined for this initial data. 
+
+<blockquote>
+<b>Picard-Lindel&ouml;lf theorem</b><br>
+Suppose that $\pmb{f}$ satisfies the Lipshitz condition at a point $(0,\pmb{x}_0)$ as previously discussed.  Then there is a <strong>unique solution $\pmb{x}(t)$</strong> 
+defined on some time interval $[ -\epsilon, \epsilon]$ for which:<br>
+<ul>
+  <li>$\pmb{x}(0)= \pmb{x}_0$,</li>
+  <li>$\frac{\mathrm{d}}{\mathrm{d}t}|_{t=t_0}\pmb{x} = \pmb{f}(t_0, \pmb{x}(t_0))$, and</li>
+  <li>where we formally write
+  $$\begin{align}
+  \pmb{x}(t) = \int_0^t \pmb{f}(s, \pmb{x})\mathrm{d}s + \pmb{x}_0.
+  \end{align}$$</li>
+</ul>
+</blockquote>
+  
+* Notice that this only <b>defines a solution within a local neighborhood</b>, depending on a range of time around the initial condition.
+
+* This known as an <strong>initial value problem</strong>, as previously discussed in the context of Markov models.
+
+========================================================
+### Ordinary differential equations
+
+* Particularly, suppose that we have an <b>initial prior on the state vector</b> $\pmb{x}_0$ and $\frac{\mathrm{d}}{\mathrm{d}t} \pmb{x}=\pmb{f}$ is known to <strong>satisfy the Lipshitz condition</strong> in the support of $p(\pmb{x}_0)$.
+
+* This actually <b>defines a deterministic Markov model</b>, but where there is <strong>uncertainty in the initial value</strong>.  
+
+* We can define the <b>discrete mapping</b> under the continuous time model by the <strong>flow map</strong> discussed before, where
+  
+  $$\begin{align}
+  \boldsymbol{\Phi}(t, \pmb{x}_0) = \pmb{x}(t) = \int_0^t \pmb{f}(s, \pmb{x})\mathrm{d}s + \pmb{x}_0.
+  \end{align}$$
+  
+* In the case that $\pmb{f}$ is a <b>linear transformation</b>, $\boldsymbol{\Phi}\equiv \mathbf{M}_t$ for some matrix, as with the previously defined Gauss-Markov model.
+
+
+* In this case, we once again generate a transition kernel as
+
+  $$\begin{align}
+  \mathcal{P}\left(\pmb{x}_t |  \pmb{x}_0\right) = \delta_{\mathbf{M}_t \pmb{x}_0} 
+  \end{align}$$
+  with $\delta_{\pmb{v}}$ referring to the <b>Dirac measure</b> at $\pmb{v} \in \mathbb{R}^{N_x}$.
+
+* The <b>Dirac probability measure</b> is <strong>defined by the property</strong>,
+  
+  $$\begin{align}
+  \int f(x) \boldsymbol{\delta}_{\pmb{v}}\left(\mathrm{d}\pmb{x}\right) = f\left(\pmb{v}\right); 
+  \end{align}$$
+  particularly, the <b>Dirac delta is a singular measure</b>, understood by the integral equation.
+
+
+========================================================
+### Ordinary differential equations
+
+<ul>
+ <li>Similarly, we will say that the <strong>transition "density"</strong> is given in terms of
+  $$\begin{align}
+  p(\pmb{x}_t \vert \pmb{x}_{0}  ) \equiv \delta \left\{\pmb{x}_t - \mathbf{M}_t\left(\pmb{x}_{0}\right)\right\}
+  \end{align}$$
+where $\delta$ represents the <b>Dirac distribution</b>.</li>
+   <li>Heuristically, this is known as the "function" which has the property
+  $$\pmb{\delta}(\pmb{x}) = \begin{cases} +\infty & \pmb{x} = \pmb{0} \\
+    0 & \text{else}\end{cases};$$</li>
+  <li>This is just a convenient abuse of notations, as the <strong>Dirac measure does not have a density with respect to the standard Lebesgue measure</strong>.</li>
+  <li>Rather, the <b>Dirac distribution</b> is understood through the generalized function theory of distributions as a type of <strong>kernel that gives the property</strong>,
+  $$\begin{align}
+  \int f(\pmb{x}_{t}) \delta\left\{\pmb{x}_t- \mathbf{M}_t\left(\pmb{x}_{0}\right)\right\}\mathrm{d}\pmb{x}_{t} = f\left(\mathbf{M}_t\left(\pmb{x}_{0}\right)\right).
+  \end{align}$$
+  </li>
+  <li>This equation is to be interpreted that, <b>given a realization of the initial condition</b> $\pmb{x}_0 \sim P$, this <strong>defines the probability one of the subsequent realizations $\mathbf{M}_t \pmb{x}_0$</strong> at all times $t$.</li>
+  <li>Therefore, such a model is known as a <b>"perfect" model</b>, as it <strong>totally determines the subsequent evolution</strong> of the random process in time.</li>
+  <li>However, our <b>classic Gauss-Markov model</b> was defined in terms of a perfect model that is perturbed by random shocks,
+  $$\begin{align}
+  \pmb{x}_{k}:= \mathbf{M}_k \pmb{x}_{k-1} + \pmb{w}_k.
+  \end{align}$$
+  </li>
+  <li>The extension of such a Gauss-Markov model to a system generated with continuous time is derived with the notion of a stochastic differential equation.</li>
+</ul>
+
+========================================================
+## Stochastic differential equations
+
+* A general, scalar <b>stochastic differential equation (SDE)</b> is written as
+
+  $$\begin{align}
+  \mathrm{d}X_t := a(t, X_t)\mathrm{d}t + b(t, X_t)\mathrm{d}W_t
+  \end{align}$$
+   where <b style="color:#d95f02">$a$</b> is known as the <b style="color:#d95f02">drift function</b> and <b style="color:#1b9e77">$b$</b> is known as the <b style="color:#1b9e77">diffusion function</b>.
+
+
+* The above SDE is written in the It&ocirc; form, while there exists an equivalent Stratonovich form given as,
+
+  $$\begin{align}
+  \mathrm{d}X_t := \left[a(t, X_t) -\frac{1}{2} b(t, X_t) \partial_x b(t, X_t)\right] \mathrm{d}t + b(t, X_t) \circ \mathrm{d}W_t.
+  \end{align}$$
+
+* The It&ocirc; SDE has a formal solution given by
+
+  $$\begin{align}
+  X(T) - X(0) =  \int_0^T a(s, X_t)\mathrm{d}t + \int_0^T b(t, X_t)\mathrm{d}W_t
+  \end{align}$$
+
+* An immediate difference from the ODE initial value problem is that the <strong>evolution of the state is given by a random variable</strong>, with a distribution that <b>depends in time on the realization of the Wiener process</b>.
+
+   * Particularly, the transition probability is no longer given by a Dirac measure, and instead include uncertainty in the evolution.
+
+* In this case, the  <b style="color:#d95f02">drift terms</b> represent the  <b style="color:#d95f02">mechanistic laws</b> governing the process, while the <b style="color:#1b9e77">diffusion terms</b> represent the <b style="color:#1b9e77">random shocks to the system</b>.
+
+* If the <b>drift and diffusion $a,b$ are linear functions</b>, this furthermore defines a <strong>Gauss-Markov model</strong>.
+
+========================================================
+## Additive noise
+
+* We will note here a particular scenario that is of special relevance to our discussions.
+
+* When the <b style="color:#1b9e77">diffusion term $b$</b> has <strong>no dependence on the model state $X_t$</strong>, then the model is said to be one of <b>additive noise</b>.
+
+* Recall then the Stratonovich SDE
+
+$$\begin{align}
+  \mathrm{d}X_t := \left[a(t, X_t) -\frac{1}{2} b(t) \partial_x b(t)\right] \mathrm{d}t + b(t ) \circ \mathrm{d}W_t.
+  \end{align}$$
+  
+* In particular, $\partial_x b \equiv 0$ when $b$ is only a function of time, i.e.,
+  
+  $$\begin{align}
+  \mathrm{d}X_t := a(t, X_t) \mathrm{d}t + b(t) \circ \mathrm{d}W_t.
+  \end{align}$$
+  
+  * Therefore, it can be shown that the <b>Stratonovich SDE and the It&ocirc; SDE</b> are the <strong>same for additive noise</strong>.
+  
+* This is a scenario that is frequently studied in data assimilation literature, because of the simplification of the SDE above, and for the way this represents precisely unbiased shocks to governing process laws.
+
+
+* We will return to such systems when we look at numerical solutions shortly.
+
+
+
+========================================================
+## Modes of convergence
+
+* As noted with stochastic processes, and stochastic calculus, there are multiple ways we might consider the existence and uniqueness of a solution to an SDE.
+
+<blockquote>
+<b>Strong convergence</b><br>
+A <strong>strong solution</strong> $X_t$ of an It&ocirc; SDE (or equivalent Stratonovich SDE) has the
+following properties:
+<ul>
+   <li> $X_T$ satisfies
+   $$\begin{align}
+  X(T) - X(0) =  \int_0^T a(s, X_t)\mathrm{d}t + \int_0^T b(t, X_t)\mathrm{d}W_t,
+  \end{align}$$
+  and for all times $T$, $X_T$ is a function of $a,b$ and the realization of $W_t$ for all times $t&lt;T$; and</li>
+  <li>the integrals in the above are well-defined in terms of the proper modes of convergence.</li>
+</ul>
+</blockquote>
+
+* The important notion here is that <strong>if we change the realization of the Wiener process $W_t$</strong>, then also the <b>strong solution $X_t$ changes</b>, but the functional relation between $X_t$ and $W_t$ remains the same.
+  
+* This is in analogy to how we looked at the realization of the function $A(\omega)\sin(t)$, and how the evolution in time depends on the outcome for $A$.
+
+* Different realizations of the Wiener process $W_t$ can thus be thought of generating different sequences of shocks to the governing laws, and a strong solution is thought to depend on the specific sequence of shocks.
+
+* However, if we look at the <b>collection of all possible sequences</b> of shocks that can be generated by $W_t$, this gives a (non-singular) <strong>probability distribution for $X_t$ at all times</strong>.
+
+* Particularly, <b>each realization of a strong solution</b> gives a <strong>particular sample (path) of the probability distribution</strong> for $X_t$.
+
+========================================================
+### Modes of convergence
+
+* As with ODEs, <b>Lipshitz continuity</b> of the drift and diffusion functions <strong>gives the existence and uniqueness of strong solutions</strong> to the SDE.
+
+* However, <b>not all SDEs admit strong solutions</b>, and more generally we may be concerned just with the probabilistic aspects of such a simulation.
+
+* This follows the analogy of almost sure convergence (similar to strong convergence) versus convergence in probability alone.
+
+* We may formally define a solution in which <strong>we guarantee only that the forward probability distribution matches that generated by the SDE</strong>;
+
+  * however, we <b>may not actually guarantee a (point-wise) solution</b> that matches a particular sample path given some realization of $W_t$.
+  
+* This is loosely what is known as weak convergence, which we will consider more in depth when we study the numerical solutions to these equations.
+
+========================================================
+## Fokker-Planck equations
+
+* While strong solutions of the SDE equation give sample realizations of the probability distribution for $X_t$, we may also <strong>consider solving for this probability distribution directly</strong>.
+
+* Suppose that $X_0$ has a density defined as $p(x_0)$ then, given the SDE equation, we can also study how this initial prior evolves in time.
+  
+* Particularly, the SDE defines a Markov model, and we will denote the transition density as $p(t,x)$.  
+  
+<blockquote>
+<b>Fokker-Planck equations</b><br>
+For a random process $X_t$ with an SDE governing the time evolution, an initial prior and transition density $p(t,x)$ as above, the <strong>Fokker-Planck equations</strong> are defined as
+$$\begin{align}
+\partial_t p + \partial_x (a p) - \frac{1}{2} \partial_x^2 \left(pb^2\right) = 0.
+\end{align}$$
+In particular, the above partial differential equation defines the probability density for $X_t$ at all times $t$ given the initial prior $p(x_0)$.
+</blockquote>
+
+* The Fokker-Planck equations completely define the solution to all sample paths $X_t$, as this provides the entire probability density.
+  
+  * <b>Realizations of sample paths</b> are thus <strong>drawn from this joint density in time</strong>.
+  
+* However, <b>solving the Fokker-Planck equations becomes computationally unfeasible</b> for any dimension $N_x> 3$ in practice, so that <strong>this full solution is only theoretical</strong>.
+
+* Rather, we will <b>typically consider an ensemble of sample path solutions</b> to <strong>uncertain O/S DEs to generate empirical statistics</strong> from this theoretical density in practice.
+
+
