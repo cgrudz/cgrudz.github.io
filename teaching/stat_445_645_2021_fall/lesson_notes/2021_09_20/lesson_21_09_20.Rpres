@@ -230,7 +230,7 @@ function $P(X = x_j ) \in [0, 1]$ for $j \in \{1, \cdots , k\}$.
   <ol>
     <li>there are only two possible outcomes for each trial;</li>
     <li>all the trials are independent of each other;</li>
-    <!-- <li>the probability of each outcome remains constant;</li> -->
+    <li>the probability of each outcome remains constant;</li>
     <li>the number of trials is fixed.</li>
   </ol>
   <li> The following example illustrates a binomial experiment. 

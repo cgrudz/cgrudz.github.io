@@ -1,0 +1,42 @@
+# Activity 09/24/2021
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+
+
+### Activity 1: Chi-square distribution
+
+#### Question 1:
+Suppose we want to find the inner critical region of the $\chi^2_{20}$ distribution, corresponding to the inner $95\%$ of the area under the density curve.  Note that this distribution is not symmetric like the normal.  Using the quantile function, identify the inner critical region and plot these points on the density curve. Use the plotting range $[0,50]$
+
+
+#### Question 2:
+
+We noted in the video lecture that the Chi-square distribution becomes more bell-shaped as the number of degrees of freedom increases.  Using the probability density function and the `seq` function for setting a range of values, create a plot that depends on the number of degrees of freedom. Vary the number of degrees of freedom between $n=3, 15, 25, 50, 100, 200$.  Can you wrap the plotting in a `for` loop to produce all the lines together?  Can you also produce a legend with matching colors between the lines and the degrees of freedom?
+
+You may want to use:
+
+```{r}
+require("RColorBrewer")
+```
+
+
+
+### Activity 2: Student's t-distribution
+
+#### Question 1:
+Use the quantile function of the student's t distribution to find the inner critical region of the $t_{15}$ distribution, corresponding to the inner $95\%$ of the area under the density curve, and plot these points on the density curve. Use the plotting range $[-5,5]$
+
+
+
+
+#### Question 2:
+
+We noted in the video lecture that the student's t-distribution becomes closer to the normal distribution as the number of degrees of freedom increases.  Using the probability density function, create a plot that depends on the number of degrees of freedom.  Vary the number of degrees of freedom between $n=3, 15, 25, 50, 100, 200$. Can you wrap the plotting in a `for` loop to produce all the lines together?  Can you also produce a legend with matching colors between the lines and the degrees of freedom?
+
+Plot this versus the standard normal where you differentiate the colors.

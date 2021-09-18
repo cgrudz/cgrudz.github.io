@@ -1,0 +1,50 @@
+# Activity 09/29/2021
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+### Activity 1: Computing z-scores and critical values
+
+#### Question 1:
+
+Recall, a general normal confidence interval (with known variance $\sigma^2$) is given of the form:
+
+$$\left(\overline{x} - z_\frac{\alpha}{2}\frac{\sigma}{\sqrt{n}}, \overline{x}+z_\frac{\alpha}{2} \frac{\sigma}{\sqrt{n}}\right)$$
+where $z_\frac{\alpha}{2}$ is selected so that 
+
+$$P\left(Z\leq z_\frac{\alpha}{2}\right) = 1 - \frac{\alpha}{2}$$.
+
+The confidence level for the above interval is thus equal to $(1-\alpha)\times 100\%$.
+
+For a normal population with known variance $\sigma^2$, what is the confidence level (written as a percentage) for the interval
+$$\left(\overline{x} - 2.14\frac{\sigma}{\sqrt{n}}, \overline{x}+2.14 \frac{\sigma}{\sqrt{n}}\right)?$$
+
+
+### Activity 2: Computing point estimates and confidence intervals
+
+#### Question 1:
+
+The yield of a chemical process is being studied. From previous experience, yield is known to be normally distributed and $\sigma=3$. The past five days of plant operation have resulted in the yields in the following array:
+```{r}
+my_data <- c(91.6, 88.75, 90.8, 89.95, 91.3)
+```
+
+Compute each of the:
+
+1. sample mean
+2. sample standard deviation
+3. the standard error of the sample mean
+4. the sample-estimate for the standard error of the sample mean
+5. the 95% two-sided confidence interval for the true mean
+6. the 99% two-sided confidence interval for the true mean
+
+
+### Activity 3: Central limit theorem
+
+#### Question 1:
+Recall, we can generate a random sample of the Poisson distribution with the `rpois` function.  Let us set $\lambda=25$ and draw a sample of size `n=20` from this distribution, and compute the sample mean.  Let's replicate the process and plot the sample means over $m=50$ replications. Plot the corresponding central limit theorem sampling distribution for the mean along with these values, with a range given over $[20, 30]$.
+

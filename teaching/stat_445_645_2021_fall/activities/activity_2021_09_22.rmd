@@ -1,0 +1,30 @@
+# Activity 09/22/2021
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+
+### Activity 1: Uniform distribution
+
+#### Question 1:
+Find the probability of $X$ taking a random outcome that lies in the range $(3, 4]$  given that $X\sim U(0,10)$ by using the cumulative distribution function.  Can you deduce the answer directly by the associated area under the density function?
+
+
+#### Question 2:
+Make a plot of the probability density function and the CDF in the last question.
+
+
+### Activity 2: Normal distribution
+
+#### Question 1:
+We noted earlier that we can generate an arbitrary random variable using randomly generated samples of the uniform and the quantile function of another distribution.  Using the quantile function of the normal, generate a histogram of a normally distributed random sample with 1000 observations.  Try converting this from a fequency plot to a relative frequency plot, to model the density curve.  Include appropriate labels and title.  How does the histogram change as we take 100,000 observations?
+
+#### Question 2:
+
+Let $\alpha =0.05$.  Use the normal quantile function to to find the normal critical value $z_{\frac{\alpha}{2}}$ that separates the left tail containing $\alpha/2$ of the total area under the density curve from the upper $1 - \alpha/2$ total area.   Can you identify the critical value separating the right tail without using this function?  Plot both points on the normal density curve
+
+
