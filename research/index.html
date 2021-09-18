@@ -9,7 +9,16 @@ title: Research
 </ul>
 <h2>Short research description</h2>
 <p>
-In physical applications, dynamical models and observational data play dual roles in uncertainty quantification, prediction and learning, each representing sources of incomplete and inaccurate information. In data rich problems, first-principle physical laws constrain the degrees of freedom of massive data sets, utilizing our prior insights to complex processes. Respectively, in data sparse problems, dynamical models fill spatial and temporal gaps in observational networks.  However, many physical systems exhibit chaos and observations are thus required to update predictions where there is sensitivity to initial conditions and uncertainty in model parameters. Data assimilation broadly refers to the techniques used to combine the information from models and observations to produce an optimal estimate of a probability density or a statistic. These techniques include methods from Bayesian inference, dynamical systems, numerical analysis and optimal control, among others.  My research interests lie in this intersection, using dynamical and statistical tools to develop theory for, and study applications of, statistical learning algorithms in physical systems.  My application interests include climate, geophysics and the electric grid.
+Data assimilation (DA) refers to techniques used to combine the data from physics-based,
+numerical models and real-world observations to produce an estimate for the state of a
+time-evolving random process and the parameters that govern its evolution. Owing to their
+history in numerical weather prediction, DA systems are designed to operate in an extremely
+large dimension of model variables and observations, often with sequential-in-time
+observational data. As a long-studied “big-data” problem, DA has benefited from the fusion of a
+variety of techniques, including methods from Bayesian inference, dynamical systems,
+numerical analysis, optimization, control theory and machine learning. DA techniques are
+widely used in many areas of geosciences, neurosciences, biology, autonomous vehicle
+guidance and various engineering applications requiring dynamic state estimation and control.
 </p>
 <p>
     Please find my computational resources and pre-prints linked below by subject area.
@@ -17,20 +26,6 @@ In physical applications, dynamical models and observational data play dual role
 <h2>Ongoing and past projects</h2>
 <button class="accordion"><h3>Data assimilation</h3></button>
     <div class="accordian_panel">
-    <p>
-        Data assimilation broadly refers to the techniques used to combine model and observational information to produce an optimal estimate of a PDF or a statistic.
-        These techniques include methods from Bayesian inference, dynamical systems, numerical analysis and optimal control.
-        In phsyical applications such as weather prediction, the butterfly effect renders the forecasting problem inherently volatile; however, chaotic dynamics also put strong 
-        constraints on the evolution of errors. It is well understood in the weather prediction community that the growth of forecast uncertainty is confined to a much lower 
-        dimensional subspace corresponding to the directions of rapidly growing perturbations --- this is characterized by the unstable-neutral manifold of the state being tracked,
-        with dimension equal to the number of non-negative Lyapunov exponents, leading to dimensional reduction of the uncertainty quantification problem. 
-    </p>
-    <p>
-	With my collaborators, I am studying the mathematical foundations of ensemble based forecasting 
-        and stochastic filtering in the context of smooth and random dynamical systems.  We have produced refined necessary and sufficient conditions for filter convergence and stability,
-	rigorously establishing dimensional reduction methodology and a novel theoretical framework for the ensemble Kalman filter in geophysical applications.  Our ongoing research seeks
-	to provide new insights into filter design and uncertainty quantification for physical systems.
-    </p>
     <button class="accordion"><h4>Publications</h4></button>
         <div class="accordian_panel">
         <ul>
@@ -96,21 +91,21 @@ In physical applications, dynamical models and observational data play dual role
             </li>
         </ul>
 	</div>
+    <button class="accordion"><h4>Computational resources</h4></button>
+        <div class="accordian_panel">
+					<h5><a href="https://github.com/cgrudz/DataAssimilationBenchmarks.jl" target="blank">DataAssimilationBenchmarks.jl</a></h5>
+					<p>
+					 DataAssimilationBenchmarks.jl is my personal data assimilation benchmark research code with an emphasis on testing and validation 
+					 of ensemble-based filters and sequential smoothers in chaotic toy models. The code is meant to be performant, in the sense that
+					 large hyper-parameter discretizations can be explored to determine structural sensitivity and reliability of results across
+					 different experimental regimes, with parallel implementations in Slurm. This includes code for developing and testing data
+					 assimilation schemes in the L96-s model currently, with further models in development.
+					</p>
+				</div>
+			</div>
     </div>
 <button class="accordion"><h3>Smart grids</h3></button>
     <div class="accordian_panel">
-    <p>
-	The expansion of renewable generation has brought many opportunities but
-        also uncertainties in electricy generation.  Simultaneously, the expansion of new grid management technologies and the internet of things have offered new possibilities for data driven 
-	prediction and optimization for grid security under uncertainty.  
-	Purely statistical machine learning techniques are particularly useful in prediction where data is abundant and models of the process are inferior to observations.  
-	However, neither is the case for the electric grid where Phasor Measurement Units (PMUs) offer spatially sparse measurements and electric transmission is guided by physical power flow laws.  
-	For these reasons, the rigorous incorporation of nonlinear, time varying process models is strong advantage of data assimilation methodology for the problems of state estimation 
-	and fault detection in the electric grid.   
-        I was a graduate research assistant at Los Alamos National Labs where I performed data analysis and network reduction
-        for electric grid transmission networks.  Our ongoing collaboration is now focused on the application of data assimilation and machine learning techniques
-        for parameter and state estimation for dynamic electric grid models.
-    </p>
     <button class="accordion"><h4>Publications</h4></button>
         <div class="accordian_panel">
         <ul>
@@ -129,7 +124,7 @@ In physical applications, dynamical models and observational data play dual role
         <a href='https://github.com/cgrudz/electric_grid_model_reduction', target="blank"><b> Electric Grid Code Repository </b></a>. 
         Visualizations are linked below. 
         </p>
-        <h4> Visualizations </h4>
+        <h5> Visualizations </h5>
         <p>
             The following visualizations demonstrate the force directed layout of the fully reduced power grid network model, where nodes represent repelling bodies
             and edges represent springs.  We randomly initialize the positions for the triangle reduced network and run the positions to a stabilized configuration.  Random initial
@@ -152,13 +147,6 @@ In physical applications, dynamical models and observational data play dual role
     </div>
 <button class="accordion"><h3>Nonlinear Waves</h3></button>
     <div class="accordian_panel">
-    <p> 
-        While PDEs are not generally analytically solvable, coherent states such as waves and solitons can provide useful qualitative
-        information about the system of equations.  Stable states in particular attract other model solutions in their asymptotic state,
-        and provide model solutions that are robust in realistic, noisy settings.  Determining the stability of coherent states is often
-        performed with Evans function analysis, and in addition my work on data assimilation, my graduate thesis proved a novel 
-        formualtion of the Evans function for reaction diffusion equations.  
-    </p>
     <button class="accordion"><h4>Publications</h4></button>
     <div class="accordian_panel">
     <ul>
