@@ -1,0 +1,76 @@
+# Activity 09/22/2021
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+
+### Activity 1: Uniform distribution
+
+#### Question 1:
+Find the probability of $X$ taking a random outcome that lies in the range $(3, 4]$  given that $X\sim U(0,10)$ by using the cumulative distribution function.  Can you deduce the answer directly by the associated area under the density function?
+
+##### Solution:
+
+```{r}
+punif(4, min=0, max=10) - punif(3, min=0, max=10)
+```
+
+Observing that the height of the distribution function is $0.1$ in the range between $[0,10]$, we can thus easily deduce that the area is the width of $1$ times the height of $0.1$.
+
+#### Question 2:
+Make a plot of the probability density function and the CDF in the last question.
+
+#### Solution:
+
+```{r}
+f = dunif(x=seq(-1,11,by=0.01), min=0, max=10)
+plot(x=seq(-1,11,by=0.01), f, type = "l", main = "Uniform distribution PDF on [0,10]", xlab = "x", ylab = "Density")
+```
+
+
+```{r}
+f = punif(q=seq(-1,11,by=0.01), min=0, max=10)
+plot(x=seq(-1,11,by=0.01), f, type = "l", main = "Uniform distribution CDF on [0,10]", xlab = "x", ylab = "Prob.")
+```
+
+### Activity 2: Normal distribution
+
+#### Question 1:
+We noted earlier that we can generate an arbitrary random variable using randomly generated samples of the uniform and the quantile function of another distribution.  Using the quantile function of the normal, generate a histogram of a normally distributed random sample with 1000 observations.  Try converting this from a fequency plot to a relative frequency plot, to model the density curve.  Include appropriate labels and title.  How does the histogram change as we take 100,000 observations?
+
+##### Solution:
+
+Note that we have
+
+```{r}
+set.seed(123)
+n <- 100000
+sample <- runif(n)
+normal_sample <- qnorm(sample)
+histogram <- hist(normal_sample, main=paste("Density plot of standard normal sample size ", n), xlab="X value", ylab="Density", probability=TRUE)
+histogram
+```
+
+
+#### Question 2:
+
+Let $\alpha =0.05$.  Use the normal quantile function to to find the normal critical value $z_{\frac{\alpha}{2}}$ that separates the left tail containing $\alpha/2$ of the total area under the density curve from the upper $1 - \alpha/2$ total area.   Can you identify the critical value separating the right tail without using this function?  Plot both points on the normal density curve
+
+##### Solution:
+
+```{r}
+alpha_over_two <- 0.05 / 2
+z_left_crit <- qnorm(alpha_over_two)
+z_right_crit <- z_left_crit * -1
+f <- dnorm(x=seq(-3, 3, by=0.01))
+plot(seq(-3, 3, by=0.01), f, type = "s", main = "Standard normal PDF", xlab = "x", ylab = "Density")
+points(z_left_crit, dnorm(z_left_crit), col="red")
+points(z_right_crit, dnorm(z_right_crit), col="red")
+```
+
+
+
