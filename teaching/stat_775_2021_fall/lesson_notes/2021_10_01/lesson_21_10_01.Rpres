@@ -1,0 +1,257 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+<!-- foo 
+Highlighting
+bold
+strong
+orange <b style="color:#d95f02"> text </b>
+green  <b style="color:#1b9e77"> text </b>
+purple <b style="color:#d24693"> text </b>
+red    <b style="color:#FF0000"> text </b>
+blue   <b style="color:#0000FF"> text </b>
+-->
+
+Minimum variance and maximum likelihood estimation Part II
+========================================================
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+<blockquote>
+FAIR USE ACT DISCLAIMER:</br>
+This site is for educational purposes only.  This website may contain copyrighted material, the use of which has not been specifically authorized by the copyright holders. The material is made available on this website as a way to advance teaching, and copyright-protected materials are used to the extent necessary to make this class function in a distance learning environment.  The Fair Use Copyright Disclaimer is under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+</blockquote>
+
+========================================================
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+  * A simple example of maximum likelihood estimation
+  * Bayesian maximum a posteriori estimation
+
+  
+
+
+========================================================
+## Motivation
+
+* In the last lecture, we saw that when our <b>modeled random state</b> $\pmb{x}$ and some <b>observed piece of data</b> $\pmb{y}$ are <b>jointly Gaussian</b>, the <strong>conditional Gaussian mean is precisely the BLUE</strong>.
+  
+* The <b>BLUE and its covariance</b> <strong>parameterized the conditional Gaussian distribution</strong> for $\pmb{x}|\pmb{y}$.
+  
+  * The Gauss-Markov theorem does not require that the underlying distributions are actually Gaussian, however.
+
+  * Without the Gaussian assumption, we can still construct the BLUE and its covariance as discussed already, though it will not generally parameterize the conditional distribution for $\pmb{x}|\pmb{y}$, which may be non-Gaussian.
+
+* However, when the <b>underlying distributions are Gaussian</b>, as above, we also get the equivalence of the <strong>conditional mean as the maximum likelihood estimator</strong>.
+
+* To explain this notion, we must first introduce the idea of a <b>likelihood function</b>.
+
+<blockquote>
+<b>Likelihood function</b><br>
+Let $p_{\pmb{\theta}}(\pmb{x})$ be a probability density that depends on the parameter vector $\pmb{\theta}$ as a free variable.  If $\pmb{x}_0$ is an observed realization of the random variable, then we denote the <strong>likelihood function</strong>
+$$\begin{align}
+L_{\pmb{x}_0}(\pmb{\theta}):= p_{\pmb{\theta}}(\pmb{x}_0),
+\end{align}$$
+i.e., we evaluate the density for $\pmb{x}_0$ with respect to the particular choice of $\pmb{\theta}$ as a free variable.
+</blockquote>
+
+* The definition above simply re-arranges the terms for the density, and which variable we treat as the argument.
+
+* This provides a means, for an unknown value of the free parameter $\pmb{\theta}$, to consider which form of the density best matches the observed data.
+
+========================================================
+## Maximum likelihood estimation
+
+* If we suppose, furthermore, we have a random sample $\pmb{x}_{k:0}$, <strong>independently and identically distributed according to the parent distribution</strong> for some unknown choice of $\pmb{\theta}$;
+
+  * the <b>joint likelihood</b> for the random sample is given by
+  
+  $$\begin{align}
+  L_{\pmb{x}_{k:0}}(\pmb{\theta})&:= p_{\pmb{\theta}}(\pmb{x}_{k:0})\\
+  &=\prod_{i=0}^k p_{\pmb{\theta}}(\pmb{x}_i),
+  \end{align}$$
+  due to independence.
+  
+* Another way in which we might thus consider an estimate "optimal" is if it maximizes the joint likelihood of our observed data:
+
+<blockquote>
+<b>Maximum likelihood estimation</b><br>
+Let $\hat{\pmb{\Theta}}$ be a point estimator for an unknown parameter $\pmb{\theta}$, depending on the random sample $\pmb{x}_{k:0}$.  We say that $\hat{\pmb{\Theta}}$ is a <strong>maximum likelihood estimator</strong> of $\theta$ if for any other point estimator $\tilde{\pmb{\Theta}}$,
+$$\begin{align}
+L_{\pmb{x}_{k:0}}\left(\tilde{\pmb{\Theta}}\right)\leq L_{\pmb{x}_{k:0}}\left(\hat{\pmb{\Theta}}\right),
+\end{align}$$
+i.e., for any particular realization $\hat{\pmb{\theta}}$ of the random variable $\hat{\pmb{\Theta}}$ depending on the outcome of the random sample $\pmb{x}_{k:0}$, $\hat{\pmb{\theta}}$ is the value that maximizes the joint density for $\pmb{x}_{k:0}$.
+</blockquote>
+
+========================================================
+### Maximum likelihood estimation
+
+* It is important to recognize that the <b>joint likelihood</b>,
+
+  $$\begin{align}
+  L_{\pmb{x}_{k:0}}(\pmb{\theta})
+  &=\prod_{i=0}^k p_{\pmb{\theta}}(\pmb{x}_i),
+  \end{align}$$
+  can <strong>rarely be solved analytically</strong>.
+  
+* However, we note that $\log$ is monotonic, such that an increase in the argument uniformly corresponds to an increase in the output.
+
+* It is <b>equivalent</b>, then, to <strong>maximize the log-likelihood</strong>, defined
+
+  $$\begin{align}
+  \mathcal{l}_{\pmb{x}_{k:0}}(\pmb{\theta})&:= \log\left(\prod_{i=0}^k p_{\pmb{\theta}}(\pmb{x}_i)\right) \\
+  &=\sum_{i=0}^k \log\left(p_{\pmb{\theta}}(\pmb{x}_i) \right).
+  \end{align}$$
+
+* Furthermore, writing the minus-log-likelihood,
+
+  $$\begin{align}
+  \mathcal{J}(\pmb{\theta}):= - \mathcal{l}_{\pmb{x}_{k:0}}(\pmb{\theta})
+  =-\sum_{i=0}^k \log\left(p_{\pmb{\theta}}(\pmb{x}_i) \right)
+  \end{align}$$
+  finding the <b>maximum likelihood estimate</b> is <strong>equivalent to an objective function minimization problem</strong> in optimization.
+  
+
+========================================================
+### Maximum likelihood estimation
+
+
+* Let's consider again the simple example of estimating the fixed, true temperature $T_t$ from two random observations,
+
+      
+   $$\begin{align}
+   T_1 = T_t + \epsilon_1  & &\epsilon_1 \sim N\left(0, \sigma_1^2\right) \\
+   T_2 = T_t + \epsilon_2  & & \epsilon_2 \sim N\left(0, \sigma_2^2\right)
+    \end{align}$$
+
+* The probability density of an observation $T_i$ given the true value $T_t$ and the standard deviation $\sigma_i$ is given as
+    
+  $$\begin{align}
+  p_{\sigma_i, T_t}(T_i) = \frac{1}{\sqrt{2\pi}\sigma_i}e^{-\frac{\left(T_i - T_t\right)^2}{2\sigma_i^2}} 
+  \end{align}$$
+
+* This corresponds then to saying the likelihood of the true value $T_t$ is given the observed $T_i$ is $L_{\sigma_i,T_i}(T) = P_{\sigma_i,T_t}\left( T_i\right)$.
+
+* If we take the <b>minus-log-likelihood</b>, we say this is equal to
+
+  $$\begin{align}
+  \mathcal{J}(T) =\text{constants} + \frac{1}{2}\left[\frac{\left(T -T_1\right)^2}{\sigma_1^2} + \frac{\left(T -T_2\right)^2}{\sigma_2^2}  \right],
+  \end{align}$$
+  where "constants" refer to terms that do not involve the free variable $T$.
+  
+* We write the minus-log-likelihood this way, because the <strong>constant terms have no bearing on which choice of $T$ minimizes the above objective function</strong>.
+
+* Rather, we see this as a penalty function given in terms of the <b>square deviation</b> of $T$ from the observations, <strong>proportional to the observation precisions</strong>.
+
+========================================================
+### Maximum likelihood estimation
+
+
+* Taking the derivative with respect to $T$, this equals zero precisely where
+
+  $$\begin{align}
+  &0 = \frac{T-T_1}{\sigma_1^2} + \frac{T-T_2}{\sigma_2^2} \\
+  \Leftrightarrow & T=  \frac{T_1 \sigma_2^2}{\sigma_1^2 + \sigma_2^2} + \frac{T_2 \sigma_1^2}{\sigma_1^2 + \sigma_2^2}
+  \end{align}$$
+  as with the minimum variance estimator.
+  
+* This is actually a <b>general property for Gaussian distributions</b>.
+
+* This is due to the geometry of the Gaussian exactly, in that its density is unimodally peaked at the mean, with symmetry about this value.
+  
+* This means that the <b>mean of the Gaussian and the mode</b> (the density maximizing value) <strong>always coincide</strong>.
+
+* In this simple example, we again assumed that $T_t$ was a fixed, unknown value;
+
+  * however, we want to consider again the case where $\pmb{x}$ is actually a <strong>random variable due to uncertain initial data and evolution</strong>.
+  
+* If we generally suppose that we have a <strong>joint density</strong> for $\pmb{x}$ and $\pmb{y}$, we can instead write this as a case of <b>Bayesian maximum a posteriori estimation</b>.
+
+========================================================
+## Maximum a posteriori estimation
+
+* Let's consider the relationship of conditional probability, supposing we have a joint density on the vectors $\pmb{x}$ and $\pmb{y}$,
+
+  $$\begin{align}
+  p(\pmb{x},\pmb{y})& = p(\pmb{x}|\pmb{y}) p(\pmb{y}), \\
+  p(\pmb{x},\pmb{y})&= p(\pmb{y}|\pmb{x}) p(\pmb{x}),
+  \end{align}$$
+
+* which together give <b>Bayes' law</b> as follows.
+
+  $$\begin{align}
+  p(\pmb{x}|\pmb{y}) = \frac{p(\pmb{y}|\pmb{x}) p(\pmb{x})}{p(\pmb{y})}.
+  \end{align}$$
+
+* Viewing this like maximum likelihood estimation, we can find the value $\hat{\pmb{x}}$ that <strong>maximizes the conditional density</strong> for $\pmb{x}|\pmb{y}$.
+
+* Therefore, <b>up to proportionality</b>, we say
+
+  $$\begin{align}
+  p(\pmb{x}|\pmb{y})\propto p(\pmb{y}|\pmb{x}) p(\pmb{x});
+  \end{align}$$
+  where
+  
+  * $p(\pmb{x}|\pmb{y})$ is known as the <strong>posterior</strong>;
+  * $p(\pmb{y}|\pmb{x})$ is known as the <strong>likelihood of the data</strong>; and
+  * $p(\pmb{x})$ is the <strong>prior knowledge</strong> of $\pmb{x}$.
+  
+  
+* Particularly, it is thus <strong>sufficient to maximize the product of the likelihood and the prior</strong> to find $\hat{\pmb{x}}$ that <b>maximizes the posterior</b>.
+
+  * Again, the marginal density $p(\pmb{y})$ for the observed data makes no difference in the maximal solution with respect to $\pmb{x}$.
+
+========================================================
+### Maximum a posteriori estimation
+
+* We recall that if $p(\pmb{x},\pmb{y})$ is jointly Gaussian, then the posterior $p(\pmb{x}|\pmb{y})$ is also Gaussian.
+
+* Therefore, the <strong>conditional Gaussian mean is both the minimum variance and maximum a posteriori estimator</strong>.
+
+
+* Particularly, if we recall that for jointly Gaussian distributed variables,
+
+  $$\begin{align}
+  \begin{pmatrix} \pmb{x} \\ \pmb{y} \end{pmatrix} \sim N\left(\begin{pmatrix}\overline{\pmb{x}} \\ \overline{\pmb{y}}\end{pmatrix}, 
+  \begin{pmatrix}
+  \boldsymbol{\Sigma}_{\pmb{x}} & \boldsymbol{\Sigma}_{\pmb{x},\pmb{y}} \\
+  \boldsymbol{\Sigma}_{\pmb{x},\pmb{y}} & \boldsymbol{\Sigma}_{\pmb{y}}
+  \end{pmatrix}
+  \right),
+  \end{align}$$
+
+* the posterior for $\pmb{x}$ given a particular realization of $\pmb{y}$ is given by the conditional density, proportional to
+
+  $$\begin{align}
+  p(\pmb{x}|\pmb{y}) \propto  \exp\left\{-\frac{1}{2}\parallel  \pmb{x} - \overline{\pmb{x}} - \boldsymbol{\Sigma}_{\pmb{x},\pmb{y}}\boldsymbol{\Sigma}_{\pmb{y}}^{-1}\pmb{\delta}_{\pmb{y}}\parallel_{\boldsymbol{\Sigma}_{\pmb{x}} - \boldsymbol{\Sigma}_{\pmb{x},\pmb{y}} \boldsymbol{\Sigma}_{\pmb{y}}^{-1} \boldsymbol{\Sigma}_{\pmb{x},\pmb{y}}}^2\right\}.
+  \end{align}$$
+  
+* Because the above is a hyper-exponential penalty function, for how far $\pmb{x}$ lies away from the conditional mean, this is clearly maximized at the condtional mean.
+
+* However, the conditional mean is not always the maximum a posteriori estimator for a generic density.
+
+* Nonetheless, the Bayesian proportionality statement
+  
+  $$\begin{align}
+  p(\pmb{x}|\pmb{y}) \propto p(\pmb{y}|\pmb{x}) p(\pmb{x})
+  \end{align}$$
+  gives a very <b>flexible means to construct</b> a Bayesian maximum a posteriori estimator.
+  
+* Taking the minus-log-likelihood once again, we attain a more <strong>general objective function minimization problem</strong>.
