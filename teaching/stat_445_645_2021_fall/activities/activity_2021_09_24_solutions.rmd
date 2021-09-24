@@ -1,0 +1,85 @@
+# Activity 09/24/2021
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+
+
+### Activity 1: Chi-square distribution
+
+#### Question 1:
+Suppose we want to find the inner critical region of the $\chi^2_{20}$ distribution, corresponding to the inner $95\%$ of the area under the density curve.  Note that this distribution is not symmetric like the normal.  Using the quantile function, identify the inner critical region and plot these points on the density curve. Use the plotting range $[0,50]$
+
+##### Solution:
+
+```{r}
+chi_left_crit <- qchisq(p=0.025, df=20)
+chi_right_crit <- qchisq(p=0.975, df=20)
+f <- dchisq(seq(0,50, by=0.01), df=20)
+plot(seq(0,50,by=0.01), f, type = "l", main = "Chi-squared df=20 PDF", xlab = "x", ylab = "Density")
+points(chi_left_crit, dchisq(chi_left_crit, df=20), col="red")
+points(chi_right_crit, dchisq(chi_right_crit, df=20), col="red")
+```
+
+#### Question 2:
+
+We noted in the video lecture that the Chi-square distribution becomes more bell-shaped as the number of degrees of freedom increases.  Using the probability density function and the `seq` function for setting a range of values, create a plot that depends on the number of degrees of freedom. Vary the number of degrees of freedom between $n=3, 15, 25, 50, 100, 200$.  Can you wrap the plotting in a `for` loop to produce all the lines together?  Can you also produce a legend with matching colors between the lines and the degrees of freedom?
+
+You may want to use:
+
+```{r}
+require("RColorBrewer")
+```
+
+
+#### Solution:
+
+```{r}
+n = c(3, 15, 25, 50, 100, 200)
+cols<-brewer.pal(n=6,name="Dark2")
+x = seq(0, 250, by=0.1)
+plot(x, dchisq(x, df=n[1]), type = "l", main ="Chi-square distribution", xlab = "x", ylab = "Density", col=cols[1])
+for (i in 2:6) {lines(x, dchisq(x, df=n[i]), col=cols[i])}
+legend(x="topright", legend=paste("Df=", as.character(n)), text.col=cols)
+```
+
+
+### Activity 2: Student's t-distribution
+
+#### Question 1:
+Use the quantile function of the student's t distribution to find the inner critical region of the $t_{15}$ distribution, corresponding to the inner $95\%$ of the area under the density curve, and plot these points on the density curve. Use the plotting range $[-5,5]$
+
+##### Solution:
+
+```{r}
+t_left_crit <- qt(p=0.025, df=15)
+t_right_crit <- qt(p=0.975, df=15)
+f <- dt(seq(-5,5, by=0.01), df=15)
+plot(seq(-5,5,by=0.01), f, type = "l", main = "Student's t df=15 PDF", xlab = "x", ylab = "Density")
+points(t_left_crit, dt(t_left_crit, df=15), col="red")
+points(t_right_crit, dt(t_right_crit, df=15), col="red")
+```
+
+
+
+#### Question 2:
+
+We noted in the video lecture that the student's t-distribution becomes closer to the normal distribution as the number of degrees of freedom increases.  Using the probability density function, create a plot that depends on the number of degrees of freedom.  Vary the number of degrees of freedom between $n=3, 15, 25, 50, 100, 200$. Can you wrap the plotting in a `for` loop to produce all the lines together?  Can you also produce a legend with matching colors between the lines and the degrees of freedom?
+
+Plot this versus the standard normal where you differentiate the colors.
+
+##### Solution:
+
+```{r}
+n = c(3, 15, 25, 50, 100, 200)
+cols<-brewer.pal(n=7,name="Dark2")
+x = seq(-5, 5, by=0.1)
+plot(x, dt(x, df=n[1]), type = "l", main = "Student's t versus standard normal", xlab = "x", ylab = "Density", col=cols[1])
+for (i in 2:6) {lines(x, dt(x, df=n[i]), col=cols[i])}
+lines(x, dnorm(x), col=cols[7])
+legend(x="topright", legend=c(paste("Df=", as.character(n)), "Standard normal"), text.col=cols)
+```
