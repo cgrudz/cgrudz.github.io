@@ -1,0 +1,101 @@
+# Activity 09/27/2021
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+```{r}
+require("RColorBrewer")
+```
+
+### Activity 1: The ecdf
+
+Compare the convergence of the ecdf to the true cdf of the standard normal distribution as follows.  We will use the `seq()` function to generate a plot of the cdf of the standard normal.  This should run on the interval $[-10,10]$ and we should set a step size of $0.01$.  The plot can be generated then using the cdf function with the argument being the sequence generated over this interval.
+
+Then, use a `for` loop to produce the following plots.  We will set a random seed and then sample the standard normal with the following sample sizes:
+```{r}
+n = c(10, 20, 50, 100, 1000, 10000)
+```
+The loop should run over the sample sizes and plot the associated ecdf for the sample generated within the loop.
+
+
+### Solution:
+
+```{r}
+x = seq(-5, 5, by=0.01)
+plot(x, pnorm(x), type = "l", main = "The theoretical cdf of the standard normal", xlab = "x", ylab = "Cumulative probability")
+```
+```{r}
+set.seed(0)
+cols<-brewer.pal(n=7,name="Dark2")
+for (i in 1:6) {
+  sample <- rnorm(n[i])
+  plot(ecdf(sample), col=cols[i], main=paste("ecdf sample size n=",n[i]))
+}
+```
+
+
+### Activity 2: Mean and standard deviation from samples
+
+We will use a `for` loop in the following to see how fast the sample mean from a set of
+```{r}
+n = seq(3, 1000, by=1)
+```
+observations converges to the true mean of the standard normal distribution.  Likewise, we will see how well the sample standard deviation approaches the true value of one. To get started, we will define these helper variables so that we can pre-allocate storage for the values of the means and the standard deviations.   We should fill the values for these vectors by the loop index, as we draw a sample of size `n[i]`. 
+```{r}
+set.seed(1)
+means <- matrix(ncol=length(n))
+standard_deviations <- matrix(ncol=length(n))
+```
+
+
+#### Solution:
+
+```{r}
+for (i in 1:length(n)) {
+  sample <- rnorm(n[i])
+  means[i] <- mean(sample)
+  standard_deviations[i] <- sd(sample)
+}
+plot(n, means, xlab=paste("Sample size n=",n[i]), ylab="Sample mean")
+plot(n, standard_deviations, xlab=paste("Sample size n=",n[i]), ylab="Sample standard deviation")
+```
+
+
+### Activity 3: Kernel densities versus histograms
+
+We will use the `gala` data from the Faraway package in the following activity.
+```{r}
+require("faraway")
+```
+
+We want to examine the differences between the empirical density as estimated by a histogram and a kernel density for low sample sizes.  The `gala` data only has 30 observations, and we know that Sturges' formula for generating the bins of the histogram can perform poorly if there are fewer observations than this.  Let's compare how the densities of the variables in the gala set differ from the histograms.
+
+To get started, let's load some useful variables for the `for` loop later.
+```{r}
+total_numb_variables <- length(gala[1,])
+cols <- brewer.pal(n=total_numb_variables, name="Dark2")
+name_list <- names(gala)
+```
+We should loop between 1 and the `total_numb_variables` to create a density and a histogram plot in which the color scheme is the same for the same variable.  We should label the plots as well with the values in the `name_list`.  The density should be chosen as ` kernel = "epanechnikov"`.
+
+Then discuss, what are the differences between these two plots.  Does the interpretation change when we use the ` kernel = "gaussian"` option?
+
+
+#### Solution:
+
+```{r}
+for (i in 1:total_numb_variables) {
+   dens_1 <- density(gala[,i], kernel = "epanechnikov")
+   dens_2 <- density(gala[,i], kernel = "gaussian")
+   plot(dens_1, main=paste("Epanechnikov kernel density of", name_list[i]), col=cols[i])
+   plot(dens_2, main=paste("Gaussian kernel density of", name_list[i]), col=cols[i])
+   hist(gala[,i], freq=FALSE, main=paste("Relative frequency of", name_list[i]), col=cols[i], xlab=name_list[i])
+}
+```
+
+
+In this case we see that the binning in the histograms is very coarse and it doesn't reveal the same fine-scale features as the other density plots.  The main difference between the two density plots is that the Gaussian density is a bit smoother, due to the faster rate of decay of the weights.
