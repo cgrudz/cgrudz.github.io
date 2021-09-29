@@ -1,0 +1,152 @@
+# Activity 09/29/2021
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+### Activity 1: Computing z-scores and critical values
+
+#### Question 1:
+
+Recall, a general normal confidence interval (with known variance $\sigma^2$) is given of the form:
+
+$$\left(\overline{x} - z_\frac{\alpha}{2}\frac{\sigma}{\sqrt{n}}, \overline{x}+z_\frac{\alpha}{2} \frac{\sigma}{\sqrt{n}}\right)$$
+where $z_\frac{\alpha}{2}$ is selected so that 
+
+$$P\left(Z\leq z_\frac{\alpha}{2}\right) = 1 - \frac{\alpha}{2}$$.
+
+The confidence level for the above interval is thus equal to $(1-\alpha)\times 100\%$.
+
+For a normal population with known variance $\sigma^2$, what is the confidence level (written as a percentage) for the interval
+$$\left(\overline{x} - 2.14\frac{\sigma}{\sqrt{n}}, \overline{x}+2.14 \frac{\sigma}{\sqrt{n}}\right)?$$
+
+##### Solution:
+
+We notice that $z_\frac{\alpha}{2} = 2.14$ and that $P(Z\leq 2.14)$ is given as
+```{r}
+pnorm(2.14)
+```
+Therefore, we consider that
+$$\begin{align}
+&P(Z\leq z_\frac{\alpha}{2}) = 1 - \frac{\alpha}{2}\\
+\Leftrightarrow & \alpha = 2 - 2 P(Z \leq z_\frac{\alpha}{2})
+\end{align}$$
+```{r}
+alpha <- 2- 2*pnorm(2.14)
+alpha
+```
+
+The confidence level is then given as
+
+```{r}
+(1 - alpha)*100
+```
+percent.
+
+### Activity 2: Computing point estimates and confidence intervals
+
+#### Question 1:
+
+The yield of a chemical process is being studied. From previous experience, yield is known to be normally distributed and $\sigma=3$. The past five days of plant operation have resulted in the yields in the following array:
+```{r}
+my_data <- c(91.6, 88.75, 90.8, 89.95, 91.3)
+```
+
+Compute each of the:
+
+1. sample mean
+2. sample standard deviation
+3. the standard error of the sample mean
+4. the sample-estimate for the standard error of the sample mean
+5. the 95% two-sided confidence interval for the true mean
+6. the 99% two-sided confidence interval for the true mean
+
+##### Solution
+
+1. Notice, we can compute the sample mean as
+
+```{r}
+sample_mean <- mean(my_data)
+sample_mean
+```
+
+2. The sample standard deviation is given as
+
+```{r}
+sample_std <- sd(my_data)
+sample_std
+```
+
+Notice, it does not equal the population standard deviation -- this is sampling error.
+
+3. The standard error of the sample mean with the known variance is given as
+
+$$\frac{\sigma}{\sqrt{n}} = \frac{3}{\sqrt{5}}$$ 
+or
+```{r}
+SE <- 3/sqrt(length(my_data))
+```
+
+4. If the true standard deviation $\sigma$ is unknown, we estimate it with the sample standard deviation,
+
+```{r}
+sample_std
+```
+
+The sample estimate for the standard error is thus equal to 
+$$\frac{s}{\sqrt{n}}$$
+or
+```{r}
+SE_estimated <- sample_std / sqrt(length(my_data))
+SE_estimated
+```
+
+5. With the sample mean and the standard error, we can compute confidence interval as
+
+$$\left(\overline{x} - z_\frac{\alpha}{2}\frac{\sigma}{\sqrt{n}}, \overline{x}+z_\frac{\alpha}{2} \frac{\sigma}{\sqrt{n}}\right)$$
+
+using the appropriate critical value.
+
+For the 95% confidence interval, we need to find the value for which $1-\frac{\alpha}{2} = 1-0.025=0.975$ of the area lies to the left and $\frac{\alpha}{2}=0.025$ lies to the right.
+
+```{r}
+z_alpha_over_2 <- qnorm(.975)
+CI_95 <- c(sample_mean - SE * z_alpha_over_2, sample_mean + SE * z_alpha_over_2)
+CI_95
+```
+
+6. Likewise, we can find
+
+$$1-\frac{\alpha}{2}=1-0.005=0.995$$
+
+Therefore,
+```{r}
+z_alpha_over_2 <- qnorm(.995)
+CI_99 <- c(sample_mean - SE * z_alpha_over_2, sample_mean + SE * z_alpha_over_2)
+CI_99
+```
+
+### Activity 3: Central limit theorem
+
+#### Question 1:
+Recall, we can generate a random sample of the Poisson distribution with the `rpois` function.  Let us set $\lambda=25$ and draw a sample of size `n=20` from this distribution, and compute the sample mean.  Let's replicate the process and plot the sample means over $m=50$ replications. Plot the corresponding central limit theorem sampling distribution for the mean along with these values, with a range given over $[20, 30]$.
+
+```{r}
+set.seed(0)
+lambda <- 25
+m <- 50
+n <- 20
+sigma <- sqrt(lambda)
+se <- sigma / sqrt(n)
+f <- dnorm(seq(20, 30, by=0.01), mean=25, sd=se)
+plot(seq(20, 30, by=0.01), f, type = "l", main = "Sampling distribution for sample mean", xlab = "x", ylab = "Density")
+for (i in 1:m){
+ sample <- rpois(n, lambda = lambda)
+ sample_mean <- mean(sample)
+ points(sample_mean, 0, col="red")
+}
+```
+
