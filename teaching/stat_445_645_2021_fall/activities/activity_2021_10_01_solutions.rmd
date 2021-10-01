@@ -1,0 +1,140 @@
+# Activity 10/01/2021
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+
+### Activity: Computing t-confidence intervals manually versus automatically
+
+
+An article in Computers & Electrical Engineering, “Parallel simulation of cellular neural networks” (1996, Vol. 22, pp. 61–84) considered the speed-up of cellular neural networks (CNN) for a parallel general-purpose computing architecture based on six transputers in different areas. The data follows:
+
+```{r}
+speed_up_times <- c(3.775302,	3.350679,	4.217981,	4.030324,	4.639692, 4.139665,	4.395575,	4.824257,	4.268119,	4.584193, 4.930027, 4.315973,	4.600101)
+```
+
+Assume population is approximately normally distributed.
+
+#### Question 1:
+
+Compute a two-sided t-confidence interval for the population mean with a $95\%$ level of confidence manually.  Then use the `t.test()` function to verify that this was computed correctly.
+
+#### Solution:
+
+To compute this manually, we will use a few standard quantities:
+```{r}
+x_bar <- mean(speed_up_times) # sample mean
+n <- length(speed_up_times) # sample size
+s <- sd(speed_up_times) # sample standard deviation
+se <- s / sqrt(n) # standard error estimate
+```
+
+We will use these in both problems.  Now, we just need to compute the appropriate t critical value:
+```{r}
+t_alpha_over_2 <- qt(0.975, df=(n-1))
+```
+
+Our two computations of the confidence interval are as follows:
+```{r}
+ci <- c(x_bar - se * t_alpha_over_2,  x_bar + se * t_alpha_over_2)
+ci 
+t.test(speed_up_times)
+```
+
+#### Question 2:
+
+Compute a one-sided, upper t-confidence bound on the population mean with a $99\%$ level of confidence manually.  Then use the `t.test()` function to verify that this was computed correctly.
+
+#### Solution:
+
+To solve this problem, we will need to adjust only the final step of the last solution.  Specifically, we will be constructing the interval
+
+$$(- \infty, \overline{x} + \hat{\sigma}_\overline{X} t_\alpha)$$
+
+so we need to find
+```{r}
+t_alpha <- qt(0.99, df=(n-1))
+```
+
+Computing this manually, we find
+```{r}
+ci <- c(-Inf, x_bar + se * t_alpha)
+ci
+```
+
+In the `t.test()` function, we can form the same by setting some key words:
+```{r}
+t.test(speed_up_times, conf.level=0.99, alternative="less")
+```
+
+### Activity: General hypothesis testing, power of tests and sample sizes
+
+### Question 1:
+
+Cloud seeding has been studied for many decades as a weather modification procedure (for an interesting study of this subject, see the article in Technometrics, "A Bayesian Analysis of a Multiplicative Treatment Effect in Weather Modification", Vol. 17, pp. 161–166). The rainfall in acre-feet from 20 clouds that were selected at random and seeded with silver nitrate follows:
+
+```{r}
+rainfall <- c(18.0, 30.7, 19.8, 27.1, 22.3, 18.8, 31.8, 23.4, 21.2, 27.9, 31.9, 27.1, 25.0, 24.7, 26.9, 21.8, 29.2, 34.8, 26.7, 31.6)
+```
+
+Can you support a claim that mean rainfall from seeded clouds exceeds 25 acre-feet? Use $\alpha = 0.01$ significance.
+
+#### Solution:
+
+In this case, we will formulate a hypothesis test as follows:
+
+$$\begin{align}
+H_0: \mu \leq 25 & & H_1 :\mu > 25
+\end{align}$$
+
+The reasoning is, if we reject the null hypothesis, we support the alternative claim.  Therefore, the hypothesis test is run as
+
+```{r}
+t.test(rainfall, mu=25, alternative="greater")
+```
+
+However, we see that the P value is greater than $\alpha=0.01$, meaning that we fail to reject the null hypothesis.  The evidence does not suggest that $\mu > 25$.
+
+### Question 2:
+
+Compute the power of the test if the true mean rainfall is 27 acre-feet.
+
+
+#### Solution:
+
+In this case, we will want to compute the following values:
+
+```{r}
+n <- length(rainfall)
+s <- sd(rainfall)
+mu_null <- 25
+mu_alt <- 27
+delta <- abs(mu_null - mu_alt)
+```
+
+The power is computed by neglecting the `power` argument in the following, while supplying the sample size `n`:
+```{r}
+power.t.test(n=n, sd=s, delta=delta, sig.level=0.01, type="one.sample", alternative="one.sided")
+```
+
+
+#### Question 3:
+
+What sample size would be required to detect a true mean rainfall of 27.5 acre-feet if we wanted the power of the test to be at least 0.9?
+
+##### Solution:
+
+To find the sample size necessary, we can supply the desired power instead of the sample size.  With this sample size value neglected, it will be computed from the other values:
+
+```{r}
+s <- sd(rainfall)
+mu_null <- 25
+mu_alt <- 27.5
+delta <- abs(mu_null - mu_alt)
+pow <- 0.9
+power.t.test(power=pow, sd=s, delta=delta, sig.level=0.01, type="one.sample", alternative="one.sided")
+```
