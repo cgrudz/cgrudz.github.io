@@ -1,0 +1,389 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+<!-- foo 
+Highlighting
+bold
+strong
+orange <b style="color:#d95f02"> text </b>
+green  <b style="color:#1b9e77"> text </b>
+purple <b style="color:#d24693"> text </b>
+red    <b style="color:#FF0000"> text </b>
+blue   <b style="color:#0000FF"> text </b>
+-->
+
+Variational least-squares part II
+========================================================
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+<blockquote>
+FAIR USE ACT DISCLAIMER:</br>
+This site is for educational purposes only.  This website may contain copyrighted material, the use of which has not been specifically authorized by the copyright holders. The material is made available on this website as a way to advance teaching, and copyright-protected materials are used to the extent necessary to make this class function in a distance learning environment.  The Fair Use Copyright Disclaimer is under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+</blockquote>
+
+========================================================
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+  * Extending the linear objective function approach
+  * Adjoint solution for the gradient
+  * Nonlinear least-squares problems
+  * Gauss-Newton
+
+========================================================
+## Motivation
+
+* In the last lecture we saw the many correspondences between the <b style="color:#d95f02">statistical estimation</b> approach as in the Kalman filter and the <b style="color:#1b9e77">objective function minimization</b> approach from optimization analysis.
+
+* In particular, we saw how the <b>square root Kalman filter</b>, with right transform analysis, can be interpreted as a <strong>recursive least-squares problem with Newton's algorithm</strong>.
+
+  * In this case, a <b>solution is obtained by a single iteration of Newton's descent</b>, where the right transform is derived directly as the <strong>square root inverse Hessian of the square root cost function</strong>.
+
+* Similarly, the direct, penalized optimization approach with the state-space cost function revealed that the <b>posterior covariance</b> is actually the <strong>inverse Hessian for the cost function</strong>.
+
+  * This is a general property of consistent maximum likelihood estimators, similar to the central limit theorem where, even for non-Gaussian analysis, this holds in large sample size limits.
+  
+* In this section, we will discuss two important extensions of the optimization approach to estimation:
+
+  <ol>
+   <li>the <b>adjoint approach</b> to computing the cost function gradient (known as <strong>back propagation in machine learning</strong>); and</li>
+   <li>a simple and effective approximation to Newton's descent when we study <b>nonlinear least-squares</b> (known as <strong>Gauss-Newton</strong>).</li>
+  </ol>
+
+
+========================================================
+## Extending the linear objective function
+
+* We recall that, for the Kalman filter, we stated that the approach by <b>recursive estimation</b>,
+
+  $$\begin{align}
+  p(\pmb{x}_k | \pmb{y}_{k:1}) \propto p(\pmb{y}_k|\pmb{x}_k) p(\pmb{x}_k|\pmb{y}_{k-1:1})
+  \end{align}$$
+  is <strong>equivalent to the direct approach</strong> on the left-hand-side.
+  
+  * However, this <b>equivalence rarely holds in practice</b>, due to the restrictive assumptions used to derive the Kalman filter, and the direct approach may be more accurate generally.
+  
+*  A similar idea to estimating $\pmb{x}_k$ through the direct approach comes from optimal analysis, when <b>assuming that the Gauss-Markov model is "perfect"</b>, i.e., where <strong>there are no shocks to the model evolution</strong>
+
+  $$\begin{align}
+  \pmb{x}_k &= \mathbf{M}_k \pmb{x}_{k-1},\\
+  \pmb{y}_k &= \mathbf{H}_k + \pmb{v}_k.
+  \end{align}$$
+  
+* This scenario is covered by the classical results of an <b>initial value problem</b>, in which finding an "optimal" initial condition is sufficient to find an <strong>optimal unique solution over an entire time window</strong>.
+
+* Particularly, we can formally extend the previous penalized objective function as,
+
+  $$\begin{align}
+  \mathcal{J}(\pmb{x}_0) = \frac{1}{2}\parallel \overline{\pmb{x}}_0 -\pmb{x}_0 \parallel^2_{\mathbf{B}_0} + \frac{1}{2}\sum_{k=1}^L \parallel \pmb{y}_k - \mathbf{H}_k \pmb{x}_k\parallel_{\mathbf{R}_k}^2 ,
+  \end{align}$$
+ 
+* where we are <b>measuring the deviation of the entire model trajectory</b> $\pmb{x}_{L:0}$ from the observation time series $\pmb{y}_{L:1}$ and the background prior mean $\overline{\pmb{x}}_0$ simultaneously.
+
+
+========================================================
+### Extending the linear objective function
+
+* Under the <b>perfect model assumption</b>, we recall that <strong>existence and uniqueness guarantees</strong>,
+
+  $$\begin{align}
+  \pmb{x}_k := \mathbf{M}_{k:1} \pmb{x}_0
+  \end{align}$$
+  for any given $k$, though where we again have uncertain initial data of the form
+  
+  $$\begin{align}
+  \pmb{x}_0 \sim N(\overline{\pmb{x}}_0 , \mathbf{B}_0).
+  \end{align}$$
+  
+* Using this relationship, we can then write the objective function directly in terms of the <strong>uncertain initial condition</strong> as follows,
+
+  $$\begin{align}
+  \mathcal{J}(\pmb{x}_0) = \frac{1}{2}\parallel \overline{\pmb{x}}_0 - \pmb{x}_0 \parallel_{\mathbf{B}_0}^2 + \frac{1}{2}\sum_{k=1}^L \parallel \pmb{y}_k - \mathbf{H}_k\mathbf{M}_{k:1} \pmb{x}_0 \parallel^2_{\mathbf{R}_k}.
+  \end{align}$$
+
+* In this simplistic, perfect model setting, it is easy to show that a <b>global analysis can be obtained like the square root Kalman filter</b> as
+
+  $$\begin{align}
+  \mathbf{B}_0 = \boldsymbol{\Sigma}_{0}\boldsymbol{\Sigma}_0^\top & & \mathbf{M}_{k:1}\boldsymbol{\Sigma}_{0} = \boldsymbol{\Sigma}_k & & \pmb{x}_0 := \overline{\pmb{x}}_0 + \boldsymbol{\Sigma}_0 \pmb{w} \\
+  \overline{\pmb{x}}_k = \mathbf{M}_{k:1}\overline{\pmb{x}}_0 & & \boldsymbol{\Gamma}_k := \mathbf{R}^{-\frac{1}{2}}_k \mathbf{H}_k\boldsymbol{\Sigma}_k & & \overline{\pmb{\delta}}_k = \pmb{y}_k - \mathbf{H}_k \overline{\pmb{x}}_k 
+  \end{align}$$
+
+* rendering the global cost function
+
+ $$\begin{align}
+ \mathcal{J}_w(\pmb{w}) = \frac{1}{2} \parallel \pmb{w}\parallel^2 + \frac{1}{2} \sum_{k=1}^L \parallel \overline{\pmb{\delta}}_k - \boldsymbol{\Gamma}_k \pmb{w} \parallel^2.
+ \end{align}$$
+
+========================================================
+### Extending the linear objective function
+
+* Particularly, from the last slide, we can perform the same analysis where $L=1$ and show that an <b>optimal initial condition</b> is generated via
+
+  $$\begin{align}
+  \nabla_{\pmb{w}} \mathcal{J}_w &= \pmb{w} - \sum_{k=1}^L \mathbf{S}_k^\top\left(\pmb{\delta}_k - \mathbf{S}_k\pmb{w} \right)\\
+  \mathbf{H}_{\mathcal{J}_w} &= \mathbf{I} + \sum_{k=1}^L \mathbf{S}_k^\top \mathbf{S}_k\\
+  \hat{\pmb{w}}& = \pmb{0} - \mathbf{H}_{\mathcal{J}_w}^{-1} \nabla_{\pmb{w}}\mathcal{J}_w |_{\pmb{w}=\pmb{0}},
+  \end{align}$$
+  i.e., <strong>with a single Newton iteration</strong>.
+
+* However, while the above approach works well for the linear-Gaussian perfect model, there are several challenges in applying this technique to a nonlinear system, even with the tangent-linear approximation.
+
+* Particularly, if we imagine that $\mathbf{M}_k$ is <b>actually a fundamental matrix solution for the tangent-linear model</b>, 
+
+  * <strong>depending on some underlying nonlinear solution of the full equations of motion</strong>,
+
+* then $\nabla_{\pmb{x}_0} \mathcal{J}$ <b>requires computing the derivative of the model equations itself</b>, with the dependence on the underlying solution.
+
+* In principle, one can use a finite-difference approximation of the gradient for the objective function,
+
+  * however, a much <strong>more efficient approach</strong> uses what is known as the <b>adjoint approximation</b>.
+
+ 
+========================================================
+## Adjoint solution for the gradient
+
+* We will present here the <b>simplified form of the adjoint solution for the gradient</b> for a linear-perfect dynamics like in the motivation above.
+
+  * This requires less development than in the nonlinear setting, but is <strong>core to the efficiency</strong> of the optimization approaches for estimation known as <b>3D- and 4D-VAR</b>.
+  
+  * While these techniques will not be the focus of this course, these are extremely important methods in theory and practice; 
+  
+  * furthermore, <strong>4D-VAR is currently used in the best-in-class prediction center</strong> for mid-range weather prediction, the <b>European Centre for Medium-Range Weather Forecasts (ECMWF)</b>.
+  
+* <strong>Hybrid approaches (including variational analysis, stastical analysis and machine learning combined)</strong> are at the <b>current frontier</b> and therefore a basic understanding of this approach is useful to understand the state-of-the-art. 
+
+* Similarly, the <b>adjoint approximation of the gradient</b> is <strong>widely used in machine learning for training neural networks</strong>, where it is known as <b>"back propagation"</b>.
+
+* This technique has longer roots in functional analysis and the "calculus of variations", though due to the complexity of these tools we will suppress many of the details in this course.
+
+========================================================
+### Adjoint solution for the gradient
+
+* For now, let us <b>suppress the background term</b> in the objective function, and only focus on an optimization with respect to the observations,
+
+  $$\begin{align}
+  \mathcal{J}(\pmb{x}_0) = \frac{1}{2}\sum_{k=1}^L \parallel \pmb{y}_k - \mathbf{H}_k \mathbf{M}_{k:1}\pmb{x}_0 \parallel^2_{\mathbf{R}_k}.
+  \end{align}$$
+
+
+* Including the background term additionally will follow in straight-forward way from the analysis with the observations alone.
+
+* Let us denote the following,
+
+  $$\begin{align}
+  \pmb{d}_k := \pmb{y}_k - \mathbf{H}_k\mathbf{M}_{k:1}\pmb{x}_0, & & \Delta_k := \mathbf{R}^{-1}\pmb{d}_k.
+  \end{align}$$
+
+* From this, we re-write the objective function as, 
+
+  $$\begin{align}
+  \mathcal{J}(\pmb{x}_0) = \frac{1}{2}\sum_{k=1}^L \pmb{d}_k^\top\mathbf{R}_k^{-1}\pmb{d}_k.
+  \end{align}$$
+
+
+========================================================
+### Adjoint solution for the gradient
+
+* Informally, we will denote <b>a variation $\delta$ on a function</b> as a <strong>"perturbation in the function space"</strong>;
+
+  * this is very <b>similar to the perturbations we consider under Taylor's theorem</b>, but the issues of the infinite dimensions of function spaces plays a role in formal development of this.
+  
+* Nonetheless, we will <strong>loosely interpret this through the usual chain rule and product rule</strong> as follows, where we take a variation with respect to the function of time generated by initial data $\pmb{x}_0$
+
+  $$\begin{align}
+  \delta\mathcal{J}(\pmb{x}_0) &= \frac{1}{2}\sum_{k=1}^L \left[ \delta\pmb{d}_k^\top\mathbf{R}_k^{-1}\pmb{d}_k + \pmb{d}_k^\top \mathbf{R}_k^{-1}\delta \pmb{d}_k\right]\\
+  &= \sum_{k=1}^L \delta\pmb{d}_k^\top \mathbf{R}^{-1}_k \pmb{d}_k \\
+  &= -\sum_{k=1}^L \left(\mathbf{H}_k\left[\mathbf{M}_{k:1}\delta \pmb{x}_0 \right]\right)^\top\Delta_k \\
+  &=- \sum_{k=1}^L \delta \pmb{x}_0^\top \left[\mathbf{M}_1^\top \cdots \mathbf{M}_k^\top \right]\mathbf{H}_k^\top \Delta_k.
+  \end{align}$$
+
+
+========================================================
+### Adjoint solution for the gradient
+ 
+* The <b>variation of the objective function</b> can be <strong>considered to be a directional derivative in the function perturbation</strong> $\delta \pmb{x}_0$, or the gradient's inner product with a vector, so that,
+
+  $$\begin{align}
+  \nabla_{\pmb{x}_0} \mathcal{J}& = - \sum_{k=1}^L  \left[\mathbf{M}_1^\top \cdots \mathbf{M}_k^\top \right]\mathbf{H}_k^\top \Delta_k \\
+  &=-\mathbf{M}_1\left[\mathbf{H}_1\Delta_1 + \mathbf{M}_2^\top \left[\mathbf{H}_2^\top \Delta_2 + \mathbf{M}_3^\top \left[\mathbf{H}_3^\top \Delta_3 + \cdots + \left[\mathbf{M}_L^\top \mathbf{H}_L^\top \Delta_L \right] \right] \right] \right]
+  \end{align}$$
+  where the above recursive calculation is known as a <b>Horner factorization</b>.
+  
+* The benefit of the above approach is that this gives an <b>extremely efficient calculation of the gradient</b>, that <strong>translates well to nonlinear dynamics and the tangent-linear approximation</strong>.
+
+* Specifically, one will,
+
+  <ol>
+   <li>Make a <b>first guess</b> $\pmb{x}_0$ and <strong>compute the (possibly nonlinear) evolution of the solution</strong> to the time series $\pmb{x}_{L:0}$.</li>
+   <li><b>Compute and store</b> the <strong>normalized innovations from the free forecast</strong> above,
+     $$\begin{align}
+     \Delta_k = \mathbf{R}^{-1}_k\left(\pmb{y}_k - \mathbf{H}_k \pmb{x}_k \right).
+     \end{align}$$</li>
+   <li>We then define the <b>"adjoint state variable"</b> with the following recursion,
+   $$\begin{align}
+   \tilde{\pmb{x}}_L:= \mathbf{H}^\top_L \Delta_L & & \tilde{\pmb{x}}_k:= \mathbf{H}^\top_k\Delta_k + \mathbf{M}_k^\top \tilde{\pmb{x}}_{k+1}.
+   \end{align}$$</li>
+   <li>Finally, the <strong>gradient is computed</strong> as $\nabla_{\pmb{x}_0}\mathcal{J} := -\tilde{\pmb{x}}_0$.</li>
+  </ol>
+
+* We interpret, then, the <b>gradient can be computed</b> by a <strong>freely evolved forward solution, with a back-propagation of the sensitivities via the adjoint model</strong>.
+
+========================================================
+### Adjoint solution for the gradient
+
+* With the linear derivation above, it may seem trivial the form of the solution as this simply required defining the adjoint model as,
+
+  $$\begin{align}
+  \tilde{\pmb{x}}_k = \mathbf{M}_k^\top \tilde{\pmb{x}}_{k+1}.
+  \end{align}$$
+  
+* The trick is that when this is <b>actually defined as a linear approximation of a nonlinear model</b>, this refers to a <strong>backward-in-time solution to the linear equation</strong>
+
+  $$\begin{align}
+  \frac{\mathrm{d}}{\mathrm{d}t} \tilde{\pmb{\delta}} = -\left(\nabla_{\pmb{x}} \pmb{f}(\pmb{x}(t))\right)^\top \tilde{\pmb{\delta}},
+  \end{align}$$
+  with the <b>underlying dependence on the nonlinear solution</b> over the time interval.
+
+* Therefore, in a realistic nonlinear setting one constructs the gradient for the objective function, differentiating the nonlinear model, via:
+  
+  * a <b>forward pass of the nonlinear solution</b>, while computing the tangent-linear evolution in the space of the perturbations; with
+  
+  * a <b>second backward pass only in the adjoint equations</b>, back-propagating the sensitivities along this solution to find the final form of the gradient.
+  
+* This a very effective and efficient solution, but relies on the differentiability (and the ability to compute the derivative) of the function $\pmb{f}$;
+
+  * in practice, therefore, this is handled in a modern setting using <b>automatic differentiation techniques</b>, which can <strong>formally compute this from a computer program alone</strong>.
+  
+========================================================
+## Gauss-Newton
+
+* We can imagine that for a function $\frac{\mathrm{d}}{\mathrm{d}t}\pmb{x}=\pmb{f}$ that governs the dynamics, 
+
+
+  * an <b>objective function</b> $\mathcal{J}$ that depends on this will have a <strong>more complicated Hessian when $\pmb{f}$ is nonlinear</strong>.
+
+* It is useful then to consider a slightly more general model for Newton's descent.
+
+* Let us take a general optimization notation where, we will denote the <b>least-squares in terms of residuals</b>
+
+  $$\begin{align}
+  \mathcal{J}(\pmb{x}) &:= \frac{1}{2} \parallel \pmb{y} - \pmb{\phi}(\pmb{x})\parallel^2 \\
+  &= \frac{1}{2} \pmb{r}^\top \pmb{r}
+  \end{align}$$
+  and
+  
+  <ul>
+    <li>$\pmb{\phi}:\mathbb{R}^{N_x} \rightarrow \mathbb{R}^{N_y}$ <strong>represents some general (possibly nonlinear) relationship between modeled parameters and observed data</strong>; and</li>
+    <li>$\pmb{r}(\pmb{x}):\mathbb{R}^{N_x} \rightarrow \mathbb{R}^{N_y}$ is known as the <strong>residual function, describing the component differences</strong> in $\mathbb{R}^{N_y}$.</li>
+  </ul>
+
+* This  phrases the optimization back as a minimization of a <b>generalized sum of residuals squared (RSS)</b>.
+
+* The linear case occurs as before where $\pmb{\phi}$ is a linear function, e.g., $\pmb{\phi}(\pmb{x}) = \mathbf{H} \pmb{x}$.
+
+
+========================================================
+### Gauss-Newton
+
+* We've seen how Newton's descent is an effective means of minimizing such a cost function when $\pmb{\phi}$ is a linear function;
+
+  * however, the general extension of <b>Newton's method</b> can be <strong>quite challenging to compute for an arbitrary objective function</strong>.
+
+* Nonetheless, it is a <b>special feature of least-squares problems</b> that this can often be <strong>well-approximated without a direct calculation of the Hessian</strong>.
+
+
+* Specifically, consider that the gradient is given by
+
+  $$\begin{align}
+  \nabla_{\pmb{x}} \mathcal{J} =\left( \nabla_{\pmb{x}} \pmb{r}\right)^\top \pmb{r},
+  \end{align}$$
+
+* where we interpret
+
+  $$\begin{align}
+  \pmb{r} = 
+  \begin{pmatrix}
+  r_1(\pmb{x}) \\ \vdots \\ r_m(\pmb{x})
+  \end{pmatrix} 
+  & &
+  \nabla_{\pmb{x}} \pmb{r} =
+  \begin{pmatrix}
+  \partial_{x_1} r_1(\pmb{x}) & \cdots & \partial_{x_m} r_1(\pmb{x}) \\
+  \vdots & \ddots & \vdots \\
+  \partial_{x_1} r_n(\pmb{x}) & \cdots & \partial_{x_m} r_n(\pmb{x})
+  \end{pmatrix},
+  \end{align}$$
+  in terms of the <b>Jacobian of the combined residual vector</b>.
+
+* Using this form, we will <strong>expand with Taylor's theorem</strong> to derive a form for the Hessian of $\mathcal{J}$.
+
+
+========================================================
+
+### Gauss-Newton
+
+*  Specifically, we can write
+
+  $$\begin{align}
+  \nabla_{\pmb{x}} \mathcal{J} = \left(\nabla_{\pmb{x}}\pmb{r}\right)^\top \pmb{r} & & \mathbf{H}_{\mathcal{J}}  =  \left(\nabla_{\pmb{x}}\pmb{r}\right)^\top  \left(\nabla_{\pmb{x}}\pmb{r}\right) + \sum_{k=1}^{N_y} r_k \mathbf{H}_{r_k}
+  \end{align}$$
+  
+* In most cases, $\nabla_{\pmb{x}} \pmb{r}$ <b>is easy to calculate</b>;
+  
+  * moreover, the term $\sum_{i=1}^{N_y} r_i \mathbf{H}_{r_i}$ <strong>tends to be much smaller</strong> than $\left(\nabla_{\pmb{x}}\pmb{r}\right)^\top  \nabla_{\pmb{x}}\pmb{r}$ <b>when in a neighborhood of a minimizer</b> $\pmb{x}^\ast$.
+
+
+* Consider then, for a perturbation $\pmb{x}_1 = \pmb{x}_0 + \pmb{\delta}_{\pmb{x}_1}$, we have the second-order Taylor expansion given as,
+
+  $$\begin{align}
+  \mathcal{J}(\pmb{x}_1) = \mathcal{J}(\pmb{x}_0) + \left(\nabla_{\pmb{x}} \mathcal{J}(\pmb{x}_0) \right)^\top\pmb{\delta}_{\pmb{x}_1} + \frac{1}{2} \pmb{\delta}_{\pmb{x}_1}^\top \mathbf{H}_{\mathcal{J}} \pmb{\delta}_{\pmb{x}_1} +\mathcal{O}\left(\parallel \pmb{\delta}_{\pmb{x}_1}\parallel^3\right).
+  \end{align}$$
+
+* This leads to a direct approximation of Newton's decent method where we <b>define the second-order approximation</b> as
+
+  $$\begin{align}
+  m(\pmb{\delta}_{\pmb{x}_1}) = \mathcal{J}(\pmb{x}_0) +   \pmb{r}^\top\left(\nabla_{\pmb{x}}\pmb{r}\right) \pmb{\delta}_{\pmb{x}_1} + \frac{1}{2}\boldsymbol{\delta}_{\pmb{x}_1}^\top \left(\nabla_{\pmb{x}}\pmb{r}\right)^\top  \left(\nabla_{\pmb{x}}\pmb{r}\right)\boldsymbol{\delta}_{x_1}
+  \end{align}$$
+  <strong>neglecting the trailing second order terms</strong>.
+
+========================================================
+
+### Gauss-Newton
+
+* Recall the second-order approximation from the last slide,
+
+  $$\begin{align}
+  m(\pmb{\delta}_{\pmb{x}_1}) = \mathcal{J}(\pmb{x}_0) +\pmb{r}^\top  \left(\nabla_{\pmb{x}}\pmb{r}\right) \pmb{\delta}_{\pmb{x}_1} + \frac{1}{2}\boldsymbol{\delta}_{\pmb{x}_1}^\top \left(\nabla_{\pmb{x}}\pmb{r}\right)^\top  \left(\nabla_{\pmb{x}}\pmb{r}\right)\boldsymbol{\delta}_{x_1}.
+  \end{align}$$
+  
+* Setting the derivative of the second-order approximation to zero with respect to the perturbation, we get the <b>Gauss-Newton approximation </b>
+  
+  $$\boldsymbol{\delta}_{x_1} = - \left[ \left(\nabla_{\pmb{x}}\pmb{r}\right)^\top  \left(\nabla_{\pmb{x}}\pmb{r}\right) \right]^{-1}\left(\nabla_{\pmb{x}}\pmb{r}\right)^\top \pmb{r} $$
+  which can be <strong>computed entirely in terms of the residuals and their Jacobian</strong>.
+  
+* The <b>Gauss-Newton approximation</b> is the basis of a <strong>variety of techniques to minimize a nonlinear least squares objective functions</strong>, with approximate behavior to Newton.
+
+* This has several benefits in the way we can guarantee the descent direction similarly to Newton, and this can be exploited with, e.g., <b>line search methods</b> to find a <strong>"best approximation" for the descent</strong>.
+
+* This also tends to be quite numerically efficient in a variety of scenarios, where $\nabla_{\pmb{x}} \pmb{r}$ <b>can often be a sparse Jacobian</b>, even when $\left(\nabla_{\pmb{x}} \pmb{r}\right)^\top\nabla_{\pmb{x}} \pmb{r}$ is not sparse.
+
+  * I.e., the <strong>Jacobian often has many zero entries</strong>, for which the computation can be efficiently performed or approximated with various techniques.
+
+* In such a setting, we <b>reduce the cost of the explicit Hessian calculation</b> considerably, but <strong>maintain many of its benefits in utilizing the local geometry</strong>.

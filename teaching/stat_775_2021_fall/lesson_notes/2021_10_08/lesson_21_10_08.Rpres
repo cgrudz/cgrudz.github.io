@@ -1,0 +1,430 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+<!-- foo 
+Highlighting
+bold
+strong
+orange <b style="color:#d95f02"> text </b>
+green  <b style="color:#1b9e77"> text </b>
+purple <b style="color:#d24693"> text </b>
+red    <b style="color:#FF0000"> text </b>
+blue   <b style="color:#0000FF"> text </b>
+-->
+
+Variational least-squares part I
+========================================================
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+<blockquote>
+FAIR USE ACT DISCLAIMER:</br>
+This site is for educational purposes only.  This website may contain copyrighted material, the use of which has not been specifically authorized by the copyright holders. The material is made available on this website as a way to advance teaching, and copyright-protected materials are used to the extent necessary to make this class function in a distance learning environment.  The Fair Use Copyright Disclaimer is under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+</blockquote>
+
+========================================================
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+  * Linear least-squares estimation
+  * Linear least-squares estimation and Newton's algorithm
+  * Linear least-squares estimation and the square root Kalman filter
+
+========================================================
+## Motivation
+
+* In the last two lectures, we saw a development of the <b>classical Kalman filter</b> from the <strong>standpoint of statistical estimation</strong>.
+
+* Particularly, we made the connections between:
+
+  * the <b style="color:#d95f02">minimum variance</b> and <b style="color:#1b9e77">maximum a posteriori estimators</b>;
+  * the <b>Bayesian posterior</b> and how the <strong>"optimal" estimate parameterizes this posterior</strong>; and
+  * various <b style="color:#d24693">boundedness, stability and practical considerations</b> for this estimator in practice, with, e.g., <strong>unknown system parameters</strong>.
+  
+* While the statistical viewpoint is the one that we will focus on in this course, many of these ideas have a parallel development in <b>optimization and optimal control theory</b>.
+
+* In the next two lectures, we will explore the connections between the <b>classical Kalman filter</b> and optimal statistical estimators and an <strong>optimal control development of the estimation problem</strong>.
+
+* Particularly, we will see how the optimization of an objective function has a natural interpretation in the Gauss-Markov model. 
+
+* Furthermore, we will see how the optimization interpretation easily extends our analysis to scenarios including <b>nonlinear estimation</b> when, e.g., we are <strong>simultaneously estimating process model parameters</strong>. 
+
+
+========================================================
+## Linear least-squares estimation
+
+* Recall how we constructed the <b>minimum variance estimator</b> by <strong>minimizing the expected residual sum of squares</strong>, 
+
+  $$\begin{align}
+  \text{RSS} = \hat{\pmb{\epsilon}}^\top \hat{\pmb{\epsilon}}
+  \end{align}$$
+
+* A related notion to minimizing the expected sum of squares is the <b>linear least-squares problem</b>.
+
+<blockquote>
+<b>Linear least-squares estimator</b><br>
+Let $\pmb{y}$ be a vector of observed data related to an input parameter $\pmb{x}$ via a linear map $\mathbf{H}$ such that
+$$\begin{align}
+\pmb{y} = \mathbf{H} \pmb{x} + \pmb{v}
+\end{align}$$
+where $\mathbb{E}\left[\pmb{v}\right]=\pmb{0}$ and $\mathrm{cov}(\pmb{v})=\mathbf{R}$.  The <strong>linear least-squares estimator</strong> $\hat{\pmb{x}}$ is the one satisfying the relationship
+$$\begin{align}
+\hat{\pmb{x}}:= \mathrm{argmin}_{\pmb{x}} \parallel \pmb{y} - \mathbf{H}\pmb{x} \parallel_{\mathbf{R}}^2
+\end{align}$$
+</blockquote>
+
+* This is to say, in a linear least-squares problem, we will try to:
+  
+  * <b>minimize the square distance</b> between the input function $\mathbf{H}\pmb{x}$; from 
+  
+  * the observed data $\pmb{y}$; relative to 
+  
+  * the distance implied by the inverse observation error covariance.
+  
+  
+* The <b>linear least-squares</b> refers to the fact that $\mathbf{H}$ is a <strong>linear function relating the inputs to the data</strong>.
+
+* Particularly, this means that the objective function is convex, so that the <b>critical value is the unique minimizer</b>.
+
+========================================================
+### Linear least-squares estimation
+
+* Let's define the least-squares objective function as
+
+  $$\begin{align}
+  \mathcal{J}(\pmb{x})=\frac{1}{2} \parallel \pmb{y} - \mathbf{H}\pmb{x} \parallel_{\mathbf{R}}^2
+  \end{align}$$
+
+* Calculating the gradient of the objective function,
+
+  $$\begin{align}
+  \nabla_{\pmb{x}} \mathcal{J} &=  -\mathbf{H}^\top \mathbf{R}^{-1}\left(\pmb{y} - \mathbf{H}\pmb{x}\right),
+  \end{align}$$
+  
+* and setting the gradient of the objective function equal to zero for $\hat{\pmb{x}}$,
+
+  $$\begin{align}
+  \mathbf{H}^\top\mathbf{R}^{-1}\mathbf{H}\hat{\pmb{x}}= \mathbf{H}^\top\mathbf{R}^{-1}\pmb{y}.
+  \end{align}$$
+  
+* The above equations are known as the <b>"normal equations"</b> that define the <strong>generalized linear least-squares solution</strong> to the objective function.
+  
+* If we suppose that $\mathbf{H}$ has full column rank, then $\mathbf{H}^\top\mathbf{R}^{-1}\mathbf{H}$ is invertible, i.e.,
+
+  $$\begin{align}
+  \hat{\pmb{x}} = \left(\mathbf{H}^\top\mathbf{R}^{-1}\mathbf{H} \right)^{-1}\mathbf{H}\mathbf{R}^{-1}\pmb{y}.
+  \end{align}$$
+
+* Therefore, by the convexity of the objective function, we know that $\hat{\pmb{x}}$ as defined above is the <b>global minimizer</b> of the distance between any choice of input $\pmb{x}$ and the observed data $\pmb{y}$ in <strong>the distance relative to the inverse observation uncertainty</strong>.
+
+========================================================
+### Linear least-squares estimation
+
+* Notice, the special case where $\mathbf{R}=\mathbf{I}$ gives,
+
+  $$\begin{align}
+  \hat{\pmb{x}} = \left(\mathbf{H}^\top\mathbf{H} \right)^{-1}\mathbf{H}^\top\pmb{y}= \mathbf{H}^\dagger \pmb{y}.
+  \end{align}$$
+  
+* I.e., in the simple case where $\mathbf{R}=\mathbf{I}$, we see that the <b>pseudo-inverse</b> applied to the observation vector $\pmb{y}$ is indeed the optimal solution.
+
+* This was discussed before in that this satisfies the orthogonal projection lemma, where
+  
+  $$\begin{align}
+  \mathbf{H}\hat{\pmb{x}}&= \mathbf{H}\mathbf{H}^\dagger \pmb{y}
+  \end{align}$$
+  
+  is precisely the <strong>orthogonal projection of the data</strong> into the column space of the observation operator $\mathbf{H}$.
+
+* This approach above is extremely similar to the Kalman filter, though  differing in that this is a static estimation, invariant-in-time, and it doesn't utilize any background information on $\pmb{x}$.
+
+* If we supposed that we had a good <b>prior knowledge</b> of what $\pmb{x}$ might look like without observed data, 
+
+  * or we had <strong>some region in which we would like to constrain a solution</strong> to, 
+  
+* we can introduce an additional <b>penalty term</b> for the least-squares analysis.
+
+
+* Suppose that we have a background solution which we will define in terms of $\overline{\pmb{x}}$, and a positive definite matrix $\mathbf{B}$ defining weights for the distance in how we measure $\pmb{x}$ deviating from $\overline{\pmb{x}}$.
+
+========================================================
+### Linear least-squares estimation
+
+
+* With the background information on the last slide, a new, <b>penalized objective function</b> can be defined as
+
+  $$\begin{align}
+  \mathcal{J}_p(\pmb{x}) := \frac{1}{2} \parallel \pmb{x} - \overline{\pmb{x}}\parallel_{\mathbf{B}}^2 + \frac{1}{2} \parallel \pmb{y} - \mathbf{H}\pmb{x}\parallel_{\mathbf{R}}^2.
+  \end{align}$$
+
+* where, like in the <b>Gaussian maximum a posteriori estimation</b>, we estimate an optimal state as a <b>balance between</b>:
+
+  <ol>
+    <li>the <strong>deviation from the background estimate</strong>, weighted inverse proportionally to the uncertainty weights $\mathbf{B}$; and</li>
+    <li>the <strong>deviation from the observed data</strong>, weighted inverse proportionally to the uncertainty of the data $\mathbf{R}$.</li> 
+  </ol>
+
+* In order to simplify the analysis, let $\mathbf{B}:= \boldsymbol{\Sigma}\boldsymbol{\Sigma}^\top$ be a matrix factor such as a Cholesky decomposition or a symmetric SVD.
+
+* Provided that $\mathbf{B}$ is <b>full rank</b>, we can equivalently write the problem in terms of a weight vector $\pmb{w}$ which will be defined by the relationship,
+
+  $$\begin{align}
+  \pmb{x} = \overline{\pmb{x}} + \boldsymbol{\Sigma} \pmb{w},
+  \end{align}$$
+  so that,
+  
+  * $\pmb{x}$ is written as a <strong>deviation from the base point</strong> $\overline{\pmb{x}}$;
+  * in terms of a <strong>linear combination of the columns</strong> of the matrix factor $\boldsymbol{\Sigma}$.
+  
+* This renders the above objective function equivalently as,
+
+  $$\begin{align}
+  \mathcal{J}_w(\pmb{w}) := \frac{1}{2} \parallel \pmb{w}\parallel^2 + \frac{1}{2} \parallel \pmb{y} - \mathbf{H}\overline{\pmb{x}} - \mathbf{H}\boldsymbol{\Sigma}\pmb{w}\parallel_{\mathbf{R}}^2.
+  \end{align}$$
+
+========================================================
+### Linear least-squares estimation
+
+
+* Furthermore, let's define an <b>uncertainty weighted innovation</b> from the base-point as
+  
+  $$\begin{align}
+  \overline{\pmb{\delta}} &:= \mathbf{R}^{-\frac{1}{2}}\left(\pmb{y} - \mathbf{H} \overline{\pmb{x}}\right).
+  \end{align}$$
+  
+* Let $\boldsymbol{\Gamma}:= \mathbf{R}^{-\frac{1}{2}} \mathbf{H} \boldsymbol{\Sigma}$, then the objective function can be <strong>equivalently written entirely in terms of the weights</strong> as
+
+  $$\begin{align}
+  \mathcal{J}_w(\pmb{w}) := \frac{1}{2} \parallel \pmb{w}\parallel^2 + \frac{1}{2} \parallel \overline{\pmb{\delta}}- \boldsymbol{\Gamma}\pmb{w}\parallel^2.
+  \end{align}$$
+
+* Taking the gradient with respect to the weights,
+
+  $$\begin{align}
+  \nabla_{\pmb{w}} \mathcal{J}_w(\pmb{w}) = \pmb{w} - \boldsymbol{\Gamma}^\top \left( \overline{\pmb{\delta}}- \boldsymbol{\Gamma}\pmb{w}\right),
+  \end{align}$$
+  
+* we will suppose that the <b>gradient is zero</b> at $\hat{\pmb{w}}$,
+
+  $$\begin{align}
+  &\pmb{0} = \hat{\pmb{w}} - \boldsymbol{\Gamma}^\top \left( \overline{\pmb{\delta}}- \boldsymbol{\Gamma}\hat{\pmb{w}}\right) \\
+  \Leftrightarrow &\boldsymbol{\Gamma}^\top \overline{\pmb{\delta}} =  \left(\mathbf{I} + \boldsymbol{\Gamma}^\top\boldsymbol{\Gamma} \right)\hat{\pmb{w}} \\
+  \Leftrightarrow &\hat{\pmb{w}} =  \left(\mathbf{I} + \boldsymbol{\Gamma}^\top\boldsymbol{\Gamma} \right)^{-1}\boldsymbol{\Gamma}^\top \overline{\pmb{\delta}}.
+  \end{align}$$
+
+
+========================================================
+### Linear least-squares estimation
+
+* From the last slide, this optimal set of weights tells us that
+
+  $$\begin{align}
+  \hat{\pmb{x}} &= \overline{\pmb{x}} + \boldsymbol{\Sigma} \hat{\pmb{w}} \\
+  & = \overline{\pmb{x}} + \boldsymbol{\Sigma}  \left(\mathbf{I} + \boldsymbol{\Gamma}^\top\boldsymbol{\Gamma} \right)^{-1}\boldsymbol{\Gamma}^\top \overline{\pmb{\delta}}\\
+  &= \overline{\pmb{x}} + \boldsymbol{\Sigma}\left( \mathbf{I} + \boldsymbol{\Sigma}^\top \mathbf{H}^\top \mathbf{R}^{-1} \mathbf{H}\boldsymbol{\Sigma}\right)^{-1} \boldsymbol{\Sigma}^\top\mathbf{H}^\top \mathbf{R}^{-1}\left(\pmb{y} - \mathbf{H} \overline{\pmb{x}}\right),
+  \end{align}$$
+  which you may recognize as an <strong>alternative form for the Kalman gain</strong> applied to the innovation.
+
+* We can in fact recover the classic Kalman filter equation with the matrix shift lemma,
+
+<blockquote>
+<b>Matrix shift lemma</b><br>
+Let $\mathbf{A} \in \mathbb{R}^{n \times m}$ and $\mathbf{B}\in \mathbf{R}^{m\times n}$.  Provided that $\left(\mathbf{I}_m + \mathbf{B}\mathbf{A}\right)^{-1}$ and $\left(\mathbf{I}_n + \mathbf{A}\mathbf{B}\right)^{-1}$ both exist, the following equality holds:
+$$\begin{align}
+\mathbf{A}\left(\mathbf{I}_m + \mathbf{B}\mathbf{A}\right)^{-1} = \left(\mathbf{I}_n +\mathbf{A}\mathbf{B}\right)^{-1} \mathbf{A}.
+\end{align}$$
+</blockquote>
+
+* In particular, with a proper choice of substitution, we recover the classical equations;
+
+  * the proof of the matrix shift lemma and the equivalence of these forms of the Kalman gain are left to the reader.
+  
+* For now, let's recall the form of the <b>gradient</b>,
+
+  $$\begin{align}
+  \nabla_{\pmb{w}} \mathcal{J}_w(\pmb{w}) = \pmb{w} - \boldsymbol{\Gamma}^\top \left( \overline{\pmb{\delta}}- \boldsymbol{\Gamma}\pmb{w}\right)...
+  \end{align}$$
+
+========================================================
+## Linear least-squares estimation and Newton's algorithm
+
+*  From the last slide, we should note the following:
+
+  $$\begin{align}
+  \nabla_{\pmb{w}} \mathcal{J}_w|_{\pmb{0}} =- \boldsymbol{\Gamma}^\top \overline{\pmb{\delta}},
+  \end{align}$$
+  
+* and the <b>Hessian</b> is likewise given as
+
+  $$\begin{align}
+  \mathbf{H}_{\mathcal{J}_w} := \nabla_{\pmb{w}}^2 \mathcal{J}_w = \left( \mathbf{I} + \boldsymbol{\Gamma}^\top \boldsymbol{\Gamma}\right),
+  \end{align}$$
+  
+* Therefore, viewing the <strong>linear least-squares problem</strong> as <b>Newton's descent algorithm</b>, let us define the zeroth iterate as $\pmb{w}^0 := \pmb{0}$; this corresponds to initializing Newton with 
+  
+  $$\begin{align}
+  \pmb{x}^0 &:= \overline{\pmb{x}} + \boldsymbol{\Sigma} \pmb{w}^0 \\
+  &=  \overline{\pmb{x}} + \boldsymbol{\Sigma} \pmb{0} = \overline{\pmb{x}},
+  \end{align}$$
+  i.e., starting with the base point.
+
+
+* Recall the form of the optimal correction,
+  
+  $$\begin{align}
+   \left(\mathbf{I} + \boldsymbol{\Gamma}^\top\boldsymbol{\Gamma} \right)^{-1}\boldsymbol{\Gamma}^\top \overline{\pmb{\delta}} \equiv - \mathbf{H}_{\mathcal{J}}^{-1} \nabla_{\pmb{w}}\mathcal{J}_w;
+  \end{align}$$
+
+* therefore, we recover the optimal solution via,
+
+  $$\begin{align}
+  \pmb{w}^1 := \pmb{w}^0 - \mathbf{H}_{\mathcal{J}_w}^{-1} \nabla_{\pmb{w}}\mathcal{J}_w|_{\pmb{w}^0},
+  \end{align}$$
+  i.e., with a <strong>single iteration of Newton's descent algorithm</strong>.
+
+========================================================
+### Linear least-squares estimation and Newton's algorithm
+
+* From the last slide, we have the remarkable fact that the <b>Kalman filter</b> is <strong>formally equivalent to Newton's descent</strong>, if $\mathbf{B} = \mathbf{B}_k$ is the background covariance and $\mathbf{R} = \mathbf{R}_k$ is the observation error covariance.
+
+  * In this case, with the linear relationship between the observational data and the model state, the global minimizer indicates that the optimization requires only a single iteration.
+  
+  * However, this is quite suggestive that, if we wanted to define an <b>iterative Kalman filter for nonlinear optimization</b>, this would <strong>strongly resemble Newton's algorithm, with second order convergence</strong>...
+  
+  * We will return to this notion later in the course.
+
+* However, Newton's descent does not in and of itself <strong>provide a means to update the background penalty weights</strong> $\mathbf{B}$ along with the background state for the optimization;
+
+  * this is critical if we wish to <b>apply this analysis recursively</b> in time like the Kalman filter.
+  
+* In order to do so, let's consider a second cost function, where we will define the analysis $\pmb{x}^{\mathrm{a}}$ and $\mathbf{B}^{\mathrm{a}}$ as the <b>optimal state and background weights</b> derived by the solution of the earlier cost function.
+
+
+* We write an equivalent minimization, in terms of the unknown $\mathbf{B}^{\mathrm{a}}$ and the known $\pmb{x}^{\mathrm{a}} \equiv \hat{\pmb{x}}$ as
+
+  $$\begin{align}
+  \mathcal{J}_a(\pmb{x}) = \frac{1}{2} \parallel \pmb{x}^{\mathrm{a}} - \pmb{x} \parallel^2_{\mathbf{B}^{\mathrm{a}}} 
+  \end{align}$$
+  
+* The cost of course is <strong>minimized when we select the analysis solution</strong>, $\pmb{x} = \hat{\pmb{x}}$, equivalently to the earlier penalized cost function...
+
+========================================================
+### Linear least-squares estimation and Newton's algorithm
+
+* Let's denote a new matrix factor $\mathbf{B}^{\mathrm{a}} = \boldsymbol{\Sigma}^{\mathrm{a}} \left(\boldsymbol{\Sigma}^{\mathrm{a}}\right)^\top$, but where we still write $\pmb{x}$ as before
+
+  $$\begin{align}
+  \pmb{x} = \overline{\pmb{x}} + \boldsymbol{\Sigma}\pmb{w}.
+  \end{align}$$
+  
+* The equivalent cost function is thus defined as 
+
+  $$\begin{align}
+  \mathcal{J}_a(\pmb{w}) = \frac{1}{2} \parallel \pmb{x}^{\mathrm{a}} -\overline{\pmb{x}} - \boldsymbol{\Sigma}\pmb{w} \parallel^2_{\mathbf{B}^{\mathrm{a}}} .
+  \end{align}$$
+  
+* Let us define the change of variables,
+
+  $$\begin{align}
+  \boldsymbol{\Omega} &:= \left(\boldsymbol{\Sigma}^{\mathrm{a}}\right)^{-1}\boldsymbol{\Sigma},\\
+  \pmb{\gamma} &:= \left(\boldsymbol{\Sigma}^{\mathrm{a}}\right)^{-1}\left(\pmb{x}^{\mathrm{a}} -  \overline{\pmb{x}}\right),
+  \end{align}$$
+  
+* such that we have
+
+  $$\begin{align}
+  \mathcal{J}_a(\pmb{w}) = \frac{1}{2} \parallel \pmb{\gamma} - \boldsymbol{\Omega}\pmb{w} \parallel^2 .
+  \end{align}$$
+
+
+========================================================
+### Linear least-squares estimation and Newton's algorithm
+
+* From the former derivation, we say that the two forms of the cost function,
+
+ $$\begin{align}
+  \mathcal{J}_a(\pmb{w}) &= \frac{1}{2} \parallel \pmb{\gamma} - \boldsymbol{\Omega}\pmb{w} \parallel^2 \\
+  \mathcal{J}_w(\pmb{w})&=\frac{1}{2} \parallel \pmb{w}\parallel^2 + \frac{1}{2} \parallel \overline{\pmb{\delta}}- \boldsymbol{\Gamma}\pmb{w}\parallel^2
+  \end{align}$$
+  are equivalent.
+  
+* If we <b>compute the Hessian from both definitions</b>, we find a resulting equivalence as
+
+  $$\begin{align}
+  &\left(\mathbf{I} +\boldsymbol{\Gamma}^\top \boldsymbol{\Gamma}\right) = \boldsymbol{\Omega}^\top \boldsymbol{\Omega}\\
+  \Leftrightarrow & \left(\mathbf{I} +\boldsymbol{\Gamma}^\top \boldsymbol{\Gamma}\right) = \boldsymbol{\Sigma}^{\top}\left(\boldsymbol{\Sigma}^{\mathrm{a}}\right)^{-\top}\left(\boldsymbol{\Sigma}^{\mathrm{a}}\right)^{-1} \boldsymbol{\Sigma}\\
+  \Leftrightarrow &\mathbf{B}^{\mathrm{a}} = \boldsymbol{\Sigma}\left( \mathbf{I} + \boldsymbol{\Gamma}^\top \boldsymbol{\Gamma}\right)^{-1} \boldsymbol{\Sigma}^\top.
+  \end{align}$$
+  
+* Therefore, if we identify $\mathbf{T}:= \mathbf{H}_{\mathcal{J}}^{-\frac{1}{2}}$, $\boldsymbol{\Sigma}_{k|k-1} = \boldsymbol{\Sigma}$ and $\boldsymbol{\Sigma}^{\mathrm{a}}:=\boldsymbol{\Sigma}_{k|k}$,  this derivation gives an <b>optimization approach</b> to the <strong>square root Kalman filter</strong> with the right-transform analysis.
+  
+* Particularly, the <b>right transform</b> is precisely the <strong>inverse square root Hessian of the square root objective function</strong>.
+  
+* Therefore, one can formulate recursive linear least-squares via Newton as the Kalman filter.
+
+  * Assuming a Gauss-Markov model in time, this likewise gives the minimum variance and maximum a posteriori statistical estimates.
+
+========================================================
+### Linear least-squares estimation and Newton's algorithm
+
+* One additional interesting form for these equations emerges when we consider the following,
+
+  $$\begin{align}
+  \mathbf{B}_{k|k} = \boldsymbol{\Sigma}_{k|k-1}\left( \mathbf{I} + \boldsymbol{\Sigma}_{k|k-1}^\top\mathbf{H}_k^\top \mathbf{R}_k^{-1} \mathbf{H}_k\boldsymbol{\Sigma}_{k|k-1}\right)^{-1} \boldsymbol{\Sigma}_{k|k-1}^\top,
+  \end{align}$$
+  where this is derived from the last slide with the <b>appropriate substitutions</b> for the <strong>time-varying background prior, observation and posterior covariances</strong>.
+
+* Consider then if we distribute the conjugate product through the inverse, we have equivalently,
+
+  $$\begin{align}
+  & \mathbf{B}_{k|k} = \left( \mathbf{B}_{k|k-1}^{-1} + \mathbf{H}_k^\top \mathbf{R}_k^{-1} \mathbf{H}_k\right)^{-1} \\
+  \Leftrightarrow & \mathbf{B}_{k|k}^{-1} =  \mathbf{B}_{k|k-1}^{-1} + \mathbf{H}_k^\top \mathbf{R}_k^{-1} \mathbf{H}_k
+  \end{align}$$
+
+* Note that if we compute the Hessian of the direct, penalized objective function,
+
+  $$\begin{align}
+  \mathcal{J}_p (\pmb{x}) = \frac{1}{2}\parallel \overline{\pmb{x}}_{k|k-1} - \pmb{x} \parallel_{\mathbf{B}_{k|k-1}}^2 + \frac{1}{2}\parallel \pmb{y}_k - \mathbf{H}_k \pmb{x} \parallel_{\mathbf{R}_k}^2
+  \end{align}$$
+
+* we obtain,
+
+  $$\begin{align}
+  \mathbf{H}_{\mathcal{J}_p} &= \mathbf{B}^{-1}_{k|k-1} + \mathbf{H}_k\mathbf{R}_k^{-1}\mathbf{H}_k \\
+  &= \mathbf{B}_{k|k}^{-1}
+  \end{align}$$
+
+========================================================
+### Linear least-squares estimation and Newton's algorithm
+
+* From the last slide we had the relationship,
+
+  $$\begin{align}
+  \mathbf{B}_{k|k} = \mathbf{H}_{\mathcal{J}_p}^{-1},
+  \end{align}$$
+
+* i.e., the <b>posterior covariance</b> is <strong>exactly the inverse Hessian of the direct, state-space cost function</strong> for the Gauss-Markov model.
+
+* This is an illustration of a more widely true property.
+
+* Particularly, the <b>maximum likelihood estimation minus-log-likelihood cost function Hessian</b> is the <strong>inverse covariance of the maximum likelihood estimator</strong>.
+
+  * This is an asymptotic result that holds in a <b>similar sense to the central limit theorem</b>.
+  
+* In particular, when the sample size is sufficiently large, even for non-Gaussian error distributions, the maximum likelihood estimator will have a spread that is inverse-proportional to the local curvature in the state-space cost function.
