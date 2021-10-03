@@ -1,0 +1,223 @@
+---
+title: "Midterm 1 Project"
+output: html_document
+---
+
+## Student Name:
+
+## Due date:
+October 17th, 11:59 in Canvas.
+
+## Instructions:
+Fill in your name above.  Most of the following exercises will have numeric answers that can be entered into the Canvas quiz online.  Essay questions can be submitted directly in the Canvas editor.  Graphical questions will all be submitted together with your work.  There will be a submission field in the Canvas quiz to submit your work in the form of the compiled HTML document for credit.
+
+
+### Question 1:
+
+Consider the following program,
+
+```{r}
+my_variable <- 5
+x <- 3
+
+
+my_func <- function(x) {
+  
+ x <- x + my_variable
+ return(x)
+}
+
+my_func(10)
+x
+
+my_variable <- 10
+
+my_func(10)
+x
+```
+
+Explain the output of the above program and how this relates to variable scope.  Your answer should reference the behavior of both of `my_variable` and `x`.
+
+
+### Question 2:
+
+A multiple-choice test contains 25 questions, each with 4 answers. If the exam is filled out randomly with each response equally likely, and each question filled independently, what is the probability of answering __less than or equal to 11 questions__ correctly? Round your answer to three decimal places. 
+
+### Question 3:
+
+Plot the probability mass function for the last experiment?  Include appropriate labels for this plot in the axes and in the title for full credit.
+
+### Question 4:
+
+Make a histogram of a sample of observations that are distributed according to the last experiment?  Set the following values:
+
+```{r}
+set.seed(123)
+sample_size = 100
+```
+
+Include appropriate labels for this plot in the axes and in the title.
+
+
+### Question 5:
+Suppose that we use the same sample size as above, but we replicate the experiment over
+```{r}
+replication_count <- 50
+```
+replications.
+
+Make a plot of the sampling distribution for the sample mean of the above replications, i.e., plot the appropriate normal density as well as the realizations of the sample mean under replication as points below the density curve. Make your choice of the parameters for the sampling distribution clear in your work for full credit.
+
+Use the following seed
+
+```{r}
+set.seed(1234)
+```
+
+### Question 6:
+
+For a normal population with known variance $\sigma^2$, what is the __confidence level__ (written to three decimal places) for the interval
+$$\left(\overline{x} - 1.75\frac{\sigma}{\sqrt{n}}, \overline{x}+1.75 \frac{\sigma}{\sqrt{n}}\right)?$$
+
+### Question 7:
+
+The yield of a chemical process is being studied. From previous experience, yield is known to be normally distributed and $\sigma=3$. The past five days of plant operation have resulted in the yields in the following array called `my_data`:
+```{r}
+set.seed(456)
+my_data <- rnorm(n=50, mean = 85, sd=3)
+my_data
+```
+__Do not change the random seed above__.  Use `my_data` to compute each of the following.
+
+
+#### 7a:
+Compute the __sample mean__.
+
+#### 7b:
+Compute the __sample standard deviation__.
+
+
+#### 7c:
+Compute the __standard error__ of the sample mean.
+
+
+#### 7d:
+Compute the __sample-estimate for the standard error__ of the sample mean.
+
+
+#### 7e:
+Compute the __left endpoint of the 90% two-sided confidence interval__ for the true mean, using the __known standard error__.
+
+#### 7f:
+Compute the __right endpoint of the  99% one-sided, upper confidence bound__ for the true mean, using the __known standard error__.
+
+
+
+### Question 8:
+Let $t_\alpha$ be the critical value for the one-sided confidence bound
+$$\left(-\infty, \overline{x} + \hat{\sigma}_\overline{X} t_\alpha\right)$$
+corresponding to a confidence level of $99\%$, and $n-1$ degrees of freedom$=19$
+
+Find the appropriate $t_\alpha$.
+
+### Question 9:
+
+We will consider the speed-up of cellular neural networks (CNN) for a parallel general-purpose computing architecture based on six transputers in different areas. The data follows:
+
+```{r}
+set.seed(567)
+speed_up_times <- runif(30, min=3.5, max=5.5)
+speed_up_times
+```
+__Do not change the random seed above__.  Use `speed_up_times` to compute each of the following.  Assume population is __approximately normally distributed__.
+
+#### 9a:
+
+Compute the __left endpoint of a two-sided t-confidence interval__ for the population mean with a $90\%$ level of confidence.
+
+
+#### 9b:
+
+Compute the __right endpoint of the one-sided, upper t-confidence bound__ on the population mean with a $99\%$ level of confidence.
+
+
+### Question 10:
+
+A textile fiber manufacturer is investigating a new drapery yarn, which the company claims has a mean thread elongation of 24 kilograms with a standard deviation of 3.25 kilograms. The company wishes to test the hypothesis $H_0:\mu=24$  against $H_1:\mu\neq 24$ using a random sample of 16 specimens.
+
+
+
+#### 10a:
+
+What is the type I error probability if the rejection region for the null hypothesis is defined as $\{\overline{x} < 22.75\} \cup \{\overline{x} > 25.25\}$  kilograms?
+
+#### 10b:
+
+Find the power of the test for the case where the true mean elongation is 26 kilograms.
+
+
+
+### Question 11:
+
+Cloud seeding has been studied for many decades as a weather modification procedure (for an interesting study of this subject, see the article in Technometrics, "A Bayesian Analysis of a Multiplicative Treatment Effect in Weather Modification", Vol. 17, pp. 161–166). The rainfall in acre-feet from 45 clouds that were selected at random and seeded with silver nitrate follows:
+
+```{r}
+set.seed(789)
+rainfall <- rchisq(45, df=15, ncp = 30)
+rainfall
+```
+__Do not change the random seed above__.  Use `rainfall` to compute each of the following.  Assume population is __approximately normally distributed__.
+
+#### 11a:
+
+__True or False__: the hypothesis test on the mean rainfall from seeded clouds supports the claim that the mean rainfall exceeds 37 acre-feet at $\alpha = 0.001$ significance.  Include your P-value for the test.
+
+
+#### 11b:
+
+Compute the power of the test if the true mean rainfall is 50 acre-feet.
+
+
+
+
+#### 11c:
+
+What sample size would be required to detect a true mean rainfall of 40 acre-feet if we wanted the power of the test to be at least 0.9?
+
+### Question 12:
+
+Using the `aatemp` data from Faraway consider the following. The `aatemp` data frame has 115 observations on the following 2 variables.
+
+  * year -- year from 1854 to 2000
+  * temp -- annual mean temperatures in degrees F in Ann Arbor
+
+Subset the data into two sub-dataframes where
+  
+  1. one subset contains the data from 1854 - 1940
+  2. one subset contains the data from 1941 - 2000
+
+#### 12a:
+
+Test the first sub-population for normality with a significance level of $\alpha =0.05$.  Report the P-values from the test for normality, rounded to three decimal places.
+
+#### 12b:
+
+Test the second sub-population for normality with a significance level of $\alpha =0.05$.  Report the P-value from the tests for normality, rounded to three decimal places.
+
+
+#### 12c:
+
+If you do not determine a significant departure from normality in both sub-populations in the last problem, apply the F test to determine if we have reason to reject the null hypothesis that the two sub-populations have equal variances.  Otherwise, assume that the two variances are unequal.  True / False: we reject the null hypothesis that the two variances are equal at 5% significance.
+
+
+#### 12d:
+Using the result of the last test, make a two sample test on the difference of the population means for the two sub-populations.  Use the appropriate form for the test statistic where you must specify if the variances are equal or unequal.  Report the p-value for this test __rounded to four decimal places__.
+
+
+
+#### 12e:
+
+Use a general goodness of fit test (that we have studied in class) to determine the P-value for the hypothesis test with the null hypothesis being that the two sub-populations are drawn from the same parent distribution and the alternative being that they are drawn from different parent distributions.  Report the P-value for this test __rounded to three decimal places__.
+
+
+
