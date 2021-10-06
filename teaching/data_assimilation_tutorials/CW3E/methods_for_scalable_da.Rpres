@@ -1,0 +1,398 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+
+
+</style>
+
+Methods for scalable data assimilation
+========================================================
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+
+
+
+<div style="text-align:center">
+<h3>Colin Grudzien</h3>
+<h4>Assistant Professor of Statistics</h4>
+<div style="float:left; width:30%; text-align:center; padding-left:35%; padding-top:20px">
+<img style="width:100%", src="UNR_logo.png" alt="University of Nevada, Reno logo."/>
+</div>
+<div style="float:left; width:100%">
+<h3>Presenting work in collaboration with</h3>
+<p>Marc Bocquet<sup>1</sup>, Alberto Carrassi<sup>2</sup>, Chris KRT Jones <sup>3</sup> et al.</p>
+<ol style="font-size:30px;text-align: center;list-style-position: inside;">
+  <li>CEREA, A joint laboratory &Eacute;cole des Ponts Paris Tech and EDF R&D, Universit&eacute; Paris-Est, Champs-sur-Marne, France.</li>
+  <li>University of Reading, Department of Meteorology and NCEO, Reading, United Kingdom.</li>
+  <li>University of North Carolina at Chapel Hill, Chapel Hill, NC, USA.</li>
+</ol>
+</div>
+</div>
+
+
+========================================================
+## Introduction
+
+* I have been an <b>Assistant Professor of Statistics</b> at the University of Nevada, Reno since January 2019;
+
+  * remarkably, over half this time has been spent facing a global pandemic.
+  
+* Despite the challenges, I have pushed forward an innovative research and teaching program by utilizing my <b>core strengths</b>:
+
+  <ol>
+    <li>my deep training in <strong>fundamental mathematics and statistics</strong>;</li>
+    <li>my experience in <strong>computing and software development</strong>; and</li>
+    <li>my <strong>adaptability and resourcefulness</strong> in facing new challenges and mastering new techniques.</li>
+  </ol>
+
+* In addition to my technical experience, I am <b>highly collaborative</b> and I enjoy the camaraderie and sense of purpose in working as part of a <b>tight-knit team</b>.
+
+* I will share how my experience and accomplishments demonstrate these skills;
+
+  * furthermore, I will discuss the <b>value I will add to the team at CW3E</b>, and how this will <strong>cultivate my own professional goals</strong>.
+
+========================================================
+## General candidate background
+
+<div style="float:left; width:76%">
+<ul>
+  <li>In 2011, I received my <b>BSc from the University of Oregon, Magna Cum Laude</b>, with majors in Mathematics and History.</li>
+  <ul>
+    <li> For my broad accomplishments in the Liberal Arts, I was <strong>elected one of the Oregon Six</strong> of the Phi Beta Kappa Alpha of Oregon Chapter.</li>
+  </ul>
+  <li> I received my <b>PhD in Mathematics from the University of North Carolina at Chapel Hill (UNC-CH)</b> in 2016.</li>
+  <ul>
+    <li>My graduate study was primarily funded through the <strong>Mathematics and Climate Research Network</strong>,</li> 
+  </ul>
+</div>
+<div style="float:right; width:24%; text-align:center;" class="fragment">
+<img style="width:90%", src="mcrn-logo.png" alt="Mathematics and Climate Research Network."/>
+</div>
+<div style="float: left; width:76%">
+<ul>
+  <li>with whom I organized a virtual data assimilation seminar with the <strong>Nansen Environmental and Remote Sensing Center (NERSC)</strong></li> 
+</ul>
+</div>
+<div style="float:right; width:24%; text-align:center;" class="fragment">
+<img style="width:90%", src="NERSC_logo.png" alt="Nansen Environmental and Remote Sensing Center logo."/>
+</div>
+<div style="float:left; width:76%">
+<ul>
+  <ul>
+    <li>and participants throughout the United States.</li>
+  </ul>
+  <li>While I was a graduate student, I held a visiting <b>Graduate Research Assistantship</b> at the <b>Los Alamos National Laboratory (LANL)</b>,</li>
+</ul>
+</div>
+<div style="float:left; width:23%; text-align:center;" class="fragment">
+<img style="width:80%", src="lanl-logo.png" alt="Los Alamos logo."/>
+</div>
+
+<div style="float:left; width:77%">
+  <ul>
+    <li>and I was awarded the <strong>UNC-CH Off Campus Dissertation Fellowship</strong> in order to complete my dissertation at <strong>NERSC</strong>.</li>
+    <li>After completing my dissertation, I returned to <b>NERSC as a postdoctoral researcher</b></li>
+  </ul>
+</ul>
+</div>
+<div style="float:left; width:78%;">
+<ul>
+  <li>which included a period as a <strong>visiting researcher at CEREA</strong>, a joint laboratory &Eacute;cole des Ponts Paris Tech and EDF R&D.</li>
+</ul>
+</div>
+<div style="float:right; text-align:center; width:22%;">
+<img style="width:80%;", src="cerea_logo.png" alt="CEREA logo." class="fragment"/>
+</div>
+
+========================================================
+## Research projects and themes
+
+* My <b>research focus</b> is on <strong>scalable data assimilation methodology</strong>;
+
+  * I develop theory for ensemble-based estimators in high-dimensional, chaotic dynamical systems characteristic of weather and climate.
+  
+* I utilize <b>dynamical, statistical and numerical tools</b> for understanding:
+
+  <ul>
+    <li>the <strong>stability and convergence</strong> of these estimators;</li>
+    <li>the <strong>robustness and reliability</strong> of their inferences in the presence of modeling errors and bias;</li>
+    <li>and the <strong>numerical efficiency</strong> of these schemes in the forecast cycle, for online predictions and real-time analysis.</li>
+  </ul>
+
+* Originally trained in pure mathematics, I approach my work by <b>leveraging my mathematical training</b> and by continually <strong>expanding the depth and breadth of my expertise</strong>.
+
+* My dissertation studied stability analysis of special solutions to PDEs utilizing geometric and dynamical systems tools.<sup>1,2</sup>
+
+  * Along with my experience at LANL,<sup>3</sup> this provides me with a basis in <b>dynamical and numerical modeling of physical systems</b>.
+
+* I proceeded to leverage my training in dynamical systems to develop a <strong>novel stability analysis of the Kalman filter and the EnKF</strong>.
+
+<div style="width:100%;float:left;font-size:28px; padding-top:25px">
+<b>1.</b> Grudzien, C., Bridges, T., & Jones, C. (2016). Geometric phase in the Hopf bundle and the stability of non-linear waves. Physica D: Nonlinear Phenomena, 334, 4-18.<br>
+<b>2.</b> Grudzien, C. (2016). The instability of the Hocking–Stewartson pulse and its geometric phase in the Hopf bundle. JCAM, 307, 162-169.<br>
+<b>3.</b> Grudzien, C., Deka, D., Chertkov, M., & Backhaus, S. (2018). Structure-and Physics-Preserving Reductions of Power Grid Models. SIAM MMS, 16(4), 1916-1947.
+</div>
+
+========================================================
+### Assimilation in the unstable subspace (AUS)
+
+* Numerical and empirical results have long demonstrated that the <b>skill of ensemble DA methods</b> in chaotic systems is <strong>strongly related to dynamic instabilities</strong>.<sup>4,5,6</sup>
+
+  * Particularly, the <b>uncertainty of ensemble-based estimators</b> is strongly related to the <strong>multiplicity, strength and observability of dynamical instabilities</strong>.<sup>7</sup>
+
+* Trevisan et al. proposed filtering methodology for dimensional reduction called <b>Assimilation in the Unstable Subspace (AUS)</b>.<sup>8</sup>
+
+* AUS gave an intuitive explanation for results in targeting observations to constrain forecast error growth.
+
+  * AUS also provided justification for the success of the EnKF in full-scale geophysical models with a degenerate sample size relative to the state / observation dimension.
+
+* However, <b>AUS lacked a mathematical formalism</b> that would allow these results to extend beyond the "perfect" model assumption in DA.
+
+* In my PhD, my collaborators and I established the fundamental mathematical theory for these dimensional reduction results.
+
+<div style="width:100%;float:left;font-size:28px; padding-top:25px;">
+<b>4.</b> Buizza, R., Tribbia, J., Molteni, F., & Palmer, T. (1993). Computation of optimal unstable structures for a numerical weather prediction model. Tellus A, 45(5), 388-407.<br>
+<b>5.</b> Toth, Z., & Kalnay, E. (1997). Ensemble forecasting at NCEP and the breeding method. Monthly Weather Review 125.12. 3297-3319.<br>
+<b>6.</b> Legras, B., & Vautard, R. (1996). A guide to Liapunov vectors. Proceedings 1995 ECMWF seminar on predictability. Vol. 1.<br>
+<b>7.</b> Carrassi, A., Trevisan, A., & Uboldi, F. (2007). Adaptive observations and assimilation in the unstable subspace by breeding on the data-assimilation system. Tellus A,
+59(1):101–113.<br>
+<b>8.</b> Palatella, L., Carrassi, A., & Trevisan, A. (2013). Lyapunov vectors and assimilation in the unstable subspace: theory and applications. Journal of Physics A: Mathematical and Theoretical, 46(25), 254020.
+</div>
+
+========================================================
+### Assimilation in the unstable subspace (AUS)
+<div style="float:left; width:100%;">
+<ul>
+  <li>We showed that, under a <strong>weakly nonlinear ensemble forecast error dynamics</strong>;</li>
+  <ul>
+    <li>and with respect to a <b>perfect model assumption</b>;</li>
+  </ul>
+  <li>the <strong>(ensemble) Kalman filter covariances collapse</strong> to the span of the <b>unstable and neutral Lyapunov vectors</b>.<sup>9</sup></li>
+  <ul>
+    <li>Furthermore, this is the <b>stable solution</b> for all ensemble initializations under generic model initialization and provided the <strong>dynamical instabilities are sufficiently observed</strong>.</li>
+  </ul>
+</ul>
+</div>
+<div style="float:right; text-align:center; width:50%;">
+<img style="width:90%;", src="eigenValueProfile.png" alt="Eigenvalue profile" class="fragment"/>
+</div>
+<div style="float:left; width:50%">
+<ul>
+  <li>This provides a direct <strong>dimensional reduction</strong> of the DA / uncertainty quantification problem in terms of:</li>
+  <ul>
+    <li>the optimality of the <b>low-rank covariance</b>; and </li>
+    <li> the <b>low-dimensional observation model</b>, when optimizing information to constrain dynamic error growth.</li>
+  </ul>
+  <li>My postdoctoral work extended these results to the case of <strong>stochastic modeling errors in the prediction cycle</strong>.</li>
+</ul>
+</div>
+
+<div style="width:100%;float:left;font-size:28px; padding-top:130px">
+<b>9.</b> Gurumoorthy, K. S., Grudzien, C., Apte, A., Carrassi, A., & Jones, C. K. (2017). Rank deficiency of Kalman error covariance matrices in linear time-varying system with deterministic evolution. SIAM Journal on Control and Optimization, 55(2), 741-759.<br>
+<b>10.</b> Bocquet, M., Gurumoorthy, K. S., Apte, A., Carrassi, A., Grudzien, C., & Jones, C. K. (2017). Degenerate Kalman filter error covariances and their convergence onto the unstable subspace. SIAM/ASA Journal on Uncertainty Quantification, 5(1), 304-333.<br>
+</div>
+
+========================================================
+### Stochastic model error in the DA cycle
+
+<div style="float:left; width:100%">
+<ul>
+  <li>In dynamics with <b>stochastic model errors</b>, I derived novel boundedness / stability results for the (ensemble) KF covariance.</li>
+  <ul>
+    <li>These results tie estimator performance directly to the <strong>design of the observation model in the dynamical instabilities</strong>.<sup>11</b></li> 
+  </ul>
+</ul>
+</div>
+<div style="float:right; text-align:center; width:45%; padding-top:30px;">
+<img style="width:98%;", src="obs_comp_b.png" alt="Observation operator comparison" class="fragment"/>
+</div>
+<div style="float:left; width:55%">
+<ul>
+  <li>A primary issue for low-rank estimators is from <b>unrepresented model errors</b> outside of the ensemble covariance span.</li>
+  <li>I derived a <strong>mathematical proof-of-concept for adaptive covariance inflation</strong> to correct this systematic underestimation.<sup>12</sup></li>
+</ul>
+</div>
+<div style="float:right; text-align:center; width:55%;">
+<img style="width:90%;", src="ekf_ause_v_ekf_rmse_log.png" alt="Adaptive inflation" class="fragment"/>
+</div>
+
+<div style="width:100%;float:left;font-size:28px">
+<b>11.</b> Grudzien, C., Carrassi, A., & Bocquet, M. (2018). Asymptotic forecast uncertainty and the unstable subspace in the presence of additive model error. SIAM/ASA Journal on Uncertainty Quantification, 6(4), 1335-1363.<br>
+<b>12.</b> Grudzien, C., Carrassi, A., & Bocquet, M. (2018). Chaotic dynamics and the role of covariance inflation for reduced rank Kalman filters with model error. Nonlinear Processes in Geophysics, 25(3), 633-648.
+</div>
+
+
+========================================================
+### Stochastic model error in the DA cycle
+
+
+
+<div style="float:left; width:100%">
+<ul>
+  <li>Furthermore, I studied the relationship between the combined effects of <b>numerical precision and model uncertainty</b> in stochastic dynamics, and its effect in <strong>producing bias in ensemble DA statistics</strong>.<sup>13</sup></li>
+</div>
+<div style="float:left; width:55%">
+<ul>
+  <li>To rigorously understand these effects and their <b>influence on filter stability / divergence</b>,</li>
+  <li> I developed a <strong>novel second-order Taylor-Stratonovich scheme</strong> for the Lorenz-96 model with additive noise, to <b>benchmark simulation statistics versus low-order schemes</b>.</li>
+</ul>
+</div>
+<div style="float:right; text-align:center; width:45%;">
+<img style="width:80%;", src="ensemble_statistics.png" alt="Ensemble statistics" class="fragment"/>
+</div>
+<div style="float:right; text-align:center; width:55%;">
+<img style="width:72%;", src="strong_convergence.png" alt="Strong convergence" class="fragment"/>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>This long-term research program is discussed with other results in our recent book chapter.<sup>14</sup></li>
+</ul>
+</div>
+<div style="width:100%;float:left;font-size:28px">
+<b>13.</b> Grudzien, C., Bocquet, M., & Carrassi, A. (2020). On the numerical integration of the Lorenz-96 model, with scalar additive noise, for benchmark twin experiments. Geoscientific Model Development, 13(4), 1903-1924.<br>
+<b>14.</b> Carrassi, A., et al. (2021). Data assimilation for chaotic dynamics. In Volume IV of Data Assimilation for Atmospheric, Oceanic and Hydrologic Applications. Springer.
+</div>
+
+========================================================
+### Efficient EnVAR for short-range forecasting
+
+<div style="float:left; width:100%">
+<ul>
+  <li><b>EnVAR</b> methods form the <strong>basis of the state-of-the-art</strong> for scalable DA,<sup>15</sup> where EnKF-based estimators combine:</li>
+</ul>
+</div>
+<div style="float:left; width:35%;">
+<ul><ul>
+  <li>the <strong>accuracy of the iterative solution</strong> to the Bayesian MAP formulation;</li>
+  <li>the <strong>simplicity of model development and maintenance</strong> in ensemble DA;</li> 
+  <li>the ensemble analysis of <strong>time-dependent errors</strong>; and</li>
+  <li>optimization of <strong>hyper-parameters with machine learning</strong> surrogate models.<sup>16</sup></li>
+  <li>However, many designs are <b>not cost-effective in short-range prediction</b>.</li>
+</ul>
+  <li>I developed an <strong>outer-loop optimization of the EnVAR short-range DA cycle</strong>.<sup>17</sup></li>
+</ul>
+</div>
+<div style="float:right; text-align:center; width:65%;">
+<img style="width:95%;", src="single_iteration_diagram.png" alt="SIEnKS" class="fragment"/>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>We combine the EnKS / iterative EnKS into a <b>single-iteration ensemble Kalman smoother (SIEnKS)</b> to focus <strong>iterative optimization on hyper-parameters and nonlinear observation operators</strong>.</li>
+</ul>
+</div>
+
+
+
+<div style="width:100%;float:left;font-size:28px; padding-top:20px">
+<b>15.</b> Bannister, R. (2017). A review of operational methods of variational and ensemble-variational data assimilation, QJRMS, 143, 607–633.<br>
+<b>16.</b> Bocquet, M., Brajard, J., Carrassi, A., and Bertino, L. (2020). Bayesian inference of chaotic dynamics by merging data assimilation, machine learning and expectation-maximization, Foundations of Data Science, 2, 55–80.<br>
+<b>17.</b> Grudzien, C., Bocquet, M.  A fast, single-iteration ensemble Kalman smoother for sequential data assimilation. In Submission to Geoscientific Model Development.
+</div>
+
+
+========================================================
+### Efficient EnVAR for short-range forecasting
+<div style=float:left; width:100%">
+<ul>
+  <li>Our <b>key result</b> is an <strong>efficient multiple data assimilation (MDA) scheme</strong> within the EnKS cycle.</li>
+  <ul>
+    <li>The filter step in this analysis is used as a <b>boundary condition</b> for the <strong>interpolation of the posterior over the lag window</strong>.</li>
+  </ul>
+</ul>
+</div>
+<div style="float:left; width:100%; text-align:center;">
+<img style="width:80%;", src="mda_heat_plot.png" alt="Ensemble statistics" class="fragment"/>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>This MDA scheme is demonstrated to be <b>more accurate, stable and cost-effective</b> than EnKF-based 4D-EnVAR schemes <strong>in short-range forecasts</strong>.</li>
+</ul>
+</div>
+
+
+========================================================
+### Efficient EnVAR for short-range forecasting
+
+<div style="float:left; width:100%">
+<ul>
+  <li>The <b>data boundary condition</b> <strong>improves the forecast statistics</strong>, controlling the accumulated forecast error over lagged states unlike traditional 4D-EnVAR approaches.</li>
+</ul>
+</div>
+<div style="float:left;  width:100%; text-align:center;">
+<img style="width:75%;", src="rmse_spread_sienks.png" alt="Ensemble statistics" class="fragment"/>
+</div>
+<div style="float:left;  width:100%">
+<ul>
+  <li>Our mathematical results are <strong>supported by extensive numerical demonstration</strong>, with the <b>Julia package DataAssimilationBenchmarks.jl</b> which I developed for my research, with contributions from student researchers.<sup>18</sup></li>
+</ul>
+</div>
+<div style="width:100%;float:left;font-size:28px">
+<b>18.</b> Grudzien, C., Sandhu, S., Jridi, A. (2021, September 4). cgrudz/DataAssimilationBenchmarks.jl:. Zenodo. In preparation for The Journal of Open Source Software.
+</div>
+
+========================================================
+## Future research and professional goals
+
+* My <b>future research interests</b> include <strong>extending the SIEnKS formalism to realistic short-range prediction settings</strong>.
+
+  * Both the AUS dynamical analysis for targeting observations and the SIEnKS in optimizing EnVAR</b> are designed for short-range forecast dynamics as with atmospheric rivers.
+  
+* A growing opportunity in short-range and now-casting is in the use of <b>data-driven prediction systems with deep learning</b>;<sup>19</sup>
+  
+  * a challenge, however, with deep learning approaches is the <strong>need for abundant and high-quality data to train models</strong>.
+  
+  * For <b style="color:#d95f02">atmospheric rivers</b>, a pure data approach may be challenging due to <b style="color:#1b9e77">large data gaps</b>.<sup>20</sup>
+
+* Rather than replacing dynamical models entirely, growing research indicates a path forward for a hybrid approach:
+
+  * using Bayesian MAP formalism in a <b>combination of DA with dynamical models and deep learning surrogate models</b>; where
+  
+  * <strong>training the surrogate model is within the EnVAR DA cycle</strong>, reconstructing the signal from noisy and sparse data.<sup>21</sup>
+
+* The hybrid approach, furthermore, can use <b style="color:#1b9e77">dynamical principles for data reconnaissance</b>.
+
+* This research program runs parallel with a <b>longer-term book project I am developing with my collaborators</b>.<sup>22</sup>
+
+<div style="width:100%;float:left;font-size:28px">
+<b>19.</b> Ravuri, S., Lenc, K., Willson, M. et al. (2021). Skilful precipitation nowcasting using deep generative models of radar. Nature 597, 672–677<br>
+<b>20.</b> Zheng, M., Delle Monache, L., et al. (2021). Data gaps within atmospheric rivers over the northeastern Pacific. BAMS, 102(3), E492-E524.<br>
+<b>21.</b> Brajard, J., Carrassi, A., Bocquet, M., & Bertino, L. (2020). Combining data assimilation and machine learning to emulate a dynamical model from sparse and noisy observations: A case study with the Lorenz 96 model. Journal of Computational Science, 44, 101171.<br>
+<b>22.</b> Carrassi, A., Grudzien, C., Bocquet, M., Farchi, A., Raanes, P. Data assimilation for dynamical system and their discovery through machine learning. Accepted Book Proposal in Springer-Nature.  Target submission in 2023.
+</div>
+
+========================================================
+### Contribution to CW3E
+
+* My <b style="color:#d95f02">research</b> covers most aspects of the theoretical DA problem, from: 
+  * <strong>modeling and simulation</strong>;
+  * <strong>estimator diagnostics and validation</strong>; and
+  * <strong>observer and estimator algorithm design</strong>. 
+  
+* Likewise, my <b style="color:#1b9e77">work experience</b> is adjacent to the operational aspects of the problem, including:
+  * <strong>collaboration in a geophysics laboratory environment</strong>; and
+  * <strong>software development and high-performance, networked computing</strong>.
+  
+* Additionally, my <b style="color:#d24693">teaching skills</b> provide me with
+  * extensive practice in <strong>presentation and communication</strong>;
+  * as well equipping me to perform <strong>statistical analysis and regression</strong>.
+
+* I believe the skill-base that I bring is complementary with the existing operational strengths of the institute;
+
+  * while I lack direct operational experience currently, I am eager to dive into this aspect of the DA problem and achieve mastery of these skills.
+
+* Likewise, I am eager to <b>utilize my core strengths</b> to <strong>develop novel techniques for hybrid DA-machine learning</strong> in short-range prediction cycles.
+
+<div style="float:left; width:100%; text-align:center;">
+<h3>Thank you for your time and consideration!</h3>
+</div>
