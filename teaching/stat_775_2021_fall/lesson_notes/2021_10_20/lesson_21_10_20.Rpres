@@ -1,0 +1,372 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+<!-- foo 
+Highlighting
+bold
+strong
+orange <b style="color:#d95f02"> text </b>
+green  <b style="color:#1b9e77"> text </b>
+purple <b style="color:#d24693"> text </b>
+red    <b style="color:#FF0000"> text </b>
+blue   <b style="color:#0000FF"> text </b>
+-->
+
+The bootstrap particle filter
+========================================================
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+<blockquote>
+FAIR USE ACT DISCLAIMER:</br>
+This site is for educational purposes only.  This website may contain copyrighted material, the use of which has not been specifically authorized by the copyright holders. The material is made available on this website as a way to advance teaching, and copyright-protected materials are used to the extent necessary to make this class function in a distance learning environment.  The Fair Use Copyright Disclaimer is under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+</blockquote>
+
+========================================================
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+  * A sampling approach to nonlinear estimation
+  * Empirical estimates of statistics
+  * Importance sampling
+  * The bootstrap filter and resampling strategies
+
+
+========================================================
+## Motivation
+
+* We have now begun to introduce some of the key concepts that bridge the estimation problem to <b style="color:#d95f02">nonlinear models</b>.
+
+* Rather than the usual <b style="color:#1b9e77">Gauss-Markov model</b>, we may generally consider a system of equations
+
+  $$\begin{align}
+  \pmb{x}_k &= \mathcal{M}_k (\pmb{x}_{k-1}) + \pmb{w}_k \\
+  \pmb{y}_k &= \mathcal{H}_k (\pmb{x}_k) + \pmb{v}_k
+  \end{align}$$
+  where
+
+  * $\mathcal{M}_k:\mathbb{R}^{N_x} \rightarrow \mathbb{R}^{N_x}$ is a <b style="color:#d95f02">nonlinear mapping</b> that encompasses the <strong>equations of motion in time</strong>;
+  * $\mathcal{H}_k: \mathbb{R}^{N_x} \rightarrow \mathbb{R}^{N_y}$ is a <b style="color:#d95f02">nonlinear mapping</b> that <strong>transmits the hidden modeled states to the observed variables</strong>; and
+  * $\{\pmb{w}_k\}_{k=1}^\infty$ and $\{ \pmb{v}_k\}_{k=1}^\infty$ are <strong>mutually independent, white-in-time error sequences</strong>, with <b style="color:#d95f02">arbitrary distributions</b>.
+
+* Note, even if the  <b style="color:#1b9e77">error distributions are Gaussian</b>, the <strong>nonlinearity of the process model and observation model will deform the forecast and posterior distributions</strong>;
+
+  * therefore, in the presence of nonlinearity, the Kalman filter approach (in all of its variants) is a <b>sub-optimal estimator, relying on biased assumptions</b>.
+
+* While we have seen that the Gauss-Markov model can be used as an approximation within certain restrictions, 
+
+  * it is of interest to consider, <strong>how can we perform fully nonlinear estimation?</strong>
+
+========================================================
+### Motivation
+
+* Recall the <b>highly general hidden Markov model</b>, without the simplification of the linear-Gaussian restriction.
+
+  $$\begin{align}
+  \pmb{x}_k &= \mathcal{M}_k (\pmb{x}_{k-1}) + \pmb{w}_k \\
+  \pmb{y}_k &= \mathcal{H}_k (\pmb{x}_k) + \pmb{v}_k
+  \end{align}$$
+
+* It is possible to define <strong>pure Bayesian estimators for the general configuration</strong>, with very few assumptions.
+
+  * This type of estimator has had a long history in physics and engineering, where they are broadly known as <b>particle filters / smoothers</b>.
+  
+* These types of estimators are very robust in terms of  <b style="color:#d95f02">estimating the nonlinear evolution</b>, and <strong>can identify highly-skewed and multi-modal distributions</strong>.
+
+* The high generality of this type of estimator means that there is <b>very little bias by its construction</b>;
+
+  * however, these estimators also tend to be of <strong>extremely high variance, due to the lack of any prescribed form like a Gaussian</strong>.
+  
+* This tradeoff means that in order to gain robust estimates as above, the <b>sample size needs to be very large</b>.
+
+  * For a small dimensional process / observation model, the large sample size is feasible, and these estimators are very good choices.
+  
+* However, for <b>too large a system</b>, the computation of <strong>standard particle methods becomes unfeasible, unless additional forms of bias are introduced to the estimator</strong>.
+
+========================================================
+## A sampling approach to nonlinear estimation
+
+* Recall that in our discussion of the Kalman filter, we derived that
+
+  $$\begin{align}
+  p(\pmb{x}_k|\pmb{y}_{k:1})\propto p(\pmb{y}_k|\pmb{x}_k) p(\pmb{x}_k | \pmb{y}_{k-1:1}),
+  \end{align}$$
+
+* so that we interpret:
+  
+  * Given the <b style="color:#d95f02">last posterior density</b> $p(\pmb{x}_{k-1}|\pmb{y}_{k-1:1})$, we can <strong>apply the Markov transition kernel</strong>
+  
+  $$\begin{align}
+  p(\pmb{x}_{k}|\pmb{y}_{k-1:1}) = \int p(\pmb{x}_k|\pmb{x}_{k-1}) p(\pmb{x}_{k-1}|\pmb{y}_{k-1:1})\mathrm{d}\pmb{x}_{k-1}
+  \end{align}$$
+  to obtain the <b style="color:#1b9e77">forecast density</b> for $\pmb{x}_{k|k-1}$.
+  
+  * We condition based on the <b style="color:#d24693">likelihood of the observed data</b>, $\pmb{y}_k$ by multiplication
+  
+  $$\begin{align}
+  p(\pmb{y}_k|\pmb{x}_k) p(\pmb{x}_k | \pmb{y}_{k-1:1});
+  \end{align}$$
+  and
+  
+ * after <strong>re-normalization by a constant</strong>, we <b style="color:#d95f02">obtain the posterior</b> $p(\pmb{x}_k | \pmb{y}_{k:1})$.
+
+* All of these steps are <b>implicitly encoded in the Kalman filter equations</b> for the recursive conditional mean and covariance.
+
+* However, the <strong>above derivation actually never made use of any linear-Gaussian model assumptions</strong>;
+
+  * indeed, this <b>only required the Markov assumptions and independence of the observation and model errors</b>.
+
+
+========================================================
+### A sampling approach to nonlinear estimation
+
+<ul>
+  <li> Suppose that somehow we had access to the <b style="color:#d95f02">posterior density $p(\pmb{x}_L\vert \pmb{y}_{L:1})$</b>.</li>
+  <li> If we draw <strong>$N_e$ independent, identically distributed (iid) ensemble members</strong> from this distribution, $\{\pmb{x}_L^i\}_{i=1}^{N_e}$,</li>
+  <li>an <b>empirical representation</b> of the distribution (probability measure) is given by  
+    $$\begin{align}
+        \mathcal{P}_{N_e}(\pmb{x}_L\vert \pmb{y}_{L:1}) = \frac{1}{N_e} \sum_{i=1}^{N_e} \boldsymbol{\delta}_{\pmb{x}^i_L}\left(\mathrm{d}\pmb{x}_L\right),
+    \end{align}$$
+    where</li>
+    <ul>  
+      <li>$\boldsymbol{\delta}_{\pmb{x}^i_L}$ -- this the Dirac delta measure centered at the ensemble member $\pmb{x}_L^i$;</li>
+      <ul>
+        <li>i.e., we write,
+         $$\begin{align}
+         \int f \boldsymbol{\delta}_{\pmb{x}^i_L} (\mathrm{d}\pmb{x}_L) = f\left(\pmb{x}^i_L\right).
+         \end{align}$$
+      </ul>
+      <li>In the above, the <b>denominator $\frac{1}{N_e}$</b> represents that all point volumes have <strong>equal mass or weights</strong>, so that <strong>the measure integrates to one</strong>.</li>
+    </ul>
+    <li>Then for any <b>statistic $f$ of the posterior</b>, we can recover an <strong>estimate of its expected value</strong> directly as
+        $$\begin{align}
+        \mathbb{E}_{\mathcal{P}(\pmb{x}_L\vert \pmb{y}_{L:1})} \left[f \right] := \int f \mathcal{P}(\pmb{x}_L\vert \pmb{y}_{L:1} ) &\approx \int f \mathcal{P}_{N_e}(\pmb{x}_L\vert \pmb{y}_{L:1})\\
+        &= \frac{1}{N_e}\sum_{i=1}^{N_e} \int f(\pmb{x})\delta_{\pmb{x}^i_L}(\mathrm{d}\pmb{x}_L) = \frac{1}{N_e} \sum_{i=1}^{N_e} f\left(\pmb{x}_L^i\right),
+        \end{align}$$ 
+    </li>
+    <li>that is, by taking the <strong>empirical average of the statistic evaluated over the ensemble members</strong>.</li>
+</ul>   
+
+========================================================
+## Empirical estimates
+
+<ul>
+    <li class="fragment">The <b>empirical estimate</b>, 
+    $$\mathbb{E}_{\mathcal{P}(\pmb{x}_L\vert \pmb{y}_{L:1})} \left[f \right] \approx \frac{1}{N_e} \sum_{i=1}^{N_e} f\left(\pmb{x}_L^i\right),$$
+    is also an <strong>unbiased estimator of the statistic $f$</strong> .</li>
+    <li class="fragment">If the <b>posterior variance of $f(\pmb{x})$</b> satisfies,
+            $$\begin{align}
+            \sigma^2_f = \mathbb{E}_{\mathcal{P}(\pmb{x}_L \vert \pmb{y}_{L:1})}\left[f^2(\pmb{x}_L)\right] - \left(\mathbb{E}_{\mathcal{P}(\pmb{x}_L\vert \pmb{y}_{L:1})}\left[f(\pmb{x}_L)\right]\right)^2 < \infty;
+             \end{align}$$
+             </li>
+    <li class="fragment"> then the <b>variance of the empirical estimate</b>, 
+    $$\begin{align}
+    \mathrm{var}\left(\mathbb{E}_{\mathcal{P}_{N_e}(\pmb{x}\vert \pmb{y})}\left[f\right]\right) = \frac{\sigma_f^2}{N_e},
+    \end{align}$$
+        where the variance is understood as taken <strong>over the possible sample outcomes</strong>, $\pmb{x}_L^i \sim \mathcal{P}(\pmb{x}_L\vert \pmb{y}_{L:1})$.</li>
+     <li class="fragment">For 
+     $$\sigma_f^2 < \infty $$ 
+     as above, the Central Limit Theorem tells us  
+         $$\begin{align}
+         \lim_{N_e\rightarrow +\infty}\sqrt{N_e}\left\{ \mathbb{E}_{\mathcal{P}(\pmb{x}_L\vert \pmb{y}_{L:1})}\left[f\right] - \mathbb{E}_{\mathcal{P}_N(\pmb{x}_L\vert \pmb{y}_{L:1})}\left[f\right]\right\} =N(0, \sigma_f^2),
+         \end{align}$$</li>
+         <li>
+         i.e., the <b>empirical distribution</b> <strong>converges</strong> to the <b>true distribution</b> in the <strong>weak sense as the ensemble size $N_e$ gets sufficiently large</strong>.</li>
+         <li>In particular, under very general conditions, the empirical probability measure will produce statistics that converge to the statistics of the true posterior in expected value.</li> 
+ </ul>  
+ 
+
+========================================================
+## Importance sampling
+
+<ul>
+    <li class="fragment"> In practice, we <strong>often cannot sample the posterior directly</strong> but we may need to <strong>sample some other distribution that shares its support</strong>.</li>
+    <li class="fragment">This idea of <strong>sampling another distribution with shared support</strong> is known as <b>importance sampling</b>.  
+    <li>Importance sampling is a broadly used Bayesian technique which can be given its own detailed treatment in a course of Bayesian estimation.</li>
+    <ul>
+      <li>We will only go over a high-level view of this concept as it relates to particle filters and smoothers.</li>
+    </ul>
+      <li class="fragment">We will suppose that we have access, perhaps <b>not to $\mathcal{P}(\pmb{x}_L\vert \pmb{y}_{L:1})$</b> but <strong>instead $\mathcal{Q}(\pmb{x}_{L}\vert \pmb{y}_{L:1})$ such that $\mathcal{P} \ll \mathcal{Q}$</strong>,</li>
+    <ul>
+      <li class="fragment"> i.e., by contraposition, $\mathcal{P}(A\vert \pmb{y}_{L:1})>0 \Rightarrow \mathcal{Q}(A\vert \pmb{y}_{L:1})>0$.
+    </ul>
+    <li class="fragment">This above assumption allows us to take the Radon-Nikodym derivative of the <b style="color:#d95f02">true posterior $\mathcal{P}(\pmb{x}_L\vert \pmb{y}_{L:1})$</b> with respect to the <b style="color:#1b9e77">proposal distribution $\mathcal{Q}(\pmb{x}_L \vert \pmb{y}_{L:1})$</b>.</li>
+    <li class="fragment">The key innovation to the last formulation is that this allows us to <strong>evaluate a statistic of the posterior by point volumes but with non-equal <em>importance weights</em></strong>.</li>
+    <li>For each of the probabilities $\mathcal{P} / \mathcal{Q}$ define the associated densities as $p / q$.
+  <li class="fragment"> Let us define the <b>importance weight function $w(\pmb{x}_L \vert \pmb{y}_{L:1}) := \frac{p(\pmb{x}_L\vert \pmb{y}_{L:1})}{q(\pmb{x}_L\vert \pmb{y}_{L:1})}$</b>.</li>
+  <ul>
+    <li>We will suppose that the <strong>weights can be computed</strong> even if $\mathcal{P}(\pmb{x}_L\vert \pmb{y}_{L:1})$ is not available -- this will be explained shortly.</li>
+  </ul>
+</ul>
+
+========================================================
+<h3>Importance sampling</h3>
+
+<ul>
+    <li class="fragment">Given <b>importance weights</b>, we can re-write the expected value of some statistic $f$ of the posterior density as,
+        $$\begin{align}
+        \mathbb{E}_{\mathcal{P}(\pmb{x}_L\vert \pmb{y}_{L:1})}[f]= \int f(\pmb{x}_L)p(\pmb{x}_L\vert \pmb{y}_{L:1})\mathrm{d}\pmb{x}_L & = \frac{\int f(\pmb{x}_L)p(\pmb{x}_L\vert \pmb{y}_{L:1})\mathrm{d}\pmb{x}_L}{\int p(\pmb{x}_L\vert \pmb{y}_{L:1})\mathrm{d}\pmb{x}_L}\\
+        &=\frac{\int f(\pmb{x}_{L})w(\pmb{x}_L\vert \pmb{y}_{L:1})q(\pmb{x}_L\vert \pmb{y}_{L:1})\mathrm{d}\pmb{x}_L}{\int w(\pmb{x}_L\vert \pmb{y}_{L:1})q(\pmb{x}_L\vert \pmb{y}_{L:1})\mathrm{d}\pmb{x}_L} ,
+        \end{align}$$ </li>
+        <li>The above is shown by the definition of the importance weights above and because for any density,
+        $$\int p(\pmb{x}_L\vert \pmb{y}_{L:1})\mathrm{d}\pmb{x}_L =1.$$
+        </li>
+  <li class="fragment">The benefit for sampling techniques is therefore to <strong>draw iid $\pmb{x}^i_L \sim \mathcal{Q}(\pmb{x}_L\vert \pmb{y}_{L:1})$</strong> which we assume that we can sample.</li>
+  <li>The <b>empirical measure</b> is thus,
+  $$\begin{align}
+  \mathcal{Q}_{N_e} := \frac{1}{N_e} \sum_{i=1}^{N_e} \pmb{\delta}_{\pmb{x}^i_{L}}
+  \end{align}$$</li>
+  <li>Using the importance weights, then one defines the <strong>empirical expected value of $f$</strong> as, 
+        $$\begin{align}
+        \mathbb{E}_{\mathcal{P}_{N_e}(\pmb{x}_L \vert \pmb{y}_{L:1})}[f] = \frac{ \frac{1}{N_e} \sum_{i=1}^{N_e} f(\pmb{x}^i_L)w(\pmb{x}^i_L\vert \pmb{y}_{L:1})}{\frac{1}{N_e} \sum_{i=1}^{N_e} w(\pmb{x}^i_L \vert \pmb{y}_{L:1})} = \sum_{i=1}^{N_e} f(\pmb{x}^i_L) \tilde{w}^i_L.
+        \end{align}$$
+        </li> 
+    <li class="fragment">Here, the $\tilde{w}^i_L := \frac{w(\pmb{x}^i_L \vert \pmb{y}_{L:1})}{\sum_{i=1}^{N_e} w(\pmb{x}^i_L \vert \pmb{y}_{L:1})}$ are defined as the <b>normalized importance weights</b>, ensuring integration to one.</li>
+</ul>
+
+========================================================
+<h3>Importance sampling</h3>
+  
+<ul> 
+  <li class="fragment">We will write our empirical estimate of the posterior as,
+        $$\begin{align}
+        \mathcal{P}_{N_e}(\pmb{x}_L \vert \pmb{y}_{L:1}) := \sum_{i=1}^{N_e} \tilde{w}^i_L\delta_{\pmb{x}^i_L}(\mathrm{d}\pmb{x}_L ).
+        \end{align}$$ </li>
+  <li class="fragment">Notice, if we take $f(\pmb{x}) = 1$, the expected value is indeed one.</li>
+  <li class="fragment">Using this formulation, we have an <b style="color:#d95f02">extremely flexible view of the posterior</b> as <strong>combination</strong> of <b>positions</b> and <b>weights</b>.</li>
+  <ul>
+    <li>In a <b>hidden Markov model</b>, <strong>positions correspond to initial conditions</strong> for, e.g., a <b style="color:#1b9e77">nonlinear, stochastic differential equation $\mathcal{M} + \pmb{w}_k$</b>.</li>
+    <li>Therefore, we can <strong>evolve all the point volumes</strong>, keeping their weights, and <strong>construct a forward-in-time density</strong>.</li>
+  </ul>
+  <li>For particle filters in physical process models, we have a natural choice of how to find the next <b style="color:#1b9e77">prior</b> from the <b style="color:#d95f02">last posterior</b>; </li>
+  <ul>
+    <li> we simply <b>evolve the points</b> within the process model, <strong>carrying the importance weights with them</strong>.</li>
+  </ul>
+  <li>When we condition on new information, the goal then is to <b>find new appropriate weights, and / or resample positions</b>.</li>
+  <li>Despite the heavy mathematical machinery, this is an elegant algorithm that has a very natural, empirical interpretation.</li>
+  <li>The next key is in how we update the weights to condition the sample appropriately</li>
+</ul>
+
+
+========================================================
+<h3>Sequential importance sampling</h3>
+
+    
+<ul>
+    <li class="fragment">Using Bayes' Law, we can derive up to proportionality,
+    $$\begin{align}
+        \tilde{w}^i_L \propto \tilde{w}^i_{L-1} \frac{ {\color{#d24693} {p\left(\pmb{y}_L \vert \pmb{x}^i_{L}\right) } } {\color{#1b9e77} {p\left(\pmb{x}^i_L \vert \pmb{y}_{L-1:1}\right)}}   }{q\left(\pmb{x}_L^i \vert \pmb{y}_{L-1:1} \right)}.
+    \end{align}$$ 
+    </li>
+    <li>The key again, is how we define a proposal density as above that can be sampled even when the posterior cannot be sampled directly.</li>
+ <li class="fragment">As one special choice, we can <strong>choose a proposal of $\mathcal{Q}$</strong>  as the <b style="color:#1b9e77">forecast-prior distribution</b> ${\color{#1b9e77} {\mathcal{P}(\pmb{x}_{L}\vert \pmb{y}_{L-1:1})} }$;</li>
+ <li>in this case, $p=q$ and we have the <strong>weights given recursively</strong> by 
+ $$\tilde{w}^i_L \propto \tilde{w}^i_{L-1} {\color{#d24693} {p(\pmb{y}_L \vert \pmb{x}_L^i)} }.$$</li>
+    <li class="fragment">The proportionality statement says that:</li>  
+        <ul>
+        <li>Suppose we have <strong>knowledge of the normalized weights</strong> $\tilde{w}^i_{L-1}$ at time $t_{L-1}$;</li>
+        <li>we can generate a forecast for each position $\pmb{x}_{L-1}^i$ at time $t_L$ via the model,
+        $$\pmb{x}_L^i = {\color{#1b9e77} {\mathcal{M}_{L}(}} \pmb{x}_{L-1}^i {\color{#1b9e77} {) + \pmb{w}_L} }.$$ </li> 
+        <li>Prior to obtaining the new observation, the <strong>forecast weight will remain as $\tilde{w}_{L-1}^i$</strong>;</li>
+        <li>to <strong>condition the weights on the new observation</strong>, we apply Bayes' Law,
+        $$\tilde{w}^i_L \propto \tilde{w}^i_{L-1} {\color{#d24693} {p(\pmb{y}_L \vert \pmb{x}_L^i)} }.$$
+        such that we need only compute $\tilde{w}^i_{L-1} {\color{#d24693} {p(\pmb{y}_L \vert \pmb{x}_L^i)} }$ for each $i$ and then <strong>re-normalize the weights so they sum to $1$</strong>.</li>
+  <li>This technique is known in the stochastic filtering literature as a <b>sequential importance sampling (SIS) particle filter</b>.</li>        
+</ul>
+
+========================================================
+<h3>Sequential importance sampling</h3>
+          
+* <b>SIS particle filters</b> are <strong>extremely flexible</strong> and makes few assumptions on the form of the problem whatsoever;
+  
+  * however, the primary issue is that the <b>importance weights</b> become <strong>extremely skewed very quickly, leading to all the probability mass landing on a single point</strong> after only a few iterations.
+
+* This is one example of a concept more broadly known in <b>nonlinear filtering as ensemble collapse / filter divergence</b>.
+
+* In effect, the <strong>empirical estimate becomes overly self-certain, and will no longer be receptive to new data</strong>.
+
+* Because a single point mass cannot represent the spread  of the data, this also cannot be used to represent any of the variation in the estimate.
+
+* Finding a method for handling the degeneracy of the weights is explicitly the motivation for the <b>bootstrap particle filter</b>, and implicitly one of the motivations for the <b>ensemble Kalman filter</b>.
+
+  * In particular, the weights tend to be of too high variance in the particle filter generally, and one rectification is to impose a bias in the estimate.
+  
+* We will return to the idea of the ensemble Kalman filter later, but for now consider the classical particle filter rectification.
+
+========================================================
+
+## The bootstrap filter
+
+<ul>
+   <li class="fragment"> The method of the <b>bootstrap filter</b> essentially proposes to eliminate the degeneracy of the weights by <strong>eliminating ensemble members with weights close to zero and resampling</strong>.</li>
+    <li class="fragment">At the point of the Bayesian update and re-weighting, one:</li>
+    <ol>
+        <li class="fragment">eliminates all ensemble members with weights $\tilde{w}^i < W$ where $W\ll 1$ will be some threshold for the weights;</li> 
+        <li class="fragment"> then, make <strong>replicates of the higher weighted ensemble members</strong>  and reset the importance weights all equal to $\frac{1}{N_e}$;</li>
+    <li class="fragment">then the <b>new empirical posterior</b> is then given by,
+        $$\begin{align}
+        \mathcal{P}_{N_e}(\pmb{x}_{L}\vert \pmb{y}_{L:1}) = \frac{1}{N_e} \sum_{i=1}^{N} N^i \delta_{\pmb{x}^i_L}(\mathrm{d}\pmb{x}_L),
+        \end{align}$$ 
+        where <strong>$N^i$ is the number of replicates</strong> $\left(N^i\in[0, N_e]\right)$ of sample $\pmb{x}^i_L$ such that $\sum_{i=1}^{N} N^i =N_e$</li>
+        <li>If the first prior sample is drawn iid, the first weights $w_0^i \equiv \frac{1}{N_e}$; this gives a <strong>complete algorithm for a general hidden Markov model</strong>.</li> 
+    </ol>
+    <li class="fragment">Note, how the number of replicates $N^i$ is chosen is the basis of several different approaches to particle filters.</li>  
+</ul> 
+
+========================================================
+### Basic resampling algorithm
+
+
+* The basic resampling algorithm simply utilizes the strategy of the <b>inverse CDF transformation of a uniform sample</b>.
+
+* In particular, the weights $\tilde{w}^i_k$ at any given time <strong>provide an estimate of the empirical CDF for the posterior</strong>.
+
+* We draw a uniform $u$ on $[0,1]$ and <b>find the first index</b> $i$ for which the total sum of all the weights below index $i$ fall below the realized value $u$.
+
+  *  We select this index and <strong>create a particle replicate</strong> of the associated $\pmb{x}_k^i$.
+
+* This is repeated until we have $N_e$ total ensemble members once again, all given equal weights to restart the algorithm.
+    
+* Notice that assigning the map of $u$ to the associated particle $\pmb{x}^{i}_k$ is precisely the <b>inverse empirical CDF map</b>.
+
+* In particular, under generic convergence conditions, and the limit in the sample size $N_e \rightarrow \infty$, 
+
+  *  the <strong>ensemble will generate statistics that follow the appropriate theoretical CDF in expectation</strong>, giving weak convergence as before.
+
+
+========================================================
+### Systematic resampling algorithm
+
+* More commonly, the standard technique for the bootstrap particle filter is the <b>systematic resampling algorithm</b>. 
+
+  * Rather than using multiple draws of the uniform, this uses a <strong>single draw and make a stratified sample of the empirical CDF</strong>.
+
+* Firstly, we draw $u^1$ uniform on $[0, N_e^{-1}$, i.e., on the restricted range up to one over the ensemble size.
+
+  * Then, we make a replicate of the first ensemble member for which the cumulative weight is greater than $u^1$.
+  
+* The first draw <b>creates exactly one "representative" replicate</b> <strong>corresponding to all particles with combined weight in the range $[0,N_e^{-1}]$</strong>.
+
+* From this point, a new $u^j$ is defined as  $u^j= u^1 + N_e^{-1}(j-1)$, where the same replication strategy follows:
+
+  * the first ensemble member for which the cumulative weight is greater than $u_j$ is selected as $j$ ranges up to $N_e$.
+  
+* With this strategy, we are guaranteed to <b>draw exactly one "representative" replicate</b> among particles for which the empirical CDF, $c^i$ <strong>falls in the range $[(j-1)/N_e, j/N_e]$</strong>.  
+
+* Particularly, $u^j$ is uniform on $[(j-1)/N, j/N]$, and this decides which particular particle will be replicated in this weight interval.
