@@ -1,0 +1,78 @@
+# Activity 10/20/2021
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+To perform some matrix operations, it can be helpful to use some non-base functions designed for this.  We will require the library `matlab`
+
+```{r}
+require("matlab")
+```
+
+
+
+### Activity 1: Linear inverse problem
+
+#### Question 1:
+Suppose the matrix `A` from the last activity
+```{r}
+A <- matrix(seq(3, 27, by=3), nrow=3, ncol=3)
+```
+defines a linear inverse problem for an unknown vector $\mathbf{x}$ and an observed vector,
+```{r}
+b <- ones(3,1)
+```
+
+Is there any vector $\mathbf{x}$ that satisfies,
+$$\mathbf{A} \mathbf{x} = \mathbf{b}?$$
+Why does such a choice exist or why not?
+
+
+
+#### Question 2:
+
+```{r}
+b <- zeros(3,1)
+b
+```
+
+Is there any vector $\mathbf{x}$ that satisfies,
+$$\mathbf{A} \mathbf{x} = \mathbf{b}?$$
+Why does such a choice exist or why not?
+
+
+#### Question 3:
+Set a random seed to be equal to zero and generate a 4-by-4 dimension matrix with entries given by a sample size $n=16$ from the standard normal.  Suppose that this defines the relationship between the observed variable
+```{r}
+b <- ones(4,1)
+```
+and an unknown vector $\mathbf{x}$ as,
+$$\mathbf{A}\mathbf{x}= \mathbf{b}.$$
+
+Does any `x` as above exist?  If one does find the solution.  Explain why the solution exists or not due to the eigenvalues of the matrix.
+
+
+
+
+### Activity 2: matrix norms
+
+Recall that matrix norms can be computed in R with the norm function.  In the following we will consider some of their properties.
+
+#### Question 1:
+
+Compute the eigenvalues of the matrix `B`  computed from matrix A below
+
+```{r}
+B <- t(A) %*% A
+```
+
+then compute the sum of the square values.
+
+#### Question 2:
+
+Using the `norm` function, compute the norm-squared of the matrix `B`.  Try changing the default norm -- which choice of norm-squared looks familiar?
+
