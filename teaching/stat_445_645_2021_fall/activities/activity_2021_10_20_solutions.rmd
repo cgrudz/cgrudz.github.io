@@ -1,0 +1,121 @@
+# Activity 10/20/2021
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+To perform some matrix operations, it can be helpful to use some non-base functions designed for this.  We will require the library `matlab`
+
+```{r}
+require("matlab")
+```
+
+
+
+### Activity 1: Linear inverse problem
+
+#### Question 1:
+Suppose the matrix `A` from the last activity
+```{r}
+A <- matrix(seq(3, 27, by=3), nrow=3, ncol=3)
+```
+defines a linear inverse problem for an unknown vector $\mathbf{x}$ and an observed vector,
+```{r}
+b <- ones(3,1)
+```
+
+Is there any vector $\mathbf{x}$ that satisfies,
+$$\mathbf{A} \mathbf{x} = \mathbf{b}?$$
+Why does such a choice exist or why not?
+
+
+##### Solution:
+Notice that 
+```{r, eval=FALSE}
+solve(A,b)
+```
+gives a warning message about a singularity.  This is because of the zero eigenvalue that we discovered last time in this matrix.  Therefore, no formal inverse exists to this problem.
+
+
+#### Question 2:
+
+```{r}
+b <- zeros(3,1)
+b
+```
+
+Is there any vector $\mathbf{x}$ that satisfies,
+$$\mathbf{A} \mathbf{x} = \mathbf{b}?$$
+Why does such a choice exist or why not?
+
+##### Solution:
+Note that in this case, even though an inverse of `A` does not exist, the zero eigen value of `A` means that any scalar times this eigenvector is a solution:
+```{r}
+e_decomp <- eigen(A)
+A %*% e_decomp$vectors[,3]
+```
+
+
+#### Question 3:
+Set a random seed to be equal to zero and generate a 4-by-4 dimension matrix with entries given by a sample size $n=16$ from the standard normal.  Suppose that this defines the relationship between the observed variable
+```{r}
+b <- ones(4,1)
+```
+and an unknown vector $\mathbf{x}$ as,
+$$\mathbf{A}\mathbf{x}= \mathbf{b}.$$
+
+Does any `x` as above exist?  If one does find the solution.  Explain why the solution exists or not due to the eigenvalues of the matrix.
+
+
+##### Solution:
+```{r}
+set.seed(0)
+A <- matrix(rnorm(16), nrow=4, ncol=4)
+det(A)
+```
+Notice, the determinant is non-zero and therefore the eigenvalues,
+```{r}
+eigen(A)
+```
+are all non-zero. Therefore an inverse exits and we can compute
+```{r}
+solve(A, b)
+```
+
+
+### Activity 2: matrix norms
+
+Recall that matrix norms can be computed in R with the norm function.  In the following we will consider some of their properties.
+
+#### Question 1:
+
+Compute the eigenvalues of the matrix `B`  computed from matrix A below
+
+```{r}
+B <- t(A) %*% A
+```
+
+then compute the sum of the square values.
+
+##### Solution:
+
+For a symmetric matrix, the Frobenius norm is equal to the square root of the sum of square eigenvalues:
+
+```{r}
+eigen_decomp <- eigen(B)
+vals <- eigen_decomp$values
+sum(vals^(2))
+```
+
+#### Question 2:
+
+Using the `norm` function, compute the norm-squared of the matrix `B`.  Try changing the default norm -- which choice of norm-squared looks familiar?
+
+##### Solution
+
+```{r}
+norm(B, type="F")^2
+```
