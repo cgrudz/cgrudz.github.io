@@ -1,0 +1,354 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+<!-- foo 
+Highlighting
+bold
+strong
+orange <b style="color:#d95f02"> text </b>
+green  <b style="color:#1b9e77"> text </b>
+purple <b style="color:#d24693"> text </b>
+red    <b style="color:#FF0000"> text </b>
+blue   <b style="color:#0000FF"> text </b>
+-->
+
+Metropolis-Hastings Part I
+========================================================
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+<blockquote>
+FAIR USE ACT DISCLAIMER:</br>
+This site is for educational purposes only.  This website may contain copyrighted material, the use of which has not been specifically authorized by the copyright holders. The material is made available on this website as a way to advance teaching, and copyright-protected materials are used to the extent necessary to make this class function in a distance learning environment.  The Fair Use Copyright Disclaimer is under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+</blockquote>
+
+========================================================
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+  * Acceptance rejection sampling
+  * Markov Chain Monte Carlo methods
+
+========================================================
+## Motivation
+
+* <b>Particle filters</b> as seen in the last lecture provide an <strong>extremely flexible Bayesian filtering scheme</strong>.
+
+* Similar schemes can be constructed to <b>sample the joint posterior</b> for the model state in time, given the time series of observations,
+  
+  $$\begin{align}
+  p(\pmb{x}_{L:0}|\pmb{y}_{L:1})
+  \end{align}$$
+  leading to what are known as <strong>particle smoothing methods</strong>.
+  
+* <b>Metropolis-Hastings</b> is key classical scheme provides a <strong>basis for many methods of particle smoothing</strong>.
+
+* This is a general scheme that is designed to <b>sample and arbitrary distribution</b>, when <strong>proportional distribution can be sampled in place of the target</strong>.
+
+* This follows the same idea as <b>importance sampling</b> seen in particle filtering, where we will use the proportional density to draw values;
+
+  * subsequently, we will use an <strong>evaluation of a proportionality statement</strong> to determine the likelihood of drawing such a value.
+  
+* Together, provided we can sample and <b>evaluate the appropriate densities in proportionality</b>, this gives a scheme that can <strong>sample an arbitrary posterior</strong>.
+
+* In order to introduce this algorithm, we will need to start with a few more general statistical techniques.
+
+========================================================
+## Acceptance-rejection sampling
+
+* A general statistical technique that will be useful for our later development is known as the <b>acceptance-rejection method</b> of sampling.
+
+* Suppose that <b style="color:#d95f02">$X$</b> and <b style="color:#1b9e77">$Y$</b> are <strong>random variables with density</strong> <b style="color:#d95f02">$f$</b> and <b style="color:#1b9e77">$g$</b> respectively, 
+
+  * furthermore, suppose that there <b>exists a constant</b> $c$ such that
+  
+  $$\begin{align}
+  \frac{f(l)}{g(l)} \leq c
+  \end{align}$$
+  for all $l$ such that $f(l) &gt; 0$. 
+  
+  * Notice that this implies that
+  
+  $$\begin{align}
+  \frac{f(l)}{cg(l)} \leq 1
+  \end{align}$$
+  
+* Then the acceptance-rejection method can be applied to <b style="color:#d95f02">generate the random variable $X$</b>, <b style="color:#1b9e77">provided we have a means to generate $Y$</b>.
+
+
+* To simplify the analysis, let's suppose that $X$ and $Y$ are actually <b>discrete random variables</b> and $f/g$ are <strong>mass functions</strong>.
+
+  * The results are similar for continuous random variables, but require more technical tools to describe the results (such as conditional expectations). 
+
+========================================================
+## Acceptance-rejection sampling
+
+
+* The steps of this <b>acceptance-rejection sampling</b> are performed as:
+  <ul>
+    <li>Generate a random $y\sim g$.</li>
+    <li>Generate a random $u\sim \mathcal{U}(0, 1)$.</li>
+    <li><b>If</b> $u &lt; \frac{f (y)}{cg(y)}$</li>
+    <ul>
+      <li><strong>accept $y$ and return $x = y$</strong>.</li>
+    </ul>
+    <li><b>else</b></li>
+    <ul>
+      <li><strong>reject $y$ and repeat the above steps again</strong>.</li>
+    </ul>
+  </ul>
+  
+* Notice, if we follow the above steps, we recover that
+
+  $$\begin{align}
+  \mathcal{P}(\text{accept} | Y=y) = \mathcal{P}\left( U < \frac{f(Y)}{cg(Y)}|Y=y\right) = \frac{f(y)}{cg(y)}
+  \end{align}$$
+  where the last equality is simply evaluating the cdf of $U$. 
+  
+* The <b>total probability of acceptance</b> for any iteration is therefore given as the <strong>sum over all possible-to-observe</strong> $y$ as
+
+  $$\begin{align}
+  \sum_{y} \mathcal{P}\left(\text{accept}|y\right) \mathcal{P}(Y=y) = \sum_{y}\frac{f(y)}{cg(y)}g(y) = \frac{1}{c}
+  \end{align}$$
+
+
+========================================================
+### Acceptance-rejection sampling
+
+* From the last slide, it is easy to see that the <strong>number of iterations until acceptance</strong> has the <b>geometric distribution</b> with mean $c$. 
+
+  * The geometric distribution gives the probability that a success requires $k$ independent trials, with each independent trial's success having probability $r$. 
+  
+  * The probability that the $k$-th trial (out of $k$ repeated trials) is the <b>first success</b> is given as
+  
+  $$\begin{align}
+  p(k) = (1-r)^{k-1} r.
+  \end{align}$$
+  
+  * The geometric distribution in the above has mean $\frac{1}{r}$, so that <strong>viewing the probability of acceptance as $r=c$</strong> gives the distribution.
+
+* In <b>expected value</b>, each sampled value of $X$ <strong>requires $c$ iterations of the algorithm</strong>;
+ 
+  * for efficiency, one needs to choose $Y$ as a RV that is easy to simulate and such that $c$ small.
+
+* To see that the <b>accepted sample</b> has the <strong>same distribution as $X$</strong>, we apply Bayes’ law for each possible-to-observe $k$
+
+  $$\begin{align}
+  \mathcal{P}(k|\text{accepted}) = \frac{\mathcal{P}(\text{accepted}|k)g(k)}{\mathcal{P}(\text{accepted})} = \frac{\frac{f(k)}{cg(k)}g(k)}{\frac{1}{c}} = f(k).
+  \end{align}$$
+
+* Therefore, this shows in the discrete case how the <b>acceptance-rejection scheme</b> can <strong>sample the proper distribution by proportionality</strong>.
+
+========================================================
+## Markov Chain Monte Carlo methods
+
+* The acceptance-rejection method just discussed will play an important role in the Metropolis-Hastings algorithm,
+
+  * however, to get intuition for the rationale of this procedure, we need to extend our understanding of Markov processes.
+  
+* Consider a <b>generic Markovian transition probability</b>, i.e.,
+
+  $$\begin{align}
+  \mathcal{P}(\pmb{x}_{k}\in \mathrm{d}\pmb{x}| \pmb{x}_{k-1:0}) = \mathcal{P}(\pmb{x}_k\in \mathrm{d}\pmb{x} | \pmb{x}_{k-1}).
+  \end{align}$$
+
+* Furthermore, we will <strong>impose that it is possible that a state will make a transition back to itself</strong>, i.e.,
+
+  $$\begin{align}
+  \mathcal{P}(\pmb{x}_{k}\in \{\pmb{x}_{k-1}\}| \pmb{x}_{k-1}) \neq 0.
+  \end{align}$$
+  
+* A key study of <b>Markov chains</b> is to <strong>determine if there exists, and the conditions that permit the existence, of an invariant distribution / measure</strong>.
+
+* In general, we say that a <b>measure $\mathcal{P}$</b> is <strong>invariant with respect to some transformation $T$ whenever</strong>,
+  
+  $$\begin{align}
+  \mathcal{P}\left(T^{-1}(\mathrm{d}\pmb{x})\right) = \mathcal{P}(\mathrm{d}\pmb{x}).
+  \end{align}$$
+  
+* In particular, for a Markov chain it is of interest <strong>when the iterations of the transition probabilities converge</strong> to an <b>invariant measure</b>.
+
+
+========================================================
+### Markov Chain Monte Carlo methods
+
+* Let us denote an <b>invariant measure</b> for the Markov process as $\pmb{\pi}^\ast$;
+
+  * this satisfies the relationship where
+  
+  $$\begin{align}
+  \pmb{\pi}^\ast (\mathrm{d}\pmb{y}) = \int \mathcal{P}(\pmb{x}_k\in\mathrm{d}\pmb{y}|\pmb{x}_{k-1})\pmb{\pi}(\pmb{x}_{k-1}) \mathrm{d}\pmb{x}_{k-1}
+  \end{align}$$
+  where $\pmb{\pi}$ is the <strong>density with respect to the Lebesgue measure</strong>, i.e., $\pmb{\pi}^\ast (\mathrm{d}\pmb{y}) = \pmb{\pi}(y)\mathrm{d}\pmb{y}$.
+  
+* To simplify some analysis, we will use <b>slightly different notation</b> to denote the $k$-th iteration of the chain as,
+
+  $$\begin{align}
+  \mathcal{P}^k(\mathbf{A}|\pmb{x}) :=\int\mathcal{P}^{k-1}( \mathrm{d}\pmb{y}| \pmb{x}) \mathcal{P}(\mathbf{A}|\pmb{y})
+  \end{align}$$
+  where:
+  
+  <ol>
+    <li>$\mathcal{P}^k(\mathbf{A}|\pmb{x})$ is the transition probability that the <strong>next instance of the process lies in $\mathbf{A}$</strong> given the <b style="color:#d95f02">last realization $\pmb{x}$</b>.</li>
+    <li>$\mathcal{P}^{k-1}( \mathrm{d}\pmb{y}| \pmb{x})$ is the transition probability that the <strong>next instance of the process lies in $\mathrm{d}\pmb{y}$</strong> given the <b style="color:#1b9e77">last realization $\pmb{x}$</b>.</li>
+    <li>$\mathcal{P}(\mathbf{A}|\pmb{y})$ is the transition probability that the <strong>next instance of the process lies in $\mathbf{A}$</strong> given the <b style="color:#d24693">last realization $\pmb{y}$</b>.</li>
+    <li>The above <strong>integral is with respect to $\mathrm{d}\pmb{y}$</strong>.</li>
+    <li>The <strong>chain is initialized</strong> as $\mathcal{P}^1(\mathbf{A}|\pmb{y})=\mathcal{P}(\mathbf{A}|\pmb{y})$.
+  </ol>
+  
+* Therefore, in the above, we see this as the <b>probability (measure) of $\mathbf{A}\in\mathbb{R}^{N_x}$</b> <strong>given $\pmb{x}$ as we average over a mix over all possible initial conditions recursively</strong>.
+
+========================================================
+### Markov Chain Monte Carlo methods
+
+* Recall our $k$-th iterate from the last slide $\mathcal{P}^k(\mathbf{A}|\pmb{x})$;
+  
+  * the <b>conditions discussed in the following</b> will <strong>guarantee that</strong>
+  
+  $$\begin{align}
+  \lim_{k\rightarrow \infty} \mathcal{P}^k = \pmb{\pi}^\ast.
+  \end{align}$$
+  
+* Instead of considering the <b>classical Markov chain motivation</b>, where we wish to <b style="color:#d95f02">determine the convergence to an unknown invariant distribution</b>,
+
+  * <b>Markov chain Monte Carlo (MCMC)</b> methods <b style="color:#1b9e77">reverse the question</b>.
+  
+* We will suppose that the <b>invariant density $\pmb{\pi}$</b> that <strong>we wish to sample is known up to proportionality</strong>;
+
+  * however, we will suppose that the <b style="color:#1b9e77">transition kernel that converges to this invariant density is unknown</b>.
+  
+* To generate a sample from $\pmb{\pi}$, <b>MCMC methods derive and utilize a transition kernel</b> $\mathcal{P}(\mathrm{d}\pmb{y}|\pmb{x})$  whose <strong>$k$-th iterate converges to $\pmb{\pi}^\ast$</strong> for large $k$.
+
+* The process is started at an arbitrary $\pmb{x}$ and iterated a large number of times.
+
+  * After the <b>large number of iterates</b>, the <strong>realizations of the iterative process are drawn from the invariant density</strong>.
+  
+* The <b style="color:#1b9e77">problem then is to find an appropriate $\mathcal{P}(\mathrm{d}\pmb{y}|\pmb{x})$</b>.
+
+
+========================================================
+### Markov Chain Monte Carlo methods
+
+* We make an <b>ansatz for the transition kernel</b>  given as follows for some function $p(x,y)$
+  
+  $$\begin{align}
+  \mathcal{P}(\mathrm{d}\pmb{y}|\pmb{x}) = p(\pmb{x},\pmb{y})\mathrm{d}\pmb{y} + r(\pmb{x}) \pmb{\delta}_{\pmb{x}}(\mathrm{d}\pmb{y})
+  \end{align}$$
+  where
+  <ol>
+    <li>$p(\pmb{x},\pmb{x}) = \pmb{0}$;</li>
+    <li>$\pmb{\delta}_{\pmb{x}}$ is the <strong>Dirac delta measure</strong> at $\pmb{x}$; and</li>
+    <li>$r(\pmb{x})=1 - \int p(\pmb{x},\pmb{y}) \mathrm{d}\pmb{y}$ is the <strong>probability that the chain remains at $\pmb{x}$</strong> given its last realization being $\pmb{x}$.</li>
+  </ol>
+  
+* <b>Requiring that $r(\pmb{x})\neq 0$</b> means that the integral of $p(\pmb{x},\pmb{y})$ with respect to $\mathrm{d}\pmb{y}$ <strong>may not be equal to one</strong>.
+
+  * In particular, this need not be a density function.
+
+* Assume that $p(\pmb{x},\pmb{y})$ has the following <b>reversability condition</b>,
+
+  $$\begin{align}
+  \pmb{\pi}(\pmb{x}) p(\pmb{x},\pmb{y}) = \pmb{\pi}(\pmb{y}) p(\pmb{y},\pmb{x});
+  \end{align}$$
+  
+  * <strong>this is sufficient</strong> then to show that $\pmb{\pi}$ is the <b>invariant density</b> of $\mathcal{P}(\mathrm{d}\pmb{x}|\pmb{x})$.
+  
+* Therefore, this can be used as a <b>criterion for constructing a sampling algorithm</b> with the <strong>desired convergence property</strong>.
+  
+* We will demonstrate this as follows...
+
+========================================================
+### Markov Chain Monte Carlo methods
+
+* Recall our ansatz $\mathcal{P}(\mathrm{d}\pmb{y}|\pmb{x}) = p(\pmb{x},\pmb{y})\mathrm{d}\pmb{y} + r(\pmb{x}) \pmb{\delta}_{\pmb{x}}(\mathrm{d}\pmb{y})$, such that
+
+  $$\begin{align}
+  \int \mathcal{P}(\mathbf{A}|\pmb{x}) \pmb{\pi}(\pmb{x})\mathrm{d}\pmb{x} = \int \left[ \int_{\mathbf{A}} p(\pmb{x},\pmb{y})\mathrm{d}\pmb{y} \right]\pmb{\pi}(\pmb{x})\mathrm{d}\pmb{x} + \int r(\pmb{x}) \pmb{\delta}_{\pmb{x}}(\mathbf{A})\pmb{\pi}(\pmb{x})\mathrm{d}\pmb{x}.
+  \end{align}$$
+  
+* Suppose then that we can <b>exchange the order of integration</b> of $\mathrm{d}\pmb{y}$ and $\mathrm{d}\pmb{x}$.
+
+  * Furthermore, notice that, as a <b>property of the Dirac delta</b>, we can write
+  
+  $$\begin{align}
+  \int r(\pmb{x}) \pmb{\delta}_{\pmb{x}}(\mathbf{A})\pmb{\pi}(\pmb{x})\mathrm{d}\pmb{x} = \int_{\mathbf{A}} r(\pmb{x}) \pmb{\pi}(\pmb{x})\mathrm{d}\pmb{x}.
+  \end{align}$$
+  
+* Using <strong>both of the above</strong>, we recover
+
+   $$\begin{align}
+  \int \mathcal{P}(\mathbf{A}|\pmb{x}) \pmb{\pi}(\pmb{x})\mathrm{d}\pmb{x} = \int_{\mathbf{A}} \left[ \int p(\pmb{x},\pmb{y}) \pmb{\pi}(\pmb{x}) \mathrm{d}\pmb{x} \right]\mathrm{d}\pmb{y} +\int_{\mathbf{A}} r(\pmb{x}) \pmb{\pi}(\pmb{x})\mathrm{d}\pmb{x}.
+  \end{align}$$
+  
+* Using the <b>reversability</b>, we have 
+
+  $$\begin{align}
+  \int \mathcal{P}(\mathbf{A}|\pmb{x}) \pmb{\pi}(\pmb{x})\mathrm{d}\pmb{x} = \int_{\mathbf{A}} \left[ \int p(\pmb{y},\pmb{x}) \pmb{\pi}(\pmb{y}) \mathrm{d}\pmb{x} \right]\mathrm{d}\pmb{y} +\int_{\mathbf{A}} r(\pmb{x}) \pmb{\pi}(\pmb{x})\mathrm{d}\pmb{x}.
+  \end{align}$$
+
+
+========================================================
+### Markov Chain Monte Carlo methods
+
+* Recall the last equation, 
+
+  $$\begin{align}
+  \int \mathcal{P}(\mathbf{A}|\pmb{x}) \pmb{\pi}(\pmb{x})\mathrm{d}\pmb{x} = \int_{\mathbf{A}} \left[ \int p(\pmb{y},\pmb{x}) \pmb{\pi}(\pmb{y}) \mathrm{d}\pmb{x} \right]\mathrm{d}\pmb{y} +\int_{\mathbf{A}} r(\pmb{x}) \pmb{\pi}(\pmb{x})\mathrm{d}\pmb{x}.
+  \end{align}$$
+
+* Noting that <b>$r$ is defined as</b>
+
+  $$\begin{align}
+  & r(\pmb{x})=1 - \int p(\pmb{x},\pmb{y}) \mathrm{d}\pmb{y} \\
+  \Leftrightarrow & \int p(\pmb{x},\pmb{y}) \mathrm{d}\pmb{y}  = 1 - r(\pmb{x}),
+  \end{align}$$
+
+* we recover that 
+
+  $$\begin{align}
+  \int \mathcal{P}(\mathbf{A}|\pmb{x}) \pmb{\pi}(\pmb{x})\mathrm{d}\pmb{x} &= \int_{\mathbf{A}} \left[1 - r(\pmb{y}) \right]\pmb{\pi}(\pmb{y})\mathrm{d}\pmb{y} +\int_{\mathbf{A}} r(\pmb{x}) \pmb{\pi}(\pmb{x})\mathrm{d}\pmb{x}\\
+  &=\int_{\mathbf{A}} \pmb{\pi}(\pmb{y})\mathrm{d}\pmb{y},
+  \end{align}$$
+  so that $\pmb{\pi}$ <strong>is invariant with respect to the transition kernel</strong>.
+
+
+========================================================
+### Markov Chain Monte Carlo methods
+
+* Let's recall the <b>reversability condition</b>,
+
+  $$\begin{align}
+  \pmb{\pi}(\pmb{x}) p(\pmb{x},\pmb{y}) = \pmb{\pi}(\pmb{y}) p(\pmb{y},\pmb{x});
+  \end{align}$$  
+
+* Intuitively: 
+
+  * the <b>left-hand-side</b> represents the <b style="color:#d95f02">unconditional probability of moving from $\pmb{x}$ to $\pmb{y}$</b> where $\pmb{x}$ is generated from $\pmb{\pi}$; and
+
+  * the <b>right-hand-side</b> represents the <b style="color:#1b9e77">unconditional probability of moving from $\pmb{y}$ to $\pmb{x}$</b>, where $\pmb{y}$ is generated by $\pmb{\pi}$.
+  
+* The <b>reversability condition</b> says that the <strong>two sides are equal</strong>;
+
+  * the <b>previous derivation</b> furthermore says that <strong>$\pmb{\pi}^\ast$ is the invariant measure with respect to this transition kernel</strong>.
+
+* This is a sketch of the result that gives the sufficiency property needed to construct a chain that eventually samples the invariant distribution.
+
+* Again, the <b>goal</b> is to <strong>construct the transition kernel to eventually sample $\pmb{\pi}^\ast$</strong>.
+
+* In the next lecture, we will discuss how the <b>Metropolis-Hastings algorithm</b> uses the <strong>acceptance rejection technique to construct a sufficient $p(\pmb{x},\pmb{y})$ to sample the target, invariant distribution</strong>.
