@@ -1,0 +1,100 @@
+# Activity 10/27/2021
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+```{r}
+require("numDeriv")
+```
+
+### Activity 1:
+
+We will code Newton's method in one variable in R.
+
+Recall, Newton's method is given as follows:
+
+* Step 0: Identify the objective function $f$ and the root value we are solving for, possibly redefining $\tilde{f}(x) = f(x) - b$
+* Step 1: Set an initial guess `x_0`, a maximum number of iterations `max_iter` and an error tolerance `tol`
+* Step 2: Compute each of $-\tilde{f}(x_0)$ and $\tilde{f}'(x_0)$
+* Step 3: If $\tilde{f}'(x_0)=0$  (using a comparison of this being very close to zero) break the function and throw an error message, else define $x_1 = x_0 - \frac{\tilde{f}(x_0)}{\tilde{f}'(x_0)}$
+* Step 4: If the number of iterations has exceeded `max_iter` or $\tilde{f}(x_1) \leq$`tol`, break the function and print the reason for completion, including the number of iterations spent.  Else, repeat steps 2 through 4 with $x_0 = x_1$.
+
+
+#### Question 1:
+
+In the below, write out your function so that it takes the arguments `x_0`, `max_iter` and `tol` as described above, such that it will return error and / or completion messages, along with the final value of `x_1` and the absolute difference of $\tilde{f}(x_1)$ from zero if the algorithm is successful.  Set default arguments for `max_iter = 100` and `tol=10e-14`.  Use the package `numDeriv` and the function `grad` to compute the derivative of $\tilde{f}$ at `x_0` when required.
+
+```{r, eval=FALSE}
+newton <- function(fun, x_0, max_iter=100, tol=10e-14) {# step 1: load function, initial guess and parameters
+   for (i in 1:max_iter){
+       # step 2:  evaluate function at x_0 and evaluate the derivative at x_0
+       if (){ 
+          # step 3: check if the derivative is zero and if so, break with error message
+          break
+       }
+       # if not, we compute the iterated guess
+     
+       # step 4: check if we have reached close enough to a zero,
+       if () {
+          #if true, return the root, the precision and the number of iterations
+          break
+       }
+       else if (){
+          # else if we reach the max number of iterations allowed, terminate with error message
+          break
+       }
+       else {
+        # finally, if no error was reached, and no root was found, repeat with a new initial guess at x_1
+       }
+  }
+}
+```
+
+#### Question 2:
+We will define the polynomial function below:
+```{r}
+f <- function(x){
+ return((x-4)*(x-1)*(x+3))  
+}
+```
+
+Use your function with the following starting guesses and report the outputs:
+```{r}
+initial_conditions <- c(2.35287527, 2.35284172, 2.35283735, 2.352836327, 2.352836323)
+```
+
+
+Interpret what this says about the sensitivity of the method to an initial guess `x_0`.
+
+
+#### Question 3:
+We will define the polynomial function below:
+```{r}
+f <- function(x){
+ return(x^3 - 2*x + 2)  
+}
+```
+
+Use the following starting guesses and report the outputs:
+```{r}
+initial_conditions <- c(0)
+```
+
+Manually compute the locations of the first two iterations, $x_1,x_2$ defined from $x_0=0$.  How is this related to the output above?
+
+
+#### Question 4:
+We will define the polynomial function below:
+```{r}
+f <- function(x){
+ return(1 - x^2)  
+}
+```
+
+Use the following starting guess and report the outputs:
+```{r}
+initial_conditions <- c(0,0.5, -0.5)
+```
