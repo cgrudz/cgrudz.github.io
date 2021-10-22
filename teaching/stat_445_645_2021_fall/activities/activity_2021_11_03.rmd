@@ -1,0 +1,92 @@
+# Activity 11/03/2021
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+
+```{r}
+require("numDeriv")
+```
+
+
+## Activity 1:
+
+Code a simple algorithm for Newton's descent in R.  We will avoid many of the technicalities of the method and only focus on the main ideas, as they arise as an extension of the Newton's root finding method.
+
+Recall, the Newton descent method is given approximately as follows:
+
+* Step 1: Set an initial guess `x_0`, a maximum number of iterations `max_iter` and an error tolerance `tol`.
+* Step 2: Compute each of $\nabla f(\mathbf{x}_0)$ and $\mathbf{H}_f(\mathbf{x}_0)$.
+* Step 3: Determine if $\mathbf{H}_f(\mathbf{x}_0)$ has all positive eigenvalues.  You should compare these values versus a small positive value, `tol` will work here for simplicity. Break the function and throw an error message if this is not the case as there is not a guaranteed descent direction; if there are all positive eigenvalues then set $\mathbf{x}_1 = \mathbf{x}_0 - \left(\mathbf{H}_f(\mathbf{x}_0)\right)^{-1} \nabla f(\mathbf{x}_0)$.
+* Step 4: If the number of iterations has exceeded `max_iter` or if 
+ $$\parallel \mathbf{x}_1 - \mathbf{x}_2 \parallel \leq tol,$$ 
+ break the function. 
+* Print the reason for completion, including the number of iterations spent, and the estimated minimum point $\mathbf{x}^\ast$ as well as the value $f(\mathbf{x}^\ast)$ if possible -- these respectively give the point at which $f$ attains a local minimum and what the local minimum value of $f$ actually is.  Else, repeat steps 2 through 4 with $\mathbf{x}_0 = \mathbf{x}_1$.
+
+Note, it is recommended that you define the quantity, `delta <- x_1 - x_0`.  With this quantity, you can again evaluate the condition of the Euclidean norm
+$$\parallel \mathbf{x}_1 - \mathbf{x}_2 \parallel = \parallel \boldsymbol{\delta} \parallel \leq tol.$$ 
+This condition indicates that further steps don't make very much difference in the change of the estimated minimum point.  *We are not targeting a known value with this method* as we did in Newton's root finding method.  In the root finding method, we have a known $\mathbf{b}$ that we want to solve for (possibly $\mathbf{b} = \boldsymbol{0}$).  However, in finding a local minimum, we are searching for what this value might be, so we do not have a value to compare against here by default.
+
+### Question 1:
+
+Provide your commented code so that it takes the arguments `x_0`, `max_iter` and `tol` as described above, such that it will return error and / or completion messages, along with the final value of `x_1` and the Euclidean norm of 
+$$\parallel \mathbf{x}_1 - \mathbf{x}_0 \parallel = \parallel \delta \parallel $$ 
+if the algorithm is successful.  Set default arguments for `max_iter = 100` and `tol=10e-7`.  Use the package `numDeriv` and *the appropriate kind of derivative $\nabla f$ and $\mathbf{H}_f$ for this problem*.  This will strongly resemble Newton root finding but you need to bear in mind the slight differences.
+
+```{r, eval=FALSE}
+newton_descent <- function(fun, x_0, max_iter=100, tol=10e-7) {
+   for (i in 1:max_iter){
+       # compute the hessian at the initial guess
+       
+       # check if any of the eigenvalues are approximately NOT POSITIVE (this includes approximately zero or negative)
+       if (){
+          # if so break
+          
+          break
+       }
+       # compute the newton step
+       
+       # define the new step length
+       
+       # check if there is little difference between the steps
+       if () {
+          # if so, we break
+          
+          break
+       }
+       # check if the maximum number of iterations is reached
+       else if (i == max_iter) {
+        # if so, break
+        
+          break
+       }
+       else {
+        # else, start over with new guess
+        
+       }
+  }
+}
+```
+
+
+### Question 2:
+
+Define the scalar valued function of two variables,
+$$f(x_1,x_2) = \cos(x_1) + \sin(x_2)$$
+
+Use the following initial guesses with your code and output the messages.  The guesses are given as the columns of the following matrix for convenience.
+```{r}
+initial_conditions <- matrix(c(0, 0, 2, 2, 9, 4.5, -3, -1.5), nrow=2, ncol=4, byrow=FALSE)
+initial_conditions
+```
+
+
+
+
+### Question 3:
+Analytically compute the Hessian for the function in problem 4.  Use this to derive the regions in which the function is locally convex in terms of the eigenvalues of the Hessian.  Explain how this relates to the outputs in problem 4.
+

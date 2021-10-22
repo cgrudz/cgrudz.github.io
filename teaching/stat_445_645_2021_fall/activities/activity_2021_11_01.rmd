@@ -1,0 +1,90 @@
+# Activity 11/01/2021
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+
+```{r}
+require("numDeriv")
+```
+
+## Activity 1:
+
+Code Newton's method in multiple variables in R.
+
+Recall, Newton's method in multiple variables is given as follows:
+
+* Step 0: Identify the objective function $\mathbf{f}$ and the root value we are solving for, possibly redefining $\tilde{\mathbf{f}}(\mathbf{x}) = \mathbf{f}(\mathbf{x}) - \mathbf{b}$.  Here, $\mathbf{f}(\mathbf{x}),$ $\mathbf{x}$ and $\mathbf{b}$ all refer to vector values in $\mathbb{R}^n$.
+* Step 1: Set an initial guess `x_0`, a maximum number of iterations `max_iter` and an error tolerance `tol`.
+* Step 2: Compute each of $\tilde{\mathbf{f}}(\mathbf{x}_0)$ and $\nabla \tilde{\mathbf{f}}(\mathbf{x}_0)$.  **Note:** We should add a check in here if we have found a root already, and if there is no need to continue. I.e., if $$\parallel \tilde{\mathbf{f}}(\mathbf{x}_0) \parallel \leq tol,$$ break the function and return the root.
+* Step 3: Determine if $\nabla \tilde{\mathbf{f}}(\mathbf{x}_0)$ has an inverse matrix. Break the function and throw an error message if this is not the case; if an inverse is defined set $\mathbf{x}_1 = \mathbf{x}_0 - \left(\nabla \tilde{\mathbf{f}}(x_0)\right)^{-1}\tilde{\mathbf{f}}(\mathbf{x}_0)$
+* Step 4: If the number of iterations has exceeded `max_iter` or 
+$$\parallel \tilde{\mathbf{f}}(x_1) \parallel \leq tol,$$ 
+break the function and print the reason for completion, including the number of iterations spent.  Else, repeat steps 2 through 4 with $\mathbf{x}_0 = \mathbf{x}_1$.
+
+### Question 1:
+
+Provide your commented code so that it takes the arguments `x_0`, `max_iter` and `tol` as described above, such that it will return error and / or completion messages, along with the final value of `x_1` and the Euclidean norm 
+$$\parallel \tilde{\mathbf{f}}(\mathbf{x}_1)\parallel$$ 
+if the algorithm is successful.  Set default arguments for `max_iter = 100` and `tol=10e-14`.  Use the package `numDeriv` and *the appropriate kind of derivative $\nabla \mathbf{f}$ for this problem*.  This will strongly resemble the one-dimensional case but you need to bear in mind the slight differences.  Note, the Euclidean norm of a generic vector $\mathbf{v}$ can be calculated mathematically as 
+$$\parallel \mathbf{v}\parallel = \sqrt{\mathbf{\mathbf{v}}^\mathrm{T}\mathbf{\mathbf{v}}} = \sqrt{\sum_{i=1}^n \mathbf{v}_i^2}.$$
+You will have to include this step appropriately -- it is recommended to use the matrix multiplication / transpose version of this definition as this will work fairly generally with simple code.
+
+
+```{r, eval=FALSE}
+newton_mv <- function(fun, x_0, max_iter=100, tol=10e-14) {
+   for (i in 1:max_iter){
+       # compute the function value at the initial guess
+       
+       # check if the initial guess is already approximately zero
+       if (){
+         # if so break
+  
+         break
+       }
+       # compute the Jacobian for the function at the initial guess
+       
+       # check if there are any zero eigenvalues, to prevent division by zero
+       if (){
+          #if so break
+          
+          break
+       }
+       # compute the newton iterated guess
+       
+       # evaluate the function at the new guess
+       
+       # check if this is a root
+       if () {
+          # if so break
+          
+          break
+       }
+       # check if we have reached maximum iterations
+       else if () {
+        # if so break
+        
+        break
+       }
+       else {
+        # else we begin again with new guess
+        
+       }
+  }
+}
+```
+
+
+
+### Question 2:
+
+Define the following function $\mathbf{f}(x_1,x_2) = \begin{pmatrix}\cos(x_1)^2 \\  \sin(x_2)^2\end{pmatrix}$.  Use the following initial guesses with your code and output the messages.  The guesses are given as the columns of the following matrix for convenience.
+```{r}
+initial_conditions <- matrix(c(0, 0, 2, 2, (pi/2), pi, -pi, pi), nrow=2, ncol=4, byrow=FALSE)
+initial_conditions
+```
+
