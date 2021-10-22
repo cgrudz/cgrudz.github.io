@@ -1,0 +1,60 @@
+# Activity 10/22/2021
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+To perform some integration techniques, we will want the following packages,
+```{r}
+require(cubature)
+require(caTools)
+```
+
+### Activity 1: Integration of density functions.
+
+Let $X$ be a random variable distributed according to a CDF $F$, defining the probability distribution.  If $f$ is a continuous probability density function for that distribution, then
+$$\int_{-\infty}^x f(t)\mathrm{d}t = F(x) = P(X \leq x)$$
+We will now show how this relationship can be computed in R with the integrate command.
+
+#### Question 1:
+Recalling the form of the density function and CDF for the normal, find out by how much the integrate function applied to the density differs from the built-in CDF function for calculating $P(X \leq 1)$ for $X\sim N(0,1)$.  Call the `abs.error` variable to find the estimated error of the integral.  Is the estimate too high or too low in this example?
+
+##### Solution:
+
+```{r}
+quadrature_integral <- integrate(dnorm, -Inf, 1)
+abs(quadrature_integral$value - pnorm(1))
+quadrature_integral$abs.error
+```
+In this case, this integral actually agrees with the more accurate `pnorm` function up to $10^{-9}$ and this overestimates its own error.  This is typically the case as we want to have an *upper bound* on the error in the solution, to know what decimal place we can trust the accuracy to.
+
+#### Question 2:
+Recalculate the above, but set the `rel.tol` keyword in the `integrate` function to `10e-10`.  Now what is the result of the absolute difference with the `pnorm` calculation?  How does the error estimate look in relationship to the difference with the `pnorm` value?
+
+##### Solution:
+```{r}
+quadrature_integral <- integrate(dnorm, -Inf, 1, rel.tol=10e-10)
+abs(quadrature_integral$value - pnorm(1))
+quadrature_integral$abs.error
+```
+
+Here we get an absolute difference basically at numerical zero, and again the error estimate is an upper bound.  We notice that using the `rel.tol` argument, we have imposed a higher accuracy than we had by default.
+
+#### Question 3:
+
+We now change the standard normal to the normal with $\mu=-10$ and $\sigma=5$.  You must pass these arguments as keyword arguments in the `integrate` function, using the same keywords from the `dnorm` function.  The `integrate` will pass these arguments to the integrand function if specified correctly.  Try computing the integral of the density function for $N(-10,5)$ to compute $P(X\leq 1)$ using the `integrate` function with the default `rel.tol` argument and the `rel.tol=10e-10`.  How do these approximate integrals compare to the value from the `pnorm` function?
+
+##### Solution:
+```{r}
+quadrature_integral <- integrate(dnorm, -Inf, 1, mean=-10, sd=5)
+abs(quadrature_integral$value - pnorm(1, mean=-10, sd=5))
+quadrature_integral$abs.error
+quadrature_integral <- integrate(dnorm, -Inf, 1, mean=-10, sd=5, rel.tol=10e-10)
+abs(quadrature_integral$value - pnorm(1, mean=-10, sd=5))
+quadrature_integral$abs.error
+```
+We again see roughly the same result as with the standard normal, but here the accuracy of the standard integral is better.
+
