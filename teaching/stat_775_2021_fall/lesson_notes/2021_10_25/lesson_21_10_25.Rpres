@@ -1,0 +1,346 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+<!-- foo 
+Highlighting
+bold
+strong
+orange <b style="color:#d95f02"> text </b>
+green  <b style="color:#1b9e77"> text </b>
+purple <b style="color:#d24693"> text </b>
+red    <b style="color:#FF0000"> text </b>
+blue   <b style="color:#0000FF"> text </b>
+-->
+
+Metropolis-Hastings Part II
+========================================================
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+<blockquote>
+FAIR USE ACT DISCLAIMER:</br>
+This site is for educational purposes only.  This website may contain copyrighted material, the use of which has not been specifically authorized by the copyright holders. The material is made available on this website as a way to advance teaching, and copyright-protected materials are used to the extent necessary to make this class function in a distance learning environment.  The Fair Use Copyright Disclaimer is under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+</blockquote>
+
+========================================================
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+  * Metropolis-Hastings and acceptance rejection
+  * The Metropolis-Hastings chain
+  * The Metropolis-Hastings candidate generating density
+  * The Metropolis-Hastings algorithm
+  * Metropolis-Hastings as data assimilation
+
+========================================================
+## Motivation
+
+* In the <b>first part</b>, we discussed the development of each of:
+  1. the <strong>acceptance rejection method for sampling</strong>; and
+  2. the <strong>Markov chain Monte Carlo (MCMC) method for sampling an invariant distribution</strong>.
+  
+* In this section, we will now discuss how these pieces are <b>put together into the Metropolis-Hastings algorithm</b>.
+
+* Likewise, we will discuss how this can be used as a <b>data assimilation technique</b> to <strong>sample the posterior</strong>.
+
+* Particularly, the <b>invariant distribution</b> we would like to sample with this scheme is precisely
+
+  $$\begin{align}
+  \pmb{\pi}(\pmb{x}_{L:0}) = p(\pmb{x}_{L:0}|\pmb{y}_{L:1})
+  \end{align}$$
+  <strong>for an arbitrary time series of model and observation states</strong>.
+
+* Once we have given a form of the general Metropolis-Hastings algorithm, the application to this specific case will be illustrated.
+
+========================================================
+## Metropolis-Hastings and acceptance rejection
+
+* As in the <b>acceptance-rejection method</b>, <strong>suppose we have a density  that can generate candidates</strong>. 
+
+* Since we are dealing with Markov chains, however, we permit that density to depend on the  current state of the process. 
+
+* Accordingly, the <b>candidate-generating density</b> is denoted $q(\pmb{x}, \pmb{y})$, where
+  
+  $$\begin{align}
+  \int q(\pmb{x},\pmb{y}) \mathrm{d} \pmb{y} = 1.
+  \end{align}$$
+  
+* This density is to be interpreted as, <strong>when a process is at the point</strong> $\pmb{x}$, 
+
+  * the <strong>density generates a value</strong> $\pmb{y}$ from $q(\pmb{x}, \pmb{y})$. 
+  
+* If it happens that $q(\pmb{x}, \pmb{y})$ itself satisfies the <b>reversibility condition</b>
+  
+  $$\begin{align}
+   \pmb{\pi}(\pmb{x}) q(\pmb{x},\pmb{y}) = \pmb{\pi}(\pmb{y}) q(\pmb{y},\pmb{x})
+  \end{align}$$
+  for all $\pmb{x}, \pmb{y}$, <strong>our search for the Markov chain is over</strong>.
+
+* However, <b>the reversibility condition is not generically satisfied</b>;
+  
+  * rather, we might find for some $\pmb{x},\pmb{y}$ that
+  
+  $$\begin{align}
+  \pmb{\pi}(\pmb{x}) q(\pmb{x},\pmb{y}) > \pmb{\pi}(\pmb{y}) q(\pmb{y},\pmb{x}).
+  \end{align}$$
+
+* In this case, somewhat loosely, the <b style="color:#d95f02">process moves from $\pmb{x}$ to $\pmb{y}$ too often</b> and <b style="color:#1b9e77">from $\pmb{y}$ to $\pmb{x}$ too infrequently</b>.
+
+
+========================================================
+### Metropolis-Hastings  and acceptance rejection
+
+
+* One way to correct this is to reduce the number of moves from $\pmb{x}$ to $\pmb{y}$  by <strong>introducing a probability </strong>
+    
+    $$\begin{align}
+    \alpha(\pmb{x}, \pmb{y}) < 1
+    \end{align}$$
+
+* where we refer to $\alpha(\pmb{x},\pmb{y})$ as the <b>probability of move</b>. 
+
+* <b style="color:#1b9e77">If the move is not made</b>, the process again <strong>returns $\pmb{x}$ as a value from the target distribution</strong>.
+
+* This is in contrast with the <b style="color:#d95f02">acceptance rejection method</b>, where if a $\pmb{y}$ is rejected, a new pair $(\pmb{y}, u)$ is <strong>drawn independently of the previous value of $\pmb{y}$</strong>.
+
+* Thus transitions from $\pmb{x}$ to $\pmb{y}$, where $\pmb{y} \neq \pmb{x}$, are made according to <b style="color:#1b9e77">Metropolis-Hastings</b> by
+  
+  $$\begin{align}
+  p_{\mathrm{MH}}(\pmb{x},\pmb{y}):= q(\pmb{x},\pmb{y}) \alpha(\pmb{x},\pmb{y})
+  \end{align}$$
+  when $\pmb{x}\neq \pmb{y}$ for some $\alpha$ <strong>yet-to-be-determined</strong>.
+
+
+========================================================
+### Metropolis-Hastings  and acceptance rejection
+
+* Consider again the inequality,
+
+   $$\begin{align}
+  \pmb{\pi}(\pmb{x}) q(\pmb{x},\pmb{y}) > \pmb{\pi}(\pmb{y}) q(\pmb{y},\pmb{x}).
+  \end{align}$$
+
+* This tells us that a move from $\pmb{y}$ to $\pmb{x}$ is <b>not made often enough</b> and we should therefore define $\pmb{\alpha}(\pmb{y}, \pmb{x})$ to be <strong>as large as possible</strong>.
+
+  *  since this is a probability, the upper limit is $\alpha(\pmb{y},\pmb{x})=1$. 
+  
+* The <b>probability of move</b> $\alpha(\pmb{x}, \pmb{y})$ is determined by requiring that
+
+  $$\begin{align}
+  p_{\mathrm{MH}}(\pmb{x}, \pmb{y}) \pmb{\pi}(\pmb{x}) = p_{\mathrm{MH}}(\pmb{y}, \pmb{x}) \pmb{\pi}(\pmb{y})
+  \end{align}$$
+  i.e., such that it <strong>satisfies the reversibility condition</strong>.
+  
+* Notice, by substitution, we recover
+
+  $$\begin{align}
+  \pmb{\pi}(\pmb{x}) q(\pmb{x},\pmb{y})\alpha(\pmb{x},\pmb{y}) = \pmb{\pi}(\pmb{y}) q(\pmb{y},\pmb{x})\alpha(\pmb{y},\pmb{x}),
+  \end{align}$$
+  
+  * but we set $\alpha(\pmb{y},\pmb{x})=1$ as discussed above.
+
+* Therefore, we <b>define the appropriate probability of move</b> $\alpha(\pmb{x},\pmb{y})$ as
+
+  $$\begin{align}
+  \alpha(\pmb{x},\pmb{y}) := \frac{\pmb{\pi}(\pmb{y}) q(\pmb{y},\pmb{x})}{\pmb{\pi}(\pmb{x}) q(\pmb{x},\pmb{y})}
+  \end{align}$$
+  
+* If the above inequality is reversed, we may simply reverse the argument.
+
+========================================================
+## The Metropolis-Hastings chain
+
+* The construction of the probabilities of move as before,
+
+  $$\begin{align}
+  \alpha(\pmb{x},\pmb{y}) := \frac{\pmb{\pi}(\pmb{y}) q(\pmb{y},\pmb{x})}{\pmb{\pi}(\pmb{x}) q(\pmb{x},\pmb{y})} & & \alpha(\pmb{y},\pmb{x}) := 1
+  \end{align}$$
+  are <b>defined to ensure that</b> $p_{\mathrm{MH}}$ <strong>is reversible with respect to the invariant distribution</strong>.
+  
+* This again will ensure that the Metropolis-Hastings chain will converge to the appropriate invariant distribution $\pmb{\pi}^\ast$ given sufficiently many iterates of the process.
+
+* Thus, the criterion to ensure reversability becomes
+
+  $$\begin{align}
+  \alpha(\pmb{x},\pmb{y}) := 
+  \begin{cases}
+  \mathrm{min}\left[\frac{\pmb{\pi}(\pmb{y})q(\pmb{y},\pmb{x})}{\pmb{\pi}(\pmb{x})q(\pmb{x},\pmb{y})}, 1 \right] &  \text{if}\quad\pmb{\pi}(\pmb{x})q(\pmb{x},\pmb{y}) > 0\\ 
+  1 & \text{else }
+  \end{cases}
+  \end{align}$$
+
+========================================================
+### The Metropolis-Hastings chain
+
+* To complete the definition of the transition kernel for the Metropolis-Hastings chain, 
+
+  * we must <b>consider the possible nonzero probability</b> that <strong>the process remains at $\pmb{x}$</strong>.
+
+* As defined previously, we wrote
+
+  $$\begin{align}
+  r(\pmb{x})=1 - \int p(\pmb{x},\pmb{y}) \mathrm{d}\pmb{y}
+  \end{align}$$
+  
+* Consequently, the transition kernel of the <b>Metropolis-Hastings chain</b> is given as
+
+  $$\begin{align}
+  \mathcal{P}_{\mathrm{MH}}(\mathrm{d}\pmb{y}| \pmb{x}):= q(\pmb{x},\pmb{y})\alpha(\pmb{x},\pmb{y})\mathrm{d}\pmb{y} + \left[1 - \int q(\pmb{x},\pmb{y})\alpha(\pmb{x},\pmb{y})\mathrm{d}\pmb{y} \right] \pmb{\delta}_{\pmb{x}}(\mathrm{d}\pmb{y})
+  \end{align}$$
+  by <strong>applying our construction to the previous ansatz</strong>.
+  
+* By constructing the chain in this way, we guarantee that this converges to the invariant distribution $\pmb{\pi}^\ast$ after sufficiently many iterates of the chain.
+
+========================================================
+## The Metropolis-Hastings candidate generating density
+
+* We should discuss a few remarks about the last construction:
+  <ol>
+    <li>The <b>Metropolis-Hastings algorithm</b> is <strong>specified by its candidate-generating density</strong> $q(\pmb{x},\pmb{y})$ which we have yet to discuss how this is selected.</li>
+    <li><b>If a candidate value is rejected</b>, <strong>the current value is taken as the next item in the sequence</strong>.</li>
+    <li>The <b>calculation</b> of $\alpha(\pmb{x}, \pmb{y})$ <strong>does not actually require knowledge of the invariant density</strong> $\pmb{\pi}$ precisely, only up to proportionality.</li>
+    <ul>
+      <li>Indeed, if $\pmb{\pi}$ is <b>known to proportionality</b>, we can evaluate
+      $$\begin{align}
+      \frac{\pmb{\pi}(\pmb{y})}{\pmb{\pi}(\pmb{x})}
+      \end{align}$$
+      without exact knowledge, <strong>canceling the normalizing constants in ratio</strong>.</li>
+    </ul>
+    <li>If <b>generating density is symmetric</b>, i.e., $q(\pmb{x},\pmb{y})=q(\pmb{y},\pmb{x})$, the <strong>probability of move reduces to the above ratio alone</strong>.</li>
+    <ul>
+      <li>Therefore, if $\frac{\pmb{\pi}(\pmb{y})}{\pmb{\pi}(\pmb{x})} \geq 1$ then the chain moves to $\pmb{y}$;</li>
+      <li>otherwise, it moves with probability of $\frac{\pmb{\pi}(\pmb{y})}{\pmb{\pi}(\pmb{x})} &lt; 1$ precisely.</li>
+    </ul>
+  </ol>
+
+
+========================================================
+### The Metropolis-Hastings candidate generating density
+<div style="float:left; width:50%">
+<ul>
+  <li>From the last statement, we had $\frac{\pmb{\pi}(\pmb{y})}{\pmb{\pi}(\pmb{x})} \geq 1$ implies the chain moves to $\pmb{y}$;or </li>
+  <li>for $\frac{\pmb{\pi}(\pmb{y})}{\pmb{\pi}(\pmb{x})} &lt; 1$ the chain moves to $\pmb{y}$ with precisely this probability.</li>
+  <li>Intuitively, this says that <b style="color:#d95f02">if the jump goes uphill</b>, the <strong>selection is automatic</strong>, but <b style="color:#1b9e77">if the jump is downhill</b>, this <strong>selection occurs with non-zero probability</strong>.</li>
+</ul>
+</div>
+<div style="float:right; width:50%; text-align:center" class="fragment">
+<img style="width:90%", src="uphill_jumps.png" alt="Uphill jumps."/><p style="text-align:center">  Courtesy of Chib, S., & Greenberg, E. (1995). Understanding the Metropolis-Hastings algorithm. The American Statistician, 49(4), 327-335.</p>
+</div>
+<div style="float:left; width:50%;">
+<ul>
+  <li>For the figure to the right, this says that the jump from $\pmb{x}$ to $\pmb{y}_1$ is automatic.</li>
+  <li>However, the jump from $\pmb{x}$ to $\pmb{y}_2$ is made with the probability $\frac{\pmb{\pi}(\pmb{y}_2)}{\pmb{\pi}(\pmb{x})}$.</li>
+  <li>This is essentially the original algorithm proposed by Metropolis et al., and forms the basis of other optimization techniques such as simulated annealing.</li>
+</ul>
+</div>
+<div style="float:left; width:100%">
+<ul>
+  <li>The draws are regarded as a sample from the target density $\pmb{\pi}(\pmb{x})$ only after the chain has passed a transient stage.</li>
+  <ul>  
+    <li>This allows the <b>initial condition</b> generating the process <strong>to be ignored in terms of its impact on the subsequent statistics</strong>.</li>
+  </ul>
+</ul>
+</div>
+
+========================================================
+## The Metropolis-Hastings algorithm
+<ul>
+  <li> Provided we have constructed the Metropolis-Hastings chain according to the above, this is <b>guaranteed to converge to the invariant measure</b> $\pmb{\pi}^\ast$ under <b>very general regularity conditions</b>:</li>
+  <ol>
+    <li><strong>Irreducibility</strong> -- if $\pmb{x}$ and $\pmb{y}$ are in the domain of $\pmb{\pi}$, it must be possible to move from $\pmb{x}$ to $\pmb{y}$ in a finite number of moves.</li>
+    <li><strong>Aperiodicity</strong> -- at any given time, the return time from a state back to itself isn't given by a fixed integer.</li>
+  </ol>
+  <ul>
+    <li>Together, these give a mixing property of the system that is similar to ergodicity.</il>
+  </ul>
+  <li> These conditions are usually satisfied if $q(\pmb{x}, \pmb{y})$ has a positive density on the same support as that of $\pmb{\pi}$.</li>
+  <li> However, these do not guarantee the rate of convergence, and various diagnostics are used in practice to determine if the chain has reached the invariant distribution.
+  <li>The <b>Metropolis-Hastings algorithm</b> is given by the following steps, initializing an arbitrary $\pmb{x}^0$ and a burn-in of $N_{\mathrm{burn}}&lt; N$:
+  <ul>
+    <li><b>Repeat for</b> $j=1,2,\cdots,N$:</li>
+    <ul>
+      <li>Generate $\pmb{y}$ from $q(\pmb{x}^j, \cdot )$ and  $u \sim \mathcal{U}(0,1)$.</li>
+      <li><b>If</b> $u &lt; \alpha(\pmb{x}^j, \pmb{y})$:</li>
+      <ul>
+        <li>Set $\pmb{x}^{j+1} = \pmb{y}$</li>
+      </ul>
+      <li><b>Else</b>:</li>
+      <ul>
+        <li>Set $\pmb{x}^{j+1} = \pmb{x}^j$</li>
+      </ul>
+    </ul>
+    <li><b>Return</b> $\{\pmb{x}^{N_{\mathrm{burn}}}, \cdots, \pmb{x}^N\}$.</li>
+  </ul>
+  <li>The final aspect then is simply how to specify $q(\pmb{x},\pmb{y})$ and how this can be used for data assimilation.</li>
+</ul>
+
+
+========================================================
+### The Metropolis-Hastings algorithm
+
+* One simple choice for the $q(\pmb{x},\pmb{y})$ that is symmetric in $\pmb{x},\pmb{y}$ is as follows.
+
+* Suppose that $\phi$ is the <b>multivariate Gaussian density</b> with mean zero and some selected covariance.
+
+* We take $q(\pmb{x},\pmb{y}) = \phi(\pmb{y} - \pmb{x})$;
+
+  * the candidate $\pmb{y}$ is thus drawn as  $\pmb{y} = \pmb{x} + \pmb{z}$, where $\pmb{z}$ is called the increment.
+
+* Particularly, we take $\pmb{z}\sim \phi$ so that this <strong>simply becomes a random walk with Gaussian noise, used to explore the state space</strong>.
+
+* Therefore, with the symmetric choice above, the probability of move is given by
+
+  $$\begin{align}
+  \alpha(\pmb{x},\pmb{y}) = \mathrm{min}\left[\frac{\pmb{\pi}(\pmb{y})}{\pmb{\pi}(\pmb{x})},1 \right].
+  \end{align}$$
+  
+* This <b>fully specifies the Metropolis-Hastings algorithm</b> if we have knowledge of $\pmb{\pi}$ up to proportionality.
+
+* The last step is now to identify how this is related to the Bayesian smoothing posteior...
+
+
+========================================================
+## Metropolis-Hastings as data assimilation
+<ul>
+  <li>In particular, recall that <b>recursively applying the Markov assumption and independence assumptions</b>, we can write
+
+  $$\begin{align}
+   p(\pmb{x}_{L:0} \vert \pmb{y}_{L:1})& \propto  \left[ \prod_{k=1}^L p(\pmb{y}_k \vert \pmb{x}_k ) \right]\left[\prod_{k=1}^{L} p(\pmb{x}_k \vert \pmb{x}_{k-1})\right]p\left(\pmb{x}_0\right)
+   \end{align}$$</li>
+
+  <li>where in the above the <b>joint posterior is proportional</b> to</li>
+  <ul>
+    <li>the <strong>product of the likelihoods of the time series data</strong>; with</li>
+    <li>the <strong>product of the (model state) transition probabilities</strong>; with</li>
+    <li>the <strong>prior for the initial condition</strong>.</li>
+  </ul>
+  <li>This was used to frame the traditional 4D optimization cost function for perfect models.</li>
+  <li> However, this above result <strong>only requires the general hidden Markov model framework to derive the proportionality</strong>, 
+  $$\begin{align}
+  \pmb{x}_k &= \mathcal{M}_k (\pmb{x}_{k-1}) + \pmb{w}_k \\
+  \pmb{y}_k &= \mathcal{H}_k (\pmb{x}_k) + \pmb{v}_k
+  \end{align}$$
+  with <strong>arbitrary error distributions</strong>.</li>
+  <li> Therefore, we evaluate $\pmb{\pi}$ up to proportionality using the right-hand-side, by <b style="color:#d95f02">sampling the prior</b>, <b style="color:#1b9e77">evaluating the joint likelihood of the data</b> <b style="color:#d24693">given the simulation through the hidden Markov model</b>, and thus compute
+  $$\begin{align}
+  \alpha(\pmb{x},\pmb{y}) = \mathrm{min}\left[\frac{\pmb{\pi}(\pmb{y})}{\pmb{\pi}(\pmb{x})},1 \right].
+  \end{align}$$</li>
+  <li>Given enough simulation time, we can <b>sample an arbitrary joint posterior</b>, <strong>giving an empirical representation</strong>.</li>
+  <li>This also obviously extends to joint state-parameter estimation with the extended state formalism.</li>
+</ul>
