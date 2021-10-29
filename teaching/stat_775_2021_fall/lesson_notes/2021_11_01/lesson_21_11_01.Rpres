@@ -1,0 +1,289 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+<!-- foo 
+Highlighting
+bold
+strong
+orange <b style="color:#d95f02"> text </b>
+green  <b style="color:#1b9e77"> text </b>
+purple <b style="color:#d24693"> text </b>
+red    <b style="color:#FF0000"> text </b>
+blue   <b style="color:#0000FF"> text </b>
+-->
+
+3D-VAR and the extended Kalman filter
+========================================================
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+<blockquote>
+FAIR USE ACT DISCLAIMER:</br>
+This site is for educational purposes only.  This website may contain copyrighted material, the use of which has not been specifically authorized by the copyright holders. The material is made available on this website as a way to advance teaching, and copyright-protected materials are used to the extent necessary to make this class function in a distance learning environment.  The Fair Use Copyright Disclaimer is under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+</blockquote>
+
+========================================================
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+  * 3D-VAR
+  * 3D-VAR versus the extended Kalman filter
+  * The extended Kalman filter
+
+========================================================
+## Motivation
+
+* While <b style="color:#d95f02">pure Bayesian techniques</b> such as the <strong>particle filter</strong> and <strong>Metropolis-Hastings</strong> are theoretically capable of fully nonlinear / non-Gaussian estimation, i.e., in systems like
+
+  $$\begin{align}
+  \pmb{x}_k &= \mathcal{M}_k (\pmb{x}_{k-1}) + \pmb{w}_k \\
+  \pmb{y}_k &= \mathcal{H}_k (\pmb{x}_k) + \pmb{v}_k
+  \end{align}$$
+  with <strong>arbitrary error distributions</strong>,</li>
+
+  * in practice, for systems of even <b>moderately large dimension</b>, these approaches can become <b style="color:#d95f02">computationally intractable</b>.
+  
+* Particle filters and similar methods are currently an active research area, with a variety of techniques being developed to overcome the curse of dimensionality.
+
+  * Currently, however, this computational barrier has hindered their operational use in large-scale prediction problems.
+
+* For the rest of the course, we will consider a variety of ways that tools from the  <b style="color:#1b9e77">linear-Gaussian estimation problem</b> can be <strong>adapted for prediction algorithms that can be used at-scale</strong>.
+
+========================================================
+## Motivation
+
+* <b>3D-VAR</b> and the <b>extended Kalman filter</b> are two closely related approaches for  <b style="color:#1b9e77">extending the linear-Gaussian intuition</b> to large-scale estimation problems.
+
+* While 3D-VAR is not widely used currently in large-scale operational prediction problems,
+
+  * and while the extended Kalman filter has only seen limited implementation for large-scale operational prediction,
+  
+* these two approaches are <strong>foundational for understanding the challenges and the methods</strong> devised for  <b style="color:#1b9e77">large-scale nonlinear estimation</b>.
+
+* Likewise, <b>3D-VAR</b> forms an important component in understanding a variety of modern techniques such as <strong>covariance hybridization</strong>.
+
+* For these reasons, we will provide a general, high-level discussion of these methods.
+
+========================================================
+## 3D-VAR
+
+* Let us recall the form of the <b>penalized, state-space objective function</b> that we derived in <strong>least-squares optimization</strong>:
+
+  $$\begin{align}
+  \mathcal{J}_p(\pmb{x}) := \frac{1}{2} \parallel \pmb{x} - \overline{\pmb{x}}\parallel_{\mathbf{B}}^2 + \frac{1}{2} \parallel \pmb{y} - \mathbf{H}\pmb{x}\parallel_{\mathbf{R}_k}^2.
+  \end{align}$$
+
+* where, like in the  <b style="color:#1b9e77">Gaussian maximum a posteriori estimation</b>, we estimate an optimal state as a <b>balance between</b>:
+
+  <ol>
+    <li>the <strong>deviation from the background estimate</strong>, weighted inverse proportionally to the uncertainty weights $\mathbf{B}$; and</li>
+    <li>the <strong>deviation from the observed data</strong>, weighted inverse proportionally to the uncertainty of the data $\mathbf{R}_k$.</li> 
+  </ol>
+  
+* The method of <b>3D-VAR</b> is to extend this objective function directly to nonlinear dynamics where we may  <b style="color:#1b9e77">replace $\mathbf{H}$ with a nonlinear map $\mathcal{H}$</b>.
+
+* The objective function therefore becomes
+
+  $$\begin{align}
+  \mathcal{J}_p(\pmb{x}) := \frac{1}{2} \parallel \pmb{x} - \overline{\pmb{x}}\parallel_{\mathbf{B}}^2 + \frac{1}{2} \parallel \pmb{y} - \mathcal{H}(\pmb{x})\parallel_{\mathbf{R}_k}^2,
+  \end{align}$$
+  which is no <b>longer guaranteed to be globally convex</b>, and therefore <strong>must be locally minimized</strong>.
+  
+* This can be performed with, e.g., a Gauss-Newton or other quasi-Newton procedures for the minimization;
+
+  * the optimized state estimate $\hat{\pmb{x}}$ can thus be propagated to find a subsequent forecast.
+
+* However, in the nonlinear setting, there are a variety of new considerations for how this optimization compares to the "optimal" Bayesian solution.
+
+========================================================
+### 3D-VAR
+
+* Specifically, the <strong>selection and interpretation</strong> of the <b>background covariance / weights matrix</b> $\mathbf{B}$ changes considerably.
+
+  * Likewise, the <strong>interpretation of the optimized solution</strong> $\hat{\pmb{x}}$ <b>depends on the background</b>.
+  
+* In 3D-VAR, the typical choice of the background weights $\mathbf{B}$ is given by taking the <b style="color:#1b9e77">covariance matrix for the model state</b> over a <strong>long time series of past observations / model simulations</strong>.
+
+* In weather and climate prediction, this is known as the "climatological covariance", estimated over a long past record of the state variables.
+
+* This has the benefit that this gives a <b>cost effective analysis</b>, as the background is taken as $\mathbf{B}_k \equiv \mathbf{B}$ <strong>static-in-time</strong>.
+
+* Similarly, the initial guess $\overline{\pmb{x}}$ is given by the model simulation of the last optimized solution $\hat{\pmb{x}}$,
+  
+  $$\begin{align}
+  \overline{\pmb{x}} := \mathcal{M}_k \left(\hat{\pmb{x}}\right).
+  \end{align}$$
+
+* This is understood then to <b style="color:#1b9e77">optimize the last forecast solution versus the observed data</b>, where the <strong>background is using "static persistence weights"</strong>.
+
+* That is, the static persistence weights do not include the information of the time-evolving covariance, only the long-time static information about the variables.
+
+* If we suppose that $\mathbf{B}$ and $\mathbf{R}_k$ are selected accurately, and the long-time distribution for $\pmb{x}$ is Gaussian, this can be interpreted as the <b style="color:#1b9e77">maximum-a-posteriori estimate from the invariant distribution of the dynamics</b>.
+
+========================================================
+### 3D-VAR versus the extended Kalman filter
+
+* The primary benefit of the <b>3D-VAR</b> approach is its <strong>simplicity in the estimation problem</strong>.
+
+  * However, this is also the <b>primary weakness</b>, as by not considering the time-varying covariance of the forecast,
+  
+  * this <strong>lacks information about the time-varying evolution of the state</strong>.
+
+* The <b>extended Kalman filter</b> seeks to rectify this by explicitly constructing a procedure to produce a time-varying background as with the Kalman filter.
+
+* This is performed by using the <b style="color:#1b9e77">tangent-linear model for Gaussian perturbations of the mean state</b>.
+
+
+========================================================
+## The extended Kalman filter
+
+* In particular, suppose that the equations of motion are generated by a nonlinear function, independent of time for simplicity,
+
+  $$\begin{align}
+  \frac{\mathrm{d}}{\mathrm{d}t} \pmb{x} = \pmb{f}(\pmb{x}) & &\pmb{x}_k= \mathcal{M}_k(\pmb{x}_{k-1}):= \int_{t_{k-1}}^{t_k} \pmb{f}(\pmb{x}) \mathrm{d}t + \pmb{x}_{k-1}
+  \end{align}$$
+
+* We can <b>extend the linear-Gaussian approximation</b> for the forecast density as
+
+  $$\begin{align}
+  &\pmb{x}_{k-1} := \overline{\pmb{x}}_{k-1} + \pmb{\delta}_{k-1} \sim   N(\overline{\pmb{x}}_{k-1}, \mathbf{B}_{k-1})\\
+\Leftrightarrow  &\pmb{\delta}_{k-1} \sim N(\pmb{0}, \mathbf{B}_{k-1})
+\end{align}$$
+
+* The evolution of the perturbation $\pmb{\delta}$ can thus be <strong>approximated via Taylor's theorem</strong> as
+
+  $$\begin{align}
+  \frac{\mathrm{d}}{\mathrm{d}t} \pmb{\delta}&:= \frac{\mathrm{d}}{\mathrm{d}t}\left( \pmb{x} - \overline{\pmb{x}}\right)\\
+  &=\pmb{f}(\pmb{x}) - \pmb{f}(\overline{\pmb{x}})\\
+  &=\nabla_{\pmb{x}}\pmb{f}(\overline{\pmb{x}})\pmb{\delta} + \mathcal{O}\left(\parallel \pmb{\delta}\parallel^2\right)
+  \end{align}$$
+  where $\nabla_{\pmb{x}}\pmb{f}(\overline{\pmb{x}})$ is the <b>Jacobian equation</b> with <strong>dependence on the underlying mean state</strong>.
+
+* In particular, the linear evolution defined by the truncated Taylor expansion
+
+  $$\begin{align}
+  \frac{\mathrm{d}}{\mathrm{d}t} \pmb{\delta}:= \nabla_{\pmb{x}}\pmb{f}(\overline{\pmb{x}})\pmb{\delta}
+  \end{align}$$
+  is known as the <b>tangent-linear model</b>.
+
+========================================================
+### The extended Kalman filter
+
+* Making the approximation of the tangent-linear model,
+
+  $$\begin{align}
+  &\frac{\mathrm{d}}{\mathrm{d}t} \pmb{x} \approx \pmb{f}(\overline{\pmb{x}}) + \nabla_{\pmb{x}}\pmb{f}(\overline{\pmb{x}})\pmb{\delta}\\ \\
+  \Rightarrow&\int_{t_{k-1}}^{t_k}\frac{\mathrm{d}}{\mathrm{d}t}\pmb{x}\mathrm{d}t \approx  \int_{t_{k-1}}^{t_k} \pmb{f}(\overline{\pmb{x}}) \mathrm{d}t + \int_{t_{k-1}}^{t_k}\nabla_{\pmb{x}}\pmb{f}(\overline{\pmb{x}})\pmb{\delta}\mathrm{d}t \\ \\
+  \Rightarrow & \pmb{x}_{k} \approx \mathcal{M}_{k}\left(\overline{\pmb{x}}_{k-1}\right) + \mathbf{M}_k\pmb{\delta}_{k-1}
+  \end{align}$$
+  where $\mathbf{M}_k$ is the <b>resolvent of the tangent-linear model</b>.
+  
+* <strong>Gaussians are closed under affine transformations</strong>, approximating the evolution under the tangent-linear model as
+
+  $$\begin{align}
+  \pmb{x}_{k} \sim N\left(\mathcal{M}_k\left(\overline{\pmb{x}}_{k-1}\right), \mathbf{M}_k \mathbf{B}_{k-1}\mathbf{M}^\top_{k}\right)
+  \end{align}$$
+
+* Therefore, this provides a means, in principle, to approximate the evolution of the background covariance in time.
+
+========================================================
+### The extended Kalman filter
+
+* The <b>extended Kalman filter</b> can be understood then as turning the 3D-VAR objective function into a <strong>time-varying objective function</strong> as follows.
+
+* Let the previous analysis solution be given by <b>approximating the distribution of the model state</b> as
+
+  $$\begin{align}
+  \pmb{x}_k &\sim N\left(\overline{\pmb{x}}^{\mathrm{filt}}_{k-1} , \mathbf{B}_{k-1}^{\mathrm{filt}}\right).
+  \end{align}$$
+  
+* We <strong>approximate the forecast distribution</strong> as,
+
+  $$\begin{align}
+  \pmb{x}_k &\sim N\left( \overline{\pmb{x}}_k^\mathrm{fore}, \mathbf{B}_k^\mathrm{fore} \right),\\
+  \pmb{x}_k^\mathrm{fore}&:= \mathcal{M}_k\left(\overline{\pmb{x}}_{k-1}^{\mathrm{filt}}\right),\\  
+  \mathbf{B}_k^\mathrm{fore}&:=\mathbf{M}_k \mathbf{B}_{k-1}^{\mathrm{filt}}\mathbf{M}_k^\top.
+  \end{align}$$
+  
+* The resulting <b>extended Kalman filter cost function</b> can thus be written as
+
+  $$\begin{align}
+  \mathcal{J}_{\mathrm{EKF}}(\pmb{x}) := \frac{1}{2} \parallel \pmb{x} - \overline{\pmb{x}}_k^\mathrm{fore}\parallel_{\mathbf{B}_k^\mathrm{fore}}^2 + \frac{1}{2} \parallel \pmb{y} - \mathcal{H}(\pmb{x})\parallel_{\mathbf{R}_k}^2,
+  \end{align}$$
+  which can similarly be minimized with quasi-Newton methods to find a local minima.
+
+========================================================
+### The extended Kalman filter
+
+* The <b>extended Kalman filter</b> thus gives the improvement over 3D-VAR in that it uses the approximate, <strong>time-varying background covariance using the tangent-linear model</strong>.
+
+* However, this comes with the cost of constructing and computing the evolution of a large covariance matrix in the tangent-linear model.
+
+* For large-scale, nonlinear systems, <strong>explicitly constructing such a covariance can be prohibitively expensive</strong>.
+
+* For this reason, one usually needs to make an additional approximation using the square root form of the equation in the weight-space.
+
+  $$\begin{align}
+  \mathcal{J}_{\mathrm{EKF}}(\pmb{w}) &:= \frac{1}{2} \parallel  \overline{\pmb{x}}_k^\mathrm{fore} - \boldsymbol{\Sigma}_{k}^\mathrm{fore} \pmb{w} - \overline{\pmb{x}}_k^\mathrm{fore} \parallel_{\mathbf{B}^\mathrm{fore}}^2 + \frac{1}{2} \parallel \pmb{y} - \mathcal{H}\left(\overline{\pmb{x}}_k^\mathrm{fore}  + \boldsymbol{\Sigma}_k^\mathrm{fore}\pmb{w}\right) \parallel_{\mathbf{R}_k}^2\\
+  &\approx \frac{1}{2}\parallel \pmb{w}\parallel^2 + \frac{1}{2}\parallel  \pmb{y} - \mathcal{H}\left(\overline{\pmb{x}}_k^\mathrm{fore}\right) + \mathbf{H}_k \boldsymbol{\Sigma}_k^\mathrm{fore}\pmb{w} \parallel_{\mathbf{R}_k}^2,
+  \end{align}$$
+  where
+  
+  * $\left(\boldsymbol{\Sigma}_k^\mathrm{i}\right)\left(\boldsymbol{\Sigma}_k^\mathrm{i}\right)^\top \approx \mathbf{B}_k^{\mathrm{i}}$ is a <strong>reduced rank approximation of the covariance using</strong>, e.g., a truncated SVD;
+  * $\mathbf{H}_k:= \nabla_{\pmb{x}} \mathcal{H}_k$ is the <strong>Jacobian of the nonlinear observation operator</strong>; and
+  * the second term above is given by taking the <strong>Taylor expansion of the perturbation to the mean state through the observation operator</strong>.
+
+========================================================
+### The extended Kalman filter
+
+* Notice that the approximate cost function
+
+  $$\begin{align}
+  \mathcal{J}_{\mathrm{EKF}}(\pmb{w}) &:=\frac{1}{2}\parallel \pmb{w}\parallel^2 + \frac{1}{2}\parallel  \pmb{y} - \mathcal{H}\left(\overline{\pmb{x}}_k^\mathrm{fore}\right) + \mathbf{H}_k \boldsymbol{\Sigma}_k^\mathrm{fore}\pmb{w} \parallel_{\mathbf{R}_k}^2,\\
+  \end{align}$$<br>
+  is <b>actually quadratic in $\pmb{w}$</b>, as $\mathcal{H}\left(\overline{\pmb{x}}_k^\mathrm{fore}\right)$ is a <strong>constant with respect to the optimization</strong>.
+  
+* Therefore, this represents a <b>fully linearized system</b>, performing an <strong>approximate Kalman filtering in the space of perturbations</strong>. 
+
+* The usual right-transform analysis can be computed from the objective function above so that
+
+  $$\begin{align}
+  \overline{\pmb{x}}^\mathrm{filt}_k := \overline{\pmb{x}}_k^\mathrm{fore} + \boldsymbol{\Sigma}_k^\mathrm{fore} \overline{\pmb{w}} & &
+  \mathbf{H}_{\mathcal{J}}&:= \nabla_{\pmb{w}}^2 \mathcal{J} & & \mathbf{T}:=\mathbf{H}_{\mathcal{J}}^{-\frac{1}{2}} & & \boldsymbol{\Sigma}_{k}^\mathrm{filt}:= \boldsymbol{\Sigma}_k^\mathrm{fore}\mathbf{T} & & 
+  \end{align}$$
+  an entire recursion can be derived as above (and extended to include model error in the evolution of $\boldsymbol{\Sigma}_k^\mathrm{filt}$).
+
+========================================================
+### The extended Kalman filter
+
+* The <b style="color:#1b9e77">accuracy of the approximation</b> in the extended Kalman filter depends strongly on:
+  1. the <strong>nonlinearity of the state evolution</strong> $\mathcal{M}_k$ and if this can be well-approximated at first order by the tangent-linear model; and
+  2. the <strong>nonlinearity of the observation operator</strong> $\mathcal{H}$ and if this can be well-approximated at first order by the Jacobian.
+  
+* For the former, this usually depends on <b>how long the forecast length is in time</b>, where for short forecast horizons this is often adequate.
+
+  * For longer forecast horizons, the evolution of Gaussian perturbations is no longer appropriate, as the forecast begins to converge to the invariant "climatological" statistics.
+  
+* For this reason, one may intuitively consider <b style="color:#d95f02">interpolating between the long-time-average background covariance</b>, and <b style="color:#1b9e77">a time dependent covariance</b> in practice for the optimization weights.
+
+  * This is part of the intuition behind <b>covariance hybridization</b> mentioned at the beginning of the lecture,
+  
+  * The other consideration is that if $\boldsymbol{\Sigma}_k^{\mathrm{fore}}$ is of <b>reduced rank</b>, this implies that <strong>correction in the optimized solution is restricted to a low-dimensional subspace</strong>.
+  
+  * If the subspace is too small, this may not be able to correct the growth of errors in the estimate, and <b>interpolating with a static, full-rank background</b> can <strong>rectify this sparse correction</strong>.
