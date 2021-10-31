@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="400mm"
+   height="400mm"
+   viewBox="0 0 400 400"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="linea_model_3.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="285.05062"
+     inkscape:cy="560"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1853"
+     inkscape:window-height="1025"
+     inkscape:window-x="67"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,103)">
+    <path
+       style="fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:1.46500003;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 40.7325,-74.083693 V 256.2675 h 335.64285"
+       id="path817"
+       inkscape:connector-curvature="0" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot827"
+       style="font-style:normal;font-weight:normal;font-size:50px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       transform="matrix(0.79819391,0,0,0.79819391,-377.98128,-164.53366)"><flowRegion
+         id="flowRegion829"><rect
+           id="rect831"
+           width="351.42856"
+           height="282.85715"
+           x="485.71429"
+           y="291.81104" /></flowRegion><flowPara
+         id="flowPara833">y</flowPara></flowRoot>    <ellipse
+       style="opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:4.165;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path835"
+       cx="153.45833"
+       cy="95.538689"
+       rx="1.5119048"
+       ry="1.1339285" />
+    <ellipse
+       style="opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:4.16499996;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path835-3"
+       cx="254"
+       cy="21.833332"
+       rx="1.5119048"
+       ry="1.1339285" />
+    <ellipse
+       style="opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:4.16499996;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path835-6"
+       cx="254.00041"
+       cy="72.798553"
+       rx="1.5119048"
+       ry="1.1339285" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot827-7"
+       style="font-style:normal;font-weight:normal;font-size:50px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       transform="matrix(0.79819392,0,0,0.79819392,-198.84438,18.767869)"><flowRegion
+         id="flowRegion829-5"><rect
+           id="rect831-3"
+           width="351.42856"
+           height="282.85715"
+           x="485.71429"
+           y="291.81104" /></flowRegion><flowPara
+         id="flowPara833-5">x</flowPara></flowRoot>  </g>
+</svg>
