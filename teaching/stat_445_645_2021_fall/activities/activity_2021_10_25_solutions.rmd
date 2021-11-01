@@ -1,0 +1,65 @@
+# Activity 10/25/2021
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+To perform some integration techniques, we will want the following packages,
+```{r}
+require(cubature)
+require(caTools)
+```
+
+### Activity 1: Accuracy of integration by partition size
+
+Consider how the accuracy of the trapezoidal rule differs from that of Gaussian quadrature.  In the following, we will define our ground truth for the true numerical value of the probability
+$$\begin{align}
+P(-2 \leq X \leq 2) & & X \sim N(0,1) 
+\end{align}$$
+to be
+```{r}
+ground_truth <- pnorm(2) - pnorm(-2)
+```
+
+The following `while` loop will approximate the integral 
+$$\int_{-2}^2 f(x) \mathrm{d}x = P(-2 \leq X \leq 2) $$
+with the trapezoidal rule, and it will double the step size until the error reaches the error level of the Gaussian quadrature
+```{r eval=FALSE}
+tol <-   # estimated error of Gaussian quadrature
+```
+
+Use the Gaussian quadrature method to integrate `dnorm()` over the interval $[-2,2]$ and assign the estimated error from the resulting object `abs.error` to the variable `tol` above the `while` loop  below.  Then find how large of a step size is needed to match the estimated error tolerance of the quadrature method.
+
+```{r eval=FALSE}
+absolute_error <-1 # dummy initial value for the error
+n_part <- 2 # initial partition size
+
+while (absolute_error > tol) {
+   partition <- seq(-2, 2, len=n_part) # generate a partition
+   value <- trapz(partition, dnorm(partition)) # compute the integral
+   absolute_error <- abs(ground_truth - value) # compute the absolute error
+   cat("Absolute error", absolute_error, "Partition size", n_part, "\n") # print the absolute error and partition size
+   n_part <- n_part*2 # double partition size
+}
+```
+
+#### Solution:
+
+
+```{r}
+tol <- integrate(f=dnorm, lower=-2, upper=2)$abs.error
+absolute_error <-1 # dummy initial value for the error
+n_part <- 2 # initial partition size
+
+while (absolute_error > tol) {
+   partition <- seq(-2, 2, len=n_part) # generate a partition
+   value <- trapz(partition, dnorm(partition)) # compute the integral
+   absolute_error <- abs(ground_truth - value) # compute the absolute error
+   cat("Absolute error", absolute_error, "Partition size", n_part, "\n") # print the absolute error and partition size
+   n_part <- n_part*2 # double partition size
+}
+```
+It takes much longer for the trapezoidal rule to converge, evidencing the strong improvement of Gaussian quadrature.  Note, if you run the while loop until the trapezoidal reaches the same absolute precision as the integrate function as computed in earlier examples, you will likely crash your computer as the grid needed to get this accuracy will become too large to compute.
