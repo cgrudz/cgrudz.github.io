@@ -1,0 +1,55 @@
+# Activity 11/08/2021
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+We will use the following package for the multivariate normal distribution:
+```{r}
+require(mnormt)
+```
+
+### Activity 1: The multivariate normal and the Mahalanobis transformation
+
+#### Question 1:
+Create a 2x2 matrix $\mathbf{A}$ with the columns given by the integers 1 through 4 in order.  Evaluate if this has any zero eigenvalues.  Then construct the symmetric matrix by $\mathbf{B} =\mathbf{A}\mathbf{A}^\top$.  Evaluate if this has any zero eigenvalues.
+
+
+#### Question 2:
+
+Use the following seed and the `rmnorm` function to generate a random sample.   Set the mean equal to mu below, but try each of $\mathbf{A}$ and $\mathbf{B}$ for the `varcov` parameter.  What do you notice?  Plot the sample and the lines formed by the eigenvectors for the `varcov` parameter using the supplied plotting code below. What do you notice about the plot?
+```{r}
+set.seed(123)
+sample_size <- 10e3
+mu = matrix(34:35, 2)
+```
+
+```{r, eval=FALSE}
+eigen_decomp <-
+vecs <- 
+vals <- 
+eigScl  <- vecs %*% diag(sqrt(vals))  # scale eigenvectors to length = square-root of eigenvalue
+xMat    <- rbind(mu[1] + eigScl[1, ], mu[1] - eigScl[1, ])
+yMat    <- rbind(mu[2] + eigScl[2, ], mu[2] - eigScl[2, ])
+matlines(xMat, yMat, lty=1, lwd=2, col="red")
+```
+
+
+#### Question 3:
+Now try subtracting the value `mu` from the sample in all entries.  Compute the mean of the sample.  Plot the transformed sample, and the eigen vectors as before with the code below:
+
+```{r, eval=FALSE}
+
+plot(transformed_sample[,1], transformed_sample[,2], asp=1)
+xMat    <- rbind(0 + eigScl[1, ], 0 - eigScl[1, ])
+yMat    <- rbind(0+ eigScl[2, ], 0 - eigScl[2, ])
+matlines(xMat, yMat, lty=1, lwd=2, col="red")
+```
+
+
+#### Question 4:
+Now, try transforming the sample by the inverse of `B` and the inverse of `A`.  Plot the results and see what you get.  What do you notice about the results?
+

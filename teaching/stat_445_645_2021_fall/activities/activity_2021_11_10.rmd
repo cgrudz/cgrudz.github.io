@@ -1,0 +1,54 @@
+# Activity 11/10/2021
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+```{r}
+require("PerformanceAnalytics")
+require("corrplot")
+require("faraway")
+```
+
+### Activity 1: Basic correlation 
+Recall the `women` height / weight data from the lecture.  We will explore more about this data in the next exercises.  
+
+#### Question 1:
+Firstly, us the following functions:
+
+ * `summary`
+ * `corrplot`
+ * `chart.Correlation`
+
+to make some basic data analysis of the relationship between height and weight for the 15 women surveyed.
+
+
+#### Question 2:
+Use the `lm` function to compute the regression line between weight and height with this data set.  Consider the coefficient for height giving the slop using the `summary` of the linear model object. Perform the calculation of the ratio of the standard deviation of weight and the standard deviation of height, times the correlation coefficient.  What do you notice?
+
+
+### Activity 2: Correlation and scales 
+Let's now consider a more complicated data set, `gala` from `faraway`.  
+
+
+#### Question 1:
+
+Make the same summaries as above with
+
+ * `summary`
+ * `corrplot`
+ * `chart.Correlation`
+
+
+
+#### Question 2:
+Notice in the above, there appear to be relationships between variables, but which seem to be nonlinear.  Let's consider the following.  Suppose we remove all cases from the dataframe corresponding to zero values in the variables `Endemics` and `Species`.  Then suppose we transform `Endemics`, `Species`, `Area` and `Elevation` by the log function.  Re-run the above analysis once again for these transformed variables.  What do you notice about the correlations?
+
+
+#### Question 3:
+Check the documentation on `gala`.  Notice that `Species` and `Endemics` are closely related variables, and may be almost the same data.  Fit instead a linear model for
+`Species ~ Area + Elevation`
+all in the log scale using the rescaled data set.  Try this in the original scale.  What do you notice?
+
