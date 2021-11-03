@@ -1,0 +1,162 @@
+# Activity 11/01/2021
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+
+```{r}
+require("numDeriv")
+```
+
+
+## Activity 1:
+
+Code a simple algorithm for Newton's descent in R.  We will avoid many of the technicalities of the method and only focus on the main ideas, as they arise as an extension of the Newton's root finding method.
+
+Recall, the Newton descent method is given approximately as follows:
+
+* Step 1: Set an initial guess `x_0`, a maximum number of iterations `max_iter` and an error tolerance `tol`.
+* Step 2: Compute each of $\nabla f(\mathbf{x}_0)$ and $\mathbf{H}_f(\mathbf{x}_0)$.
+* Step 3: Determine if $\mathbf{H}_f(\mathbf{x}_0)$ has all positive eigenvalues.  You should compare these values versus a small positive value, `tol` will work here for simplicity. Break the function and throw an error message if this is not the case as there is not a guaranteed descent direction; if there are all positive eigenvalues then set $\mathbf{x}_1 = \mathbf{x}_0 - \left(\mathbf{H}_f(\mathbf{x}_0)\right)^{-1} \nabla f(\mathbf{x}_0)$.
+* Step 4: If the number of iterations has exceeded `max_iter` or if 
+ $$\parallel \mathbf{x}_1 - \mathbf{x}_2 \parallel \leq tol,$$ 
+ break the function. 
+* Print the reason for completion, including the number of iterations spent, and the estimated minimum point $\mathbf{x}^\ast$ as well as the value $f(\mathbf{x}^\ast)$ if possible -- these respectively give the point at which $f$ attains a local minimum and what the local minimum value of $f$ actually is.  Else, repeat steps 2 through 4 with $\mathbf{x}_0 = \mathbf{x}_1$.
+
+Note, it is recommended that you define the quantity, `delta <- x_1 - x_0`.  With this quantity, you can again evaluate the condition of the Euclidean norm
+$$\parallel \mathbf{x}_1 - \mathbf{x}_2 \parallel = \parallel \boldsymbol{\delta} \parallel \leq tol.$$ 
+This condition indicates that further steps don't make very much difference in the change of the estimated minimum point.  *We are not targeting a known value with this method* as we did in Newton's root finding method.  In the root finding method, we have a known $\mathbf{b}$ that we want to solve for (possibly $\mathbf{b} = \boldsymbol{0}$).  However, in finding a local minimum, we are searching for what this value might be, so we do not have a value to compare against here by default.
+
+### Question 1:
+
+Provide your commented code so that it takes the arguments `x_0`, `max_iter` and `tol` as described above, such that it will return error and / or completion messages, along with the final value of `x_1` and the Euclidean norm of 
+$$\parallel \mathbf{x}_1 - \mathbf{x}_0 \parallel = \parallel \delta \parallel $$ 
+if the algorithm is successful.  Set default arguments for `max_iter = 100` and `tol=10e-7`.  Use the package `numDeriv` and *the appropriate kind of derivative $\nabla f$ and $\mathbf{H}_f$ for this problem*.  This will strongly resemble Newton root finding but you need to bear in mind the slight differences.
+
+```{r}
+newton_descent <- function(fun, x_0, max_iter=100, tol=10e-7) {
+   for (i in 1:max_iter){
+       # compute the hessian at the initial guess
+       H_f <- hessian(fun, x_0)
+       # check if any of the eigenvalues are approximately NOT POSITIVE (this includes approximately zero or negative)
+       if (any(eigen(H_f)$values <= tol)){
+          # if so break
+          cat("No guaranteed descent direction at", x_0, "\n")
+          break
+       }
+       # compute the newton step
+       delta <- - solve(H_f, grad(fun, x_0))
+       x_1 <- x_0 + delta
+       
+       # check if there is little difference between the steps
+       if (sqrt(t(delta) %*% delta) <= tol) {
+          # if so, we break
+          cat("Min found at", x_1,"with precision", sqrt(t(delta) %*% delta), "after", i, "iterations.\n")
+          cat("Function attains",fun(x_1),"\n")
+          break
+       }
+       # check if the maximum number of iterations is reached
+       else if (i == max_iter) {
+        # if so, break
+        cat("Terminated at a maximum of", max_iter, "iterations", "\n")
+          break
+       }
+       else {
+        # else, start over with new guess
+        x_0 <- x_1  
+       }
+  }
+}
+```
+
+
+### Question 2:
+
+Define the scalar valued function of two variables,
+$$f(x_1,x_2) = \cos(x_1) + \sin(x_2)$$
+
+Use the following initial guesses with your code and output the messages.  The guesses are given as the columns of the following matrix for convenience.
+```{r}
+initial_conditions <- matrix(c(0, 0, 2, 2, 9, 4.5, -3, -1.5), nrow=2, ncol=4, byrow=FALSE)
+initial_conditions
+```
+
+
+
+#### Solution:
+
+```{r}
+f <- function(x){
+   x_1 <- x[1]
+   x_2 <- x[2]
+   return (cos(x_1) + sin(x_2))
+}
+
+for (i in 1:ncol(initial_conditions)){
+  newton_descent(f, initial_conditions[,i])
+}
+```
+
+
+
+### Question 3:
+Analytically compute the Hessian for the function in problem 4.  Use this to derive the regions in which the function is locally convex in terms of the eigenvalues of the Hessian.  Explain how this relates to the outputs in problem 4.
+
+#### Solution:
+
+Notice that for the above problem, we can define the first partial derivatives as,
+$$\begin{align}
+\partial_{x_1} f(x_1,x_2) &= \partial_{x_1}\left( \cos(x_1) + \sin(x_2)\right) = - \sin(x_1) \\
+\partial_{x_2}f(x_1,x_2) &= \partial_{x_2} \left(\cos(x_1) + \sin(x_2)\right) = \cos(x_2)
+\end{align}$$
+as $\sin(x_2)$ is constant with respect to $x_1$ and $\cos(x_1)$ is constant with respect to $x_2$.  
+
+Therefore the Hessian, defined as the matrix of the second partial derivatives, can be computed from the above values with the same method to obtain
+$$\begin{align}
+\mathbf{H}_f &= 
+\begin{pmatrix}
+\partial_{x_1}^2 f & \partial_{x_1}\partial_{x_2} f \\
+\partial_{x_2}\partial_{x_1} f & \partial_{x_x}^2 f
+\end{pmatrix}\\
+&=
+\begin{pmatrix}
+- \cos(x_1) & 0 \\
+0 & -\sin(x_2) 
+\end{pmatrix}
+\end{align}$$
+
+We note that the eigenvalues of a diagonal matrix are precisely the diagonal elements, so that the eigenvalues of the Hessian are positive whenever $-\cos(x_1)$ and $-\sin(x_2)$ are simultaneously positive.  This is the condition that guarantees that the region around a local minimum is locally convex, and that we can guarantee a descent direction to it with the Newton method.
+
+We note that $\cos(x)$ is negative in all ranges
+$$\left\{\left(k \times \pi + \frac{\pi}{2}, (k+1)\times \pi + \frac{\pi}{2} \right) \vert \text{where }k\text{ is an even integer}\right\}$$
+while  $\sin(x)$ is negative in all ranges 
+$$\left\{\Big(l \times \pi, (l+1)\times \pi \Big)\vert \text{where }l\text{ is an odd integer}\right\}$$
+It is, therefore, exactly these ranges where the Hessian will have positive eigenvalues denoting local convexity.
+
+The initial guesses $(0,0)$ and $(2,2)$ do not fall into these ranges.  However, for $k=2$ and $l=1$
+$$\begin{align}
+2\times \pi + \frac{\pi}{2} \approx 7.853< &9  < 3\times \pi + \frac{\pi}{2} \approx 10.995\\
+1 \times \pi \approx 3.141 < &4.5 < 2\times \pi \approx 6.283
+\end{align}$$
+so that this lies in the basin of attraction for 
+$$\left( 3\pi , \pi + \frac{\pi}{2}\right).$$
+where 
+$$\begin{align}
+\cos(3\pi)&=-1 \\
+\sin\left(\pi + \frac{\pi}{2} \right) &= -1
+\end{align}$$
+
+Similarly, for $k=-2$ and $l=-1$
+$$\begin{align}
+-2\times \pi + \frac{\pi}{2} \approx -4.712< & -3  < -1\times \pi + \frac{\pi}{2} \approx -1.570\\
+-1 \times \pi \approx -3.141 < &-1.5 < 0 \times \pi =0
+\end{align}$$
+so that this lies in the basin of attraction for $\left(-\pi, -\frac{\pi}{2}\right)$, where
+$$\begin{align}
+\cos(-\pi) &= -1 \\
+\sin\left(-\frac{\pi}{2}\right) &= -1
+\end{align}$$
