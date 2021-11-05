@@ -1,0 +1,204 @@
+# Activity 11/05/2021
+
+## STAT 445 / 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+## Activities:
+
+
+```{r}
+require("numDeriv")
+require("optimx")
+require("ggplot2")
+```
+
+
+## Activity 1:
+The function `optim` provides algorithms for general-purpose optimizations.
+We will examine how to use this on a direct problem of minimizing the residual sum of squares.
+
+Suppose we are given the following data in x-y pairs as measurements of some relationship.
+```{r}
+dat=data.frame(x=c(1,2,3,4,5,6), 
+               y=c(1,3,5,6,8,12))
+```
+
+
+### Question 1:
+
+Generate a plot of the data to determine if a linear relationship between the data points is visually feasible.
+
+#### Solution:
+
+```{r}
+plot(dat$x, dat$y, main="My example data", xlab="X data", ylab="Y data")
+```
+
+It appears that a linear relationship is feasible, but obviously no straight line fits through all points simultaneously.
+
+### Question 2:
+
+Next, we will define a function that calculates the residual sum of squares given input data and a selection of two different parameter values:  `y = par[1] + par[2] * x`.  In this expression, `x` and `y` are to be called from the dataframe as defined earlier.
+
+```{r}
+min_RSS <- function(data, par) {
+              with(data, sum((par[1] + par[2] * x - y)^2))
+}
+```
+
+By visual inspection above, we can deduce that a line that would look reasonable between the data points might have a slope between $[1,3]$, and an intercept between $[-4,  2]$ (as very rough guesses).  Rather than performing an optimization as with, e.g., Newton's method, let's consider the "brute force" approach.  This means, let's just sample a dense grid for the possible values of the slope and intercept and plot what the residual sum of squares output is for each combination of parameters.  This is a very small problem, so this is feasible, but this will also be expensive enough to demonstrate why using the geometry as with Newton's method is useful in practice.
+
+Define these parameter ranges, and use a step size of `by=0.05`.  Then use the `expand.grid` function to create a Cartesian grid of all parameter combinations.  Finally, construct a dataframe that includes the columns `RSS`, `intercept` and `slope`, where we store the output of the min_RSS function in the RSS column for each associated pair of parameters for the line equation.  We will use the visualization code provided below to examine the shape of the RSS cost function.  After visualizing this, try changing the step size to `by=0.01`.  What do you notice about the program speed?
+
+
+```{r, eval=FALSE}
+ggplot(data = RSS_df)+       
+  geom_tile(                    # visualize the data in tiles
+    aes(
+      x = intercept,         
+      y = slope,     
+      fill = RSS))+            # color of the tile is the RSS column in the data
+  scale_fill_gradient(         # adjust the fill color of the tiles
+    low = "blue",
+    high = "orange",
+    trans= "log10"             # set the scale to log base 10 RSS
+    )+
+  labs(                        # labels
+    x = "Intercept",
+    y = "Slope",
+    title = "RSS versus parameters",
+    fill = "log_10-RSS"        # legend title
+  )
+```
+
+
+#### Solution:
+
+```{r}
+t_0 <- proc.time()
+x_param_range <- seq(-4, 2, by=0.05)
+y_param_range <- seq(1, 3, by=0.05)
+param_range <- expand.grid(x_param_range, y_param_range)
+total_points <- length(param_range[,1])
+RSS <- matrix(0, total_points)
+RSS_df <- data.frame(RSS, intercept=param_range[,1], slope=param_range[,2])
+for (i in 1:total_points){
+ RSS_df$RSS[i] <-  min_RSS(data=dat, par=c(param_range[i,1], param_range[i,2]))
+}
+t_1 <- proc.time()
+timed <- t_1 - t_0 
+cat("This took ",  timed[1] , "seconds to compute by brute force and a step size of 0.05")
+```
+
+
+```{r}
+ggplot(data = RSS_df)+       
+  geom_tile(                    # visualize the data in tiles
+    aes(
+      x = intercept,         
+      y = slope,     
+      fill = RSS))+            # color of the tile is the RSS column in the data
+  scale_fill_gradient(         # adjust the fill color of the tiles
+    low = "blue",
+    high = "orange",
+    trans= "log10"             # set the scale to log base 10 RSS
+    )+
+  labs(                        # labels
+    x = "Intercept",
+    y = "Slope",
+    title = "RSS versus parameters",
+    fill = "log_10-RSS"        # legend title
+  )
+```
+
+Here we see an illustration that the quadratic cost function is actually globally convex, and there is a basin that defines a global minimum for the RSS.  Repeating the above for `by=0.01`
+
+```{r, eval=FALSE}
+t_0 <- proc.time()
+x_param_range <- seq(-4, 2, by=0.01)
+y_param_range <- seq(1, 3, by=0.01)
+param_range <- expand.grid(x_param_range, y_param_range)
+total_points <- length(param_range[,1])
+RSS <- matrix(0, total_points)
+RSS_df <- data.frame(RSS, intercept=param_range[,1], slope=param_range[,2])
+for (i in 1:total_points){
+ RSS_df$RSS[i] =  min_RSS(data=dat, par=c(param_range[i,1], param_range[i,2]))
+}
+t_1 <- proc.time()
+timed <- t_1 - t_0 
+cat("This took ", timed[1] , "seconds to compute by brute force and a step size of 0.01")
+```
+
+
+```{r, eval=FALSE}
+ggplot(data = RSS_df)+       
+  geom_tile(                    # visualize the data in tiles
+    aes(
+      x = intercept,         
+      y = slope,     
+      fill = RSS))+            # color of the tile is the RSS column in the data
+  scale_fill_gradient(         # adjust the fill color of the tiles
+    low = "blue",
+    high = "orange",
+    trans= "log10"             # set the scale to log base 10 RSS
+    )+
+  labs(                        # labels
+    x = "Intercept",
+    y = "Slope",
+    title = "RSS versus parameters",
+    fill = "log_10-RSS"        # legend title
+  )
+```
+We see that the refined grid takes an order of magnitude more time to compute.  This is why brute force rarely can be used in practice, as the refinement of a grid increases the cost of computation at a geometric growth rate.
+
+### Question 3:
+
+Now, we will use the above function and data with `optim` in order to solve this in a more efficient way.  `optim` minimizes a function by varying its parameters and / or using the geometry of the cost function above.  In particular, the default method is known as Nelder-Mead, which is a "systematic brute force method", using a smarter search than a simple grid, known a as symplex search.  An example of this is illustrated from the [Wikipedia article on the method](https://upload.wikimedia.org/wikipedia/commons/d/de/Nelder-Mead_Himmelblau.gif).  However, we can also supply an optimization routine such as `BFGS` that takes into account the geometry.
+
+`optim` like `integrate` allows us to pass parameters for the function object as additional keyword arguments.  Try using `optim` with the `BFGS` technique and with the default `Nelder-Mead` technique to find the optimum parameters.  Compare the results with the previous heat plot and compare the run times of the two methods.  Use
+```{r}
+initial_guess <- c(2, 3)
+```
+as the initial guess.
+
+Try changing the initial guess, how is the run time related to the geometry?  How are the function and gradient calls related to the method?
+
+#### Solution:
+
+```{r}
+t_0 <- proc.time()
+result_BFGS <- optim(par = initial_guess, fn = min_RSS, data = dat, method="BFGS")
+result_BFGS
+t_1 <- proc.time()
+timed <- t_1 - t_0
+cat("BFGS takes ", timed[1], "seconds")
+```
+
+
+```{r}
+t_0 <- proc.time()
+result_NM <- optim(par = initial_guess, fn = min_RSS, data = dat, method="Nelder-Mead")
+result_NM
+t_1 <- proc.time()
+timed <- t_1 - t_0
+cat("Nelder-Mead takes ", timed[1], "seconds")
+```
+
+With the two methods in this simple example, there is not much difference due to the facts that:
+ 
+ 1. the cost function is globally convex, and nearly any technique will find the global minimum;
+ 2. the function evaluation is written efficiently, so that we are not penalized for using function evaluations -- this makes systematic brute force comparable to the geometric approach of BFGS.
+ 3. we haven't supplied a callable gradient function, which will speed up the computation of a quasi-Newton method considerably when this is possible to provide.
+ 
+### Question 4:
+
+In the problem we are considering, there is actually a direct solution that follows from linear least-squares theory and classical linear regression.  Notice the `lm` function can be used to regress on the `y` values with the `x` values in the `dat` dataframe.  Try using this solution and compare the outputs.
+
+#### Solution
+
+```{r}
+summary(lm(y ~ x, data=dat))
+```
+Notice that the linear model (regression) function finds the same parameter values.  This demonstrates the connection of the optimization techniques to regression that we will explore shortly, which will be furthermore followed by maximum likelihood estimation.
