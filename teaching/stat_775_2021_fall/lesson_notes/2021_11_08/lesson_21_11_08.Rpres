@@ -1,0 +1,206 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+<!-- foo 
+Highlighting
+bold
+strong
+orange <b style="color:#d95f02"> text </b>
+green  <b style="color:#1b9e77"> text </b>
+purple <b style="color:#d24693"> text </b>
+red    <b style="color:#FF0000"> text </b>
+blue   <b style="color:#0000FF"> text </b>
+-->
+
+4D-VAR and weak constraint 4D-VAR
+========================================================
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+<blockquote>
+FAIR USE ACT DISCLAIMER:</br>
+This site is for educational purposes only.  This website may contain copyrighted material, the use of which has not been specifically authorized by the copyright holders. The material is made available on this website as a way to advance teaching, and copyright-protected materials are used to the extent necessary to make this class function in a distance learning environment.  The Fair Use Copyright Disclaimer is under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+</blockquote>
+
+========================================================
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+  * Incremental 4D-VAR
+  * Weak constraint 4D-VAR
+
+========================================================
+## Motivation
+
+* We saw in the last lecture how we can <strong>formally extend</strong> the <b>linear-Gaussian model</b> for data assimilation <strong>into a nonlinear system</strong>.
+
+  * Particularly, the two classic approaches that perform such an analysis are known as <b style="color:#d95f02">3D-VAR</b> (in weather prediction) and more generally the <b style="color:#1b9e77">extended Kalman filter</b>.
+  
+* The <b>primary difference</b> in how these estimators perform is in the way in which they <strong>treat the background weights</strong> for a least-squares style optimization.
+
+* <b style="color:#d95f02">3D-VAR</b> can be viewed as a recursive least-squares estimate where the model state is taken as a <b style="color:#d95f02">random draw from invariant dynamics</b> of the long-time average.
+
+  * This is <b>computationally cheap</b> to perform, but this <strong>lacks the time-dependent structure</strong> of the forecast spread, encoded in the covariance.
+
+* The <b style="color:#1b9e77">extended Kalman filter</b> seeks to include this time-dependent information by making the <b style="color:#1b9e77">first order approximation of the evolution of the background covariance</b> in time.
+
+* While this approximation can be very successful, 
+
+  * particularly when the dimensionality of the model state is not exceptionally large and when the forecast model is not exceptionally nonlinear,
+
+* typically the <b style="color:#1b9e77">extended Kalman filter</b> has not seen widespread use due to the <strong>numerical cost and stability issues of the estimator</strong>.
+
+========================================================
+### Motivation
+
+* Another <b>classic approach to extend linear-Gaussian methods</b> to nonlinear estimation follows the motivation of 3D-VAR.
+
+* Rather than fitting the model state to data, relative to the long-time background weights, without the time-dependence, 
+
+  * we can <strong>alternatively introduce the time-dependence through the time series of observations</strong>.
+
+* This follows directly from formally <b>extending the 4D-smoothing cost function</b> of the linear-Guassian analysis with a <strong>locally linearized, quadratic cost function</strong> approximating nonlinear least-squares.
+
+* <b>4D-VAR</b> is one of the most important scalable data assimilation algorithms for its strong performance, and its forming the basis of many widely used operational data assimilation algorithms.
+
+* 4D-VAR refers to <strong>extending the "three dimensional" state-space cost function to include the time variable</strong>, and performing a global analysis of a time series to optimize an initial condition.
+
+  * However, we consider a square root analysis again as this translates well to a variety of modern techniques such as hybrid ensemble-variational methods and the $\alpha$ trick.
+
+========================================================
+## Incremental 4D-VAR
+
+* Recall that when we introduced the extended Kalman filter cost function, we derived this by the <b>local linearization of the nonlinear cost function</b>:
+
+  $$\begin{align}
+  \mathcal{J}_{\mathrm{EKF}}(\pmb{w}) &:=\frac{1}{2}\parallel \pmb{w}\parallel^2 + \frac{1}{2}\parallel  \pmb{y} - \mathcal{H}\left(\overline{\pmb{x}}_k^\mathrm{fore}\right) - \mathbf{H}_k \boldsymbol{\Sigma}_k^\mathrm{fore}\pmb{w} \parallel_{\mathbf{R}_k}^2,\\
+  \end{align}$$<br>
+  which is <b>actually quadratic in $\pmb{w}$</b>, as $\mathcal{H}\left(\overline{\pmb{x}}_k^\mathrm{fore}\right)$ is a <strong>constant with respect to the optimization</strong>.
+  
+* Therefore, this represents a <b>fully linearized system</b>, performing an <strong>approximate conditional Gaussian analysis in the space of perturbations</strong>. 
+
+* If we take a constant $\mathbf{B}_0$ as with 3D-VAR, and define the matrix factor again
+
+  $$\begin{align}
+  \mathbf{B}_0 := \boldsymbol{\Sigma}_0\boldsymbol{\Sigma}_0^\top & & \pmb{x}_0 := \overline{\pmb{x}}_0 + \boldsymbol{\Sigma}_{0}\pmb{w}
+  \end{align}$$
+
+* we can apply the same tangent-linear approximation as with the extended Kalman filter to optimize the initial state versus a time series of observations globally at-once.
+
+
+========================================================
+### Incremental 4D-VAR
+
+
+* Making the approximation of the tangent-linear model,
+
+  $$\begin{align}
+  &\frac{\mathrm{d}}{\mathrm{d}t} \pmb{x} \approx \pmb{f}(\overline{\pmb{x}}) + \nabla_{\pmb{x}}\pmb{f}(\overline{\pmb{x}})\pmb{\delta}\\ \\
+  \Rightarrow&\int_{t_{k-1}}^{t_k}\frac{\mathrm{d}}{\mathrm{d}t}\pmb{x}\mathrm{d}t \approx  \int_{t_{k-1}}^{t_k} \pmb{f}(\overline{\pmb{x}}) \mathrm{d}t + \int_{t_{k-1}}^{t_k}\nabla_{\pmb{x}}\pmb{f}(\overline{\pmb{x}})\pmb{\delta}\mathrm{d}t \\ \\
+  \Rightarrow & \pmb{x}_{k} \approx \mathcal{M}_{k}\left(\overline{\pmb{x}}_{k-1}\right) + \mathbf{M}_k\pmb{\delta}_{k-1}
+  \end{align}$$
+  where $\mathbf{M}_k$ is the <b>resolvent of the tangent-linear model</b>.
+  
+* <strong>Gaussians are closed under affine transformations</strong>, approximating the evolution under the tangent-linear model as
+
+  $$\begin{align}
+  \pmb{x}_{k} \sim N\left(\mathcal{M}_k\left(\overline{\pmb{x}}_{k-1}\right), \mathbf{M}_k \mathbf{B}_{k-1}\mathbf{M}^\top_{k}\right)
+  \end{align}$$
+
+* Therefore, the <strong>4D-quadratic cost function is approximated</strong> by an <b>incremental linearization</b> along the background mean
+
+ $$\begin{alignat}{2}
+  & & {\color{#d95f02} {\mathcal{J} (\pmb{w})} } &= {\color{#d95f02} {\frac{1}{2} \parallel \overline{\pmb{x}}_0  - \overline{\pmb{x}}_0 - \boldsymbol{\Sigma}_0 \pmb{w} \parallel^2_{\mathbf{B}_0}} } + {\color{#7570b3} {\sum_{k=1}^L \frac{1}{2} \parallel \pmb{y}_k - \mathcal{H}_k\circ {\color{#1b9e77} { \mathcal{M}_{k:1} \left( {\color{#d95f02} {\overline{\pmb{x}}_{0} } }\right)}} - \mathbf{H}_k {\color{#1b9e77} {\mathbf{M}_{k:1}}} {\color{#d95f02} {\boldsymbol{\Sigma}_{0} \pmb{w} } } \parallel_{\mathbf{R}_k}^2 } }
+  \end{alignat}$$
+  describing an <strong>approximate linear-Gaussian model / cost function</strong> in the space of perturbations.
+
+========================================================
+### Incremental 4D-VAR
+
+* The incremental 4D-VAR cost function from the last slide is composed as follows:
+
+ $$\begin{alignat}{2}
+   & & {\color{#d95f02} {\mathcal{J} (\pmb{w})} } &= {\color{#d95f02} {\frac{1}{2} \parallel \overline{\pmb{x}}_0  - \overline{\pmb{x}}_0 - \boldsymbol{\Sigma}_0 \pmb{w} \parallel^2_{\mathbf{B}_0}} } + {\color{#7570b3} {\sum_{k=1}^L \frac{1}{2} \parallel \pmb{y}_k - \mathcal{H}_k\circ {\color{#1b9e77} { \mathcal{M}_{k:1} \left( {\color{#d95f02} {\overline{\pmb{x}}_{0} } }\right)}} - \mathbf{H}_k {\color{#1b9e77} {\mathbf{M}_{k:1}}} {\color{#d95f02} {\boldsymbol{\Sigma}_{0} \pmb{w} } } \parallel_{\mathbf{R}_k}^2 } }\\
+    & & &= {\color{#d95f02} {\frac{1}{2} \parallel \pmb{w} \parallel^2} } + {\color{#7570b3} {\sum_{k=1}^L \frac{1}{2} \parallel \pmb{y}_k - \mathcal{H}_k\circ {\color{#1b9e77} { \mathcal{M}_{k:1} \left( {\color{#d95f02} {\overline{\pmb{x}}_{0} } }\right)}} - \mathbf{H}_k {\color{#1b9e77} {\mathbf{M}_{k:1}}} {\color{#d95f02} {\boldsymbol{\Sigma}_{0} \pmb{w} } } \parallel_{\mathbf{R}_k}^2 } }
+  \end{alignat}$$
+  where
+  
+  1. ${\color{#1b9e77} { \mathcal{M}_{k:1} \left( {\color{#d95f02} {\overline{\pmb{x}}_{0} } } \right) } }$ represents the fully nonlinear evolution of the initial background mean;
+  2. ${\color{#7570b3} {\mathcal{H}_k \circ {\color{#1b9e77} { \mathcal{M}_{k:1} \left( {\color{#d95f02} {\overline{\pmb{x}}_{0} } } \right) } } } }$ is the nonlinear evolution of the background mean, pushed into the observation variables;
+  3. ${\color{#7570b3} { \mathcal{H}_k\circ {\color{#1b9e77} { \mathcal{M}_{k:1} \left( {\color{#d95f02} {\overline{\pmb{x}}_{0} } }\right)}} + \mathbf{H}_k {\color{#1b9e77} {\mathbf{M}_{k:1}}} {\color{#d95f02} {\boldsymbol{\Sigma}_{0} \pmb{w} } } } }$ is the Taylor expansion of the perturbation of the mean, $\overline{\pmb{x}}_0 + \boldsymbol{\Sigma}_0 \pmb{w}$, through the composition of the dynamical and observation models.
+  4. the cost function in total then represents the <b>error-free</b> ($\pmb{w}_k\equiv \pmb{0}$) model evolution of a perturbation to an initial proposal state and the <strong>total cost of the perturbation in its miss-match with the observations and the proposal</strong>.
+
+* This then extends the locally quadratic objective function that was derived earlier, but to <strong>include the derivative of the dynamical model with respect to the model state</strong>.
+
+* This is precisely the way that the adjoint is thus used to compute the gradient as discussed with variational least squares.
+
+* The incremental linearization along the background provides the approximation of the gradient with the adjoint.
+
+========================================================
+### Incremental 4D-VAR
+
+* In particular, the adjoint variables are defined by a <strong>backward-in-time solution to the linear equation</strong>
+
+  $$\begin{align}
+  \frac{\mathrm{d}}{\mathrm{d}t} \tilde{\pmb{\delta}} = -\left(\nabla_{\pmb{x}} \pmb{f}(\overline{\pmb{x}})\right)^\top \tilde{\pmb{\delta}},
+  \end{align}$$
+  with the <b>underlying dependence on the nonlinear solution</b> over the time interval.
+
+* Therefore, in incremental 4D-VAR, one constructs the gradient for the objective function, differentiating the nonlinear model, via:
+  
+  * a <b>forward pass of the nonlinear solution</b>, while <strong>computing the tangent-linear evolution in the space of the perturbations</strong>; with
+  
+  * a <b>second backward pass only in the adjoint equations</b>, <strong>back-propagating the sensitivities</strong> along this solution to find the gradient.
+  
+* This a very effective and efficient solution, but relies on the construction of the tangent-linear and adjoint models for the dynamics.
+
+  * For large-scale nolinear models, this can be extremely challenging, though increasingly this can be performed using <b>automatic differentiation techniques</b>, by <strong>formally computing these from a computer program alone</strong>.
+  
+* The above discussion is the basis of the traditional incremental 4D-VAR, though modern formulations of 4D-VAR seek to include the effect of model error in the estimation.
+
+* The standard approach to include the dependence of model error is known as weak-constraint 4D-VAR.
+
+
+========================================================
+## Weak-constraint 4D-VAR
+
+* The idea behind <b>weak-constraint 4D-VAR</b> is to use the form of the hidden Markov model with additive noise to allow for a non-exact model evolution.
+
+* Particularly, we consider that
+
+  $$\begin{align}
+  & \pmb{x}_k = \mathcal{M}_k(\pmb{x}_{k-1}) + \pmb{w}_k \\
+  \Leftrightarrow & \pmb{x}_k - \mathcal{M}_{k}(\pmb{x}_{k-1}) = \pmb{w}_k.
+  \end{align}$$
+  
+* If we again suppose a <strong>linear-Gaussian approximation is appropriate at first order</strong>, we can say that the transition density is given by
+
+  $$\begin{align}
+  p\left(\pmb{x}_k | \pmb{x}_{k-1}\right) = N\left(\pmb{x}_k - \mathcal{M}_k (\pmb{x}_{k-1}) | \pmb{0}, \mathbf{Q}_k \right),
+  \end{align}$$
+  where the above refers to the Gaussian density with mean zero and covariance $\mathbf{Q}_k$.
+
+* The <b>fully nonlinear weak-constraint 4D-VAR objective function</b> is then given as,
+
+  $$\begin{align}
+  \mathcal{J}(\pmb{x}_{L:0}) := \frac{1}{2}\parallel \overline{\pmb{x}}_0 - \pmb{x}_0 \parallel^2_{\mathbf{B}_0} + \frac{1}{2} \sum_{k=1}^L \left\{ \parallel \pmb{x}_k - \mathcal{M}_k(\pmb{x}_{k-1}) \parallel^2_{\mathbf{Q}_k} + \parallel \pmb{y}_k - \mathcal{H}_k(\pmb{x}_k) \parallel^2_{\mathbf{R}_k} \right\},
+  \end{align}$$
+  where we extend the former objective function by simultaneously minimizing the differences between the evolution of a past state and the next optimized state relative to the model uncertainty.
+  
+* The weak-constraint cost function is likewise then typically <strong>approximated with a locally quadratic cost function via incremental linearization</strong>.
