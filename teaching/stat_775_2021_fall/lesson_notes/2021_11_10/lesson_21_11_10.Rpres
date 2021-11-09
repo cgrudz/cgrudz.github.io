@@ -1,0 +1,265 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+<!-- foo 
+Highlighting
+bold
+strong
+orange <b style="color:#d95f02"> text </b>
+green  <b style="color:#1b9e77"> text </b>
+purple <b style="color:#d24693"> text </b>
+red    <b style="color:#FF0000"> text </b>
+blue   <b style="color:#0000FF"> text </b>
+-->
+
+The ensemble Kalman filter and smoother part I
+========================================================
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<h2 style="text-align:left"> Instructions:</h2>
+<p style='text-align:left'>Use the left and right arrow keys to navigate the presentation forward and backward respectively.  You can also use the arrows at the bottom right of the screen to navigate with a mouse.<br></p>
+
+<blockquote>
+FAIR USE ACT DISCLAIMER:</br>
+This site is for educational purposes only.  This website may contain copyrighted material, the use of which has not been specifically authorized by the copyright holders. The material is made available on this website as a way to advance teaching, and copyright-protected materials are used to the extent necessary to make this class function in a distance learning environment.  The Fair Use Copyright Disclaimer is under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research.
+</blockquote>
+
+========================================================
+
+<h2>Outline</h2>
+
+* The following topics will be covered in this lecture:
+  * The ensemble Kalman filter
+  * The classic ensemble Kalman smoother
+
+========================================================
+## Motivation
+
+* We have seen now how the <b>linear-Gaussian analysis</b> can be <strong>extended at first order to nonlinear systems</strong> in several classical ways.
+
+* Specifically, <b style="color:#d95f02">3D-VAR and the extended Kalman filter</b> both provide a means to produce an <strong>approximate filtering analysis in the space of perturbations</strong>.
+
+* <b style="color:#1b9e77">4D-VAR</b> extends the analysis of 3D-VAR, using a static "climatological" background covariance, to a <strong>smoothing formulation over an entire time series</strong>.
+
+* The primary issue with th <b>3D- / 4D-VAR</b> approach is that the <strong>static background covariance</strong> doesn't capture the spread of the forecast as this changes in time.
+
+  * Rather, these approaches can be considered to predict from a persistence model, fitting the outcome to an observation or a time series of observations of the current process.
+  
+* On the other hand, the <b>extended Kalman</b> filter provides a means to <strong>update the background covariance</strong>, but the propagation of the covariance in the tangent-linear model is often unstable / unfeasible.
+
+* An <b style="color:#d24693">alternative formulation</b> arises if we consider the <strong>sample-based estimates</strong> as with the particle filter and Metropolis-Hastings.
+
+========================================================
+### Motivation
+
+* In particular, let's recall  our construction of the <b>ensemble matrix</b> $\mathbf{E}\in\mathbb{R}^{N_x \times N_e}$:
+
+  * We will suppose that we have a random sample $\pmb{X}_j$ following a parent distribution $\pmb{X}\sim P$;
+  
+  * The ensemble matrix is given such that $\mathbf{E}^j = \pmb{X}_j$ for all $j = 1,\cdots,N_e$.
+  
+* Moreover, the <b>sample mean</b> can be computed from the row-average of the ensemble matrix as
+
+ $$\hat{\pmb{X}} = \mathbf{E} \pmb{1} \frac{1}{N_e}.$$
+
+
+* We can thus define the <b>sample covariance matrix</b> in a way analogously to how we define the sample mean.
+
+* Particularly, if we follow the matrix multiplication with the transpose, we find that
+
+ $$\begin{align}
+ \mathbf{E}\pmb{1}\pmb{1}^\top \frac{1}{N_e} = 
+ \begin{pmatrix}
+ \hat{X}_1 & \cdots & \hat{X}_{1} \\ \vdots & \ddots & \vdots \\ \hat{X}_{N_x} & \cdots &\hat{X}_{N_x}
+ \end{pmatrix}\in\mathbb{R}^{N_x \times N_e}
+ \end{align}$$
+ 
+* Particularly, this can be written column-wise as
+
+  $$\mathbf{E}\pmb{1}\pmb{1}^\top \frac{1}{N_e} = \begin{pmatrix}\hat{\pmb{X}}, \cdots, \hat{\pmb{X}}\end{pmatrix}$$
+ 
+
+
+========================================================
+### Motivation
+
+* Using element-wise subtraction with the last identity, this says that,
+ 
+ $$\begin{align}
+ \mathbf{E} - \mathbf{E}\pmb{1}\pmb{1}^\top \frac{1}{N_e} = 
+ \begin{pmatrix}
+ X_{1,1} - \hat{X}_1 & \cdots &X_{1,n}- \hat{X}_1 \\ \vdots & \ddots & \vdots \\ X_{N_x,1} - \hat{X}_{N_X} & \cdots & X_{N_X,N_e} - \hat{X}_{N_x}
+ \end{pmatrix}
+ \end{align}$$
+
+* With a re-normalization, we will define the matrix of perturbations or anomalies of the ensemble about the mean.
+
+* We define the <strong>(normalized) anomaly matrix</strong> of the ensemble as
+  
+  $$\begin{align}
+  \mathbf{X} :&= \left(\mathbf{E} - \mathbf{E}\pmb{1}\pmb{1}^\top \frac{1}{N_e} \right)\frac{1}{\sqrt{N_e -1}}\\
+           &=\mathbf{E}\left( \mathbf{I} - \pmb{1}\pmb{1}^\top \frac{1}{N_e} \right)\frac{1}{\sqrt{N_e -1}}
+\end{align}$$
+
+
+========================================================
+### Motivation
+
+
+* The anomalies have the property
+
+  $$\begin{align}
+  \mathbf{P} :&= \mathbf{X} \mathbf{X}^\top \\
+              &= \mathbf{E}\left( \mathbf{I} - \pmb{1}\pmb{1}^\top \frac{1}{N_e} \right)\frac{1}{N_e -1}\left( \mathbf{I} - \pmb{1}\pmb{1}^\top \frac{1}{N_e} \right)\mathbf{E}^\top\\
+              &=\mathbf{E}\left( \mathbf{I} - \pmb{1}\pmb{1}^\top \frac{1}{N_e} \right)\mathbf{E}^\top\frac{1}{N_e -1}
+  \end{align}$$
+
+  
+  where
+  $$\begin{align}
+  \mathbf{P}_{i,j} = \begin{cases}
+  \hat{\sigma}^2_{i} &\text{ for }i=j\\
+  \hat{\sigma}_{i,j} &\text{ for }i\neq j
+  \end{cases}
+  \end{align}$$
+
+* Rather than dealing with the <b>numerical challenges</b> of <strong>propagating the background covariance</strong> $\mathbf{B}_k^\mathrm{filt}$ through the tangent-linear model to form the next $\mathbf{B}^\mathrm{fore}_k$ as with the extended Kalman filter,
+
+  * we can take the <b>sampling approach</b> of the particle filter and <strong>treat replicates as point volumes but with equal weights</strong>.
+  
+* Forming such a <b>particle cloud / ensemble</b> this <strong>gives an estimator for the background</strong> $\mathbf{P}_k \approx \mathbf{B}_k$ when the first order linear-Gaussian approximation is appropriate.
+
+* However, the linear-Gaussian assumption actually leads to a <b>biased estimator</b>, but which (by construction) <strong>eliminates the extremely high-variance of the particle filter weights</strong>.
+
+* This approach is the basis of the <b>ensemble Kalman filter (EnKF)</b>.
+
+========================================================
+## The EnKF
+
+* One can see the <b>EnKF</b> to be a <strong>hybridization</strong> of the extended Kalman filter, variational cost function with a particle filter, using a sample-based covariance and sample-based mean estimate.
+
+
+* The resulting <b>EnKF cost function</b> can thus be written as
+
+  $$\begin{align}
+  \mathcal{J}_{\mathrm{EnKF}}(\pmb{x}) := \frac{1}{2} \parallel  \hat{\pmb{x}}_k^\mathrm{fore} - \pmb{x} \parallel_{\mathbf{P}_k^\mathrm{fore}}^2 + \frac{1}{2} \parallel \pmb{y}_k - \mathcal{H}(\pmb{x})\parallel_{\mathbf{R}_k}^2,
+  \end{align}$$
+  where we take the ensemble-based, empirical mean and covariance as
+  <ul>
+    <li>$\hat{\pmb{x}}_k^\mathrm{fore} := \mathbf{E}_k^\mathrm{fore}\pmb{1} / N_e$,</li>
+    <li>$\mathbf{P}_k^\mathrm{fore} := \left(\mathbf{X}_k^\mathrm{fore}\right)\left(\mathbf{X}_k^\mathrm{fore}\right)^\top$, and</li>
+    <li>$\mathbf{X}^\mathrm{fore}_k :=\mathbf{E}^\mathrm{fore}_k\left( \mathbf{I} - \pmb{1}\pmb{1}^\top \frac{1}{N_e} \right)\frac{1}{\sqrt{N_e -1}}$.</li>
+  </ul>
+  
+* The <b>columns of the ensemble matrix</b> are given by <strong>propagating the sample through the nonlinear model</strong>, so that if $\pmb{x}_k^{i,\mathrm{filt}}$ is a replicate of the model state from the filtering density,
+  
+  $$\begin{align}
+  \pmb{x}_k^{i,\mathrm{fore}} := \mathcal{M}_k\left(\pmb{x}_k^{i,\mathrm{filt}}\right) + \pmb{w}^i_k
+  \end{align}$$
+  
+* Therefore, <b>sampling the forecast density</b> is <strong>performed with the fully nonlinear state space model</strong> like the particle filter;
+
+  * the key of the method is in how one efficiently can resample the (approximate) filtering density given the maximum-a-posteriori analysis. 
+
+
+========================================================
+### The EnKF
+
+* If we <b>re-write the state vector</b> as a <strong>linear combination of the replicates</strong>, we can devise this in the anomalies as
+  
+  $$\begin{align}
+  \pmb{x} := \hat{\pmb{x}}_k + \mathbf{X}_k^\mathrm{fore} \pmb{w}.
+  \end{align}$$
+
+* Notice that $\pmb{w}\in \mathbb{R}^{N_e}$ so that this is an optimization over the ensemble dimension.
+
+  * If $N_e \leq N_x$, then we should note that $\parallel \cdot \parallel_{\mathbf{P}_k}$ refers to a <strong>pseudo-norm with respect to the pseudo-inverse</strong> of the anomaly matrix.
+
+* Revising the cost function, we can linearize the observation operator with Taylor's theorem as
+
+  $$\begin{align}
+  \mathcal{J}_{\mathrm{EnKF}}(\pmb{w}) := \frac{1}{2} \parallel \pmb{w} \parallel^2 + \frac{1}{2} \parallel \pmb{y}_k - \mathcal{H}\left(\hat{\pmb{x}}_k^\mathrm{fore}\right) - \mathbf{H}_k\mathbf{X}_k^\mathrm{fore} \pmb{w} \parallel_{\mathbf{R}_k}^2,
+  \end{align}$$
+  where we <b>define the analysis</b> with the <strong>linear approximation through the Hessian</strong>
+  
+  $$\begin{align}
+  \mathbf{T}:= \mathbf{H}_{\mathcal{J}}^{-\frac{1}{2}} & & \mathbf{X}_k^\mathrm{filt} := \mathbf{X}_k^\mathrm{fore} \mathbf{T}.
+  \end{align}$$
+
+* With the update to the anomalies defined as above, and the update to the mean defined for the optimal weights $\overline{\pmb{w}}$ as
+
+  $$\begin{align}
+  \hat{\pmb{x}}^\mathrm{filt}_k := \hat{\pmb{x}}^\mathrm{fore}_k + \mathbf{X}_k^\mathrm{fore} \overline{\pmb{w}},
+  \end{align}$$
+  
+* we can <b>resample the entire ensemble</b> from the <strong>approximate, best-fit Gaussian</strong> as
+
+  $$\begin{align}
+  \mathbf{E}_k^\mathrm{filt} := \hat{\pmb{x}}^\mathrm{filt}_k \pmb{1}^\top + \mathbf{X}_k^\mathrm{filt}\sqrt{N_e -1 }.
+  \end{align}$$
+
+
+========================================================
+
+### The EnKF
+
+* In this formalism, we can appropriately define an <b>ensemble right-transform</b> $\boldsymbol{\Psi}_k$ such that for any $t_k$,
+
+ $$\begin{align}
+ \mathbf{E}^\mathrm{filt}_k = \mathbf{E}^\mathrm{fore}_k \boldsymbol{\Psi}_k
+ \end{align}$$
+  where in the above we would say that
+  $$\begin{align}
+  \mathbf{E}^\mathrm{filt}_k &\sim p(\pmb{x}_k \vert \pmb{y}_{1:k}) \\
+  \mathbf{E}^\mathrm{fore}_k &\sim p(\pmb{x}_k \vert \pmb{y}_{1:k-1})
+  \end{align}$$
+
+* We will associate $\mathbf{E}^\mathrm{filt}_k \equiv \mathbf{E}^\mathrm{smth}_{k|k}$;
+
+  * under the <strong>linear-Gaussian model</strong>, we furthermore have that
+
+  $$\begin{align}
+  \mathbf{E}^\mathrm{smth}_{k|L} = \mathbf{E}^\mathrm{smth}_{k|L-1}\boldsymbol{\Psi}_{L} & &
+  \mathbf{E}^\mathrm{smth}_{k|K} \sim p(\pmb{x}_k \vert \pmb{y}_{1:K}).
+  \end{align}$$
+
+* Then we can perform a <b style="color:#d95f02">retrospective smoothing analysis</b> on all past states stored in memory by <strong>using the latest right-transform update from the filtering step</strong>.
+
+* This form of <b style="color:#d95f02">retrospective analysis</b> is the basis of the <b>ensemble Kalman smoother (EnKS)</b>.
+
+========================================================
+### The EnKS
+
+<div style="float:left; width:100%">
+<ul>
+  <li>The EnKS takes advantage of the simple form of the <b style="color:#d95f02">retrospective, right-transform analysis</b> by including an <strong>additional, inner loop of the filtering cycle</strong>.</li>
+</ul>
+</div>
+<div style="float:left; width:100%; text-align:center;" class="fragment">
+<img style="width:60%", src="enks_scheme.png" alt="Diagram of the filter observation-analysis-forecast cycle."/>
+</div>
+<div style="float:left; width:100%">
+<ul>
+    <li>In the above, time is the horizontal axis where right moves forward in time.</li>
+    <li>At each time, we produce the standard <b style="color:#d95f02">filtering estimate</b> by computing $\boldsymbol{\Psi}_L$ from the cost function, and updating the <b style="color:#1b9e77">forecast</b> 
+    $$\mathbf{E}^\mathrm{filt}_L = \mathbf{E}_L^\mathrm{fore} \boldsymbol{\Psi}_L.$$</li> 
+    <li>The <b style="color:#7570b3">information of incoming observations</b> is <strong>passed backward in time using the right-transform</strong> to condition the ensemble at past times:
+    $$\begin{align}
+    \mathbf{E}^\mathrm{smth}_{k|L} = \mathbf{E}^\mathrm{smth}_{k|L-1} \boldsymbol{\Psi}_L.
+    \end{align}$$
+</ul>
+</div>
+
