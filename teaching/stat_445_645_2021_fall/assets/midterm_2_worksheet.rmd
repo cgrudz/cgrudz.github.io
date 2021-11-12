@@ -1,0 +1,184 @@
+---
+title: "Midterm 2 Project"
+output: html_document
+---
+
+## Student Name:
+
+## Due date:
+November 28th, 11:59 in Canvas.
+
+## Instructions:
+Fill in your name above.  Most of the following exercises will have numeric answers that can be entered into the Canvas quiz online.  Essay questions can be submitted directly in the Canvas editor.  Graphical questions will all be submitted together with your work.  There will be a submission field in the Canvas quiz to submit your work in the form of the compiled HTML document for credit.
+
+### Question 1:
+
+Suppose we are given the following matrix
+```{r}
+A <- matrix(c(1.4260481,  -0.2462573,  -0.4334404,
+              -0.2462573,  2.4870105,  -0.6814744,
+              -0.4334404, -0.6814744,  2.0869414), 3 ,3)
+
+A
+```
+
+What is the rank of this matrix?
+
+
+
+
+### Question 2:
+
+Given the matrix `A` from question 1, what is the smallest eigenvalue of `A`?
+
+
+### Question 3:
+Explain, is there a non-zero vector $\pmb{x}$ that satisfies the following equation?
+
+$$\begin{align}
+\mathbf{A} \pmb{x} = \pmb{b}
+\end{align}$$
+for $\pmb{b}=\begin{pmatrix} 1 & 1 & 1\end{pmatrix}^\top$?  Why or why not.
+
+
+
+### Question 4:
+Explain, is there a non-zero vector $\pmb{x}$ that satisfies the following equation?
+
+$$\begin{align}
+\mathbf{A} \pmb{x} = \pmb{b}
+\end{align}$$
+for $\pmb{b}=\begin{pmatrix} 0 & 0 & 0\end{pmatrix}^\top$?  Why or why not.
+
+
+
+
+### Question 5:
+Notice that
+```{r}
+norm(A, type = "F")^2
+```
+Explain how this is related to the equation
+
+$$\begin{align}
+14 = 1^2 + 2^2 + 3^3.
+\end{align}$$
+
+### Question 6:
+Compute the integral of the beta function `beta` on the interval $[1, 15]$ where `a` is the free variable of the `beta` function in the integral, and `b` is specified to be equal to `3`.  Round your answer to the third decimal place.
+
+
+### Question 7:
+
+Compute the integral of the beta function `beta` on the interval $[5, 25]$ where `b` is the free variable of the `beta` function in the integral, and `a` is specified to be equal to `5`.  Round your answer to the third decimal place.
+
+
+### Question 8:
+Using the function `uniroot`, find a point $x^\ast$ in the interval $[-\pi, \pi]$ for which the function
+
+$$\begin{align}
+f(x) = \sin(x) - x 
+\end{align}$$
+
+satisfies $f\left(x^\ast \right)=-1$.  Round the value of $x^\ast$ to the third decimal place.
+
+
+### Question 9:
+
+Using the function `uniroot`, find a point $x^\ast$ in the interval $[0, \pi]$ for which the function
+
+$$\begin{align}
+f(x) = \exp\left(-x^2\right) - \cos(x) 
+\end{align}$$
+
+satisfies $f\left(x^\ast \right)=1$.  Round the value of $x^\ast$ to the third decimal place.
+
+
+
+### Question 10:
+For the following function,
+
+$$\begin{align}
+\pmb{f}(x_1, x_2) = 
+\begin{pmatrix}
+x_1 e^{x_2} \\
+x_2 e^{x_1}
+\end{pmatrix}
+\end{align}$$
+
+use the `numDeriv` package to compute  $\nabla \pmb{f}$ at the point $\begin{pmatrix}x_1 \\ x_2 \end{pmatrix} = \begin{pmatrix} 0 \\ 0\end{pmatrix}$.  Provide the full expression of $\nabla\pmb{f}$ as your answer, with components rounded to three decimal places.
+
+
+### Question 11:
+For the following function,
+
+$$\begin{align}
+\pmb{f}(x_1, x_2) = 
+x_1^2 e^{x_2} +
+x_2^2 e^{x_1}
+\end{align}$$
+
+use the `numDeriv` package to compute  $\nabla \pmb{f}$ at the point $\begin{pmatrix}x_1 \\ x_2 \end{pmatrix} = \begin{pmatrix} 0 \\ 0\end{pmatrix}$.  Provide the full expression of $\nabla\pmb{f}$ as your answer, with components rounded to three decimal places.
+
+
+
+### Question 12:
+For the following function,
+
+$$\begin{align}
+\pmb{f}(x_1, x_2) = 
+x_1^2 e^{x_2} +
+x_2^2 e^{x_1}
+\end{align}$$
+
+use the `numDeriv` package to compute the Hessian at the point $\begin{pmatrix}x_1 \\ x_2 \end{pmatrix} = \begin{pmatrix} 0 \\ 0\end{pmatrix}$.  Provide the full expression with components rounded to the third decimal place.  Explain what this means about the point $\begin{pmatrix}x_1 \\ x_2 \end{pmatrix} = \begin{pmatrix} 0 \\ 0\end{pmatrix}$ in relationship to this and the last question.
+
+
+### Question 13:
+In the following, we will create random data
+
+```{r}
+set.seed(93420)                         # Creating random data
+x <- rnorm(500)
+y <- rnorm(500) + 0.7 * x
+
+```
+
+and define an RSS function as,
+
+```{r}
+min_RSS <- function(data, par) {
+              with(data, sum((par[1] + par[2] * x - y)^2))
+}
+```
+
+Construct a dataframe from the above and plot the heat map of the cost function to demonstrate the convexity around the solution for the minimum RSS line.  You should be able to clearly see where the global minimum is approximately located (the box of parameter choices should surround this).  You can use a discretization size of `by=0.05` for simplicity.
+
+
+### Question 14:
+
+Using the data in the last question, use *any* numerical technique to find the optimal parameters for the best fit line.  
+
+#### Question 14.a:
+Give the intercept term for this optimal solution, rounded to three decimal places.
+
+
+#### Question 14.b:
+Give the slope term for this optimal solution, rounded to three decimal places.
+
+
+#### Question 14.c:
+Using the dataframe from the last question, compute the correlation between the variables `x` and `y`.  Round this value to three decimal places.
+
+
+#### Question 14d:
+Make a correlation plot between `x` and `y`.
+
+
+#### Question 14e:
+Compute the sample mean __vector__ for the `x` and `y` variable simultaneously.  Provide the mean of the `x` variable, rounded to three decimal places.
+
+
+#### Question 14f:
+From the last question, provide the mean of the `y` variable, rounded to three decimal places.
+
