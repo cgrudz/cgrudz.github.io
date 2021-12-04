@@ -1,0 +1,189 @@
+---
+title: "Final Project"
+output: html_document
+---
+
+## Student Name:
+
+## Due date:
+December 12th, 11:59 in Canvas.
+
+## Instructions:
+Fill in your name above.  Most of the following exercises will have numeric answers that can be entered into the Canvas quiz online.  Essay questions can be submitted directly in the Canvas editor.  Graphical questions will all be submitted together with your work.  There will be a submission field in the Canvas quiz to submit your work in the form of the compiled HTML document for credit.
+
+
+
+### Question 1:
+
+Using the `hemoglobin` data from Faraway consider the following.  16 insulin-dependent diabetic children were enrolled in a study involving a new treatment. 8 children received the new treatment(N) while the other 8 received the standard treatment(S). The `hemoglobin` data frame has 16 observations on the following variables.
+
+  * age -- age in years
+  * sex -- a factor with levels `F` `M`
+  * treatment -- a factor with levels `N` `S`
+  * pre -- measured value of hemoglobin before treatment
+  * post -- measured value of hemoglobin after treatment
+
+Subset the data into three new groups of measurements where
+  
+  1. one subset contains the post values of the new treatment cases
+  2. one subset contains the post values of the standard treatment cases
+  3. one subset contains the pre values of all the treatment cases.
+
+
+#### 1a:
+
+Test the first group for normality with a significance level of $\alpha =0.01$.  Report the P-values from the test for normality, rounded to three decimal places.
+
+
+#### 1b:
+
+Test the second group for normality with a significance level of $\alpha =0.01$.  Report the P-value from the tests for normality, rounded to three decimal places.
+
+
+#### 1c:
+
+Test the third group for normality with a significance level of $\alpha =0.01$.  Report the P-value from the tests for normality, rounded to three decimal places.
+
+
+
+#### 1d:
+
+If you do not determine a significant departure from normality in the three groups above, Bartlett's test `bartlett.test` can be used to test if we reject the null hypothesis that all groups have equal variances.  Test the three groups for equal varainces at a significance level of $\alpha=0.05$.  If you detect a significant departure from normality in the previous questions, you can enter your answer as -1 here.  If you have not, apply Bartlett's test and report the p-value rounded to three decimal places.  Note: Bartlett's test will accept a list of numeric vectors for each of the sub-groups to perform the test.
+
+
+
+#### 1e:
+Using the result of the last test, make a two sample test on the difference of the population means for the the pre values versus the new treatment.  Use the appropriate form for the test statistic where you must specify if the variances are equal or unequal.  Report the p-value for this test __rounded to three decimal places__.
+
+
+#### 1f:
+Using the result of the last test, make a two sample test on the difference of the population means for the the pre values versus the standard treatment.  Use the appropriate form for the test statistic where you must specify if the variances are equal or unequal.  Report the p-value for this test __rounded to three decimal places__.
+
+
+
+#### 1g:
+If we want to check the difference of all of the means simultaneously, this can be performed with an analysis of variance model which can be loaded with the `lm` function by creating a proper dataframe,
+```
+summary(lm(hemoglobin ~ treatment, data=hemoglobin_treatment_df))
+```
+You will need to construct a dataframe as above which contains a column of hemoglobin measurements from the three groups above, and a corresponding factor vector named treatment as a column corresponding to whether the case represents `Pre`, `Standard` or `New` treatment.  Create this dataframe and run the analysis of variance model as above.  Provide the p-value for the coefficient for the new treatment accurate to three decimal places.
+
+
+#### 1h:
+Using the model above, provide the p-value for the coefficient for the standard treatment accurate to three decimal places.
+
+
+#### 1i:
+Using the model above, provide the p-value for the coefficient for the new treatment accurate to three decimal places.
+
+
+### Question 2:
+
+Suppose we are given the following matrix
+```{r}
+set.seed(123)
+A <- matrix(rnorm(16), 4, 4)
+A
+```
+
+What is the rank of this matrix?
+
+
+
+### Question 3:
+
+Given the matrix `A` from question 1, what is the "infinity" norm computed to 3 decimal places?
+
+
+### Question 4:
+
+Given the matrix `A` from question 1, what is the "one" norm computed to 3 decimal places?
+
+### Question 5:
+Using the function `uniroot`, find a point $x^\ast$ in the interval $[0.001, 1]$ for which the function
+
+$$\begin{align}
+f(x) = \log(x) - \sqrt{x}  
+\end{align}$$
+
+satisfies $f\left(x^\ast \right)=-2$.  Round the value of $x^\ast$ to the third decimal place.
+
+### Question 6:
+
+Let $\phi$ be the density function for the standard normal and let $\psi$ be the density function for Student's t-distribution __in 5 degrees of freedom__.  Using the function `uniroot`, find a point $x^\ast$ in the interval $[0, \pi]$ for which the function
+
+$$\begin{align}
+f(x) =  \phi(x) - \psi(x)
+\end{align}$$
+
+satisfies $f\left(x^\ast \right)=0.01$.  Round the value of $x^\ast$ to the third decimal place.
+
+
+### Question 7:
+
+Compute the integral of the lbeta function `lbeta` on the interval $[0, 5]$ where `b` is the free variable of the `lbeta` function in the integral, and `a` is specified to be equal to `1`.  Round your answer to the third decimal place.
+
+
+### Question 8:
+
+Compute the integral of the lbeta function `lbeta` on the interval $[3, 8]$ where `a` is the free variable of the `lbeta` function in the integral, and `b` is specified to be equal to `2`.  Round your answer to the third decimal place.
+
+
+### Question 9:
+
+Consider the following program,
+
+```{r}
+my_variable <- 5
+x <- 3
+
+
+my_func <- function(x) {
+  
+ x <- x + my_variable
+ return(x)
+}
+
+my_func(10)
+x
+
+my_variable <- 10
+
+my_func(10)
+x
+```
+
+Explain the output of the above program and how this relates to variable scope.  Your answer should reference the behavior of both of `my_variable` and `x`.
+
+
+### Question 10:
+
+Consider the following program,
+
+
+```{r}
+recursive_fact <- function(n){
+ if (n == 0){
+  return(1) 
+ }
+  else{
+   n * recursive_fact(n-1) 
+  }
+}
+
+```
+
+Explain how the above program completes its execution given a valid input.  Give two examples of numeric inputs that will cause errors for this program and explain why this is the case.
+
+### Question 11:
+
+Using the `gala` data from the `faraway` library, make both of:
+  
+  1. a histogram; and
+  2. a kernel density plot using a `gaussian` kernel density;
+  
+for the variable `area`.  Discuss, what are the units of the variable area and which of the plot seems more informative?  How is this related to the differences between histograms and density estimators?
+
+### Question 12:
+
+Render your solutions in an HTML output document for the final points, which must include a floating table of contents and numbered sections.  This should also utilize YAML to specify a custom theme for the document.
