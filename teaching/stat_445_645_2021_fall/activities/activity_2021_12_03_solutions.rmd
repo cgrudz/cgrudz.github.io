@@ -1,0 +1,113 @@
+# Activity 12/03/2020
+
+## STAT 645 -- Section 1001 <br> Instructor: Colin Grudzien<br>
+
+## Instructions:
+We will work through the following series of activities as a group and hold small group work and discussions in Zoom Breakout Rooms.  Follow the instructions in each sub-section when the instructor assigns you to a breakout room.
+
+
+
+```{r}
+require("numDeriv")
+require("optimx")
+```
+
+
+## Activity 1: Poisson maximum likelihood estimation
+
+Recall that the probability mass function for the Poisson distribution is given as,
+$$\begin{align}
+f_\xi(x,\lambda) = \frac{\lambda^x e^{-\lambda}}{x!}
+\end{align}$$
+where 
+
+  1. $x$ is a possible integer value for the realization of $\xi$;
+  2. $\lambda$ is equal to the mean and variance of the Poisson distribution.
+  
+Following the same discussion as in the Gaussian maximum likelihood estimation, let's suppose that $\{x_i\}_{i=1}^n$ is an independent and identically distributed sample of observations of $\xi\sim \mathrm{Pois}(\lambda)$ for an unknown value of $\lambda$.  The likelihood function for $\lambda$ is therefore given as,
+$$\begin{align}
+\mathcal{L}_{\mathbf{x}}(\lambda) &= \prod_{i=1}^n f_\xi(x_i,\lambda) \\
+&=\prod_{i=1}^n \left(\frac{\lambda^{x_i}e^{-\lambda}}{x_i !}\right)
+\end{align}$$
+
+Therefore, we define the log-likelihood function for $\lambda$ based on the sample $\mathbf{x} = \{x_i\}_{i=1}^n$ to be,
+$$\begin{align}
+L_\mathbf{x}(\lambda) = \log(\mathcal{L}_\mathbf{x}(\lambda))
+\end{align}$$
+
+### Question 1:
+Derive the negative log-likelihood function for the Poisson distribution as a function of $\lambda$ for a known sample, to turn the maximum likelihood estimation into a minimization problem.  Include the steps of your derivation to show your work.
+
+#### Solution:
+
+The log-likelihood function can be computed as
+$$\begin{align}
+L_\mathbf{x}(\lambda) & = \log(\mathcal{L}_{\mathbf{x}}(\lambda)) \\
+&= \sum_{i=1}^n \log( f_\xi(x_i,\lambda)) \\
+&=\sum_{i=1}^n \log(\lambda^{x_i}e^{-\lambda}) - \log(x_i!) \\
+&= \sum_{i=1}^n x_i \log(\lambda) - \lambda - \log(x_i!)
+\end{align}$$
+
+
+
+### Question 2:
+
+We will make a maximum likelihood estimation of the parameter $\lambda$ for a known sample.
+Recall, $\lambda$ must be constrained to be positive, so we will again use the `optimx` package with a constrained version of BFGS to solve the maximum likelihood estimation of $\lambda$ for a known sample 
+```{r}
+set.seed(0)
+n <- 100
+x <- rpois(n, lambda=10)
+```
+You will also need the package `pracma` for the factorial function `factorial`.
+
+Define the sample call within the function as follows
+```{r eval=FALSE}
+neg_pois_log_like <- function(lambda) {
+  set.seed(0)
+  n <- 100
+  x <- rpois(n, lambda=10)
+
+  # define the negative log-likelihood below and return the value
+  
+  }
+```
+And use the  `opmtix` function as follows with the lower bound specified.
+```{r eval=FALSE}
+fBFGS = optimx(fn = neg_pois_log_like, # define the objective function
+   par = 7, # define the initial first guess at the minimum
+   method ="L-BFGS-B", # define the method of solution
+   lower = 0 #specify a lower bound
+)
+print(fBFGS)
+```
+
+Finally, make a plot of the negative log likelihood function over integer values 1 to 100.  Describe how this plot relates to the optimization.
+
+#### Solution:
+
+```{r}
+neg_pois_log_like <- function(lambda) {
+  set.seed(0)
+  x <- rpois(100, lambda=10)
+  like <- sum(-log(lambda) * x + lambda + log(factorial(x)))
+  return(like)
+}
+neg_pois_log_like(10)
+
+fBFGS = optimx(fn = neg_pois_log_like, # define the objective function
+   par = 7, # define the initial first guess at the minimum
+   method ="L-BFGS-B", # define the method of solution
+   lower = 0 #specify a lower bound
+)
+print(fBFGS)
+
+lik <- 1:100
+for (i in 1:100){
+  lik[i] <- neg_pois_log_like(i)
+}
+plot(lik, xlab="Lambda", ylab="Negative log-likelihood")
+```
+
+
+We see in the above plot that the negative log-likelihood function is convex with a minimum at the true value.
