@@ -4,7 +4,6 @@ This website was built from a clone of the <a href="http://hyde.getpoole.com/" t
 
 **Mark Otto**
 - <https://github.com/mdo>
-- <https://twitter.com/mdo>
 
 I have made some changes to the CSS and site structure for my own purposes.
 
