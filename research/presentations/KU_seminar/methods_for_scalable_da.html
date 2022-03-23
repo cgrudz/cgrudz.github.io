@@ -961,7 +961,7 @@ hljs.initHighlightingOnLoad();
 <ul>
   <li class="fragment">Recursive estimates of the <b>current state</b> can be performed in this fashion, however</li>
   <ul>
-    <li class="fragment"><b>new observations from the future</b> gives information about the model states at <strong>past times</strong>.</li>
+    <li class="fragment"><b>new observations from the future</b> give information about the model states at <strong>past times</strong>.</li>
   </ul>
   <li class="fragment">This produces a <span style="color:#d95f02;font-weight:bold">retrospective posterior estimate</span> for the past states.</li>
     <li class="fragment"><strong>Recursive estimation of the present state</strong> is known as <b>filtering</b>.</li>
@@ -973,7 +973,7 @@ hljs.initHighlightingOnLoad();
 <ul>
   <li class="fragment">Note that the <b>filtering density for the current time</b> is actually just a <strong>marginal of this joint posterior over all states in the DAW</strong>
   \[ \begin{align}
-  p(\pmb{x}_3 \vert \pmb{y}_3, \pmb{y}_2, \pmb{y}_1) = \iiint p(\pmb{x}_3, \pmb{x}_2, \pmb{x}_1 \vert \pmb{y}_3, \pmb{y}_2, \pmb{y}_1)\mathrm{d}\pmb{x}_2 \mathrm{d}\pmb{x}_1\mathrm{d}\pmb{x}_0
+  p(\pmb{x}_3 \vert \pmb{y}_3, \pmb{y}_2, \pmb{y}_1) = \iiint p(\pmb{x}_3, \pmb{x}_2, \pmb{x}_1, \pmb{x}_0 \vert \pmb{y}_3, \pmb{y}_2, \pmb{y}_1)\mathrm{d}\pmb{x}_2 \mathrm{d}\pmb{x}_1\mathrm{d}\pmb{x}_0
   \end{align} \]
   </li>
    <li class="fragment">We may estimate only a <b>marginal</b> as on the left-hand-side, or the <strong>entire joint posterior</strong> as in the integrand above.<sup>1</sup></li>
@@ -1425,9 +1425,9 @@ ensemble Kalman filtering</i>, Tellus A, 56, 273–277
   <li class="fragment"> In the <b>linear-Gaussian case</b>, the solution can again be found by a <strong>single iteration of Newton&rsquo;s descent</strong>
   \[ \begin{align}
   \nabla_{\pmb{w}} \mathcal{J}:= \pmb{w} - \sum_{k=L-S+1}^{L}\boldsymbol{\Gamma}^\top_k \left(\overline{\pmb{\delta}}_k - \boldsymbol{\Gamma}_k \pmb{w}\right), & &
-\mathbf{H}_{\mathcal{J}} := \mathbf{I} + \sum_{k=L-S+1}^L \boldsymbol{\Gamma}_k^\top \boldsymbol{\Gamma}_k, & &
- \overline{\pmb{w}} := \pmb{0} - \mathbf{H}_{\mathcal{J}}^{-1} \nabla_{\pmb{w}} \mathcal{J}|_{\pmb{w}=\pmb{0}}\\
- \overline{\pmb{x}}_{0|L}^\mathrm{smth} = \overline{\pmb{x}}^\mathrm{smth}_{0|L-S} + \boldsymbol{\Sigma}_{0|L-S}^\mathrm{smth} \overline{\pmb{w}} & & \mathbf{T}:= \mathbf{H}_{\mathcal{J}}^{-\frac{1}{2}} & &\boldsymbol{\Sigma}_{0|L}^\mathrm{smth}:= \boldsymbol{\Sigma}_{0|L-S}^\mathrm{smth}\mathbf{T}
+\boldsymbol{\Xi}_{\mathcal{J}} := \mathbf{I} + \sum_{k=L-S+1}^L \boldsymbol{\Gamma}_k^\top \boldsymbol{\Gamma}_k, & &
+ \overline{\pmb{w}} := \pmb{0} - \boldsymbol{\Xi}_{\mathcal{J}}^{-1} \nabla_{\pmb{w}} \mathcal{J}|_{\pmb{w}=\pmb{0}}\\
+ \overline{\pmb{x}}_{0|L}^\mathrm{smth} = \overline{\pmb{x}}^\mathrm{smth}_{0|L-S} + \boldsymbol{\Sigma}_{0|L-S}^\mathrm{smth} \overline{\pmb{w}} & & \mathbf{T}:= \boldsymbol{\Xi}_{\mathcal{J}}^{-\frac{1}{2}} & &\boldsymbol{\Sigma}_{0|L}^\mathrm{smth}:= \boldsymbol{\Sigma}_{0|L-S}^\mathrm{smth}\mathbf{T}
  \end{align} \]</li>
  <li class="fragment">  However, when the <b>state and observation model are nonlinear</b>, using \( \mathcal{H}_k \) and \( \mathcal{M}_{k:1} \) in the cost function, this <strong>cost function is solved iteratively to find a local minimum</strong>.</li>
   <li class="fragment"> The difficulty arises in that the gradient \( \nabla_{\pmb{w}} \) actually requires <b style="color:#1b9e77">differentiating the equations of motion</b> in \( \mathcal{H}_k\circ\mathcal{M}_{k:1} \).</li>
