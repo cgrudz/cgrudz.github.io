@@ -1,0 +1,195 @@
+<style>
+.section .reveal .state-background {
+   background: #ffffff;
+}
+.section .reveal h1,
+.section .reveal h2,
+.section .reveal p {
+   color: black;
+   margin-top: 50px;
+   text-align: center;
+}
+</style>
+
+========================================================
+autosize: true
+incremental: true
+width: 1920
+height: 1080
+
+<div style="text-align:center; width:100%; float:left;">
+<h1>Tools for Batch Verification<br> of Deep Dive Data in MET</h1>
+<h3>By Colin Grudzien</h3>
+<h4><b>With very special thanks to:</b></h4>
+<h5>Caroline Papadopoulos, Rachel Weihs, CW3E's West-WRF Team, CW3E's NRT Team and CW3E's Forecast Verification Team<br> for sharing code that formed the basis of these workflows</h5> 
+<div style="float:left; width:100%; text-align:center; padding-top:20px;">
+<div style="float:left; width:30%; text-align:center;  padding-top:40px">
+</div>
+<div style="float:left; width:40%; text-align:center; padding-top:20px">
+<img style="width:100%", src="CW3E-Logo.png" alt="Center for Western Weather and Water Extremes."/>
+</div>
+<div style="float:left; width:30%; text-align:center;  padding-top:40px">
+</div>
+</div>
+
+</div>
+
+
+========================================================
+## Data assimilation Complexity
+* <b>Data assimilation</b> is a <strong>notoriously complex operational problem</strong>, which involves <b>interdependent steps</b> of:
+  
+  * <strong>procuring</strong>;
+  * <strong>pre-processing</strong>;
+  * <strong>generating</strong>; and
+  * <strong>post-processing</strong>;
+
+* <b>large volumes of NWP data</b>.
+
+* My own <b>methodological framework</b> of analyzing the data assimilation problem is of a <strong>statistical learning problem</strong>.
+
+* I need to run <b>many simulations</b> to study:
+  
+  * <strong>hyper-parameter sensitivity</strong> in the learning problem; and
+  * to generate a <strong>statistically relevant sample size</strong> for <b>hypothesis testing and/or Bayesian modelling</b> techniques.
+  
+* These demands have led me to develop an <a href="https://github.com/CW3E/GSI-WRF-Cycling-Template" target="blank"><b>end-to-end data assimilation cycling system</b></a> in the <strong>GSI-WRF-MET stack</strong> using the <a href="https://christopherwharrop.github.io/rocoto/" target="blank"> <b>Rocoto Workflow Manager</b></a>.
+
+  * This builds principally on <b>CW3E's NRT and Verification Teams' Rocoto / MET workflows</b>, that provided the basis for this framework.
+
+========================================================
+
+<div style="float:left; width:100%">
+<h3>Data assimilation in a GSI-WRF-MET Stack</h3>
+
+<div style="float:left; width:100%; text-align:center;" class="fragment">
+<img style="width:80%", src="GSI-WRF-cycling.png" alt="Diagram of data flows in GSI-WRF-cycling."/>
+</div>
+</div>
+
+
+========================================================
+## MET Verification of Deep Dive Data
+
+* This presentation focuses on the <a href="https://github.com/CW3E/MET-tools" target="blank"><b>MET verification tools</b></a> in this workflow with the <b>2022 - 2023 Deep Dive</b> as a <strong>highly applicable use-case</strong> for these codes.
+
+* This is a perfect example of where one needs to <b>analyze data from multiple</b>:
+
+  * <strong>valid dates</strong>;
+  * <strong>forecast leads</strong>;
+  * <strong>models</strong>; and
+  * <strong>sub-domains</strong>.
+
+* <b>Batch processing</b> all this data is a non-trivial task, as a workflow should:
+  
+  * <strong>handle maps of hyper-parameter configurations</strong>,
+  * <strong>systematically organize outputs</strong>,
+  * be <strong>robust to missing data</strong> in the workflow stream,
+  * perform <strong>error checks and exception handling</strong>,
+  * generate <strong>traceable logs for debugging</strong>,
+  * <strong>automate plotting axes / labels / legends</strong>, and
+  * require <strong>minimal hard-coded configurations</strong>.
+
+* My research demands this level of <b>computational scalability</b> already;
+  
+  * it is simple to extend my own research tools to <strong>CW3E institutional codes</strong> for re-use and <b>transfer to operation</b>.
+  
+========================================================
+
+<div style="float:left; width:100%">
+<h2>CW3E's Open Source Institutional Code Base</h3>
+<div style="float:left; width:65%; text-align:center;" class="fragment">
+<img style="width:100%", src="Github.png" alt="CW3E Github."/>
+</div>
+<div style="float:right; width:35%; text-align:left;" class="fragment">
+<ul>
+  <li>These code repositories are available on the <a href="https://github.com/CW3E" target="blank"><b>CW3E Github</b></a>.</li>
+  <li>Code is <strong>licensed for reuse, redistribution and modification</strong> under the <b>Apache 2.0 Open Source License</b>.</li>
+  <li>This is a <strong>permissive license</strong> that has conditions familiar to an <b>academic environment</b>:</li>
+  <ul>
+    <li><strong>original authors are given attribution</strong>; and</li>
+    <li><strong>redistributed code includes change logs</strong>.</li>
+  </ul>
+  <li><b>Derived products do not need to be made open source</b>;</li>
+  <ul>
+    <li>this can be <strong>reused for nearly any purpose</strong> by downstream users.</li>
+  </ul>
+</ul>
+</div>
+</div>
+
+========================================================
+
+<h2>Output Directory Organization</h2>
+
+<div style="float:left; width:100%; text-align:center;">
+  <div style="float:left; width:25%;" class="fragment">
+    <img style="width:100%" src="top_dir.png" alt="Output directory tree."/>
+  </div>
+  <div style="float:left; width:25%;" class="fragment">
+   <img style="width:100%" src="figs.png" alt="Output directory tree."/>
+  </div>
+  <div style="float:left; width:25%;" class="fragment">
+    <img style="width:100%", src="NRT_ecmwf.png" alt="Output directory tree."/>
+  </div>
+  <div style="float:left; width:25%;" class="fragment">
+    <img style="width:100%" src="NRT_gfs.png" alt="Output directory tree."/>
+  </div>
+</div>
+
+========================================================
+
+<h2>Multidate / Multilead Heatplot Templates</h2>
+
+<div style="float:left; width:110%; text-align:center;">
+  <div style="float:left; width:50%;" class="fragment">
+    <img style="width:100%" src="rmse_heatplot.png" alt="CW3E Github."/>
+  </div>
+  <div style="float:left; width:50%;" class="fragment">
+   <img style="width:100%" src="fss_heatplot.png" alt="CW3E Github."/>
+  </div>
+</div>
+<div style="float:left; width:100%;">
+  <ul>
+    <li><b>Grid-Stat outputs</b> are parsed, filtered and converted into <a href="https://pandas.pydata.org/" target="blank"><b>Pandas dataframes for plotting and diagnostics</b></a>.</li>
+    <li>Templates are designed for <strong>multidate / multilead heatplots</strong> for diagnostics over <b>ranges of valid dates</b>.</li>
+    <li><b>Missing / erroneous data</b> is <strong>filtered by the workflow post-processing routines</strong>.</li>
+  </ul>
+</div>
+
+========================================================
+
+<h2>Multi-lead Lineplot Templates</h2>
+
+<div style="float:left; width:110%; text-align:center;">
+  <div style="float:left; width:50%;" class="fragment">
+    <img style="width:100%" src="rmse_lineplot.png" alt="CW3E Github."/>
+  </div>
+  <div style="float:left; width:50%;" class="fragment">
+   <img style="width:100%" src="fss_lineplot.png" alt="CW3E Github."/>
+  </div>
+</div>
+<div style="float:left; width:100%">
+  <ul>
+    <li>Templates are designed for <strong>multilead / multimodel / multidomain lineplots</strong> for diagnostics for <b>particular valid dates</b>.</li>
+    <li><b>Axes scale</b> depending on the available forecast data, and plot configurations with <strong>different lead hours together</strong>.</li>
+    <li>These templates are designed for <b>batch analysis of large hyper-parameter grids</b>.</li>
+    <li>New tools and templates are under <b>continuous development</b>, with <strong>research tools polished for re-use incrementally</strong>.</li>
+  </ul>
+</div>
+
+
+========================================================
+
+<div style="float:left; width:100%">
+<h2> AMS San Diego Chapter Meeting (Hybrid)</h2>
+<ul>
+  <li> <strong>To see more, please visit the talk on Monday</strong>:</li>
+  <li> <b>Event:</b>  AMS San Diego Chapter Meeting</li>
+  <li> <b>Physical Location:</b>  MESOM Room 251, Scripps Institute of Oceanography</li>
+  <li> <b>Date:</b>  Monday, April 24, 2023</li>
+  <li> <b>Time:</b>  4:30 PM-6:00 PM PDT</li>
+  <li> <b>Online Location:</b>  meet.google.com/mpd-snzq-ahn</li>
+<div style="float:left; width:100%; text-align:center; padding-top:100px" class="fragment">
+  <b style="font-size:80px;">Thank you!</b>
+</div>
