@@ -20,11 +20,8 @@ height: 1080
 <div style="text-align:center; width:100%; float:left;">
 <h1>An open source framework for end-to-end<br> re-forecast studies in GSI-WRF-MET</h1>
 <h3>By Colin Grudzien</h3>
-<h4><b>With thanks to:</b></h4>
-<h5>Minghua Zheng, Ivette Hern&aacute;ndez Ba&ntilde;os, CW3E's USAF Group and CW3E's AR-Recon Team for important discussions about the GSI-WRF-MET stack and sharing library implementation details.</h5>
-
 <h4><b>With very special thanks to:</b></h4>
-<h5>Caroline Papadopoulos, Rachel Weihs, Christopher Harrop, CW3E's West-WRF Team / NRT Team and CW3E's Forecast Verification Team for sharing code that formed the basis of these workflows</h5> 
+<h5>Minghua Zheng, Caroline Papadopoulos, Rachel Weihs, Dan Steinhoff, Jennifer Haase,<br><br> Luca Delle Monache, Ivette Hern&aacute;ndez Ba&ntilde;os, Matthew Simpson, Pat Mulrooney, Brian Kawzenuk, Christopher Harrop,<br><br> CW3E's AR-Recon Team, West-WRF Team, NRT Team and Forecast Verification Team et al.<br><br> for for making this work possible</h5> 
 <div style="float:left; width:100%; text-align:center; padding-top:20px;">
 <div style="float:left; width:30%; text-align:center;  padding-top:40px">
 </div>
@@ -69,25 +66,13 @@ height: 1080
 
 <div style="float:left; width:100%">
 <h3>Data assimilation in a GSI-WRF-MET Stack</h3>
-
-</div>
 <div style="float:left; width:100%; text-align:center;" class="fragment">
-<img style="width:85%", src="GSI-WRF-cycling.png" alt="Diagram of data flows in GSI-WRF-cycling."/>
+<img style="width:70%", src="GSI-WRF-cycling.png" alt="Diagram of data flows in GSI-WRF-cycling."/>
+<ul>
+  <li>This is automated in an <a href="https://github.com/CW3E/GSI-WRF-Cycling-Template" target="blank"><b>end-to-end data assimilation cycling system</b></a> in the <strong>GSI-WRF-MET stack</strong> using <a href="https://christopherwharrop.github.io/rocoto/" target="blank"> <b>Rocoto</b></a>.</li>
+  <li>This builds on <b>CW3E's AR-Recon experiments, and the NRT and Verification Teams' Rocoto / MET workflows</b>.</li>
+</ul>
 </div>
-<div style="float:left; width:100%">
-</div>
-
-
-========================================================
-### Data assimilation as a statistical learning problem
-
-* This algorithm is currently working in an experimental <a href="https://github.com/CW3E/GSI-WRF-Cycling-Template" target="blank"><b>end-to-end data assimilation cycling system</b></a> in the <strong>GSI-WRF-MET stack</strong> using the <a href="https://christopherwharrop.github.io/rocoto/" target="blank"> <b>Rocoto Workflow Manager</b></a>.
-
-  * This builds principally on <b>CW3E's NRT and Verification Teams' Rocoto / MET workflows</b>, that provided the basis for this framework.
-
-  * <b>Christopher Harrop</b> shared open source workflow scripts for all WRF steps, and templates for GSI integration, that are <strong>used currently at CW3E for its operational NRT products</strong>.
-  
-  * These codes have been unified as a <b>framework for case-study analysis</b>, using a <strong>Bash / Python data science stack</strong>.
 
 ========================================================
 
@@ -120,7 +105,7 @@ height: 1080
   <h3>Data assimilation in a GSI-WRF-MET Stack</h3>
   <div style="float:left; width:45%; text-align:left;" class="fragment">
     <ul>
-      <li>Includes an <a href="https://github.com/CW3E/GSI-WRF-Cycling-Template/blob/main/rocoto_utilities.py" target="blank"><b>IPython API for workflow commands</b></a>, and <strong>plotting results in Matplotlib</strong>.</li>
+      <li>This uses a <strong>Bash / Python data science stack</strong>, including an <a href="https://github.com/CW3E/GSI-WRF-Cycling-Template/blob/main/rocoto_utilities.py" target="blank"><b>IPython API</b></a>.</li>
       <ul>
         <li>This is designed to <b>enable easy looping</b> of:</li>
         <ul>
@@ -145,7 +130,7 @@ height: 1080
     <li> <b>Conversion to Cylc</b> is necessary for:</li>
     <ul>
       <li><strong>long-term support</strong>, and for</li>
-      <li>developing a unified system for re-forecasting with <strong>formally "equivalent" experiments in GSI-WRF and JEDI-MPAS</strong> with verification performed on <b>common metrics in MET</b>.</li>
+      <li> a unified system for re-forecasting with <strong>formally "equivalent" experiments in GSI-WRF and JEDI-MPAS</strong> with verification performed on <b>common metrics in MET</b>.</li>
     </ul>
     <li>This intends to build on the open source <a href="https://github.com/NCAR/MPAS-Workflow" target="blank"><b>JEDI-MPAS workflow templates</b></a> developed at NCAR.</li>
   </ul>
@@ -273,17 +258,13 @@ height: 1080
 
 * This is an ongoing <strong>research-to-operation project at CW3E</strong>, to generate open source tools for both purposes.
 
-* This <b>benefits from community interaction</b>, especially with <strong>collaboration with the NRT and Verification Teams</strong> on on workflow and research tool development.
+* This <b>benefits from community interaction</b> on workflow and research tool development.
 
   * However, this also <b>supports scientific objectives</b> for specific projects that are performed in <strong>controlled information environments</strong>.
   
 * As such, this <b>infrastructure project</b> presents <strong>opportunities for wider collaboration</strong> where scientific dissemination may be restricted.
 
   * This infrastructure talk highlights some of the <strong>benefits and flexibility</strong> of an <b>open source model</b> for infrastructure development.
-
-* Folks who are interested in collaborating on these tools are <b>encouraged to reach out</b>,
-  
-  * more users of the same code leads to <strong>more bug-fixes and development scalability</strong>.
   
 * A late colleague of mine from when I was a postdoc in Norway, <b>Yongqi Gao</b>, liked to reference a proverb that is <strong>applicable to open source development</strong>:
 
