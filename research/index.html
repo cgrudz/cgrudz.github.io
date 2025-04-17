@@ -4,7 +4,7 @@ title: Research
 ---
 <h2>Research profile links</h2>
 <ul>
-    <li> <strong><a href='https://scholar.google.com/citations?hl=en&user=XrIe5pUAAAAJ&view_op=list_works&sortby=pubdate' target='blank'>Google Scholar Profile</a></strong></li>
+    <li> <strong><a href='https://scholar.google.com/citations?user=Mx18Ks0AAAAJ&hl=en&oi=ao' target='blank'>Google Scholar Profile</a></strong></li>
     <li> <strong><a href='https://orcid.org/0000-0002-3084-3178' target='blank'>ORCID Profile</a></strong></li>
 </ul>
 <h2>Short research description</h2>
@@ -25,54 +25,36 @@ title: Research
     <button class="accordion"><h4>Publications</h4></button>
         <div class="accordian_panel">
         <ul>
-						<li>A fast, single-iteration ensemble Kalman smoother for sequential data assimilation</li>
-						<ul>
-							<li><a href="https://gmd.copernicus.org/articles/15/7641/2022/" target="blank">Open Access - Geoscientific Model Development</a></li>
-						</ul>
-						<li>A Tutorial on Bayesian Data Assimilation</li>
-						<ul>
-							<li><a href="https://arxiv.org/abs/2112.07704" target="blank">Preprint</a></li>
-						</ul>
-            <li>
-            <i>Data assimilation for chaotic dynamics </i>
-                <ul>
-                    <li>
-											<a href="https://link.springer.com/chapter/10.1007/978-3-030-77722-7_1" target="blank">Springer Link</a> 
-										</li>
-										<li>
-											<a href="https://arxiv.org/abs/2010.07063" target="blank">Preprint</a> 
-										</li>
-								</ul>
-            </li>
-            <li>
-            <i>On the numerical integration of the Lorenz-96 model, with scalar additive noise, for benchmark twin experiments </i>
-                <ul>
-                    <li>
-											<a href="https://www.geosci-model-dev.net/13/1903/2020/gmd-13-1903-2020.html" target="blank">Open Access - Geoscientific Model Development</a> 
-										</li>
-										<li>
-											<a href="https://github.com/cgrudz/lorenz_96_sde/" target="blank">Supplementary Materials - Order 2.0 Taylor Scheme and Other Research Code</a>
-										</li>
-								</ul>
-            </li>
-            <li>
-            <i>Chaotic dynamics and the role of covariance inflation for reduced rank Kalman filters with model error </i>
-                <ul>
-                    <li>
-											<a href="https://www.nonlin-processes-geophys.net/25/633/2018/" target="blank">Open Access - Nonlinear Processes in Geophysics</a> 
-										</li>
-										<li>
-											<a href="https://github.com/cgrudz/role_of_covariance_inflation_supplementary_materials" target="blank">Supplementary Materials - KF-AUSE Code</a>
-										</li>
-								</ul>
-            </li>
-            <li>
-            <i>Asymptotic forecast uncertainty and the unstable subspace in the presence of additive model errors </i>
-                <ul> 
-                    <li>
-  		    <a href="https://epubs.siam.org/doi/10.1137/17M114073X" target="blank">Open Access - SIAM/ ASA Journal on Uncertainty Quantification </a>
-		    </li>    
-		</ul>
+         <li>A fast, single-iteration ensemble Kalman smoother for sequential data assimilation</li>
+         <ul>
+	  <li><a href="https://gmd.copernicus.org/articles/15/7641/2022/" target="blank">Open Access - Geoscientific Model Development</a></li>
+        </ul>
+	<li>A Tutorial on Bayesian Data Assimilation</li>
+	<ul>
+          <li><a href="https://arxiv.org/abs/2112.07704" target="blank">Preprint</a></li>
+	</ul>
+        <li><i>Data assimilation for chaotic dynamics </i>
+          <ul>
+            <li><a href="https://link.springer.com/chapter/10.1007/978-3-030-77722-7_1" target="blank">Springer Link</a></li>
+            <li><a href="https://arxiv.org/abs/2010.07063" target="blank">Preprint</a></li>
+          </ul>
+        </li>
+        <li><i>On the numerical integration of the Lorenz-96 model, with scalar additive noise, for benchmark twin experiments </i>
+        <ul>
+          <li><a href="https://www.geosci-model-dev.net/13/1903/2020/gmd-13-1903-2020.html" target="blank">Open Access - Geoscientific Model Development</a></li>
+          <li><a href="https://github.com/cgrudz/lorenz_96_sde/" target="blank">Supplementary Materials - Order 2.0 Taylor Scheme and Other Research Code</a></li>
+        </ul>
+        </li>
+        <li><i>Chaotic dynamics and the role of covariance inflation for reduced rank Kalman filters with model error </i>
+        <ul>
+          <li><a href="https://www.nonlin-processes-geophys.net/25/633/2018/" target="blank">Open Access - Nonlinear Processes in Geophysics</a></li>
+          <li><a href="https://github.com/cgrudz/role_of_covariance_inflation_supplementary_materials" target="blank">Supplementary Materials - KF-AUSE Code</a></li>
+        </ul>
+        </li>
+        <li><i>Asymptotic forecast uncertainty and the unstable subspace in the presence of additive model errors </i>
+        <ul> 
+          <li><a href="https://epubs.siam.org/doi/10.1137/17M114073X" target="blank">Open Access - SIAM/ ASA Journal on Uncertainty Quantification </a></li>
+	</ul>
 	    </li>
 	    <li>
 	    <i>Degenerate Kalman filter error covariances and their convergence onto the unstable subspace </i>
@@ -100,16 +82,16 @@ title: Research
 	</div>
     <button class="accordion"><h4>Computational resources</h4></button>
         <div class="accordian_panel">
-					<h5><a href="https://github.com/cgrudz/DataAssimilationBenchmarks.jl" target="blank">DataAssimilationBenchmarks.jl</a></h5>
-					<p>
-				  This is a data assimilation research code base with an emphasis on prototyping, testing and validating sequential
-					filters and smoothers in toy model twin experiments. This code is meant to be performant in the sense that large
-					hyper-parameter discretizations can be explored to determine hyper-parameter sensitivity and reliability of results
-					across different experimental regimes, with parallel implementations in native Julia distributed computing and using
-					workload managers such as Slurm.
-					</p>
-				</div>
-			</div>
+        <h5><a href="https://github.com/cgrudz/DataAssimilationBenchmarks.jl" target="blank">DataAssimilationBenchmarks.jl</a></h5>
+        <p>
+        This is a data assimilation research code base with an emphasis on prototyping, testing and validating sequential
+        filters and smoothers in toy model twin experiments. This code is meant to be performant in the sense that large
+        hyper-parameter discretizations can be explored to determine hyper-parameter sensitivity and reliability of results
+        across different experimental regimes, with parallel implementations in native Julia distributed computing and using
+        workload managers such as Slurm.
+        </p>
+        </div>
+      </div>
     </div>
 <button class="accordion"><h3>Smart grids</h3></button>
     <div class="accordian_panel">
